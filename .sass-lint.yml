@@ -1,0 +1,116 @@
+options:
+  formatter: stylish
+files:
+  include: 'src/assets/scss/**/*.s+(a|c)ss'
+rules:
+  # Extends
+  extends-before-mixins: 2
+  extends-before-declarations: 2
+  placeholder-in-extend: 0
+
+  # Mixins
+  mixins-before-declarations: 2
+
+  # Line Spacing
+  one-declaration-per-line: 2
+  empty-line-between-blocks: 2
+  single-line-per-selector: 2
+
+  # Disallows
+  no-attribute-selectors: 0
+  no-color-hex: 0
+  no-color-keywords: 0
+  no-color-literals: 0
+  no-combinators: 0
+  no-css-comments: 0
+  no-debug: 2
+  no-disallowed-properties: 0
+  no-duplicate-properties: 2
+  no-empty-rulesets: 2
+  no-extends: 0
+  no-ids: 2
+  no-important: 2
+  no-invalid-hex: 2
+  no-mergeable-selectors: 2
+  no-misspelled-properties: 2
+  no-qualifying-elements: 0
+  no-trailing-whitespace: 2
+  no-trailing-zero: 0
+  no-transition-all: 0
+  no-universal-selectors: 0
+  no-url-domains: 0
+  no-url-protocols: 0
+  no-vendor-prefixes: 0
+  no-warn: 0
+  property-units: 0
+
+  # Nesting
+  declarations-before-nesting: 2
+  force-attribute-nesting: 0
+  force-element-nesting: 0
+  force-pseudo-nesting: 0
+
+  # Name Formats
+  class-name-format:
+    - 2
+    - allow-leading-underscore: false
+      convention: 'hyphenatedlowercase'
+  function-name-format: 0
+  id-name-format: 0
+  mixin-name-format: 0
+  placeholder-name-format: 0
+  variable-name-format:
+    - 2
+    - allow-leading-underscore: false
+      convention: 'hyphenatedlowercase'
+
+  # Style Guide
+  attribute-quotes: 0
+  bem-depth: 0
+  border-zero: 2
+  brace-style:
+    - 2
+    - style: 'stroustrup'
+  clean-import-paths: 0
+  empty-args: 0
+  hex-length: 0
+  hex-notation: 0
+  indentation:
+    - 2
+    - size: 2
+  leading-zero: 0
+  max-line-length: 0
+  max-file-line-count: 0
+  nesting-depth:
+    - 2
+    - max-depth: 3
+  property-sort-order:
+    - 2
+    - order: 'alphabetical'
+  pseudo-element: 0
+  quotes: 2
+  shorthand-values: 0
+  url-quotes: 0
+  variable-for-property:
+    - 2
+    - properties:
+        - 'color'
+        - 'background'
+        - 'font-family'
+        - 'font-size'
+        - 'border-color'
+  zero-unit: 0
+
+  # Inner Spacing
+  space-after-comma: 2
+  space-before-colon: 2
+  space-after-colon: 2
+  space-before-brace: 2
+  space-before-bang: 2
+  space-after-bang: 0
+  space-between-parens: 0
+  space-around-operator: 2
+
+  # Final Items
+  trailing-semicolon: 2
+  final-newline: 2
