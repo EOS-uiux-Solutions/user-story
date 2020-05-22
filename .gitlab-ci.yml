@@ -1,0 +1,40 @@
+stages:
+  - test
+  - deploy
+
+image: node:10.15.0
+
+# Common script to all jobs
+default:
+  before_script:
+    - npm install
+
+# Lets cache the npm install per stages in the current branch
+cache:
+  key: '$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG'
+  paths:
+    - node_modules/
+
+# Start the jobs
+test_lints_sass:
+  stage: test
+  script:
+    - npm run test:sass
+
+test_lints_js:
+  stage: test
+  script:
+    - npm run test:js
+
+pages:
+  stage: deploy
+  script:
+    - npm run build
+    - rm -rf public
+    - mv build public
+    - cp public/index.html public/404.html
+  artifacts:
+    paths:
+      - public # mandatory, other folder won't work
+  only:
+    - master # or dev, the branch you want to publish
