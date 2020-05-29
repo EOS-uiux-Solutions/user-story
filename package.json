@@ -14,7 +14,11 @@
     "node-sass": "^4.13.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+<<<<<<< HEAD
     "react-i18next": "^11.5.0",
+=======
+    "react-router-dom": "^5.2.0",
+>>>>>>> 8e6a996... Added the WIP Authentication Module
     "react-scripts": "3.4.1"
   },
   "devDependencies": {
