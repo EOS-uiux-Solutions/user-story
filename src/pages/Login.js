@@ -1,14 +1,14 @@
 import React from 'react'
-import axios from 'axios'
+// import axios from 'axios'
 import { Link } from 'react-router-dom'
-import { AuthContext } from '../App'
+// import { AuthContext } from '../App'
 import eosLogoWhite from '../assets/images/logo-white.png'
 import eosLogoColoured from '../assets/images/logo-coloured.png'
 import eosLock from '../assets/images/authentication-lock.png'
 import Button from '../components/Button'
 
 export const Login = () => {
-  const { dispatch } = React.useContext(AuthContext)
+  // const { dispatch } = React.useContext(AuthContext)
   const initialState = {
     username: '',
     email: '',
@@ -23,32 +23,7 @@ export const Login = () => {
       [event.target.name]: event.target.value
     })
   }
-  const handleFormSubmit = (event) => {
-    event.preventDefault()
-    setData({
-      ...data,
-      isSubmitting: true,
-      errorMessage: null
-    })
-    axios
-      .post('http://localhost:1337/auth/local', {
-        identifier: data.email,
-        password: data.password
-      })
-      .then((response) => {
-        dispatch({
-          type: 'LOGIN',
-          payload: response.data
-        })
-      })
-      .catch((error) => {
-        setData({
-          ...data,
-          isSubmitting: false,
-          errorMessage: error.message || error.statusText
-        })
-      })
-  }
+  const handleFormSubmit = (event) => {}
   return (
     <div className='authentication'>
       <div className='container-left'>
