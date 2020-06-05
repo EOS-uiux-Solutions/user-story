@@ -2,6 +2,7 @@ options:
   formatter: stylish
 files:
   include: 'src/assets/scss/**/*.s+(a|c)ss'
+  ignore: ['src/assets/scss/layout/reset.scss']
 rules:
   # Extends
   extends-before-mixins: 2
