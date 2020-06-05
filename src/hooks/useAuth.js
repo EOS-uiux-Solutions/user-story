@@ -67,7 +67,22 @@ const useAuth = () => {
     return dispatch({ type: 'LOGOUT' })
   }
 
-  return { state, isRegistered, isAuthenticated, register, login, logout }
+  const forgotPassword = async (credentials) => {
+    try {
+      await axios.post(`${apiURL}/auth/forgot-password`, credentials)
+      //   Display email sent message to user in UI
+    } catch (e) {}
+  }
+
+  return {
+    state,
+    isRegistered,
+    isAuthenticated,
+    register,
+    login,
+    logout,
+    forgotPassword
+  }
 }
 
 export default useAuth
