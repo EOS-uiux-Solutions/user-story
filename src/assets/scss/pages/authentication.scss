@@ -26,9 +26,10 @@
 
 .image {
   &-logo {
+    height: 36px;
     margin-left: 5%;
     margin-top: 5%;
-    width: 20%;
+    width: 88px;
   }
 
   &-center {
@@ -86,7 +87,7 @@
 
   .footer {
     bottom: 4%;
-    left: 65%;
+    left: 63%;
   }
 
   .form {
@@ -133,7 +134,7 @@
     bottom: 4%;
     color: $light-color;
     left: 0;
-    margin-left: 2%;
+    margin-left: 1%;
     width: 445px;
   }
 
@@ -147,6 +148,10 @@
 }
 
 @media only screen and (max-width: 1120px) {
+  .authentication {
+    height: 100%;
+  }
+
   .container-left {
     min-width: 335px;
     width: 335px;
@@ -170,6 +175,10 @@
 }
 
 @media only screen and (max-width: 768px) {
+  .authentication {
+    height: 100%;
+  }
+
   .container-left {
     display: none;
   }
@@ -186,5 +195,7 @@
 
   .eos-logo-resize {
     display: block;
+    height: 30px;
+    width: 74px;
   }
 }
