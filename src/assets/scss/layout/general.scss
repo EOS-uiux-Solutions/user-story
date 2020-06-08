@@ -1,0 +1,24 @@
+.app {
+  align-items: center;
+  display: flex;
+  font-family: $font-family;
+  justify-content: center;
+  text-align: center;
+}
+
+.app-container {
+  min-height: calc(100vh - 16px);
+}
+
+a {
+  text-decoration: none;
+}
+
+a:visited,
+a:active {
+  color: $hyper-link-color;
+}
+
+a:hover {
+  color: $hyper-link-hover-color;
+}

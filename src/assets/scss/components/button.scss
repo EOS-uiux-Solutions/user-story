@@ -1,0 +1,49 @@
+.btn {
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  border: 1px solid transparent;
+  border-radius: 1%;
+  display: inline-block;
+  font-size: $font-size-general;
+  font-weight: bold;
+  line-height: 1.5;
+  margin-bottom: 5%;
+  margin-top: 5%;
+  padding: 0.375rem 0.375rem;
+  text-decoration: none;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
+  user-select: none;
+  vertical-align: middle;
+  width: 55%;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &-default {
+    background-color: $authentication-color;
+    border-color: $authentication-color;
+    color: $light-color;
+
+    &:hover {
+      background-color: $primary-light;
+      border-color: $primary-light;
+      color: $light-color;
+    }
+  }
+
+  &-link {
+    background-color: white;
+    border: 0;
+    color: $hyper-link-color;
+    outline: none;
+
+    &:visited,
+    &:active,
+    &:hover {
+      background-color: white;
+      color: $hyper-link-hover-color;
+    }
+  }
+}
