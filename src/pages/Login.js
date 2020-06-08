@@ -28,19 +28,21 @@ export const Login = () => {
     <div className='authentication-wrapper'>
       <div className='authentication'>
         <div className='container-left'>
-          <div className='image image-logo'>
-            <img src={eosLogoWhite} alt='EOS Logo' />
-          </div>
-          <div className='image image-center'>
-            <img src={eosLock} alt='EOS Logo' />
-          </div>
           <div>
-            <div className='header header-left'>Feature Request</div>
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s
-            </p>
+            <div className='image image-logo'>
+              <img src={eosLogoWhite} alt='EOS Logo' />
+            </div>
+            <div className='image image-center'>
+              <img src={eosLock} alt='EOS Logo' />
+            </div>
+            <div>
+              <div className='header header-left'>Feature Request</div>
+              <p>
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry. Lorem Ipsum has been the industry's standard dummy
+                text ever since the 1500s
+              </p>
+            </div>
           </div>
           <div className='footer'>
             This site saves some information in cookies but only when strictly

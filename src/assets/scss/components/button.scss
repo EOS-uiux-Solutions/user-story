@@ -5,7 +5,6 @@
   border: 1px solid transparent;
   border-radius: 1%;
   display: inline-block;
-  font-size: $font-size-general;
   font-weight: bold;
   line-height: 1.5;
   margin-bottom: 5%;
@@ -15,7 +14,6 @@
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
   user-select: none;
   vertical-align: middle;
-  width: 55%;
 
   &:hover {
     cursor: pointer;
