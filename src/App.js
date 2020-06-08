@@ -1,6 +1,4 @@
 import React from 'react'
-<<<<<<< HEAD
-=======
 import { Route } from 'react-router-dom'
 import { authReducer } from './utils/Utilities'
 import Login from './pages/Login'
@@ -15,16 +13,10 @@ const initialState = {
   user: null,
   token: null
 }
->>>>>>> 8e6a996... Added the WIP Authentication Module
 
 function App() {
   const [state, dispatch] = React.useReducer(authReducer, initialState)
   return (
-<<<<<<< HEAD
-    <div className='App'>
-      <header className='App-header'></header>
-    </div>
-=======
     <AuthContext.Provider value={{ state, dispatch }}>
       <div className='app'>
         <div className='app-container'>
@@ -38,7 +30,6 @@ function App() {
         </div>
       </div>
     </AuthContext.Provider>
->>>>>>> 8e6a996... Added the WIP Authentication Module
   )
 }
 
