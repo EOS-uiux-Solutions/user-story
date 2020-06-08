@@ -1,24 +1,20 @@
 .authentication-wrapper {
+  align-content: center;
   background-image: url(../../images/background.png);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  display: flex;
   height: 100vh;
+  justify-content: center;
   width: 100vw;
 }
 
 .authentication {
-  bottom: 0;
   display: flex;
-  height: 80%;
-  left: 0;
+  height: 704px;
   margin: auto;
-  max-height: 100%;
-  max-width: 100%;
   overflow: auto;
-  position: absolute;
-  right: 0;
-  top: 0;
   width: 1120px;
   z-index: 99;
 }
@@ -26,15 +22,17 @@
 .image {
   &-logo {
     height: 36px;
+    margin-top: 32px;
     width: 88px;
   }
 
   &-center {
-    margin-bottom: 10%;
+    height: 112px;
+    margin-bottom: 48px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 15%;
-    width: 40%;
+    margin-top: 64px;
+    width: 223px;
   }
 
   img {
@@ -43,10 +41,13 @@
   }
 }
 
-.link {
-  margin-left: 5%;
-  margin-right: 5%;
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
 
+.link {
   &-redirect {
     font-size: $font-size-general;
     font-weight: bold;
@@ -54,26 +55,27 @@
 }
 
 .header {
-  font-family: $font-family;
   font-size: $font-size-header;
   font-weight: bold;
-  text-align: left;
 }
 
 .footer {
   color: $dark-color;
+  padding-bottom: 16px;
 }
 
 .container-right {
   background-color: $light-color;
-  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   padding: 0 120px;
   width: 675px;
 
   .header {
     color: $authentication-color;
-    margin-bottom: 5%;
-    margin-top: 20%;
+    margin-bottom: 64px;
+    margin-top: 128px;
   }
 
   .form {
@@ -91,12 +93,9 @@
     border: 0;
     border-bottom: 2px solid black;
     font-family: $font-family;
-    margin-bottom: 6%;
-    margin-top: 2%;
+    margin-bottom: 32px;
+    margin-top: 16px;
     outline: 0;
-    padding-bottom: 3%;
-    padding-top: 3%;
-    transition: all 250ms ease-in-out;
     width: 100%;
   }
 }
@@ -107,14 +106,11 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 100%;
-  padding: 0 16px;
-  padding-top: 16px;
+  padding: 0 32px;
   width: 445px;
 
   .footer {
     color: $light-color;
-    padding-bottom: 16px;
   }
 
 }
@@ -129,41 +125,24 @@
   }
 
   .container-left {
-    min-width: 335px;
     width: 335px;
-
-    .footer {
-      bottom: 4%;
-      left: 0;
-    }
   }
 
   .container-right {
     width: 100%;
-
-    .footer {
-      bottom: 4%;
-      left: 65%;
-    }
   }
 }
 
 @media only screen and (max-width: 768px) {
-  .authentication {
-    height: 100%;
-  }
-
   .container-left {
     display: none;
   }
 
   .container-right {
-    .footer {
-      left: 40%;
-    }
+    width: 419px;
 
     .header {
-      margin-top: 10%;
+      margin-top: 0px;
     }
   }
 

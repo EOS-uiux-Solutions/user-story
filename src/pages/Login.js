@@ -54,34 +54,34 @@ export const Login = () => {
           <div className='image image-logo eos-logo-resize'>
             <img src={eosLogoColoured} alt='EOS Logo' />
           </div>
-          <form className='form' onSubmit={handleFormSubmit}>
-            <div className='header header-right'>Sign in</div>
-            <div className='form-group'>
-              <label htmlFor='email'>Enter your username</label>
-              <input type='text' name='email' onChange={handleInputChange} />
+          <div>
+            <form className='form' onSubmit={handleFormSubmit}>
+              <div className='header header-right'>Sign in</div>
+              <div className='form-group'>
+                <label htmlFor='email'>Enter your username</label>
+                <input type='text' name='email' onChange={handleInputChange} />
+              </div>
+              <div className='form-group'>
+                <label htmlFor='password'>Enter your password</label>
+                <input
+                  type='password'
+                  name='password'
+                  onChange={handleInputChange}
+                />
+              </div>
+              <Button
+                type='submit'
+                className='btn btn-default'
+                disabled={data.isSubmitting}
+              >
+                {data.isSubmitting ? 'Loading...' : 'Login'}
+              </Button>
+            </form>
+            <div className='flex-row'>
+              <Link to='/forgotPassword'>Forgot Password?</Link>
+              <Link to='/signUp'>Create an account</Link>
             </div>
-            <div className='form-group'>
-              <label htmlFor='password'>Enter your password</label>
-              <input
-                type='password'
-                name='password'
-                onChange={handleInputChange}
-              />
-            </div>
-            <Button
-              type='submit'
-              className='btn btn-default'
-              disabled={data.isSubmitting}
-            >
-              {data.isSubmitting ? 'Loading...' : 'Login'}
-            </Button>
-          </form>
-          <Link className='link link-redirect' to='/forgotPassword'>
-            Forgot Password?
-          </Link>
-          <Link className='link link-redirect' to='/signUp'>
-            Create an account
-          </Link>
+          </div>
           <div className='footer'>
             <span> Copyright 2020 EOS </span>
           </div>
