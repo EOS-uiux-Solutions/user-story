@@ -1,9 +1,13 @@
+body {
+  font-family: $font-family;
+  font-size: $font-size-general;
+  line-height: 1.5em;
+}
+
 .app {
   align-items: center;
   display: flex;
-  font-family: $font-family;
   justify-content: center;
-  text-align: center;
 }
 
 .app-container {
@@ -11,6 +15,7 @@
 }
 
 a {
+  font-weight: bold;
   text-decoration: none;
 }
 
@@ -21,4 +26,10 @@ a:active {
 
 a:hover {
   color: $hyper-link-hover-color;
+}
+
+@media only screen and (max-height: 100vh) {
+  body {
+    background-color: #eaeaea;
+  }
 }

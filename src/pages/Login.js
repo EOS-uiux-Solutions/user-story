@@ -28,19 +28,21 @@ export const Login = () => {
     <div className='authentication-wrapper'>
       <div className='authentication'>
         <div className='container-left'>
-          <div className='image image-logo'>
-            <img src={eosLogoWhite} alt='EOS Logo' />
-          </div>
-          <div className='image image-center'>
-            <img src={eosLock} alt='EOS Logo' />
-          </div>
           <div>
-            <div className='header header-left'>Feature Request</div>
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s
-            </p>
+            <div className='image image-logo'>
+              <img src={eosLogoWhite} alt='EOS Logo' />
+            </div>
+            <div className='image image-center'>
+              <img src={eosLock} alt='EOS Logo' />
+            </div>
+            <div>
+              <div className='header header-left'>Feature Request</div>
+              <p>
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry. Lorem Ipsum has been the industry's standard dummy
+                text ever since the 1500s
+              </p>
+            </div>
           </div>
           <div className='footer'>
             This site saves some information in cookies but only when strictly
@@ -52,34 +54,34 @@ export const Login = () => {
           <div className='image image-logo eos-logo-resize'>
             <img src={eosLogoColoured} alt='EOS Logo' />
           </div>
-          <form className='form' onSubmit={handleFormSubmit}>
-            <div className='header header-right'>Sign in</div>
-            <div className='form-group'>
-              <label htmlFor='email'>Enter your username</label>
-              <input type='text' name='email' onChange={handleInputChange} />
+          <div>
+            <form className='form' onSubmit={handleFormSubmit}>
+              <div className='header header-right'>Sign in</div>
+              <div className='form-group'>
+                <label htmlFor='email'>Enter your username</label>
+                <input type='text' name='email' onChange={handleInputChange} />
+              </div>
+              <div className='form-group'>
+                <label htmlFor='password'>Enter your password</label>
+                <input
+                  type='password'
+                  name='password'
+                  onChange={handleInputChange}
+                />
+              </div>
+              <Button
+                type='submit'
+                className='btn btn-default'
+                disabled={data.isSubmitting}
+              >
+                {data.isSubmitting ? 'Loading...' : 'Login'}
+              </Button>
+            </form>
+            <div className='flex-row'>
+              <Link to='/forgotPassword'>Forgot Password?</Link>
+              <Link to='/signUp'>Create an account</Link>
             </div>
-            <div className='form-group'>
-              <label htmlFor='password'>Enter your password</label>
-              <input
-                type='password'
-                name='password'
-                onChange={handleInputChange}
-              />
-            </div>
-            <Button
-              type='submit'
-              className='btn btn-default'
-              disabled={data.isSubmitting}
-            >
-              {data.isSubmitting ? 'Loading...' : 'Login'}
-            </Button>
-          </form>
-          <Link className='link link-redirect' to='/forgotPassword'>
-            Forgot Password?
-          </Link>
-          <Link className='link link-redirect' to='/signUp'>
-            Create an account
-          </Link>
+          </div>
           <div className='footer'>
             <span> Copyright 2020 EOS </span>
           </div>
