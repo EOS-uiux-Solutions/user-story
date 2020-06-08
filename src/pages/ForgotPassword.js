@@ -67,6 +67,9 @@ export const ForgotPassword = () => {
           <Link className='link link-redirect' to='/'>
             Existing User?
           </Link>
+          <div className='footer'>
+            <span> Copyright 2020 EOS </span>
+          </div>
           {data.errorMessage && (
             <span className='form-error'>{data.errorMessage}</span>
           )}
