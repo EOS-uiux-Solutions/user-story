@@ -27,3 +27,9 @@ a:active {
 a:hover {
   color: $hyper-link-hover-color;
 }
+
+@media only screen and (max-height: 100vh) {
+  body {
+    background-color: #eaeaea;
+  }
+}
