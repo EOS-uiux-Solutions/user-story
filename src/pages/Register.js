@@ -5,6 +5,7 @@ import eosLogoColoured from '../assets/images/logo-coloured.png'
 import eosLock from '../assets/images/authentication-lock.png'
 import Button from '../components/Button'
 import { AuthContext } from '../utils/AuthContext'
+import Dropdown from '../components/Dropdown'
 
 export const Register = () => {
   const { isAuthenticated, register } = useContext(AuthContext)
@@ -70,8 +71,11 @@ export const Register = () => {
           </div>
         </div>
         <div className='container-right'>
-          <div className='image image-logo eos-logo-resize'>
-            <img src={eosLogoColoured} alt='EOS Logo' />
+          <div className='flex-row'>
+            <div className='image image-logo eos-logo-resize'>
+              <img src={eosLogoColoured} alt='EOS Logo' />
+            </div>
+            <Dropdown />
           </div>
           <div>
             <form className='form' onSubmit={handleSubmit}>

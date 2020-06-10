@@ -5,6 +5,7 @@ import eosLogoWhite from '../assets/images/logo-white.png'
 import eosLogoColoured from '../assets/images/logo-coloured.png'
 import eosLock from '../assets/images/authentication-lock.png'
 import Button from '../components/Button'
+import Dropdown from '../components/Dropdown'
 
 export const ForgotPassword = () => {
   const initialState = {
@@ -34,7 +35,7 @@ export const ForgotPassword = () => {
               <img src={eosLock} alt='EOS Logo' />
             </div>
             <div>
-              <div className='header header-left'>Feature Request</div>
+              <div className='header'>Feature Request</div>
               <p>
                 Lorem Ipsum is simply dummy text of the printing and typesetting
                 industry. Lorem Ipsum has been the industry's standard dummy
@@ -49,8 +50,11 @@ export const ForgotPassword = () => {
           </div>
         </div>
         <div className='container-right'>
-          <div className='image image-logo eos-logo-resize'>
-            <img src={eosLogoColoured} alt='EOS Logo' />
+          <div className='flex-row'>
+            <div className='image image-logo eos-logo-resize'>
+              <img src={eosLogoColoured} alt='EOS Logo' />
+            </div>
+            <Dropdown />
           </div>
           <div>
             <form className='form' onSubmit={handleFormSubmit}>

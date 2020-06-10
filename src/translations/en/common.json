@@ -1,5 +1,14 @@
 {
-  "welcome": {
-    "title": "Welcome to"
+  "authentication": {
+    "title-sign-in": "Sign in",
+    "login-label": "Login",
+    "header-left": "Feature Request",
+    "feature-request-description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+    "footer-left": "This site saves some information in cookies but only when strictly necessary",
+    "username-label": "Enter your username",
+    "password-label": "Enter your password",
+    "forgot-password": "Forgot Password?",
+    "create-account": "Create an account",
+    "footer-right": "Copyright 2020 EOS"
   }
 }
