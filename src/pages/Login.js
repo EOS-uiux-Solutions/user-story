@@ -1,14 +1,11 @@
 import React from 'react'
-// import axios from 'axios'
-import { Link } from 'react-router-dom'
-// import { AuthContext } from '../App'
+import { Link } from '@reach/router'
 import eosLogoWhite from '../assets/images/logo-white.png'
 import eosLogoColoured from '../assets/images/logo-coloured.png'
 import eosLock from '../assets/images/authentication-lock.png'
 import Button from '../components/Button'
 
 export const Login = () => {
-  // const { dispatch } = React.useContext(AuthContext)
   const initialState = {
     username: '',
     email: '',
@@ -47,7 +44,6 @@ export const Login = () => {
           <div className='footer'>
             This site saves some information in cookies but only when strictly
             necessary
-            {/* <a href='#'>Learn More</a> */}
           </div>
         </div>
         <div className='container-right'>
@@ -79,7 +75,7 @@ export const Login = () => {
             </form>
             <div className='flex-row'>
               <Link to='/forgotPassword'>Forgot Password?</Link>
-              <Link to='/signUp'>Create an account</Link>
+              <Link to='/register'>Create an account</Link>
             </div>
           </div>
           <div className='footer'>
