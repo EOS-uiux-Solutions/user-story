@@ -1,35 +1,26 @@
 import React from 'react'
-import { Route } from 'react-router-dom'
-import { authReducer } from './utils/Utilities'
+import { Router } from '@reach/router'
+import './assets/scss/index.scss'
+import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import ForgotPassword from './pages/ForgotPassword'
-import Home from './pages/Home'
-import './assets/scss/index.scss'
+import AuthProvider from './utils/AuthContext'
 
-export const AuthContext = React.createContext()
-const initialState = {
-  isAuthenticated: false,
-  user: null,
-  token: null
-}
-
-function App() {
-  const [state, dispatch] = React.useReducer(authReducer, initialState)
+const App = () => {
   return (
-    <AuthContext.Provider value={{ state, dispatch }}>
+    <AuthProvider>
       <div className='app'>
         <div className='app-container'>
-          <Route
-            exact
-            path='/'
-            component={state.isAuthenticated ? Home : Login}
-          />
-          <Route exact path='/forgotPassword' component={ForgotPassword} />
-          <Route exact path='/signUp' component={Register} />
+          <Router>
+            <Home path='/' />
+            <Register path='/register' />
+            <Login path='/login' />
+            <ForgotPassword path='/forgotPassword' />
+          </Router>
         </div>
       </div>
-    </AuthContext.Provider>
+    </AuthProvider>
   )
 }
 

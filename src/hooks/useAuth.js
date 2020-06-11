@@ -6,19 +6,11 @@ const apiURL = 'http://localhost:1337'
 const DEFAULT_STATE = {
   jwt: null,
   user: {},
-  registered: false,
   loggedIn: false
 }
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'REGISTER':
-      return {
-        ...state,
-        jwt: action.payload.jwt || null,
-        user: action.payload.user || {},
-        registered: true
-      }
     case 'LOGIN':
       return {
         ...state,
@@ -40,27 +32,24 @@ const reducer = (state, action) => {
 
 const useAuth = () => {
   const [state, dispatch] = useReducer(reducer, DEFAULT_STATE)
-  const isRegistered = state.registered && Object.keys(state.user).length
-  const isAuthenticated = state.loggedIn && Object.keys(state.user).length
+  const isAuthenticated = Object.keys(state.user).length
+    ? state.loggedIn
+    : false
 
   const register = async (credentials) => {
-    try {
-      const { data: payload } = await axios.post(
-        `${apiURL}/auth/local/register`,
-        credentials
-      )
-      return dispatch({ type: 'REGISTER', payload })
-    } catch (e) {}
+    const { data: payload } = await axios.post(
+      `${apiURL}/auth/local/register`,
+      credentials
+    )
+    return dispatch({ type: 'LOGIN', payload })
   }
 
   const login = async (credentials) => {
-    try {
-      const { data: payload } = await axios.post(
-        `${apiURL}/auth/local`,
-        credentials
-      )
-      return dispatch({ type: 'LOGIN', payload })
-    } catch (e) {}
+    const { data: payload } = await axios.post(
+      `${apiURL}/auth/local`,
+      credentials
+    )
+    return dispatch({ type: 'LOGIN', payload })
   }
 
   const logout = () => {
@@ -68,15 +57,11 @@ const useAuth = () => {
   }
 
   const forgotPassword = async (credentials) => {
-    try {
-      await axios.post(`${apiURL}/auth/forgot-password`, credentials)
-      //   Display email sent message to user in UI
-    } catch (e) {}
+    await axios.post(`${apiURL}/auth/forgot-password`, credentials)
   }
 
   return {
     state,
-    isRegistered,
     isAuthenticated,
     register,
     login,

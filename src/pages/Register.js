@@ -1,29 +1,48 @@
-import React from 'react'
-// import axios from 'axios'
-import { Link } from 'react-router-dom'
-// import { AuthContext } from '../App'
+import React, { useState, useEffect, useContext } from 'react'
+import { Link, navigate } from '@reach/router'
 import eosLogoWhite from '../assets/images/logo-white.png'
 import eosLogoColoured from '../assets/images/logo-coloured.png'
 import eosLock from '../assets/images/authentication-lock.png'
 import Button from '../components/Button'
+import { AuthContext } from '../utils/AuthContext'
 
 export const Register = () => {
-  // const { dispatch } = React.useContext(AuthContext)
-  const initialState = {
+  const { isAuthenticated, register } = useContext(AuthContext)
+
+  useEffect(() => {
+    localStorage.setItem('ce4vtV3pgy#4uDvx', JSON.stringify(isAuthenticated))
+  }, [isAuthenticated])
+
+  const initialFormState = {
     username: '',
     email: '',
-    password: '',
-    isSubmitting: false,
-    errorMessage: null
+    password: ''
   }
-  const [data, setData] = React.useState(initialState)
+
+  const [data, setData] = useState(initialFormState)
+
+  const [error, setError] = useState('')
+
   const handleInputChange = (event) => {
     setData({
       ...data,
       [event.target.name]: event.target.value
     })
   }
-  const handleFormSubmit = (event) => {}
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    try {
+      await register({
+        username: data.username,
+        email: data.email,
+        password: data.password
+      })
+      navigate('/')
+    } catch (e) {
+      setError(e.message)
+    }
+  }
 
   return (
     <div className='authentication-wrapper'>
@@ -48,7 +67,6 @@ export const Register = () => {
           <div className='footer'>
             This site saves some information in cookies but only when strictly
             necessary
-            {/* <a href='#'>Learn More</a> */}
           </div>
         </div>
         <div className='container-right'>
@@ -56,7 +74,7 @@ export const Register = () => {
             <img src={eosLogoColoured} alt='EOS Logo' />
           </div>
           <div>
-            <form className='form' onSubmit={handleFormSubmit}>
+            <form className='form' onSubmit={handleSubmit}>
               <div className='header'>Sign up</div>
               <div className='form-group'>
                 <label htmlFor='username'>Username</label>
@@ -86,13 +104,10 @@ export const Register = () => {
                   onChange={handleInputChange}
                 />
               </div>
-              <Button
-                type='submit'
-                className='btn btn-default'
-                disabled={data.isSubmitting}
-              >
-                {data.isSubmitting ? 'Loading...' : 'Register'}
+              <Button type='submit' className='btn btn-default'>
+                Register
               </Button>
+              {error && <span className='form-error'>{error}</span>}
             </form>
             <Link className='link link-redirect' to='/'>
               Existing User?
@@ -101,9 +116,6 @@ export const Register = () => {
           <div className='footer'>
             <span> Copyright 2020 EOS </span>
           </div>
-          {data.errorMessage && (
-            <span className='form-error'>{data.errorMessage}</span>
-          )}
         </div>
       </div>
     </div>
