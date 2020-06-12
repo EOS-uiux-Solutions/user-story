@@ -37,7 +37,7 @@ export const Login = () => {
               <img src={eosLock} alt='EOS Logo' />
             </div>
             <div>
-              <div className='header header-left'>
+              <div className='header'>
                 {t('authentication:header-left')}
               </div>
               <p>{t('authentication:feature-request-description')}</p>
@@ -57,7 +57,7 @@ export const Login = () => {
           </div>
           <div>
             <form className='form' onSubmit={handleFormSubmit}>
-              <div className='header header-right'>
+              <div className='header'>
                 {t('authentication:title-sign-in')}
               </div>
               <div className='form-group'>

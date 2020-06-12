@@ -6,8 +6,10 @@ import eosLogoColoured from '../assets/images/logo-coloured.png'
 import eosLock from '../assets/images/authentication-lock.png'
 import Button from '../components/Button'
 import Dropdown from '../components/Dropdown'
+import { useTranslation } from 'react-i18next'
 
 export const ForgotPassword = () => {
+  const { t, i18n } = useTranslation()
   const initialState = {
     username: '',
     email: '',
@@ -35,17 +37,12 @@ export const ForgotPassword = () => {
               <img src={eosLock} alt='EOS Logo' />
             </div>
             <div>
-              <div className='header'>Feature Request</div>
-              <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s
-              </p>
+              <div className='header'>{t('authentication:header-left')}</div>
+              <p>{t('authentication:feature-request-description')}</p>
             </div>
           </div>
           <div className='footer'>
-            This site saves some information in cookies but only when strictly
-            necessary
+            {t('authentication:footer-left')}            
             {/* <a href='#'>Learn More</a> */}
           </div>
         </div>
@@ -54,13 +51,13 @@ export const ForgotPassword = () => {
             <div className='image image-logo eos-logo-resize'>
               <img src={eosLogoColoured} alt='EOS Logo' />
             </div>
-            <Dropdown />
+            <Dropdown translator={i18n}/>
           </div>
           <div>
             <form className='form' onSubmit={handleFormSubmit}>
-              <div className='header'>Forgot Password</div>
+              <div className='header'>{t('authentication:forgot-password')}</div>
               <div className='form-group'>
-                <label htmlFor='email'>Email</label>
+                <label htmlFor='email'>{t('authentication:email-label')}</label>
                 <input type='text' name='email' onChange={handleInputChange} />
               </div>
               <Button
@@ -68,15 +65,15 @@ export const ForgotPassword = () => {
                 className='btn btn-default'
                 disabled={data.isSubmitting}
               >
-                {data.isSubmitting ? 'Loading...' : 'Submit'}
+                {t('authentication:submit-label')}
               </Button>
             </form>
             <Link className='link link-redirect' to='/'>
-              Existing User?
+              {t('authentication:existing-user')}
             </Link>
           </div>
           <div className='footer'>
-            <span> Copyright 2020 EOS </span>
+          <span>{t('authentication:footer-right')} </span>
           </div>
           {data.errorMessage && (
             <span className='form-error'>{data.errorMessage}</span>

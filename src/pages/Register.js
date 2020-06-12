@@ -6,10 +6,11 @@ import eosLock from '../assets/images/authentication-lock.png'
 import Button from '../components/Button'
 import { AuthContext } from '../utils/AuthContext'
 import Dropdown from '../components/Dropdown'
+import { useTranslation } from 'react-i18next'
 
 export const Register = () => {
   const { isAuthenticated, register } = useContext(AuthContext)
-
+  const { t, i18n } = useTranslation()
   useEffect(() => {
     localStorage.setItem('ce4vtV3pgy#4uDvx', JSON.stringify(isAuthenticated))
   }, [isAuthenticated])
@@ -57,17 +58,14 @@ export const Register = () => {
               <img src={eosLock} alt='EOS Logo' />
             </div>
             <div>
-              <div className='header header-left'>Feature Request</div>
-              <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s
-              </p>
+              <div className='header header-left'>
+                {t('authentication:header-left')}
+              </div>
+              <p>{t('authentication:feature-request-description')}</p>
             </div>
           </div>
           <div className='footer'>
-            This site saves some information in cookies but only when strictly
-            necessary
+            {t('authentication:footer-left')}
           </div>
         </div>
         <div className='container-right'>
@@ -75,13 +73,17 @@ export const Register = () => {
             <div className='image image-logo eos-logo-resize'>
               <img src={eosLogoColoured} alt='EOS Logo' />
             </div>
-            <Dropdown />
+            <Dropdown translator={i18n}/>
           </div>
           <div>
             <form className='form' onSubmit={handleSubmit}>
-              <div className='header'>Sign up</div>
+              <div className='header'>
+                {t('authentication:title-sign-up')}
+              </div>
               <div className='form-group'>
-                <label htmlFor='username'>Username</label>
+                <label htmlFor='username'>
+                  {t('authentication:username-label')}
+                </label>
                 <input
                   type='text'
                   name='username'
@@ -89,11 +91,15 @@ export const Register = () => {
                 />
               </div>
               <div className='form-group'>
-                <label htmlFor='email'>Email</label>
+                <label htmlFor='email'>
+                  {t('authentication:email-label')}
+                </label>
                 <input type='text' name='email' onChange={handleInputChange} />
               </div>
               <div className='form-group'>
-                <label htmlFor='password'>Password</label>
+                <label htmlFor='password'>
+                  {t('authentication:password-label')}
+                </label>
                 <input
                   type='password'
                   name='password'
@@ -101,7 +107,9 @@ export const Register = () => {
                 />
               </div>
               <div className='form-group'>
-                <label htmlFor='password'>Confirm Password</label>
+                <label htmlFor='password'>
+                  {t('authentication:confirm-password-label')}
+                </label>
                 <input
                   type='password'
                   name='password'
@@ -109,16 +117,16 @@ export const Register = () => {
                 />
               </div>
               <Button type='submit' className='btn btn-default'>
-                Register
+                {t('authentication:register-label')}
               </Button>
               {error && <span className='form-error'>{error}</span>}
             </form>
             <Link className='link link-redirect' to='/'>
-              Existing User?
+              {t('authentication:existing-user')}
             </Link>
           </div>
           <div className='footer'>
-            <span> Copyright 2020 EOS </span>
+            <span> {t('authentication:footer-right')} </span>
           </div>
         </div>
       </div>
