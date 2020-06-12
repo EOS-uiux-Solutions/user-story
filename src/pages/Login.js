@@ -8,11 +8,8 @@ import Dropdown from '../components/Dropdown'
 import { useTranslation } from 'react-i18next'
 
 export const Login = () => {
-<<<<<<< HEAD
-=======
   // const { dispatch } = React.useContext(AuthContext)
   const { t, i18n } = useTranslation()
->>>>>>> 3a2e97f... Initial version of Language toggler
   const initialState = {
     username: '',
     email: '',
@@ -47,13 +44,8 @@ export const Login = () => {
             </div>
           </div>
           <div className='footer'>
-<<<<<<< HEAD
-            This site saves some information in cookies but only when strictly
-            necessary
-=======
             {t('authentication:footer-left')}
             {/* <a href='#'>Learn More</a> */}
->>>>>>> 3a2e97f... Initial version of Language toggler
           </div>
         </div>
         <div className='container-right'>
@@ -93,15 +85,10 @@ export const Login = () => {
               </Button>
             </form>
             <div className='flex-row'>
-<<<<<<< HEAD
-              <Link to='/forgotPassword'>Forgot Password?</Link>
-              <Link to='/register'>Create an account</Link>
-=======
               <Link to='/forgotPassword'>
                 {t('authentication:forgot-password')}
               </Link>
               <Link to='/signUp'>{t('authentication:create-account')}</Link>
->>>>>>> 3a2e97f... Initial version of Language toggler
             </div>
           </div>
           <div className='footer'>
