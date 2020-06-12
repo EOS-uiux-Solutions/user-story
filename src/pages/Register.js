@@ -58,28 +58,22 @@ export const Register = () => {
               <img src={eosLock} alt='EOS Logo' />
             </div>
             <div>
-              <div className='header header-left'>
-                {t('authentication:header-left')}
-              </div>
+              <div className='header'>{t('authentication:header-left')}</div>
               <p>{t('authentication:feature-request-description')}</p>
             </div>
           </div>
-          <div className='footer'>
-            {t('authentication:footer-left')}
-          </div>
+          <div className='footer'>{t('authentication:footer-left')}</div>
         </div>
         <div className='container-right'>
           <div className='flex-row'>
             <div className='image image-logo eos-logo-resize'>
               <img src={eosLogoColoured} alt='EOS Logo' />
             </div>
-            <Dropdown translator={i18n}/>
+            <Dropdown translator={i18n} />
           </div>
           <div>
             <form className='form' onSubmit={handleSubmit}>
-              <div className='header'>
-                {t('authentication:title-sign-up')}
-              </div>
+              <div className='header'>{t('authentication:title-sign-up')}</div>
               <div className='form-group'>
                 <label htmlFor='username'>
                   {t('authentication:username-label')}
@@ -91,9 +85,7 @@ export const Register = () => {
                 />
               </div>
               <div className='form-group'>
-                <label htmlFor='email'>
-                  {t('authentication:email-label')}
-                </label>
+                <label htmlFor='email'>{t('authentication:email-label')}</label>
                 <input type='text' name='email' onChange={handleInputChange} />
               </div>
               <div className='form-group'>

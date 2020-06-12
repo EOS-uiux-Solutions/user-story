@@ -41,21 +41,20 @@ export const ForgotPassword = () => {
               <p>{t('authentication:feature-request-description')}</p>
             </div>
           </div>
-          <div className='footer'>
-            {t('authentication:footer-left')}            
-            {/* <a href='#'>Learn More</a> */}
-          </div>
+          <div className='footer'>{t('authentication:footer-left')}</div>
         </div>
         <div className='container-right'>
           <div className='flex-row'>
             <div className='image image-logo eos-logo-resize'>
               <img src={eosLogoColoured} alt='EOS Logo' />
             </div>
-            <Dropdown translator={i18n}/>
+            <Dropdown translator={i18n} />
           </div>
           <div>
             <form className='form' onSubmit={handleFormSubmit}>
-              <div className='header'>{t('authentication:forgot-password')}</div>
+              <div className='header'>
+                {t('authentication:forgot-password')}
+              </div>
               <div className='form-group'>
                 <label htmlFor='email'>{t('authentication:email-label')}</label>
                 <input type='text' name='email' onChange={handleInputChange} />
@@ -73,7 +72,7 @@ export const ForgotPassword = () => {
             </Link>
           </div>
           <div className='footer'>
-          <span>{t('authentication:footer-right')} </span>
+            <span>{t('authentication:footer-right')} </span>
           </div>
           {data.errorMessage && (
             <span className='form-error'>{data.errorMessage}</span>
