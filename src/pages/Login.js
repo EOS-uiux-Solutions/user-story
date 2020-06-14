@@ -1,14 +1,15 @@
 import React from 'react'
+
 import { Link } from '@reach/router'
+import { useTranslation } from 'react-i18next'
+
 import eosLogoWhite from '../assets/images/logo-white.png'
 import eosLogoColoured from '../assets/images/logo-coloured.png'
 import eosLock from '../assets/images/authentication-lock.png'
 import Button from '../components/Button'
 import Dropdown from '../components/Dropdown'
-import { useTranslation } from 'react-i18next'
 
 export const Login = () => {
-  // const { dispatch } = React.useContext(AuthContext)
   const { t, i18n } = useTranslation()
   const initialState = {
     username: '',
@@ -84,7 +85,7 @@ export const Login = () => {
               <Link to='/forgotPassword'>
                 {t('authentication:forgot-password')}
               </Link>
-              <Link to='/signUp'>{t('authentication:create-account')}</Link>
+              <Link to='/register'>{t('authentication:create-account')}</Link>
             </div>
           </div>
           <div className='footer'>

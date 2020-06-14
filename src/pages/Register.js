@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react'
+
 import { Link, navigate } from '@reach/router'
+import { AuthContext } from '../utils/AuthContext'
+import { useTranslation } from 'react-i18next'
+
 import eosLogoWhite from '../assets/images/logo-white.png'
 import eosLogoColoured from '../assets/images/logo-coloured.png'
 import eosLock from '../assets/images/authentication-lock.png'
 import Button from '../components/Button'
-import { AuthContext } from '../utils/AuthContext'
 import Dropdown from '../components/Dropdown'
-import { useTranslation } from 'react-i18next'
 
 export const Register = () => {
   const { isAuthenticated, register } = useContext(AuthContext)
@@ -113,7 +115,7 @@ export const Register = () => {
               </Button>
               {error && <span className='form-error'>{error}</span>}
             </form>
-            <Link className='link link-redirect' to='/'>
+            <Link className='link link-redirect' to='/login'>
               {t('authentication:existing-user')}
             </Link>
           </div>

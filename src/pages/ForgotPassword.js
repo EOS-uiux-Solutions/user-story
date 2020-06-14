@@ -1,12 +1,13 @@
 import React from 'react'
-// import axios from 'axios'
+
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+
 import eosLogoWhite from '../assets/images/logo-white.png'
 import eosLogoColoured from '../assets/images/logo-coloured.png'
 import eosLock from '../assets/images/authentication-lock.png'
 import Button from '../components/Button'
 import Dropdown from '../components/Dropdown'
-import { useTranslation } from 'react-i18next'
 
 export const ForgotPassword = () => {
   const { t, i18n } = useTranslation()
@@ -25,6 +26,7 @@ export const ForgotPassword = () => {
     })
   }
   const handleFormSubmit = (event) => {}
+
   return (
     <div className='authentication-wrapper'>
       <div className='authentication'>
@@ -67,9 +69,9 @@ export const ForgotPassword = () => {
                 {t('authentication:submit-label')}
               </Button>
             </form>
-            <Link className='link link-redirect' to='/'>
-              {t('authentication:existing-user')}
-            </Link>
+            <div className='flex-row'>
+              <Link to='/login'>{t('authentication:existing-user')}</Link>
+            </div>
           </div>
           <div className='footer'>
             <span>{t('authentication:footer-right')} </span>

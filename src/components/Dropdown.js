@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Button from './Button'
 
 const Dropdown = (props) => {
   const { translator } = props
-  const container = React.createRef()
+  const container = useRef()
 
   const [dropdownState, setDropdownState] = useState(false)
   const handleButtonClick = (event) => {
