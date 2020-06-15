@@ -1,11 +1,16 @@
 import React from 'react'
+
 import { Link } from '@reach/router'
+import { useTranslation } from 'react-i18next'
+
 import eosLogoWhite from '../assets/images/logo-white.png'
 import eosLogoColoured from '../assets/images/logo-coloured.png'
 import eosLock from '../assets/images/authentication-lock.png'
 import Button from '../components/Button'
+import Dropdown from '../components/Dropdown'
 
 export const Login = () => {
+  const { t, i18n } = useTranslation()
   const initialState = {
     username: '',
     email: '',
@@ -33,32 +38,35 @@ export const Login = () => {
               <img src={eosLock} alt='EOS Logo' />
             </div>
             <div>
-              <div className='header header-left'>Feature Request</div>
-              <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s
-              </p>
+              <div className='header'>{t('authentication:header-left')}</div>
+              <p>{t('authentication:feature-request-description')}</p>
             </div>
           </div>
           <div className='footer'>
-            This site saves some information in cookies but only when strictly
-            necessary
+            {t('authentication:footer-left')}
+            {/* <a href='#'>Learn More</a> */}
           </div>
         </div>
         <div className='container-right'>
-          <div className='image image-logo eos-logo-resize'>
-            <img src={eosLogoColoured} alt='EOS Logo' />
+          <div className='flex-row'>
+            <div className='image image-logo eos-logo-resize'>
+              <img src={eosLogoColoured} alt='EOS Logo' />
+            </div>
+            <Dropdown translator={i18n} />
           </div>
           <div>
             <form className='form' onSubmit={handleFormSubmit}>
-              <div className='header header-right'>Sign in</div>
+              <div className='header'>{t('authentication:title-sign-in')}</div>
               <div className='form-group'>
-                <label htmlFor='email'>Enter your username</label>
+                <label htmlFor='email'>
+                  {t('authentication:username-label')}
+                </label>
                 <input type='text' name='email' onChange={handleInputChange} />
               </div>
               <div className='form-group'>
-                <label htmlFor='password'>Enter your password</label>
+                <label htmlFor='password'>
+                  {t('authentication:password-label')}
+                </label>
                 <input
                   type='password'
                   name='password'
@@ -70,16 +78,18 @@ export const Login = () => {
                 className='btn btn-default'
                 disabled={data.isSubmitting}
               >
-                {data.isSubmitting ? 'Loading...' : 'Login'}
+                {t('authentication:login-label')}
               </Button>
             </form>
             <div className='flex-row'>
-              <Link to='/forgotPassword'>Forgot Password?</Link>
-              <Link to='/register'>Create an account</Link>
+              <Link to='/forgotPassword'>
+                {t('authentication:forgot-password')}
+              </Link>
+              <Link to='/register'>{t('authentication:create-account')}</Link>
             </div>
           </div>
           <div className='footer'>
-            <span> Copyright 2020 EOS </span>
+            <span> {t('authentication:footer-right')} </span>
           </div>
           {data.errorMessage && (
             <span className='form-error'>{data.errorMessage}</span>

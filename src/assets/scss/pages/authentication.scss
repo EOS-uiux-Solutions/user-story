@@ -75,7 +75,6 @@
   .header {
     color: $authentication-color;
     margin-bottom: 64px;
-    margin-top: 128px;
   }
 
   .form {
@@ -116,7 +115,7 @@
 }
 
 .eos-logo-resize {
-  display: none;
+  visibility: hidden;
 }
 
 @media only screen and (max-width: 1120px) {
@@ -148,8 +147,8 @@
   }
 
   .eos-logo-resize {
-    display: block;
     height: 30px;
+    visibility: visible;
     width: 74px;
   }
 }
