@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from '@reach/router'
 import { useTranslation } from 'react-i18next'
 
@@ -7,24 +7,38 @@ import eosLogoColoured from '../assets/images/logo-coloured.png'
 import eosLock from '../assets/images/authentication-lock.png'
 import Button from '../components/Button'
 import Dropdown from '../components/Dropdown'
+import useAuth from '../hooks/useAuth'
 
 export const ForgotPassword = () => {
   const { t, i18n } = useTranslation()
+
+  const { forgotPassword } = useAuth()
+
   const initialState = {
-    username: '',
-    email: '',
-    password: '',
-    isSubmitting: false,
-    errorMessage: null
+    email: ''
   }
-  const [data, setData] = React.useState(initialState)
+
+  const [data, setData] = useState(initialState)
+
+  const [error, setError] = useState('')
+
   const handleInputChange = (event) => {
     setData({
       ...data,
       [event.target.name]: event.target.value
     })
   }
-  const handleFormSubmit = (event) => {}
+
+  const handleFormSubmit = async (event) => {
+    event.preventDefault()
+    try {
+      await forgotPassword({
+        email: data.email
+      })
+    } catch (e) {
+      setError(e.message)
+    }
+  }
 
   return (
     <div className='authentication-wrapper'>
@@ -58,7 +72,7 @@ export const ForgotPassword = () => {
               </div>
               <div className='form-group'>
                 <label htmlFor='email'>{t('authentication:email-label')}</label>
-                <input type='text' name='email' onChange={handleInputChange} />
+                <input type='email' name='email' onChange={handleInputChange} />
               </div>
               <Button
                 type='submit'
@@ -67,6 +81,7 @@ export const ForgotPassword = () => {
               >
                 {t('authentication:submit-label')}
               </Button>
+              {error && <span className='form-error'>{error}</span>}
             </form>
             <div className='flex-row'>
               <Link to='/login'>{t('authentication:existing-user')}</Link>
@@ -75,9 +90,6 @@ export const ForgotPassword = () => {
           <div className='footer'>
             <span>{t('authentication:footer-right')} </span>
           </div>
-          {data.errorMessage && (
-            <span className='form-error'>{data.errorMessage}</span>
-          )}
         </div>
       </div>
     </div>
