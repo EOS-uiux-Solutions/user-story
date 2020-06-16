@@ -115,9 +115,7 @@ export const Register = () => {
               </Button>
               {error && <span className='form-error'>{error}</span>}
             </form>
-            <Link className='link link-redirect' to='/login'>
-              {t('authentication:existing-user')}
-            </Link>
+            <Link to='/login'>{t('authentication:existing-user')}</Link>
           </div>
           <div className='footer'>
             <span> {t('authentication:footer-right')} </span>
