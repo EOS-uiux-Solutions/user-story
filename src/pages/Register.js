@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from '@reach/router'
+import { Link, navigate } from '@reach/router'
 import eosLogoWhite from '../assets/images/logo-white.png'
 import eosLogoColoured from '../assets/images/logo-coloured.png'
 import eosLock from '../assets/images/authentication-lock.png'
@@ -38,6 +38,7 @@ export const Register = () => {
         email: data.email,
         password: data.password
       })
+      navigate('/')
     } catch (e) {
       setError(e.message)
     }
