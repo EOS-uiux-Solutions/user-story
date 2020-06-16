@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-import { Link } from '@reach/router'
+import { Link, navigate } from '@reach/router'
 import { useTranslation } from 'react-i18next'
+import useAuth from '../hooks/useAuth'
 
 import eosLogoWhite from '../assets/images/logo-white.png'
 import eosLogoColoured from '../assets/images/logo-coloured.png'
@@ -11,21 +12,38 @@ import Dropdown from '../components/Dropdown'
 
 export const Login = () => {
   const { t, i18n } = useTranslation()
+
+  const { login } = useAuth()
+
   const initialState = {
-    username: '',
-    email: '',
-    password: '',
-    isSubmitting: false,
-    errorMessage: null
+    identifier: '',
+    password: ''
   }
-  const [data, setData] = React.useState(initialState)
+
+  const [data, setData] = useState(initialState)
+
+  const [error, setError] = useState('')
+
   const handleInputChange = (event) => {
     setData({
       ...data,
       [event.target.name]: event.target.value
     })
   }
-  const handleFormSubmit = (event) => {}
+
+  const handleFormSubmit = async (event) => {
+    event.preventDefault()
+    try {
+      await login({
+        identifier: data.identifier,
+        password: data.password
+      })
+      navigate('/')
+    } catch (e) {
+      setError(e.message)
+    }
+  }
+
   return (
     <div className='authentication-wrapper'>
       <div className='authentication'>
@@ -42,10 +60,7 @@ export const Login = () => {
               <p>{t('authentication:feature-request-description')}</p>
             </div>
           </div>
-          <div className='footer'>
-            {t('authentication:footer-left')}
-            {/* <a href='#'>Learn More</a> */}
-          </div>
+          <div className='footer'>{t('authentication:footer-left')}</div>
         </div>
         <div className='container-right'>
           <div className='flex-row'>
@@ -58,10 +73,14 @@ export const Login = () => {
             <form className='form' onSubmit={handleFormSubmit}>
               <div className='header'>{t('authentication:title-sign-in')}</div>
               <div className='form-group'>
-                <label htmlFor='email'>
+                <label htmlFor='identifer'>
                   {t('authentication:username-label')}
                 </label>
-                <input type='text' name='email' onChange={handleInputChange} />
+                <input
+                  type='text'
+                  name='identifier'
+                  onChange={handleInputChange}
+                />
               </div>
               <div className='form-group'>
                 <label htmlFor='password'>
@@ -80,6 +99,7 @@ export const Login = () => {
               >
                 {t('authentication:login-label')}
               </Button>
+              {error && <span className='form-error'>{error}</span>}
             </form>
             <div className='flex-row'>
               <Link to='/forgotPassword'>
@@ -91,9 +111,6 @@ export const Login = () => {
           <div className='footer'>
             <span> {t('authentication:footer-right')} </span>
           </div>
-          {data.errorMessage && (
-            <span className='form-error'>{data.errorMessage}</span>
-          )}
         </div>
       </div>
     </div>
