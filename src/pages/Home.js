@@ -1,23 +1,7 @@
-import React, { useEffect, useContext } from 'react'
-import { navigate } from '@reach/router'
-import { AuthContext } from '../utils/AuthContext'
+import React from 'react'
 
 export const Home = () => {
-  const { isAuthenticated } = useContext(AuthContext)
-
-  useEffect(() => {
-    if (!localStorage.getItem('ce4vtV3pgy#4uDvx')) {
-      navigate('/register')
-    }
-  }, [isAuthenticated])
-
-  return (
-    <h3>
-      {' '}
-      This is a protected route which can only be accessed after user
-      authentication.{' '}
-    </h3>
-  )
+  return <h3>This is a public route which can be accessed by any user.</h3>
 }
 
 export default Home

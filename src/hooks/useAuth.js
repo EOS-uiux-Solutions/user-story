@@ -4,9 +4,8 @@ import axios from 'axios'
 const apiURL = 'http://localhost:1337'
 
 const DEFAULT_STATE = {
-  jwt: null,
   user: {},
-  loggedIn: false
+  status: 'public'
 }
 
 const reducer = (state, action) => {
@@ -14,16 +13,14 @@ const reducer = (state, action) => {
     case 'LOGIN':
       return {
         ...state,
-        jwt: action.payload.jwt || null,
         user: action.payload.user || {},
-        loggedIn: true
+        status: action.payload.status || 'public'
       }
     case 'LOGOUT':
       return {
         ...state,
-        jwt: null,
         user: {},
-        loggedIn: false
+        status: 'public'
       }
     default:
       return DEFAULT_STATE
@@ -32,9 +29,6 @@ const reducer = (state, action) => {
 
 const useAuth = () => {
   const [state, dispatch] = useReducer(reducer, DEFAULT_STATE)
-  const isAuthenticated = Object.keys(state.user).length
-    ? state.loggedIn
-    : false
 
   const register = async (credentials) => {
     const { data: payload } = await axios.post(
@@ -62,7 +56,6 @@ const useAuth = () => {
 
   return {
     state,
-    isAuthenticated,
     register,
     login,
     logout,

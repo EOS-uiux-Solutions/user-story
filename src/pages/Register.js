@@ -1,21 +1,17 @@
-import React, { useState, useEffect, useContext } from 'react'
-
-import { Link, navigate } from '@reach/router'
-import { AuthContext } from '../utils/AuthContext'
-import { useTranslation } from 'react-i18next'
-
+import React, { useState } from 'react'
+import { Link } from '@reach/router'
 import eosLogoWhite from '../assets/images/logo-white.png'
 import eosLogoColoured from '../assets/images/logo-coloured.png'
 import eosLock from '../assets/images/authentication-lock.png'
 import Button from '../components/Button'
+import useAuth from '../hooks/useAuth'
 import Dropdown from '../components/Dropdown'
+import { useTranslation } from 'react-i18next'
 
 export const Register = () => {
-  const { isAuthenticated, register } = useContext(AuthContext)
+  const { register } = useAuth()
+
   const { t, i18n } = useTranslation()
-  useEffect(() => {
-    localStorage.setItem('ce4vtV3pgy#4uDvx', JSON.stringify(isAuthenticated))
-  }, [isAuthenticated])
 
   const initialFormState = {
     username: '',
@@ -42,7 +38,6 @@ export const Register = () => {
         email: data.email,
         password: data.password
       })
-      navigate('/')
     } catch (e) {
       setError(e.message)
     }
