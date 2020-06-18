@@ -12,9 +12,13 @@
     "email-label": "Enter your email",
     "password-label": "Enter your password",
     "confirm-password-label": "Confirm password",
-    "forgot-password": "Forgot Password?",
+    "forgot-password": "Recover your password",
+    "reset-password": "Set your new password",
+    "new-password": "New password",
+    "confirm-password": "Confirm password",
     "create-account": "Create an account",
     "footer-right": "Copyright 2020 EOS",
-    "existing-user": "Existing user?"
+    "existing-user": "Existing user?",
+    "reset-password-done": "Take me to the sign-in page"
   }
 }

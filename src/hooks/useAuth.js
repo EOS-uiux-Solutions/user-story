@@ -51,7 +51,16 @@ const useAuth = () => {
   }
 
   const forgotPassword = async (credentials) => {
-    await axios.post(`${apiURL}/auth/forgot-password`, credentials)
+    const reply = await axios.post(
+      `${apiURL}/auth/forgot-password`,
+      credentials
+    )
+    return reply
+  }
+
+  const resetPassword = async (credentials) => {
+    const reply = await axios.post(`${apiURL}/auth/reset-password`, credentials)
+    return reply
   }
 
   return {
@@ -59,7 +68,8 @@ const useAuth = () => {
     register,
     login,
     logout,
-    forgotPassword
+    forgotPassword,
+    resetPassword
   }
 }
 

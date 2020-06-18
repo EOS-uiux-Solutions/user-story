@@ -5,6 +5,7 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import ForgotPassword from './pages/ForgotPassword'
+import ResetPassword from './pages/ResetPassword'
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
           <Register path='/register' />
           <Login path='/login' />
           <ForgotPassword path='/forgotPassword' />
+          <ResetPassword path='/resetPassword' />
         </Router>
       </div>
     </div>
