@@ -18,7 +18,10 @@ const useAuth = () => {
     return payload
   }
 
-  const logout = () => {}
+  const logout = async () => {
+    await axios.post(`${apiURL}/logout`)
+    localStorage.clear()
+  }
 
   const forgotPassword = async (credentials) => {
     const reply = await axios.post(

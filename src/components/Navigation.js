@@ -1,8 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from '@reach/router'
 import eosIcon from '../assets/images/logo-white.png'
+import useAuth from '../hooks/useAuth'
+
+import Button from './Button'
 
 const Navigation = () => {
+  const { logout } = useAuth()
+
+  const [state, setState] = useState(localStorage.getItem('status'))
+
+  const handleLogout = () => {
+    logout()
+    setState('public')
+  }
+
   return (
     <header className='nav-header'>
       <Link className='link link-light' to='/'>
@@ -12,24 +24,26 @@ const Navigation = () => {
         </div>
       </Link>
       <nav>
-        {localStorage.getItem('status') === 'Authenticated' && (
+        {state === 'Authenticated' && (
           <Link className='link link-light' to='/'>
             MAKE A REQUEST
           </Link>
         )}
-        {localStorage.getItem('status') !== 'Authenticated' && (
+        {state !== 'Authenticated' && (
           <Link className='link link-light' to='/login'>
             SIGN IN
           </Link>
         )}
-        {localStorage.getItem('status') === 'Authenticated' && (
+        {state === 'Authenticated' && (
           <div className='dropdown-container'>
             <i className='eos-icons'>person</i>
             <div className='dropdown dropdown-nodisplay'>
               <ul>
                 <li>MY ACCOUNT</li>
                 <li>ADMIN PANEL</li>
-                <li>LOG OUT</li>
+                <li>
+                  <Button onClick={handleLogout}>LOG OUT</Button>
+                </li>
               </ul>
             </div>
           </div>
