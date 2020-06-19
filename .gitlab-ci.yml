@@ -8,6 +8,7 @@ image: node:10.15.0
 default:
   before_script:
     - npm install
+    - 'echo "$CONFIG_JSON" > src/config.json'
 
 # Lets cache the npm install per stages in the current branch
 cache:

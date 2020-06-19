@@ -1,7 +1,6 @@
 import { useReducer } from 'react'
 import axios from 'axios'
-
-const apiURL = 'http://localhost:1337'
+import { apiURL } from '../config.json'
 
 const DEFAULT_STATE = {
   user: {},
