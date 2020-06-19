@@ -1,7 +1,21 @@
 import React from 'react'
 
+import Navigation from '../components/Navigation'
+
 export const Home = () => {
-  return <h3>This is a public route which can be accessed by any user.</h3>
+  return (
+    <>
+      <div className='home-wrapper'>
+        <div className='home-container'>
+          <Navigation />
+          <div className='home-content'>
+            <h3>Welcome to EOS Feature Request</h3>
+            <p>DESCRIPTION</p>
+          </div>
+        </div>
+      </div>
+    </>
+  )
 }
 
 export default Home

@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
     "better-docs": "^2.0.1",
+    "eos-icons": "^4.0.3",
     "i18next": "^19.4.5",
     "jsdoc": "^3.6.4",
     "node-sass": "^4.13.1",

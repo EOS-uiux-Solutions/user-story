@@ -14,24 +14,8 @@ body {
   min-height: calc(100vh - 16px);
 }
 
-a {
-  font-weight: bold;
-  outline: 0;
-  text-decoration: none;
-}
-
-a,
-a:visited,
-a:active {
-  color: $hyper-link-color;
-}
-
-a:hover {
-  color: $hyper-link-hover-color;
-}
-
 @media only screen and (max-height: 100vh) {
   body {
-    background-color: #eaeaea;
+    background-color: $gray-bg;
   }
 }

@@ -1,6 +1,20 @@
-$authentication-color: #D64F13;
+$primary: #D64F13;
+$primary-light: #fe673a;
 $light-color: #fff;
 $dark-color: #000;
-$primary-light: #fe673a;
+$gray-bg: #eaeaea;
+
+$authentication-orange-bg: $primary;
+$authentication-white-bg: $light-color;
+
+$nav-bg: $primary;
+
+$dropdown-colored-bg: $primary;
+
+$btn-default-bg: $primary;
+$btn-default-hover: $primary-light;
+$btn-link-bg: $light-color;
+
+
 $hyper-link-color: #008ACF;
 $hyper-link-hover-color: #15578f;

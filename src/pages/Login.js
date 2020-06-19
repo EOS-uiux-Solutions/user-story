@@ -34,10 +34,11 @@ export const Login = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault()
     try {
-      await login({
+      const payload = await login({
         identifier: data.identifier,
         password: data.password
       })
+      localStorage.setItem('status', payload.status)
       navigate('/')
     } catch (e) {
       setError(e.message)
@@ -102,10 +103,12 @@ export const Login = () => {
               {error && <span className='form-error'>{error}</span>}
             </form>
             <div className='flex-row'>
-              <Link to='/forgotPassword'>
+              <Link className='link link-default' to='/forgotPassword'>
                 {t('authentication:forgot-password')}
               </Link>
-              <Link to='/register'>{t('authentication:create-account')}</Link>
+              <Link className='link link-default' to='/register'>
+                {t('authentication:create-account')}
+              </Link>
             </div>
           </div>
           <div className='footer'>

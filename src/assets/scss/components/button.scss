@@ -9,19 +9,19 @@
   }
 
   &-default {
-    background-color: $authentication-color;
-    border-color: $authentication-color;
+    background-color: $btn-default-bg;
+    border-color: $btn-default-bg;
     color: $light-color;
 
     &:hover {
-      background-color: $primary-light;
-      border-color: $primary-light;
+      background-color: $btn-default-hover;
+      border-color: $btn-default-hover;
       color: $light-color;
     }
   }
 
   &-link {
-    background-color: white;
+    background-color: $btn-link-bg;
     border: 0;
     color: $hyper-link-color;
     outline: none;
@@ -29,13 +29,13 @@
     &:visited,
     &:active,
     &:hover {
-      background-color: white;
+      background-color: $btn-link-bg;
       color: $hyper-link-hover-color;
     }
   }
 
   &-dropdown {
-    background-color: white;
+    background-color: transparent;
     border: 2px solid black;
     float: right;
     margin: 32px 0 0 0;

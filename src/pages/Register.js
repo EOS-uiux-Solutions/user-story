@@ -33,11 +33,12 @@ export const Register = () => {
   const handleSubmit = async (event) => {
     event.preventDefault()
     try {
-      await register({
+      const payload = await register({
         username: data.username,
         email: data.email,
         password: data.password
       })
+      localStorage.setItem('status', payload.status)
       navigate('/')
     } catch (e) {
       setError(e.message)
@@ -111,7 +112,9 @@ export const Register = () => {
               </Button>
               {error && <span className='form-error'>{error}</span>}
             </form>
-            <Link to='/login'>{t('authentication:existing-user')}</Link>
+            <Link className='link link-default' to='/login'>
+              {t('authentication:existing-user')}
+            </Link>
           </div>
           <div className='footer'>
             <span> {t('authentication:footer-right')} </span>

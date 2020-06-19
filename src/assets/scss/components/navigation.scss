@@ -1,0 +1,32 @@
+.nav-header {
+  align-items: center;
+  background-color: $nav-bg;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  max-width: 1120px;
+  padding: 32px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  .brand {
+    align-items: center;
+    color: $light-color;
+    display: flex;
+
+    .logo {
+      margin-right: 16px;
+      width: 70px;
+    }
+  }
+}
+
+// @media (max-width: 1120px) {
+// }
+
+@media (max-width: 768px) {
+  .brand-text {
+    display: none;
+  }
+}
