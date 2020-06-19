@@ -1,40 +1,13 @@
-import { useReducer } from 'react'
 import axios from 'axios'
 import { apiURL } from '../config.json'
 
-const DEFAULT_STATE = {
-  user: {},
-  status: 'public'
-}
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'LOGIN':
-      return {
-        ...state,
-        user: action.payload.user || {},
-        status: action.payload.status || 'public'
-      }
-    case 'LOGOUT':
-      return {
-        ...state,
-        user: {},
-        status: 'public'
-      }
-    default:
-      return DEFAULT_STATE
-  }
-}
-
 const useAuth = () => {
-  const [state, dispatch] = useReducer(reducer, DEFAULT_STATE)
-
   const register = async (credentials) => {
     const { data: payload } = await axios.post(
       `${apiURL}/auth/local/register`,
       credentials
     )
-    return dispatch({ type: 'LOGIN', payload })
+    return payload
   }
 
   const login = async (credentials) => {
@@ -42,12 +15,10 @@ const useAuth = () => {
       `${apiURL}/auth/local`,
       credentials
     )
-    return dispatch({ type: 'LOGIN', payload })
+    return payload
   }
 
-  const logout = () => {
-    return dispatch({ type: 'LOGOUT' })
-  }
+  const logout = () => {}
 
   const forgotPassword = async (credentials) => {
     const reply = await axios.post(
@@ -63,7 +34,6 @@ const useAuth = () => {
   }
 
   return {
-    state,
     register,
     login,
     logout,

@@ -1,0 +1,26 @@
+.link {
+  font-weight: bold;
+  outline: 0;
+  text-decoration: none;
+
+  &-default,
+  &-default:visited,
+  &-default:active {
+    color: $hyper-link-color;
+  }
+
+  &-default:hover {
+    color: $hyper-link-hover-color;
+  }
+
+  &-light,
+  &-light:visited,
+  &-light:active {
+    color: $light-color;
+    padding: 0 8px;
+    }
+
+  &-light:hover {
+    color: $light-color;
+  }
+}

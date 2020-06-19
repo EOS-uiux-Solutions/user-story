@@ -58,7 +58,7 @@
 }
 
 .container-right {
-  background-color: $light-color;
+  background-color: $authentication-white-bg;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -66,7 +66,7 @@
   width: 675px;
 
   .header {
-    color: $authentication-color;
+    color: $authentication-orange-header;
     margin-bottom: 64px;
   }
 
@@ -93,7 +93,7 @@
 }
 
 .container-left {
-  background-color: $authentication-color;
+  background-color: $authentication-orange-bg;
   color: $light-color;
   display: flex;
   flex-direction: column;

@@ -97,7 +97,9 @@ const ForgotPassword = () => {
                   {error && <span className='form-error'>{error}</span>}
                 </form>
                 <div className='flex-row'>
-                  <Link to='/login'>{t('authentication:existing-user')}</Link>
+                  <Link className='link link-default' to='/login'>
+                    {t('authentication:existing-user')}
+                  </Link>
                 </div>
               </>
             )}

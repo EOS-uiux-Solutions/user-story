@@ -11,6 +11,17 @@
   right: 0;
   top: 100%;
   width: 114px;
+
+  &-nodisplay {
+    background-color: $dropdown-colored-bg;
+    color: $light-color;
+    display: none;
+    width: 150px;
+  }
+}
+
+.dropdown-container:hover .dropdown {
+  display: block;
 }
 
 ul {

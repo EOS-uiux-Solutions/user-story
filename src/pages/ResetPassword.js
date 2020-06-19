@@ -82,7 +82,7 @@ const ResetPassword = () => {
                 </div>
                 <p>Your password has been reset.</p>
                 <div className='flex-row'>
-                  <Link to='/login'>
+                  <Link className='link link-default' to='/login'>
                     {t('authentication:reset-password-done')}
                   </Link>
                 </div>
