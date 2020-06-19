@@ -119,10 +119,6 @@
   .container-left {
     width: 335px;
   }
-
-  .container-right {
-    width: 100%;
-  }
 }
 
 @media only screen and (max-width: 768px) {
@@ -132,7 +128,7 @@
 
   .container-right {
     padding: 0 32px;
-    width: 419px;
+    width: 100%;
 
     .header {
       margin-top: 0px;
