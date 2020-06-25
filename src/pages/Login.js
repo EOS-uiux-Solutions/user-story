@@ -64,35 +64,33 @@ export const Login = () => {
           <div className='footer'>{t('authentication:footer-left')}</div>
         </div>
         <div className='container-right'>
-          <div className='flex-row'>
+          <div className='flex flex-row flex-space-between'>
             <div className='image image-logo eos-logo-resize'>
               <img src={eosLogoColoured} alt='EOS Logo' />
             </div>
             <Dropdown translator={i18n} />
           </div>
           <div>
-            <form className='form' onSubmit={handleFormSubmit}>
+            <form className='form-default' onSubmit={handleFormSubmit}>
               <div className='header'>{t('authentication:title-sign-in')}</div>
-              <div className='form-group'>
-                <label htmlFor='identifer'>
-                  {t('authentication:username-label')}
-                </label>
-                <input
-                  type='text'
-                  name='identifier'
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className='form-group'>
-                <label htmlFor='password'>
-                  {t('authentication:password-label')}
-                </label>
-                <input
-                  type='password'
-                  name='password'
-                  onChange={handleInputChange}
-                />
-              </div>
+              <label htmlFor='identifer'>
+                {t('authentication:username-label')}
+              </label>
+              <input
+                className='input-default'
+                type='text'
+                name='identifier'
+                onChange={handleInputChange}
+              />
+              <label htmlFor='password'>
+                {t('authentication:password-label')}
+              </label>
+              <input
+                className='input-default'
+                type='password'
+                name='password'
+                onChange={handleInputChange}
+              />
               <Button
                 type='submit'
                 className='btn btn-default'
@@ -102,7 +100,7 @@ export const Login = () => {
               </Button>
               {error && <span className='form-error'>{error}</span>}
             </form>
-            <div className='flex-row'>
+            <div className='flex flex-row flex-space-between'>
               <Link className='link link-default' to='/forgotPassword'>
                 {t('authentication:forgot-password')}
               </Link>
@@ -112,6 +110,7 @@ export const Login = () => {
             </div>
           </div>
           <div className='footer'>
+            <i className='eos-icons'>copyright</i>
             <span> {t('authentication:footer-right')} </span>
           </div>
         </div>

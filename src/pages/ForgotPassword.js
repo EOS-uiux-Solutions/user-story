@@ -62,7 +62,7 @@ const ForgotPassword = () => {
           <div className='footer'>{t('authentication:footer-left')}</div>
         </div>
         <div className='container-right'>
-          <div className='flex-row'>
+          <div className='flex flex-row flex-space-between'>
             <div className='image image-logo eos-logo-resize'>
               <img src={eosLogoColoured} alt='EOS Logo' />
             </div>
@@ -76,17 +76,16 @@ const ForgotPassword = () => {
               </>
             ) : (
               <>
-                <form className='form' onSubmit={handleFormSubmit}>
-                  <div className='form-group'>
-                    <label htmlFor='email'>
-                      {t('authentication:email-label')}
-                    </label>
-                    <input
-                      type='email'
-                      name='email'
-                      onChange={handleInputChange}
-                    />
-                  </div>
+                <form className='form-default' onSubmit={handleFormSubmit}>
+                  <label htmlFor='email'>
+                    {t('authentication:email-label')}
+                  </label>
+                  <input
+                    className='input-default'
+                    type='email'
+                    name='email'
+                    onChange={handleInputChange}
+                  />
                   <Button
                     type='submit'
                     className='btn btn-default'
@@ -96,7 +95,7 @@ const ForgotPassword = () => {
                   </Button>
                   {error && <span className='form-error'>{error}</span>}
                 </form>
-                <div className='flex-row'>
+                <div className='flex flex-row flex-space-between'>
                   <Link className='link link-default' to='/login'>
                     {t('authentication:existing-user')}
                   </Link>
@@ -105,7 +104,8 @@ const ForgotPassword = () => {
             )}
           </div>
           <div className='footer'>
-            <span>{t('authentication:footer-right')} </span>
+            <i className='eos-icons'>copyright</i>
+            <span> {t('authentication:footer-right')} </span>
           </div>
         </div>
       </div>

@@ -5,10 +5,10 @@ import Navigation from '../components/Navigation'
 export const Home = () => {
   return (
     <>
-      <div className='home-wrapper'>
-        <div className='home-container'>
+      <div className='base-wrapper'>
+        <div className='base-container'>
           <Navigation />
-          <div className='home-content'>
+          <div className='newrequest-content'>
             <h3>Welcome to EOS Feature Request</h3>
             <p>DESCRIPTION</p>
           </div>

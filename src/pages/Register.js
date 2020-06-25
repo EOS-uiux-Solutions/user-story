@@ -64,49 +64,49 @@ export const Register = () => {
           <div className='footer'>{t('authentication:footer-left')}</div>
         </div>
         <div className='container-right'>
-          <div className='flex-row'>
+          <div className='flex flex-row flex-space-between'>
             <div className='image image-logo eos-logo-resize'>
               <img src={eosLogoColoured} alt='EOS Logo' />
             </div>
             <Dropdown translator={i18n} />
           </div>
           <div>
-            <form className='form' onSubmit={handleSubmit}>
+            <form className='form-default' onSubmit={handleSubmit}>
               <div className='header'>{t('authentication:title-sign-up')}</div>
-              <div className='form-group'>
-                <label htmlFor='username'>
-                  {t('authentication:username-label')}
-                </label>
-                <input
-                  type='text'
-                  name='username'
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className='form-group'>
-                <label htmlFor='email'>{t('authentication:email-label')}</label>
-                <input type='text' name='email' onChange={handleInputChange} />
-              </div>
-              <div className='form-group'>
-                <label htmlFor='password'>
-                  {t('authentication:password-label')}
-                </label>
-                <input
-                  type='password'
-                  name='password'
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className='form-group'>
-                <label htmlFor='password'>
-                  {t('authentication:confirm-password-label')}
-                </label>
-                <input
-                  type='password'
-                  name='password'
-                  onChange={handleInputChange}
-                />
-              </div>
+              <label htmlFor='username'>
+                {t('authentication:username-label')}
+              </label>
+              <input
+                className='input-default'
+                type='text'
+                name='username'
+                onChange={handleInputChange}
+              />
+              <label htmlFor='email'>{t('authentication:email-label')}</label>
+              <input
+                className='input-default'
+                type='text'
+                name='email'
+                onChange={handleInputChange}
+              />
+              <label htmlFor='password'>
+                {t('authentication:password-label')}
+              </label>
+              <input
+                className='input-default'
+                type='password'
+                name='password'
+                onChange={handleInputChange}
+              />
+              <label htmlFor='password'>
+                {t('authentication:confirm-password-label')}
+              </label>
+              <input
+                className='input-default'
+                type='password'
+                name='password'
+                onChange={handleInputChange}
+              />
               <Button type='submit' className='btn btn-default'>
                 {t('authentication:register-label')}
               </Button>
@@ -117,6 +117,7 @@ export const Register = () => {
             </Link>
           </div>
           <div className='footer'>
+            <i className='eos-icons'>copyright</i>
             <span> {t('authentication:footer-right')} </span>
           </div>
         </div>

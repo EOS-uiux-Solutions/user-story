@@ -8,12 +8,6 @@
     cursor: pointer;
   }
 
-  .eos-icons {
-    margin-right: 0;
-    pointer-events: none;
-    vertical-align: middle;
-  }
-
   &-default {
     background-color: $btn-default-bg;
     border-color: $btn-default-bg;

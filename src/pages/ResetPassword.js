@@ -68,7 +68,7 @@ const ResetPassword = () => {
           <div className='footer'>{t('authentication:footer-left')}</div>
         </div>
         <div className='container-right'>
-          <div className='flex-row'>
+          <div className='flex flex-row flex-space-between'>
             <div className='image image-logo eos-logo-resize'>
               <img src={eosLogoColoured} alt='EOS Logo' />
             </div>
@@ -81,35 +81,35 @@ const ResetPassword = () => {
                   {t('authentication:forgot-password')}
                 </div>
                 <p>Your password has been reset.</p>
-                <div className='flex-row'>
+                <div className='flex flex-row flex-space-between'>
                   <Link className='link link-default' to='/login'>
                     {t('authentication:reset-password-done')}
                   </Link>
                 </div>
               </>
             ) : (
-              <form className='form' onSubmit={handleFormSubmit}>
+              <form className='form-default' onSubmit={handleFormSubmit}>
                 <div className='header'>
                   {t('authentication:reset-password')}
                 </div>
-                <div className='form-group'>
-                  <label htmlFor='password'>
-                    {t('authentication:new-password')}
-                  </label>
-                  <input
-                    type='password'
-                    name='password'
-                    onChange={handleInputChange}
-                  />
-                  <label htmlFor='confirm-password'>
-                    {t('authentication:confirm-password')}
-                  </label>
-                  <input
-                    type='password'
-                    name='passwordConfirmation'
-                    onChange={handleInputChange}
-                  />
-                </div>
+                <label htmlFor='password'>
+                  {t('authentication:new-password')}
+                </label>
+                <input
+                  className='input-default'
+                  type='password'
+                  name='password'
+                  onChange={handleInputChange}
+                />
+                <label htmlFor='confirm-password'>
+                  {t('authentication:confirm-password')}
+                </label>
+                <input
+                  className='input-default'
+                  type='password'
+                  name='passwordConfirmation'
+                  onChange={handleInputChange}
+                />
                 <Button
                   type='submit'
                   className='btn btn-default'
@@ -122,7 +122,8 @@ const ResetPassword = () => {
             )}
           </div>
           <div className='footer'>
-            <span>{t('authentication:footer-right')} </span>
+            <i className='eos-icons'>copyright</i>
+            <span> {t('authentication:footer-right')} </span>
           </div>
         </div>
       </div>
