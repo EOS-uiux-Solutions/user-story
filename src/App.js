@@ -9,6 +9,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import ForgotPassword from './pages/ForgotPassword'
 import ResetPassword from './pages/ResetPassword'
+import NewRequest from './pages/NewRequest'
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <Login path='/login' />
           <ForgotPassword path='/forgotPassword' />
           <ResetPassword path='/resetPassword' />
+          <NewRequest path='/newRequest' />
         </Router>
       </div>
     </div>

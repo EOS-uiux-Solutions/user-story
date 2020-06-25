@@ -1,0 +1,35 @@
+.form-default {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-default {
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid black;
+  font-family: $font-family;
+  margin-bottom: 32px;
+  margin-top: 16px;
+  outline: 0;
+  width: 100%;
+}
+
+.text-area-default {
+  resize: none;
+}
+
+.select-default {
+  background-color: $light-color;
+  border: 1px solid $primary;
+  border-radius: 4px;
+  margin-bottom: 32px;
+  margin-top: 16px;
+  outline: 0;
+  padding: 8px 8px;
+  width: 100%;
+}
+
+.select-default:active,
+.select-default:hover {
+  outline: 0;
+}

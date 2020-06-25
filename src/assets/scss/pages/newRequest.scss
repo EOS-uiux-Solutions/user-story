@@ -1,0 +1,26 @@
+.newrequest-content {
+  padding: 16px 16px;
+}
+
+.ck {
+  margin-bottom: 32px;
+}
+
+.ck-content {
+  min-height: 220px;
+}
+
+.search-container {
+  bottom: 5px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 32px;
+  margin-top: -32px;
+  width: 100%;
+}
+
+.search-dropdown {
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14);
+}

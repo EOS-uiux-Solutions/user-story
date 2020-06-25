@@ -25,7 +25,7 @@ const Navigation = () => {
       </Link>
       <nav>
         {state === 'Authenticated' && (
-          <Link className='link link-light' to='/'>
+          <Link className='link link-light' to='/newRequest'>
             MAKE A REQUEST
           </Link>
         )}

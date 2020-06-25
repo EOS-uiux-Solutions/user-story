@@ -41,12 +41,6 @@
   }
 }
 
-.flex-row {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
 .header {
   font-size: $font-size-header;
   font-weight: bold;
@@ -68,27 +62,6 @@
   .header {
     color: $authentication-orange-header;
     margin-bottom: 64px;
-  }
-
-  .form {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .form-group {
-    display: inline-block;
-    text-align: left;
-  }
-
-  input {
-    background: transparent;
-    border: 0;
-    border-bottom: 2px solid black;
-    font-family: $font-family;
-    margin-bottom: 32px;
-    margin-top: 16px;
-    outline: 0;
-    width: 100%;
   }
 }
 
