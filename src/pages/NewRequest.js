@@ -7,6 +7,7 @@ import { apiURL } from '../config.json'
 import Navigation from '../components/Navigation'
 import Button from '../components/Button'
 import Search from '../modules/TitleSearch'
+import Dragdrop from '../components/Dragdrop'
 
 const tempList = ['devesh vijaywargiya', 'aditya', 'Ola moom']
 
@@ -25,10 +26,11 @@ export const NewRequest = () => {
     const fetchCategories = async () => {
       const response = await axios.post(`${apiURL}/graphql`, {
         query:
-          "{\n  __type(name: 'ENUM_FEATUREREQUESTS_CATEGORY') {\n    enumValues {\n      name\n    }\n  }\n}"
+          '{ __type(name: "ENUM_FEATUREREQUESTS_CATEGORY") {enumValues {name}}}'
       })
+
       setCategories(
-        response.data.__type.enumValues.map((ele) => {
+        response.data.data.__type.enumValues.map((ele) => {
           return ele.name
         })
       )
@@ -43,9 +45,12 @@ export const NewRequest = () => {
     })
   }
 
+  /*
   const handleFileUpload = (event) => {
     setData({ ...data, mediaCollection: event.target.files })
   }
+  feature coming in next PR
+  */
 
   const handleFormSubmit = async (event) => {
     event.preventDefault()
@@ -105,14 +110,7 @@ export const NewRequest = () => {
                   })
                 }}
               />
-              <label htmlFor='media'>Upload Files</label>
-              <input
-                className='input-default'
-                type='file'
-                name='media'
-                onChange={(e) => handleFileUpload(e)}
-                multiple={true}
-              />
+              <Dragdrop />
               <div className='flex flex-row flex-center'>
                 <Button
                   type='submit'
