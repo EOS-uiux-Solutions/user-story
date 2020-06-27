@@ -45,6 +45,40 @@ export const Home = () => {
                   )
                 })}
             </div>
+            <div className='flex flex-column'>
+              <div className='request'>
+                <p className='request-content'>
+                  <h4>Request 1</h4>
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum has been the industry's
+                  standard dummy text ever since the 1500s
+                </p>
+                <div className='icon-display'>
+                  50
+                  <i className='eos-icons'>thumb_up</i>
+                </div>
+                <div className='icon-display'>
+                  50
+                  <i className='eos-icons'>comment</i>
+                </div>
+              </div>
+              <div className='request'>
+                <p className='request-content'>
+                  <h4>Request 2</h4>
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum has been the industry's
+                  standard dummy text ever since the 1500s
+                </p>
+                <div className='icon-display'>
+                  23
+                  <i className='eos-icons'>thumb_up</i>
+                </div>
+                <div className='icon-display'>
+                  10
+                  <i className='eos-icons'>comment</i>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
