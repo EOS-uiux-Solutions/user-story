@@ -12,6 +12,25 @@ const stateList = [
 ]
 // to be replaced by a fetch request
 
+const requestsList = [
+  {
+    requestName: 'Request 1',
+    description:
+      'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s',
+    state: 'New',
+    votes: 50,
+    comments: 23
+  },
+  {
+    requestName: 'Request 2',
+    description:
+      'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s',
+    state: 'Planned',
+    votes: 23,
+    comments: 5
+  }
+]
+
 export const Home = () => {
   const [currentStateSelected, selectState] = useState('New')
   return (
@@ -46,38 +65,26 @@ export const Home = () => {
                 })}
             </div>
             <div className='flex flex-column'>
-              <div className='request'>
-                <p className='request-content'>
-                  <h4>Request 1</h4>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s
-                </p>
-                <div className='icon-display'>
-                  50
-                  <i className='eos-icons'>thumb_up</i>
-                </div>
-                <div className='icon-display'>
-                  50
-                  <i className='eos-icons'>comment</i>
-                </div>
-              </div>
-              <div className='request'>
-                <p className='request-content'>
-                  <h4>Request 2</h4>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s
-                </p>
-                <div className='icon-display'>
-                  23
-                  <i className='eos-icons'>thumb_up</i>
-                </div>
-                <div className='icon-display'>
-                  10
-                  <i className='eos-icons'>comment</i>
-                </div>
-              </div>
+              {requestsList.map((request, key) => {
+                return request.state === currentStateSelected ? (
+                  <div className='request'>
+                    <p className='request-content'>
+                      <h4>{request.requestName}</h4>
+                      {request.description}
+                    </p>
+                    <div className='icon-display'>
+                      {request.votes}
+                      <i className='eos-icons'>thumb_up</i>
+                    </div>
+                    <div className='icon-display'>
+                      {request.comments}
+                      <i className='eos-icons'>comment</i>
+                    </div>
+                  </div>
+                ) : (
+                  ''
+                )
+              })}
             </div>
           </div>
         </div>
