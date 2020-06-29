@@ -1,3 +1,31 @@
 .home-content {
   padding: 16px 16px;
 }
+
+.request {
+  align-items: center;
+  border-bottom: 2px solid $gray-bg;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+
+  .eos-icons {
+    margin-left: 16px;
+    margin-right: 16px;
+    pointer-events: none;
+    vertical-align: middle;
+  }
+
+}
+
+.request-content {
+  margin: 0px;
+  max-width: 640px;
+}
+
+@media only screen and (max-width: 1120px) {
+  .request-content {
+    max-width: 60%;
+  }
+}

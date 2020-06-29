@@ -14,23 +14,25 @@
     color: $light-color;
 
     &:hover {
-      background-color: $btn-default-hover;
-      border-color: $btn-default-hover;
+      background-color: $btn-hover;
+      border-color: $btn-hover;
       color: $light-color;
     }
   }
 
-  &-link {
-    background-color: $btn-link-bg;
-    border: 0;
-    color: $hyper-link-color;
-    outline: none;
+  &-tabs {
+    background-color: $btn-tabs-bg;
+    border-bottom: 2px solid black;
+    border-left: 2px $gray-bg;
+    border-right: 2px $gray-bg;
+    border-top: 2px solid black;
+    width: auto;
 
-    &:visited,
-    &:active,
+    &-selected,
     &:hover {
-      background-color: $btn-link-bg;
-      color: $hyper-link-hover-color;
+      background-color: $btn-hover;
+      border-color: $btn-hover;
+      color: $light-color;
     }
   }
 

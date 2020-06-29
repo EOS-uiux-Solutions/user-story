@@ -13,8 +13,12 @@
     "password-label": "Ingresa tu contraseña",
     "confirm-password-label": "Confirmar contraseña",
     "forgot-password": "¿Se te olvidó tu contraseña?",
+    "reset-password": "Configura tu nueva contraseña",
+    "new-password": "Nueva contraseña",
+    "confirm-password": "Confirmar contraseña",
     "create-account": "Crea una cuenta",
     "footer-right": "2020 EOS",
-    "existing-user": "¿Usuario existente?"
+    "existing-user": "¿Usuario existente?",
+    "reset-password-done": "Llévame a la página de inicio de sesión"
   }
 }
