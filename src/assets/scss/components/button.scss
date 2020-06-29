@@ -26,7 +26,7 @@
     border-left: 2px $gray-bg;
     border-right: 2px $gray-bg;
     border-top: 2px solid black;
-    width: 224px;
+    width: auto;
 
     &-selected,
     &:hover {
@@ -42,17 +42,5 @@
     float: right;
     margin: 32px 0 0 0;
     width: 114px;
-  }
-}
-
-@media only screen and (max-width: 1120px) {
-  .btn-tabs {
-    width: 20%;
-  }
-}
-
-@media only screen and (max-width: 768px) {
-  .btn-tabs {
-    width: 28%;
   }
 }

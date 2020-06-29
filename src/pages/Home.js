@@ -4,11 +4,12 @@ import Navigation from '../components/Navigation'
 import Button from '../components/Button'
 
 const stateList = [
-  'New',
-  'Under Review',
+  'Under Consideration',
   'Planned',
-  'Under Development',
-  'Published'
+  'Design in progress',
+  'Development in progress',
+  'Launched',
+  'Testing'
 ]
 // to be replaced by a fetch request
 
@@ -17,7 +18,7 @@ const requestsList = [
     requestName: 'Request 1',
     description:
       'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s',
-    state: 'New',
+    state: 'Under Consideration',
     votes: 50,
     comments: 23
   },
@@ -25,14 +26,14 @@ const requestsList = [
     requestName: 'Request 2',
     description:
       'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s',
-    state: 'Planned',
+    state: 'Launched',
     votes: 23,
     comments: 5
   }
 ]
 
 export const Home = () => {
-  const [currentStateSelected, selectState] = useState('New')
+  const [currentStateSelected, selectState] = useState('Under Consideration')
   return (
     <>
       <div className='base-wrapper'>
@@ -68,10 +69,10 @@ export const Home = () => {
               {requestsList.map((request, key) => {
                 return request.state === currentStateSelected ? (
                   <div className='request'>
-                    <p className='request-content'>
+                    <div className='request-content'>
                       <h4>{request.requestName}</h4>
                       {request.description}
-                    </p>
+                    </div>
                     <div className='icon-display'>
                       {request.votes}
                       <i className='eos-icons'>thumb_up</i>
