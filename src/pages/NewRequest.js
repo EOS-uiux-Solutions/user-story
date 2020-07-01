@@ -8,16 +8,19 @@ import Navigation from '../components/Navigation'
 import Button from '../components/Button'
 import Search from '../modules/TitleSearch'
 import Dragdrop from '../components/Dragdrop'
+import { navigate } from '@reach/router'
 
 const tempList = ['devesh vijaywargiya', 'aditya', 'Ola moom']
 
-export const NewRequest = () => {
+const NewRequest = () => {
   const initialState = {
     title: '',
     category: '',
     description: '',
     mediaCollection: null
   }
+
+  const id = localStorage.getItem('id')
 
   const [data, setData] = useState(initialState)
   const [categories, setCategories] = useState([])
@@ -54,7 +57,33 @@ export const NewRequest = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault()
+    await axios.post(
+      `${apiURL}/graphql`,
+      {
+        query: `mutation {
+          createFeatureRequest(
+            input: {
+              data: {
+                Description: "${data.description}"
+                Title: "${data.title}"
+                Category: ${data.category}
+                user: "${id}"
+              }
+            }
+          ) {
+            featureRequest {
+              Title
+              Description
+              Votes
+            }
+          }
+        }`
+      },
+      { withCredentials: true }
+    )
+    navigate('/')
   }
+
   return (
     <>
       <div className='base-wrapper'>

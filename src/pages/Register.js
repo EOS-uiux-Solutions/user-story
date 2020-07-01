@@ -39,6 +39,7 @@ export const Register = () => {
         password: data.password
       })
       localStorage.setItem('status', payload.status)
+      localStorage.setItem('id', payload.user.id)
       navigate('/')
     } catch (e) {
       setError(e.message)
