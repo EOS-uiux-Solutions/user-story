@@ -5,7 +5,8 @@ const useAuth = () => {
   const register = async (credentials) => {
     const { data: payload } = await axios.post(
       `${apiURL}/auth/local/register`,
-      credentials
+      credentials,
+      { withCredentials: true }
     )
     return payload
   }
@@ -13,13 +14,14 @@ const useAuth = () => {
   const login = async (credentials) => {
     const { data: payload } = await axios.post(
       `${apiURL}/auth/local`,
-      credentials
+      credentials,
+      { withCredentials: true }
     )
     return payload
   }
 
   const logout = async () => {
-    await axios.post(`${apiURL}/logout`)
+    await axios.post(`${apiURL}/logout`, {}, { withCredentials: true })
     localStorage.clear()
   }
 
