@@ -12,7 +12,7 @@ import { navigate } from '@reach/router'
 
 const tempList = ['devesh vijaywargiya', 'aditya', 'Ola moom']
 
-const NewRequest = () => {
+const NewStory = () => {
   const initialState = {
     title: '',
     category: '',
@@ -157,4 +157,4 @@ const NewRequest = () => {
   )
 }
 
-export default NewRequest
+export default NewStory
