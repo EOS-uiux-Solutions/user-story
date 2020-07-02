@@ -68,7 +68,7 @@ export const Home = () => {
             <div className='flex flex-column'>
               {requestsList.map((request, key) => {
                 return request.state === currentStateSelected ? (
-                  <div className='request'>
+                  <div className='request' key={key}>
                     <div className='request-content'>
                       <h4>{request.requestName}</h4>
                       {request.description}
