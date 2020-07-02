@@ -59,7 +59,7 @@ export const Login = () => {
             </div>
             <div>
               <div className='header'>{t('authentication:header-left')}</div>
-              <p>{t('authentication:feature-request-description')}</p>
+              <p>{t('authentication:user-stories-description')}</p>
             </div>
           </div>
           <div className='footer'>{t('authentication:footer-left')}</div>

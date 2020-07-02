@@ -90,7 +90,7 @@ const NewRequest = () => {
         <div className='base-container'>
           <Navigation />
           <div className='home-content'>
-            <h3>New Request</h3>
+            <h3>New Story</h3>
             <form className='form-default' onSubmit={handleFormSubmit}>
               <label htmlFor='title'>Title</label>
               <input
