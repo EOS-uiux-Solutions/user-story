@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
-
+import React, { useState, useEffect } from 'react'
 import Navigation from '../components/Navigation'
 import Button from '../components/Button'
+import axios from 'axios'
+import { apiURL } from '../config.json'
 
 const stateList = [
   'Under Consideration',
@@ -11,29 +12,44 @@ const stateList = [
   'Launched',
   'Testing'
 ]
-// to be replaced by a fetch request
 
-const requestsList = [
-  {
-    requestName: 'Story 1',
-    description:
-      'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s',
-    state: 'Under Consideration',
-    votes: 50,
-    comments: 23
-  },
-  {
-    requestName: 'Story 2',
-    description:
-      'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s',
-    state: 'Launched',
-    votes: 23,
-    comments: 5
-  }
-]
-
-export const Home = () => {
+const Home = () => {
   const [currentStateSelected, selectState] = useState('Under Consideration')
+
+  const [requests, setRequests] = useState([])
+
+  const strip = (html) => {
+    return html.replace(/<\s*[^>]*>/gi, '')
+  }
+
+  useEffect(() => {
+    const fetchRequests = async () => {
+      const response = await axios.post(
+        `${apiURL}/graphql`,
+        {
+          query: `query {
+          featureRequests (sort: "votes:desc,createdAt:desc"){
+            Title
+            Description
+            Votes
+            feature_requests_status {
+              Status
+            }
+            feature_request_comments {
+              Comments
+            }
+          }
+        }`
+        },
+        {
+          withCredentials: true
+        }
+      )
+      setRequests(response.data.data.featureRequests)
+    }
+    fetchRequests()
+  }, [])
+
   return (
     <>
       <div className='base-wrapper'>
@@ -66,19 +82,20 @@ export const Home = () => {
                 })}
             </div>
             <div className='flex flex-column'>
-              {requestsList.map((request, key) => {
-                return request.state === currentStateSelected ? (
+              {requests.map((request, key) => {
+                return request.feature_requests_status.Status ===
+                  currentStateSelected ? (
                   <div className='request' key={key}>
                     <div className='request-content'>
-                      <h4>{request.requestName}</h4>
-                      {request.description}
+                      <h4>{request.Title}</h4>
+                      {strip(request.Description)}
                     </div>
                     <div className='icon-display'>
-                      {request.votes}
+                      {request.Votes}
                       <i className='eos-icons'>thumb_up</i>
                     </div>
                     <div className='icon-display'>
-                      {request.comments}
+                      {request.feature_request_comments.length}
                       <i className='eos-icons'>comment</i>
                     </div>
                   </div>
