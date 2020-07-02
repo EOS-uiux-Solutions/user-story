@@ -20,13 +20,13 @@ const Navigation = () => {
       <Link className='link link-light' to='/'>
         <div className='brand'>
           <img className='logo' src={eosIcon} alt='' />
-          <span className='brand-text'>FEATURE REQUEST</span>
+          <span className='brand-text'>USER STORIES</span>
         </div>
       </Link>
       <nav>
         {state === 'Authenticated' && (
-          <Link className='link link-light' to='/newRequest'>
-            MAKE A REQUEST
+          <Link className='link link-light' to='/newStory'>
+            NEW STORY
           </Link>
         )}
         {state !== 'Authenticated' && (

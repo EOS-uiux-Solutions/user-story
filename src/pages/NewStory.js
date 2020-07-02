@@ -12,7 +12,7 @@ import { navigate } from '@reach/router'
 
 const tempList = ['devesh vijaywargiya', 'aditya', 'Ola moom']
 
-const NewRequest = () => {
+const NewStory = () => {
   const initialState = {
     title: '',
     category: '',
@@ -90,7 +90,7 @@ const NewRequest = () => {
         <div className='base-container'>
           <Navigation />
           <div className='home-content'>
-            <h3>New Request</h3>
+            <h3>New Story</h3>
             <form className='form-default' onSubmit={handleFormSubmit}>
               <label htmlFor='title'>Title</label>
               <input
@@ -157,4 +157,4 @@ const NewRequest = () => {
   )
 }
 
-export default NewRequest
+export default NewStory

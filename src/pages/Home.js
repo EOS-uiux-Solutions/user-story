@@ -15,7 +15,7 @@ const stateList = [
 
 const requestsList = [
   {
-    requestName: 'Request 1',
+    requestName: 'Story 1',
     description:
       'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s',
     state: 'Under Consideration',
@@ -23,7 +23,7 @@ const requestsList = [
     comments: 23
   },
   {
-    requestName: 'Request 2',
+    requestName: 'Story 2',
     description:
       'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s',
     state: 'Launched',
@@ -40,7 +40,7 @@ export const Home = () => {
         <div className='base-container'>
           <Navigation />
           <div className='home-content'>
-            <h3>Welcome to EOS Feature Request</h3>
+            <h3>Welcome to EOS User Stories</h3>
             <p>
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry's standard dummy text
