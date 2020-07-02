@@ -40,7 +40,7 @@ export const Home = () => {
         <div className='base-container'>
           <Navigation />
           <div className='home-content'>
-            <h3>Welcome to User Stories</h3>
+            <h3>Welcome to EOS User Stories</h3>
             <p>
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry's standard dummy text
