@@ -3,8 +3,6 @@ import { Link, navigate } from '@reach/router'
 import eosIcon from '../assets/images/logo-white.png'
 import useAuth from '../hooks/useAuth'
 
-import Button from './Button'
-
 const Navigation = () => {
   const { logout } = useAuth()
 
@@ -50,14 +48,11 @@ const Navigation = () => {
                     ADMIN PANEL
                   </Link>
                 </li>
-                <li>
-                  <Button className='link link-light' onClick={handleLogout}>
+                <li onClick={handleLogout}>
+                  <Link className='link link-light' to='#'>
                     LOG OUT
-                  </Button>
+                  </Link>
                 </li>
-                {/* <li>
-                  <Button className='btn' onClick={handleLogout}>LOG OUT</Button>
-                </li> */}
               </ul>
             </div>
           </div>
