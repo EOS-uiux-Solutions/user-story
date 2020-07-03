@@ -8,11 +8,12 @@ import Button from './Button'
 const Navigation = () => {
   const { logout } = useAuth()
 
-  const [state] = useState(localStorage.getItem('status'))
+  const [state, setState] = useState(localStorage.getItem('status'))
 
   const handleLogout = async () => {
     await logout()
     navigate('/')
+    setState('Public')
   }
 
   return (
