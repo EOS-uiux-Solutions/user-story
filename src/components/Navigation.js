@@ -1,18 +1,18 @@
 import React, { useState } from 'react'
-import { Link } from '@reach/router'
+import { Link, navigate } from '@reach/router'
 import eosIcon from '../assets/images/logo-white.png'
 import useAuth from '../hooks/useAuth'
 
-// import Button from './Button'
+import Button from './Button'
 
 const Navigation = () => {
   const { logout } = useAuth()
 
-  const [state, setState] = useState(localStorage.getItem('status'))
+  const [state] = useState(localStorage.getItem('status'))
 
-  const handleLogout = () => {
-    logout()
-    setState('public')
+  const handleLogout = async () => {
+    await logout()
+    navigate('/')
   }
 
   return (
@@ -50,13 +50,9 @@ const Navigation = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    className='link link-light'
-                    to='/'
-                    onClick={handleLogout}
-                  >
+                  <Button className='link link-light' onClick={handleLogout}>
                     LOG OUT
-                  </Link>
+                  </Button>
                 </li>
                 {/* <li>
                   <Button className='btn' onClick={handleLogout}>LOG OUT</Button>
