@@ -1,6 +1,13 @@
 .dropdown-container {
   display: inline-block;
+  padding: 0px 16px 0px 16px;
   position: relative;
+
+  .eos-icons {
+    margin-right: 0;
+    pointer-events: none;
+    vertical-align: sub;
+  }
 }
 
 .dropdown {

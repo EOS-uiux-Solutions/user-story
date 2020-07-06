@@ -1,18 +1,17 @@
 import React, { useState } from 'react'
-import { Link } from '@reach/router'
+import { Link, navigate } from '@reach/router'
 import eosIcon from '../assets/images/logo-white.png'
 import useAuth from '../hooks/useAuth'
-
-// import Button from './Button'
 
 const Navigation = () => {
   const { logout } = useAuth()
 
   const [state, setState] = useState(localStorage.getItem('status'))
 
-  const handleLogout = () => {
-    logout()
-    setState('public')
+  const handleLogout = async () => {
+    await logout()
+    navigate('/')
+    setState('Public')
   }
 
   return (
@@ -49,18 +48,11 @@ const Navigation = () => {
                     ADMIN PANEL
                   </Link>
                 </li>
-                <li>
-                  <Link
-                    className='link link-light'
-                    to='/'
-                    onClick={handleLogout}
-                  >
+                <li onClick={handleLogout}>
+                  <Link className='link link-light' to='#'>
                     LOG OUT
                   </Link>
                 </li>
-                {/* <li>
-                  <Button className='btn' onClick={handleLogout}>LOG OUT</Button>
-                </li> */}
               </ul>
             </div>
           </div>
