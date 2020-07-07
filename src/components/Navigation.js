@@ -39,6 +39,11 @@ const Navigation = () => {
             <div className='dropdown dropdown-nodisplay'>
               <ul>
                 <li>
+                  <Link className='link link-light' to='/myStories'>
+                    MY STORIES
+                  </Link>
+                </li>
+                <li>
                   <Link className='link link-light' to='/login'>
                     MY ACCOUNT
                   </Link>

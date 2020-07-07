@@ -5,6 +5,7 @@
 .request {
   align-items: center;
   border-bottom: 2px solid $gray-bg;
+  cursor: pointer;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -22,10 +23,12 @@
 .request-content {
   margin: 0px;
   max-width: 640px;
+  width: 640px;
 }
 
 @media only screen and (max-width: 1120px) {
   .request-content {
     max-width: 60%;
+    width: 60%;
   }
 }
