@@ -10,6 +10,7 @@ import Register from './pages/Register'
 import ForgotPassword from './pages/ForgotPassword'
 import ResetPassword from './pages/ResetPassword'
 import NewStory from './pages/NewStory'
+import Story from './pages/Story'
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
           <ForgotPassword path='/forgotPassword' />
           <ResetPassword path='/resetPassword' />
           <NewStory path='/newStory' />
+          <Story path='/story/:storyId' />
         </Router>
       </div>
     </div>
