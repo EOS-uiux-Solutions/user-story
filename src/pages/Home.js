@@ -3,7 +3,7 @@ import Navigation from '../components/Navigation'
 import Button from '../components/Button'
 import axios from 'axios'
 import { apiURL } from '../config.json'
-import { Link } from '@reach/router'
+import { navigate } from '@reach/router'
 
 const stateList = [
   'Under Consideration',
@@ -87,14 +87,15 @@ const Home = () => {
               {requests.map((request, key) => {
                 return request.feature_requests_status.Status ===
                   currentStateSelected ? (
-                  <div className='request' key={key}>
+                  <div
+                    className='request'
+                    key={key}
+                    onClick={() => {
+                      navigate(`/story/${request.id}`)
+                    }}
+                  >
                     <div className='request-content'>
-                      <Link
-                        className='link link-default'
-                        to={`/story/${request.id}`}
-                      >
-                        <h4>{request.Title}</h4>
-                      </Link>
+                      <h4>{request.Title}</h4>
                       {strip(request.Description)}
                     </div>
                     <div className='icon-display'>
