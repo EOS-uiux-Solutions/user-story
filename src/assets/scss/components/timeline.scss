@@ -1,0 +1,58 @@
+.timeline-wrapper {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.timeline-container {
+  align-items: center;
+  background-color: $light-color;
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  .status-wrapper {
+    padding: 8px 0px;
+  }
+}
+
+.timestamp {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  padding: 0px 40px;
+}
+
+.status {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.status:before {
+  content: '';
+  height: 25px;
+  left: 42%;
+  position: absolute;
+  top: -15px;
+  width: 25px;
+}
+
+.status-wrapper {
+  width: 160px;
+}
+
+.status-wrapper-complete .status {
+  border-top: 2px solid $timeline-success-color;
+}
+
+.status-wrapper-complete .status:before {
+  background-color: $timeline-success-color;
+  border: 0;
+}
+
+.status-wrapper-complete .status h5 {
+  color: $timeline-success-color;
+}

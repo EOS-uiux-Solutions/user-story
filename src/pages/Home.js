@@ -3,6 +3,7 @@ import Navigation from '../components/Navigation'
 import Button from '../components/Button'
 import axios from 'axios'
 import { apiURL } from '../config.json'
+import { Link } from '@reach/router'
 
 const stateList = [
   'Under Consideration',
@@ -29,6 +30,7 @@ const Home = () => {
         {
           query: `query {
           featureRequests (sort: "votes:desc,createdAt:desc"){
+            id
             Title
             Description
             Votes
@@ -87,7 +89,12 @@ const Home = () => {
                   currentStateSelected ? (
                   <div className='request' key={key}>
                     <div className='request-content'>
-                      <h4>{request.Title}</h4>
+                      <Link
+                        className='link link-default'
+                        to={`/story/${request.id}`}
+                      >
+                        <h4>{request.Title}</h4>
+                      </Link>
                       {strip(request.Description)}
                     </div>
                     <div className='icon-display'>
