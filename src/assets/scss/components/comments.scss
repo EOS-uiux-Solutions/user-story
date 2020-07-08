@@ -27,11 +27,14 @@
 
   .metadata {
     display: inline-block;
+    font-size: $font-size-metadata;
     margin-left: 1em;
   }
 }
 
 .comment-form {
+  margin: 16px 0px;
+
   textarea {
     resize: none;
   }

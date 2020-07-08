@@ -38,7 +38,7 @@ const Comments = () => {
                   <div>{data.metadata}</div>
                 </div>
                 <div className='text'>{data.text}</div>
-                <div className='actions'>
+                <div className='reply-action'>
                   <Link className='link link-default' to='#'>
                     Reply
                   </Link>
@@ -49,7 +49,7 @@ const Comments = () => {
         })}
         <form className='comment-form'>
           <div className='field'>
-            <textarea rows='4'></textarea>
+            <textarea rows='4' cols='16'></textarea>
           </div>
           <Button className='btn btn-default'>Add Reply</Button>
         </form>
