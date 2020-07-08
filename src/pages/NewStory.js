@@ -68,6 +68,7 @@ const NewStory = () => {
                 Title: "${data.title}"
                 Category: ${data.category}
                 user: "${id}"
+                feature_requests_status : "5ee38e5d2106a575a140dd39"
               }
             }
           ) {
