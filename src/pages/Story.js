@@ -5,7 +5,7 @@ import axios from 'axios'
 import { apiURL } from '../config.json'
 
 import Navigation from '../components/Navigation'
-
+import Comments from '../components/Comments'
 import Timeline from '../components/Timeline'
 import Button from '../components/Button'
 
@@ -174,6 +174,7 @@ const Story = (props) => {
           ) : (
             ''
           )}
+          <Comments />
         </div>
       </div>
     </>

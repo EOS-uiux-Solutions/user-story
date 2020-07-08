@@ -1,0 +1,38 @@
+.comments-content {
+  padding: 16px 16px;
+}
+
+.comments-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin: 8px 8px;
+}
+
+.comment {
+  display: flex;
+  flex-direction: row;
+  margin: 8px 0px;
+}
+
+.user-avatar {
+  background-image: url('../../images/logo-coloured.png');
+  display: block;
+  float: left;
+  height: 4.5em;
+  width: 3.5em;
+}
+
+.comment-content {
+  margin-left: 16px;
+
+  .metadata {
+    display: inline-block;
+    margin-left: 1em;
+  }
+}
+
+.comment-form {
+  textarea {
+    resize: none;
+  }
+}
