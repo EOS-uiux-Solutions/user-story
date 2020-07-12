@@ -38,6 +38,13 @@ const Story = (props) => {
               username
             }
             Votes
+            feature_request_comments {
+              Comments
+              user {
+                username
+              }
+              createdAt
+            }
           }
         }
         `
@@ -170,11 +177,11 @@ const Story = (props) => {
                   </Button>
                 )}
               </div>
+              <Comments comments={story.feature_request_comments} />
             </>
           ) : (
             ''
           )}
-          <Comments />
         </div>
       </div>
     </>
