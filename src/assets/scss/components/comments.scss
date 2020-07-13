@@ -27,8 +27,16 @@
 
   .metadata {
     display: inline-block;
-    font-size: $font-size-metadata;
+    font-size: $comments-font-size-metadata;
     margin-left: 1em;
+  }
+
+  .reply-action {
+    font-size: $comments-font-size-reply;
+
+    a {
+      font-weight: 100;
+    }
   }
 }
 

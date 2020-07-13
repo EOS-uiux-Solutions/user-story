@@ -20,7 +20,12 @@ const Comments = (props) => {
                     {data.user.username}
                   </Link>
                   <div className='metadata'>
-                    <div>{data.createdAt}</div>
+                    <div>
+                      {`${data.createdAt.slice(0, 10)}  ${data.createdAt.slice(
+                        11,
+                        19
+                      )}`}
+                    </div>
                   </div>
                   <div className='text'>{data.Comments}</div>
                   <div className='reply-action'>
