@@ -16,7 +16,7 @@ const Comments = (props) => {
               <div className='comment' key={key}>
                 <div className='user-avatar'>
                   <img
-                    className='avatar-default'
+                    className='avatar'
                     src={require('../assets/images/default-user.png')}
                     alt='Default User Avatar'
                   ></img>
