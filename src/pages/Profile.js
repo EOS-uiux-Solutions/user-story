@@ -18,10 +18,44 @@ const profileInfo = {
 const Profile = (props) => {
   const { profileId } = props
   const [stories, setStories] = useState([])
+  const [user, setUser] = useState('')
 
   const strip = (html) => {
     return html.replace(/<\s*[^>]*>/gi, '')
   }
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      const response = await axios.post(
+        `${apiURL}/graphql`,
+        {
+          query: `query {
+          user(id: "${profileId}") {
+            profilePicture {
+              url
+            }
+            Name
+            Bio
+            username
+            Company
+            Profession
+            email
+            LinkedIn
+            Twitter
+          }
+        }
+        `
+        },
+        {
+          withCredentials: true
+        }
+      )
+      setUser(response.data.data.user)
+    }
+    if (profileId) {
+      fetchUserInfo()
+    }
+  }, [profileId])
 
   useEffect(() => {
     const fetchMyStories = async () => {
@@ -63,7 +97,19 @@ const Profile = (props) => {
             <div className='flex flex-column'>
               <div className='flex flex-row'>
                 <div className='profile-picture-container'>
-                  <div className='profile-picture'></div>
+                    {user.profilePicture ? (
+                      <img
+                        className='profile-picture'
+                        src={user.profilePicture.url}
+                        alt='profile pic'
+                      />
+                    ) : (
+                      <img
+                        className='profile-picture'
+                        src={require('../assets/images/default-user.png')}
+                        alt='profile pic'
+                      />
+                    )}
                 </div>
                 <div className='basic-about'>
                   <div className='flex flex-row flex-space-between'>

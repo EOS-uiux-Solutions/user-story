@@ -7,13 +7,12 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin: 16px 0px;
 }
 
 
 .profile-picture {
-  background-color: $primary;
   height: 256px;
-  margin: 16px 0px;
   width: 192px;
 }
 
