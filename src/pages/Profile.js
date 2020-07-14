@@ -97,19 +97,19 @@ const Profile = (props) => {
             <div className='flex flex-column'>
               <div className='flex flex-row'>
                 <div className='profile-picture-container'>
-                    {user.profilePicture ? (
-                      <img
-                        className='profile-picture'
-                        src={user.profilePicture.url}
-                        alt='profile pic'
-                      />
-                    ) : (
-                      <img
-                        className='profile-picture'
-                        src={require('../assets/images/default-user.png')}
-                        alt='profile pic'
-                      />
-                    )}
+                  {user.profilePicture ? (
+                    <img
+                      className='profile-picture'
+                      src={user.profilePicture.url}
+                      alt='profile pic'
+                    />
+                  ) : (
+                    <img
+                      className='profile-picture'
+                      src={require('../assets/images/default-user.png')}
+                      alt='profile pic'
+                    />
+                  )}
                 </div>
                 <div className='basic-about'>
                   <div className='flex flex-row flex-space-between'>
