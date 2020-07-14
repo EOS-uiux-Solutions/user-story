@@ -1,0 +1,48 @@
+.profile-content {
+  padding: 16px 16px;
+}
+
+.profile-picture-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+
+.profile-picture {
+  background-color: $primary;
+  height: 256px;
+  margin: 16px 0px;
+  width: 192px;
+}
+
+.profile-bio {
+
+  textarea {
+    resize: none;
+  }
+}
+
+.basic-about {
+  margin: auto auto;
+  width: 384px;
+}
+
+.about-element {
+  margin: 8px 8px;
+
+  &-label {
+    font-weight: bold;
+  }
+
+  &-head {
+    font-weight: bold;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .profile-picture-container {
+    margin: 16px auto;
+  }
+}
