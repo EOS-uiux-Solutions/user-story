@@ -144,15 +144,30 @@ const Story = (props) => {
                         setDescription(response)
                       }}
                     />
-                    <Button onClick={save}>Save</Button>
+                    <Button className='btn btn-default' onClick={save}>
+                      Save
+                    </Button>
                   </>
                 ) : (
-                  <p>{story.Description}</p>
+                  <div
+                    dangerouslySetInnerHTML={{ __html: story.Description }}
+                  />
                 )}
-                {editMode ? (
-                  <Button onClick={() => setEditor(true)}>Edit</Button>
-                ) : (
-                  ''
+                {editMode && !editor && (
+                  <Button
+                    className='btn btn-default'
+                    onClick={() => setEditor(true)}
+                  >
+                    Edit
+                  </Button>
+                )}
+                {editMode && editor && (
+                  <Button
+                    className='btn btn-default'
+                    onClick={() => setEditor(false)}
+                  >
+                    Cancel
+                  </Button>
                 )}
               </div>
             </>
