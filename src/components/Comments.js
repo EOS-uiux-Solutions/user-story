@@ -14,7 +14,13 @@ const Comments = (props) => {
           comments.map((data, key) => {
             return (
               <div className='comment' key={key}>
-                <div className='user-avatar'></div>
+                <div className='user-avatar'>
+                  <img
+                    className='avatar-default'
+                    src={require('../assets/images/default-user.png')}
+                    alt='Default User Avatar'
+                  ></img>
+                </div>
                 <div className='comment-content'>
                   <Link className='link link-default' to='#'>
                     {data.user.username}

@@ -15,11 +15,13 @@
 }
 
 .user-avatar {
-  background-image: url('../../images/logo-coloured.png');
   display: block;
   float: left;
-  height: 4.5em;
-  width: 3.5em;
+
+  .avatar-default {
+    height: 4.5em;
+    width: 4em;
+  }
 }
 
 .comment-content {
