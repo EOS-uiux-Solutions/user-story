@@ -48,11 +48,6 @@ const Navigation = () => {
                     MY PROFILE
                   </Link>
                 </li>
-                <li>
-                  <Link className='link link-light' to='/login'>
-                    ADMIN PANEL
-                  </Link>
-                </li>
                 <li onClick={handleLogout}>
                   <Link className='link link-light' to='#'>
                     LOG OUT
