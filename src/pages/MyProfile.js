@@ -90,9 +90,9 @@ const MyProfile = () => {
         <div className='base-container'>
           <Navigation />
           {user ? (
-            <div className='myprofile-content'>
-              <div className='flex flex-column'>
-                <div className='flex flex-row'>
+            <div className='profile-content'>
+              <div className='flex flex-row flex-space-around'>
+                <div className='flex flex-column'>
                   <div className='profile-picture-container'>
                     {user.profilePicture ? (
                       <img
@@ -103,7 +103,7 @@ const MyProfile = () => {
                     ) : (
                       <img
                         className='profile-picture'
-                        src={require('../assets/images/default-user.png')}
+                        src={`https://api.adorable.io/avatars/100/${user.username}`}
                         alt='profile pic'
                       />
                     )}
@@ -111,6 +111,17 @@ const MyProfile = () => {
                       Change Profile Picture
                     </Button>
                   </div>
+                  <div className='profile-picture-container'>
+                    <textarea
+                      rows='6'
+                      cols='17'
+                      readOnly={true}
+                      defaultValue={user.Bio ? user.Bio : ''}
+                    ></textarea>
+                    <Button className='btn btn-default'>Change Bio</Button>
+                  </div>
+                </div>
+                <div className='flex flex-column'>
                   <div className='basic-about'>
                     <div className='flex flex-row flex-space-between'>
                       <div className='about-element about-element-label'>
@@ -134,17 +145,6 @@ const MyProfile = () => {
                       <div className='about-element '> {}</div>
                     </div>
                     <Button className='btn btn-default'>Change Password</Button>
-                  </div>
-                </div>
-                <div className='flex flex-row'>
-                  <div className='profile-picture-container'>
-                    <textarea
-                      rows='6'
-                      cols='17'
-                      readOnly={true}
-                      defaultValue={user.Bio ? user.Bio : ''}
-                    ></textarea>
-                    <Button className='btn btn-default'>Change Bio</Button>
                   </div>
                   <div className='basic-about'>
                     <div className='flex flex-row flex-space-between'>
