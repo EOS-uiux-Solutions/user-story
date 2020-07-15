@@ -44,8 +44,8 @@ const Navigation = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link className='link link-light' to='/login'>
-                    MY ACCOUNT
+                  <Link className='link link-light' to='/myProfile'>
+                    MY PROFILE
                   </Link>
                 </li>
                 <li>
