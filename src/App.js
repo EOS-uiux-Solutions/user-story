@@ -12,6 +12,7 @@ import ResetPassword from './pages/ResetPassword'
 import NewStory from './pages/NewStory'
 import Story from './pages/Story'
 import MyStories from './pages/MyStories'
+import MyProfile from './pages/MyProfile'
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
           <NewStory path='/newStory' />
           <Story path='/story/:storyId' />
           <MyStories path='/myStories' />
+          <MyProfile path='/myProfile' />
         </Router>
       </div>
     </div>
