@@ -42,6 +42,16 @@ body {
   width: 1120px;
 }
 
+.user-avatar {
+  display: block;
+  float: left;
+
+  .avatar {
+    height: 4.5em;
+    width: 4em;
+  }
+}
+
 @media only screen and (max-width: 1120px) {
   .base-container {
     width: 100vw;
