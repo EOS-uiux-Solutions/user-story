@@ -1,27 +1,14 @@
-.comments-content {
-  padding: 16px 16px;
-}
-
 .comments-wrapper {
   display: flex;
   flex-direction: column;
   margin: 8px 8px;
+  padding: 16px 16px;
 }
 
 .comment {
   display: flex;
   flex-direction: row;
   margin: 8px 0px;
-}
-
-.user-avatar {
-  display: block;
-  float: left;
-
-  .avatar {
-    height: 4.5em;
-    width: 4em;
-  }
 }
 
 .comment-content {
