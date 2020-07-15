@@ -87,13 +87,13 @@ const Profile = (props) => {
                     <img
                       className='profile-picture'
                       src={user.profilePicture.url}
-                      alt='Profile Picture'
+                      alt='Profile'
                     />
                   ) : (
                     <img
                       className='profile-picture'
                       src={`https://api.adorable.io/avatars/100/${user.username}`}
-                      alt='Profile Picture'
+                      alt='Profile'
                     />
                   )}
                 </div>
