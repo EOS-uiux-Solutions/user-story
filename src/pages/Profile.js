@@ -112,14 +112,12 @@ const Profile = (props) => {
               </div>
               <div className='flex flex-row'>
                 <div className='profile-picture-container'>
-                  <div className='profile-bio'>
-                    <textarea
-                      rows='6'
-                      cols='17'
-                      readOnly={true}
-                      defaultValue={user.Bio}
-                    ></textarea>
-                  </div>
+                  <textarea
+                    rows='6'
+                    cols='17'
+                    readOnly={true}
+                    defaultValue={user.Bio}
+                  ></textarea>
                 </div>
                 <div className='basic-about'>
                   <div className='flex flex-row flex-space-between'>
