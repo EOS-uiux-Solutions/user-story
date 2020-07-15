@@ -125,35 +125,50 @@ const Profile = (props) => {
                       {' '}
                       Name:{' '}
                     </div>
-                    <div className='about-element '> {user.Name} </div>
+                    <div className='about-element '>
+                      {' '}
+                      {user.Name !== 'null' ? user.Name : ''}{' '}
+                    </div>
                   </div>
                   <div className='flex flex-row flex-space-between'>
                     <div className='about-element about-element-label'>
                       {' '}
                       Profession:{' '}
                     </div>
-                    <div className='about-element '> {user.Profession} </div>
+                    <div className='about-element '>
+                      {' '}
+                      {user.Profession !== 'null' ? user.Profession : ''}{' '}
+                    </div>
                   </div>
                   <div className='flex flex-row flex-space-between'>
                     <div className='about-element about-element-label'>
                       {' '}
                       Company/Institute:{' '}
                     </div>
-                    <div className='about-element '> {user.Company} </div>
+                    <div className='about-element '>
+                      {' '}
+                      {user.Company !== 'null' ? user.Company : ''}{' '}
+                    </div>
                   </div>
                   <div className='flex flex-row flex-space-between'>
                     <div className='about-element about-element-label'>
                       {' '}
                       LinkedIn:{' '}
                     </div>
-                    <div className='about-element '> {user.Linkedin} </div>
+                    <div className='about-element '>
+                      {' '}
+                      {user.Linkedin !== 'null' ? user.Linkedin : ''}{' '}
+                    </div>
                   </div>
                   <div className='flex flex-row flex-space-between'>
                     <div className='about-element about-element-label'>
                       {' '}
                       Twitter:{' '}
                     </div>
-                    <div className='about-element '> {user.Twitter} </div>
+                    <div className='about-element '>
+                      {' '}
+                      {user.Twitter !== 'null' ? user.Twitter : ''}{' '}
+                    </div>
                   </div>
                 </div>
               </div>
