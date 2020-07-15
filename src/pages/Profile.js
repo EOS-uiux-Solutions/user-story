@@ -4,17 +4,6 @@ import { navigate } from '@reach/router'
 import axios from 'axios'
 import { apiURL } from '../config.json'
 
-const profileInfo = {
-  username: 'hawkeye777',
-  email: 'hawkeye777@avengers.com',
-  password: '******',
-  name: 'hawkeye',
-  profession: 'avenger',
-  company: 'Avengers',
-  linkedin: '',
-  twitter: ''
-}
-
 const Profile = (props) => {
   const { profileId } = props
   const [stories, setStories] = useState([])
@@ -117,10 +106,7 @@ const Profile = (props) => {
                       {' '}
                       Username:{' '}
                     </div>
-                    <div className='about-element '>
-                      {' '}
-                      {profileInfo.username}{' '}
-                    </div>
+                    <div className='about-element '> {user.username} </div>
                   </div>
                 </div>
               </div>
@@ -131,7 +117,7 @@ const Profile = (props) => {
                       rows='6'
                       cols='17'
                       readOnly={true}
-                      defaultValue='Some bio....'
+                      defaultValue={user.Bio}
                     ></textarea>
                   </div>
                 </div>
@@ -141,47 +127,35 @@ const Profile = (props) => {
                       {' '}
                       Name:{' '}
                     </div>
-                    <div className='about-element '> {profileInfo.name} </div>
+                    <div className='about-element '> {user.Name} </div>
                   </div>
                   <div className='flex flex-row flex-space-between'>
                     <div className='about-element about-element-label'>
                       {' '}
                       Profession:{' '}
                     </div>
-                    <div className='about-element '>
-                      {' '}
-                      {profileInfo.profession}{' '}
-                    </div>
+                    <div className='about-element '> {user.Profession} </div>
                   </div>
                   <div className='flex flex-row flex-space-between'>
                     <div className='about-element about-element-label'>
                       {' '}
                       Company/Institute:{' '}
                     </div>
-                    <div className='about-element '>
-                      {' '}
-                      {profileInfo.company}{' '}
-                    </div>
+                    <div className='about-element '> {user.Company} </div>
                   </div>
                   <div className='flex flex-row flex-space-between'>
                     <div className='about-element about-element-label'>
                       {' '}
                       LinkedIn:{' '}
                     </div>
-                    <div className='about-element '>
-                      {' '}
-                      {profileInfo.linkedin}{' '}
-                    </div>
+                    <div className='about-element '> {user.Linkedin} </div>
                   </div>
                   <div className='flex flex-row flex-space-between'>
                     <div className='about-element about-element-label'>
                       {' '}
                       Twitter:{' '}
                     </div>
-                    <div className='about-element '>
-                      {' '}
-                      {profileInfo.twitter}{' '}
-                    </div>
+                    <div className='about-element '> {user.Twitter} </div>
                   </div>
                 </div>
               </div>
