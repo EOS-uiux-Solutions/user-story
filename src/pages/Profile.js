@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import Navigation from '../components/Navigation'
-import { navigate } from '@reach/router'
 import axios from 'axios'
 import { apiURL } from '../config.json'
+
+import Navigation from '../components/Navigation'
+import StoriesList from '../components/StoriesList'
 
 const Profile = (props) => {
   const { profileId } = props
   const [stories, setStories] = useState([])
   const [user, setUser] = useState('')
-
-  const strip = (html) => {
-    return html.replace(/<\s*[^>]*>/gi, '')
-  }
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -83,23 +80,31 @@ const Profile = (props) => {
         <div className='base-container'>
           <Navigation />
           <div className='profile-content'>
-            <div className='flex flex-column'>
-              <div className='flex flex-row'>
+            <div className='flex flex-row flex-space-around'>
+              <div className='flex flex-column'>
                 <div className='profile-picture-container'>
                   {user.profilePicture ? (
                     <img
                       className='profile-picture'
                       src={user.profilePicture.url}
-                      alt='profile pic'
+                      alt='Profile Picture'
                     />
                   ) : (
                     <img
                       className='profile-picture'
-                      src={require('../assets/images/default-user.png')}
-                      alt='profile pic'
+                      src={`https://api.adorable.io/avatars/100/${user.username}`}
+                      alt='Profile Picture'
                     />
                   )}
                 </div>
+                <textarea
+                  rows='6'
+                  cols='17'
+                  readOnly={true}
+                  defaultValue={user.Bio}
+                ></textarea>
+              </div>
+              <div className='flex flex-column'>
                 <div className='basic-about'>
                   <div className='flex flex-row flex-space-between'>
                     <div className='about-element about-element-label'>
@@ -108,18 +113,6 @@ const Profile = (props) => {
                     </div>
                     <div className='about-element '> {user.username} </div>
                   </div>
-                </div>
-              </div>
-              <div className='flex flex-row'>
-                <div className='profile-picture-container'>
-                  <textarea
-                    rows='6'
-                    cols='17'
-                    readOnly={true}
-                    defaultValue={user.Bio}
-                  ></textarea>
-                </div>
-                <div className='basic-about'>
                   <div className='flex flex-row flex-space-between'>
                     <div className='about-element about-element-label'>
                       {' '}
@@ -172,39 +165,13 @@ const Profile = (props) => {
                   </div>
                 </div>
               </div>
-              {
-                <div className='flex flex-column'>
-                  {stories.length ? (
-                    stories.map((request, key) => {
-                      return (
-                        <div
-                          className='request'
-                          key={key}
-                          onClick={() => {
-                            navigate(`/story/${request.id}`)
-                          }}
-                        >
-                          <div className='request-content'>
-                            <h4>{request.Title}</h4>
-                            {strip(request.Description)}
-                          </div>
-                          <div className='icon-display'>
-                            {request.Votes}
-                            <i className='eos-icons'>thumb_up</i>
-                          </div>
-                          <div className='icon-display'>
-                            {request.feature_request_comments.length}
-                            <i className='eos-icons'>comment</i>
-                          </div>
-                        </div>
-                      )
-                    })
-                  ) : (
-                    <h3>No stories from this user</h3>
-                  )}
-                </div>
-              }
             </div>
+            {
+              <div className='flex flex-column'>
+                <h3>Stories by this user</h3>
+                <StoriesList stories={stories} />
+              </div>
+            }
           </div>
         </div>
       </div>
