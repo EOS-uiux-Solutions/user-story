@@ -16,7 +16,7 @@ const Comments = (props) => {
               <div className='user-avatar'>
                 <img
                   className='avatar'
-                  src={require('../assets/images/default-user.png')}
+                  src={`https://api.adorable.io/avatars/100/${data.user.username}`}
                   alt='Default User Avatar'
                 ></img>
               </div>
