@@ -1,0 +1,38 @@
+.comments-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin: 8px 8px;
+  padding: 16px 16px;
+}
+
+.comment {
+  display: flex;
+  flex-direction: row;
+  margin: 8px 0px;
+}
+
+.comment-content {
+  margin-left: 16px;
+
+  .metadata {
+    display: inline-block;
+    font-size: $comments-font-size-metadata;
+    margin-left: 1em;
+  }
+
+  .reply-action {
+    font-size: $comments-font-size-reply;
+
+    a {
+      font-weight: 100;
+    }
+  }
+}
+
+.comment-form {
+  margin: 16px 0px;
+
+  textarea {
+    resize: none;
+  }
+}

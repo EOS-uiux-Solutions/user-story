@@ -5,7 +5,7 @@ import axios from 'axios'
 import { apiURL } from '../config.json'
 
 import Navigation from '../components/Navigation'
-
+import Comments from '../components/Comments'
 import Timeline from '../components/Timeline'
 import Button from '../components/Button'
 
@@ -38,6 +38,13 @@ const Story = (props) => {
               username
             }
             Votes
+            feature_request_comments {
+              Comments
+              user {
+                username
+              }
+              createdAt
+            }
           }
         }
         `
@@ -170,6 +177,7 @@ const Story = (props) => {
                   </Button>
                 )}
               </div>
+              <Comments comments={story.feature_request_comments} />
             </>
           ) : (
             ''
