@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { apiURL } from '../config.json'
-import { navigate } from '@reach/router'
 import axios from 'axios'
 import Navigation from '../components/Navigation'
 import Button from '../components/Button'
+import StoriesList from '../components/StoriesList'
 
 const MyStories = () => {
   const [stories, setStories] = useState([])
@@ -11,10 +11,6 @@ const MyStories = () => {
   const [currentStateSelected, selectState] = useState('My Submissions')
 
   const id = localStorage.getItem('id')
-
-  const strip = (html) => {
-    return html.replace(/<\s*[^>]*>/gi, '')
-  }
 
   useEffect(() => {
     const fetchMyStories = async () => {
@@ -78,34 +74,7 @@ const MyStories = () => {
             </div>
             {currentStateSelected === 'My Submissions' && (
               <div className='flex flex-column'>
-                {stories.length ? (
-                  stories.map((request, key) => {
-                    return (
-                      <div
-                        className='request'
-                        key={key}
-                        onClick={() => {
-                          navigate(`/story/${request.id}`)
-                        }}
-                      >
-                        <div className='request-content'>
-                          <h4>{request.Title}</h4>
-                          {strip(request.Description)}
-                        </div>
-                        <div className='icon-display'>
-                          {request.Votes}
-                          <i className='eos-icons'>thumb_up</i>
-                        </div>
-                        <div className='icon-display'>
-                          {request.feature_request_comments.length}
-                          <i className='eos-icons'>comment</i>
-                        </div>
-                      </div>
-                    )
-                  })
-                ) : (
-                  <h3>No stories yet</h3>
-                )}
+                <StoriesList stories={stories} />
               </div>
             )}
           </div>

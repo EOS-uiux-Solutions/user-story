@@ -13,6 +13,7 @@ import NewStory from './pages/NewStory'
 import Story from './pages/Story'
 import MyStories from './pages/MyStories'
 import MyProfile from './pages/MyProfile'
+import Profile from './pages/Profile'
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
           <Story path='/story/:storyId' />
           <MyStories path='/myStories' />
           <MyProfile path='/myProfile' />
+          <Profile path='/profile/:profileId' />
         </Router>
       </div>
     </div>

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import Navigation from '../components/Navigation'
 import Button from '../components/Button'
+import StoriesList from '../components/StoriesList'
+
 import axios from 'axios'
 import { apiURL } from '../config.json'
-import { navigate } from '@reach/router'
 
 const stateList = [
   'Under Consideration',
@@ -17,14 +18,10 @@ const stateList = [
 const Home = () => {
   const [currentStateSelected, selectState] = useState('Under Consideration')
 
-  const [requests, setRequests] = useState([])
-
-  const strip = (html) => {
-    return html.replace(/<\s*[^>]*>/gi, '')
-  }
+  const [stories, setStories] = useState([])
 
   useEffect(() => {
-    const fetchRequests = async () => {
+    const fetchStories = async () => {
       const response = await axios.post(
         `${apiURL}/graphql`,
         {
@@ -47,9 +44,9 @@ const Home = () => {
           withCredentials: true
         }
       )
-      setRequests(response.data.data.featureRequests)
+      setStories(response.data.data.featureRequests)
     }
-    fetchRequests()
+    fetchStories()
   }, [])
 
   return (
@@ -84,33 +81,8 @@ const Home = () => {
                 })}
             </div>
             <div className='flex flex-column'>
-              {requests.map((request, key) => {
-                return request.feature_requests_status.Status ===
-                  currentStateSelected ? (
-                  <div
-                    className='request'
-                    key={key}
-                    onClick={() => {
-                      navigate(`/story/${request.id}`)
-                    }}
-                  >
-                    <div className='request-content'>
-                      <h4>{request.Title}</h4>
-                      {strip(request.Description)}
-                    </div>
-                    <div className='icon-display'>
-                      {request.Votes}
-                      <i className='eos-icons'>thumb_up</i>
-                    </div>
-                    <div className='icon-display'>
-                      {request.feature_request_comments.length}
-                      <i className='eos-icons'>comment</i>
-                    </div>
-                  </div>
-                ) : (
-                  ''
-                )
-              })}
+              <StoriesList stories={stories} state={currentStateSelected} />
+              {}
             </div>
           </div>
         </div>

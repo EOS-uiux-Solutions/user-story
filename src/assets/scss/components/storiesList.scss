@@ -1,0 +1,31 @@
+.story {
+  align-items: center;
+  border-bottom: 2px solid $gray-bg;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+
+  .eos-icons {
+    margin-left: 16px;
+    margin-right: 16px;
+    pointer-events: none;
+    vertical-align: middle;
+  }
+
+}
+
+.stories-content {
+  flex-grow: 2;
+  margin: 0px;
+  max-width: 100%;
+  width: 640px;
+}
+
+@media only screen and (max-width: 1120px) {
+  .story-content {
+    max-width: 60%;
+    width: 60%;
+  }
+}
