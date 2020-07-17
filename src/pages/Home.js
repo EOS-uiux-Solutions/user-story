@@ -11,8 +11,8 @@ const stateList = [
   'Planned',
   'Design in progress',
   'Development in progress',
-  'Launched',
-  'Testing'
+  'Testing',
+  'Launched'
 ]
 
 const Home = () => {
@@ -26,25 +26,25 @@ const Home = () => {
         `${apiURL}/graphql`,
         {
           query: `query {
-          featureRequests (sort: "votes:desc,createdAt:desc"){
-            id
-            Title
-            Description
-            Votes
-            feature_requests_status {
-              Status
+            userStories(sort: "votes:desc,createdAt:desc") {
+              id
+              Title
+              Description
+              Votes
+              user_story_status {
+                Status
+              }
+              user_story_comments {
+                Comments
+              }
             }
-            feature_request_comments {
-              Comments
-            }
-          }
-        }`
+          }`
         },
         {
           withCredentials: true
         }
       )
-      setStories(response.data.data.featureRequests)
+      setStories(response.data.data.userStories)
     }
     fetchStories()
   }, [])
@@ -82,7 +82,6 @@ const Home = () => {
             </div>
             <div className='flex flex-column'>
               <StoriesList stories={stories} state={currentStateSelected} />
-              {}
             </div>
           </div>
         </div>
