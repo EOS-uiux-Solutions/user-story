@@ -30,7 +30,7 @@ const StoriesList = (props) => {
                   <i className='eos-icons'>thumb_up</i>
                 </div>
                 <div className='icon-display'>
-                  {story.feature_request_comments.length}
+                  {story.user_story_comments.length}
                   <i className='eos-icons'>comment</i>
                 </div>
               </div>
@@ -41,7 +41,7 @@ const StoriesList = (props) => {
         )
       ) : stories.length ? (
         stories.map((story, key) => {
-          return story.feature_requests_status.Status === state ? (
+          return story.user_story_status.Status === state ? (
             <div
               className='story'
               key={key}
@@ -58,7 +58,7 @@ const StoriesList = (props) => {
                 <i className='eos-icons'>thumb_up</i>
               </div>
               <div className='icon-display'>
-                {story.feature_request_comments.length}
+                {story.user_story_comments.length}
                 <i className='eos-icons'>comment</i>
               </div>
             </div>

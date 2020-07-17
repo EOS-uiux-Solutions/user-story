@@ -28,32 +28,31 @@ const Story = (props) => {
         `${apiURL}/graphql`,
         {
           query: `query {
-          featureRequest(id: "${storyId}") {
-            Title
-            Description
-            feature_requests_status {
-              Status
-            }
-            user {
-              username
-            }
-            Votes
-            feature_request_comments {
-              Comments
+            userStory(id: "${storyId}") {
+              Title
+              Description
+              user_story_status {
+                Status
+              }
+              user_story_comments {
+                Comments
+                user {
+                  username
+                }
+                createdAt
+              }
               user {
                 username
               }
-              createdAt
+              Votes
             }
-          }
-        }
-        `
+          }`
         },
         {
           withCredentials: true
         }
       )
-      setStory(response.data.data.featureRequest)
+      setStory(response.data.data.userStory)
     }
     fetchStory()
     const editStory = async () => {
@@ -61,20 +60,19 @@ const Story = (props) => {
         `${apiURL}/graphql`,
         {
           query: `query {
-          user(id: "${userId}") {
-            feature_requests {
-              id
+            user(id: "${userId}") {
+              user_stories {
+                id
+              }
             }
-          }
-        }
-        `
+          }`
         },
         {
           withCredentials: true
         }
       )
       if (
-        check.data.data.user.feature_requests.filter(
+        check.data.data.user.user_stories.filter(
           (story) => story.id === storyId
         ).length
       ) {
@@ -92,18 +90,16 @@ const Story = (props) => {
       `${apiURL}/graphql`,
       {
         query: `mutation {
-        updateFeatureRequest(
-          input: { where: { id: "${storyId}" }, data: { Description: "${
+          updateUserStory(
+            input: { where: { id: "${storyId}" }, data: { Description: "${
           story.Description + editDescription
         }" } }
-        ) {
-          featureRequest {
-            Description
-            updatedAt
+          ) {
+            userStory {
+              updatedAt
+            }
           }
-        }
-      }
-      `
+        }`
       },
       {
         withCredentials: true
@@ -123,7 +119,7 @@ const Story = (props) => {
           <Navigation />
           {story ? (
             <>
-              <Timeline status={story.feature_requests_status.Status} />
+              <Timeline status={story.user_story_status.Status} />
               <div className='story-content'>
                 <div className='icon-display'>
                   {story.Votes}
@@ -177,7 +173,7 @@ const Story = (props) => {
                   </Button>
                 )}
               </div>
-              <Comments comments={story.feature_request_comments} />
+              <Comments comments={story.user_story_comments} />
             </>
           ) : (
             ''

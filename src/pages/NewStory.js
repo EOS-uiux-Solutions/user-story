@@ -61,24 +61,23 @@ const NewStory = () => {
       `${apiURL}/graphql`,
       {
         query: `mutation {
-          createFeatureRequest(
+          createUserStory(
             input: {
               data: {
                 Description: "${data.description}"
                 Title: "${data.title}"
                 Category: ${data.category}
                 user: "${id}"
-                feature_requests_status : "5ee38e5d2106a575a140dd39"
+                user_story_status: "5f0f33205f5695666b0d2e7e"
               }
             }
           ) {
-            featureRequest {
+            userStory {
               Title
-              Description
-              Votes
             }
           }
-        }`
+        }
+        `
       },
       { withCredentials: true }
     )
