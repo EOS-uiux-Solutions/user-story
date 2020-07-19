@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { apiURL } from '../config.json'
+import { trackPromise } from 'react-promise-tracker'
 
 import Navigation from '../components/Navigation'
 import StoriesList from '../components/StoriesList'
@@ -39,7 +40,7 @@ const Profile = (props) => {
       setUser(response.data.data.user)
     }
     if (profileId) {
-      fetchUserInfo()
+      trackPromise(fetchUserInfo())
     }
   }, [profileId])
 
@@ -71,7 +72,7 @@ const Profile = (props) => {
       )
       setStories(response.data.data.user.feature_requests)
     }
-    fetchMyStories()
+    trackPromise(fetchMyStories())
   }, [profileId])
 
   return (

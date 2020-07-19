@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { apiURL } from '../config.json'
+import { trackPromise } from 'react-promise-tracker'
+
 import axios from 'axios'
 import Navigation from '../components/Navigation'
 import Button from '../components/Button'
@@ -40,7 +42,7 @@ const MyStories = () => {
       )
       setStories(response.data.data.userStories)
     }
-    fetchMyStories()
+    trackPromise(fetchMyStories())
   }, [id])
 
   return (

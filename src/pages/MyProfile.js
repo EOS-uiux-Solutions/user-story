@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { apiURL } from '../config.json'
+import { trackPromise } from 'react-promise-tracker'
 
 import Navigation from '../components/Navigation'
 import Button from '../components/Button'
@@ -80,7 +81,7 @@ const MyProfile = () => {
       setUser(response.data.data.user)
     }
     if (userId) {
-      fetchUserInfo()
+      trackPromise(fetchUserInfo())
     }
   }, [userId])
 

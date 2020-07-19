@@ -3,6 +3,7 @@ import CKEditor from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import axios from 'axios'
 import { apiURL } from '../config.json'
+import { trackPromise } from 'react-promise-tracker'
 
 import Navigation from '../components/Navigation'
 import Button from '../components/Button'
@@ -35,7 +36,7 @@ const NewStory = () => {
         })
       )
     }
-    fetchCategories()
+    trackPromise(fetchCategories())
   }, [])
 
   const handleInputChange = (event) => {
