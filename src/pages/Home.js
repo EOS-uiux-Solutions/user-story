@@ -2,9 +2,11 @@ import React, { useState, useEffect, useRef } from 'react'
 import Navigation from '../components/Navigation'
 import Button from '../components/Button'
 import StoriesList from '../components/StoriesList'
+import LoadingIndicator from '../modules/LoadingIndicator'
 
 import axios from 'axios'
 import { apiURL } from '../config.json'
+import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 
 const stateList = [
   'Under Consideration',
@@ -51,6 +53,7 @@ const Home = () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [productDropdownContainer])
+  const { promiseInProgress } = usePromiseTracker()
 
   useEffect(() => {
     const fetchStories = async () => {
@@ -167,11 +170,19 @@ const Home = () => {
                 })}
             </div>
             <div className='flex flex-column'>
+<<<<<<< HEAD
               <StoriesList
                 stories={stories}
                 state={currentStateSelected}
                 product={product}
               />
+=======
+              {promiseInProgress ? (
+                <LoadingIndicator />
+              ) : (
+                <StoriesList stories={stories} state={currentStateSelected} />
+              )}
+>>>>>>> 83cf8a4... Modified position of loading animation
             </div>
           </div>
         </div>
