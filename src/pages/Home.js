@@ -38,6 +38,8 @@ const Home = () => {
     setProductDropdownState(!productDropdownState)
   }
 
+  const { promiseInProgress } = usePromiseTracker()
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -53,7 +55,6 @@ const Home = () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [productDropdownContainer])
-  const { promiseInProgress } = usePromiseTracker()
 
   useEffect(() => {
     const fetchStories = async () => {
@@ -86,7 +87,7 @@ const Home = () => {
       )
       setStories(response.data.data.userStories)
     }
-    fetchStories()
+    trackPromise(fetchStories())
     const fetchProducts = async () => {
       const response = await axios.post(
         `${apiURL}/graphql`,
@@ -119,71 +120,71 @@ const Home = () => {
               ever since the 1500s, when an unknown printer took a galley of
               type and scrambled it to make a type specimen book.
             </p>
-            <div
-              className='dropdown-container no-format'
-              ref={productDropdownContainer}
-            >
-              <Button
-                type='button'
-                className='btn btn-dropdown btn-flexible'
-                onClick={handleProductDropdownState}
-              >
-                {productDropdownState ? (
-                  <i className='eos-icons'>keyboard_arrow_up</i>
-                ) : (
-                  <i className='eos-icons'>keyboard_arrow_down</i>
-                )}
-                &nbsp; {product}
-              </Button>
-              {productDropdownState && (
-                <div className='dropdown-product'>
-                  <ul>
-                    <li onClick={() => handleProductSelection('All')}>All</li>
-                    {products.map((item, key) => (
-                      <li
-                        key={key}
-                        onClick={() => handleProductSelection(item.Name)}
-                      >
-                        {item.Name}
-                      </li>
-                    ))}
-                  </ul>
+            {promiseInProgress ? (
+              <LoadingIndicator />
+            ) : (
+              <>
+                <div
+                  className='dropdown-container no-format'
+                  ref={productDropdownContainer}
+                >
+                  <Button
+                    type='button'
+                    className='btn btn-dropdown btn-flexible'
+                    onClick={handleProductDropdownState}
+                  >
+                    {productDropdownState ? (
+                      <i className='eos-icons'>keyboard_arrow_up</i>
+                    ) : (
+                      <i className='eos-icons'>keyboard_arrow_down</i>
+                    )}
+                    &nbsp; {product}
+                  </Button>
+                  {productDropdownState && (
+                    <div className='dropdown-product'>
+                      <ul>
+                        <li onClick={() => handleProductSelection('All')}>
+                          All
+                        </li>
+                        {products.map((item, key) => (
+                          <li
+                            key={key}
+                            onClick={() => handleProductSelection(item.Name)}
+                          >
+                            {item.Name}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-            <div className='flex flex-row flex-space-between'>
-              {stateList &&
-                stateList.map((state, key) => {
-                  return (
-                    <Button
-                      className={
-                        currentStateSelected === state
-                          ? 'btn btn-tabs btn-tabs-selected'
-                          : 'btn btn-tabs'
-                      }
-                      key={key}
-                      onClick={() => selectState(state)}
-                    >
-                      {state}
-                    </Button>
-                  )
-                })}
-            </div>
-            <div className='flex flex-column'>
-<<<<<<< HEAD
-              <StoriesList
-                stories={stories}
-                state={currentStateSelected}
-                product={product}
-              />
-=======
-              {promiseInProgress ? (
-                <LoadingIndicator />
-              ) : (
-                <StoriesList stories={stories} state={currentStateSelected} />
-              )}
->>>>>>> 83cf8a4... Modified position of loading animation
-            </div>
+                <div className='flex flex-row flex-space-between'>
+                  {stateList &&
+                    stateList.map((state, key) => {
+                      return (
+                        <Button
+                          className={
+                            currentStateSelected === state
+                              ? 'btn btn-tabs btn-tabs-selected'
+                              : 'btn btn-tabs'
+                          }
+                          key={key}
+                          onClick={() => selectState(state)}
+                        >
+                          {state}
+                        </Button>
+                      )
+                    })}
+                </div>
+                <div className='flex flex-column'>
+                  <StoriesList
+                    stories={stories}
+                    state={currentStateSelected}
+                    product={product}
+                  />
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
