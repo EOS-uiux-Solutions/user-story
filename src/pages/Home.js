@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Navigation from '../components/Navigation'
 import Button from '../components/Button'
 import StoriesList from '../components/StoriesList'
@@ -20,6 +20,38 @@ const Home = () => {
 
   const [stories, setStories] = useState([])
 
+  const productDropdownContainer = useRef()
+
+  const [productDropdownState, setProductDropdownState] = useState(false)
+
+  const [product, setProduct] = useState('All')
+
+  const [products, setProducts] = useState([])
+
+  const handleProductSelection = (value) => {
+    setProduct(value)
+    setProductDropdownState(false)
+  }
+  const handleProductDropdownState = (event) => {
+    setProductDropdownState(!productDropdownState)
+  }
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        productDropdownContainer.current &&
+        !productDropdownContainer.current.contains(event.target)
+      ) {
+        setProductDropdownState(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [productDropdownContainer])
+
   useEffect(() => {
     const fetchStories = async () => {
       const response = await axios.post(
@@ -37,6 +69,9 @@ const Home = () => {
               user_story_comments {
                 Comments
               }
+              product {
+                Name
+              }
             }
           }`
         },
@@ -47,6 +82,23 @@ const Home = () => {
       setStories(response.data.data.userStories)
     }
     fetchStories()
+    const fetchProducts = async () => {
+      const response = await axios.post(
+        `${apiURL}/graphql`,
+        {
+          query: `query {
+          products {
+            Name
+          }
+        }`
+        },
+        {
+          withCredentials: true
+        }
+      )
+      setProducts(response.data.data.products)
+    }
+    fetchProducts()
   }, [])
 
   return (
@@ -62,6 +114,38 @@ const Home = () => {
               ever since the 1500s, when an unknown printer took a galley of
               type and scrambled it to make a type specimen book.
             </p>
+            <div
+              className='dropdown-container no-format'
+              ref={productDropdownContainer}
+            >
+              <Button
+                type='button'
+                className='btn btn-dropdown btn-flexible'
+                onClick={handleProductDropdownState}
+              >
+                {productDropdownState ? (
+                  <i className='eos-icons'>keyboard_arrow_up</i>
+                ) : (
+                  <i className='eos-icons'>keyboard_arrow_down</i>
+                )}
+                &nbsp; {product}
+              </Button>
+              {productDropdownState && (
+                <div className='dropdown-product'>
+                  <ul>
+                    <li onClick={() => handleProductSelection('All')}>All</li>
+                    {products.map((item, key) => (
+                      <li
+                        key={key}
+                        onClick={() => handleProductSelection(item.Name)}
+                      >
+                        {item.Name}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
             <div className='flex flex-row flex-space-between'>
               {stateList &&
                 stateList.map((state, key) => {
@@ -81,7 +165,11 @@ const Home = () => {
                 })}
             </div>
             <div className='flex flex-column'>
-              <StoriesList stories={stories} state={currentStateSelected} />
+              <StoriesList
+                stories={stories}
+                state={currentStateSelected}
+                product={product}
+              />
             </div>
           </div>
         </div>

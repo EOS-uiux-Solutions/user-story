@@ -28,8 +28,7 @@ const NewStory = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       const response = await axios.post(`${apiURL}/graphql`, {
-        query:
-          '{ __type(name: "ENUM_FEATUREREQUESTS_CATEGORY") {enumValues {name}}}'
+        query: '{ __type(name: "ENUM_USERSTORY_CATEGORY") {enumValues {name}}}'
       })
 
       setCategories(
