@@ -62,7 +62,6 @@ const Home = () => {
               id
               Title
               Description
-              Votes
               user_story_status {
                 Status
               }
@@ -71,6 +70,9 @@ const Home = () => {
               }
               product {
                 Name
+              }
+              followers {
+                username
               }
             }
           }`

@@ -20,8 +20,6 @@ const NewStory = () => {
     mediaCollection: null
   }
 
-  const id = localStorage.getItem('id')
-
   const [data, setData] = useState(initialState)
   const [categories, setCategories] = useState([])
 
@@ -66,7 +64,6 @@ const NewStory = () => {
                 Description: "${data.description}"
                 Title: "${data.title}"
                 Category: ${data.category}
-                user: "${id}"
                 user_story_status: "5f0f33205f5695666b0d2e7e"
               }
             }

@@ -18,18 +18,18 @@ const MyStories = () => {
         `${apiURL}/graphql`,
         {
           query: `query {
-            user(id: "${id}") {
-              user_stories {
+            userStories(where: { author: "${id}" }) {
+              id
+              Title
+              Description
+              followers {
                 id
-                Title
-                Description
-                Votes
-                user_story_comments {
-                  Comments
-                }
-                user_story_status {
-                  Status
-                }
+              }
+              user_story_comments {
+                Comments
+              }
+              user_story_status {
+                Status
               }
             }
           }`
@@ -38,7 +38,7 @@ const MyStories = () => {
           withCredentials: true
         }
       )
-      setStories(response.data.data.user.user_stories)
+      setStories(response.data.data.userStories)
     }
     fetchMyStories()
   }, [id])
