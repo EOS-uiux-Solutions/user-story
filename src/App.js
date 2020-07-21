@@ -4,6 +4,7 @@ import { Router } from '@reach/router'
 import './assets/scss/index.scss'
 import '../node_modules/eos-icons/dist/css/eos-icons.css'
 
+import Navigation from './components/Navigation'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
@@ -19,6 +20,7 @@ const App = () => {
   return (
     <div className='app'>
       <div className='app-container'>
+        <Navigation />
         <Router>
           <Home path='/' />
           <Register path='/register' />

@@ -3,9 +3,7 @@ import CKEditor from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import axios from 'axios'
 import { apiURL } from '../config.json'
-import { trackPromise } from 'react-promise-tracker'
 
-import Navigation from '../components/Navigation'
 import Comments from '../components/Comments'
 import Timeline from '../components/Timeline'
 import Button from '../components/Button'
@@ -68,7 +66,7 @@ const Story = (props) => {
       )
       setFollowers(followerIds)
     }
-    trackPromise(fetchStory())
+    fetchStory()
     const editStory = async () => {
       const check = await axios.post(
         `${apiURL}/graphql`,
@@ -185,7 +183,6 @@ const Story = (props) => {
     <>
       <div className='base-wrapper'>
         <div className='base-container'>
-          <Navigation />
           {story ? (
             <>
               <Timeline status={story.user_story_status.Status} />

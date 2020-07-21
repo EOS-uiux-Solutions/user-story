@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react'
-import Navigation from '../components/Navigation'
 import Button from '../components/Button'
 import StoriesList from '../components/StoriesList'
 import LoadingIndicator from '../modules/LoadingIndicator'
@@ -104,14 +103,13 @@ const Home = () => {
       )
       setProducts(response.data.data.products)
     }
-    fetchProducts()
+    trackPromise(fetchProducts())
   }, [])
 
   return (
     <>
       <div className='base-wrapper'>
         <div className='base-container'>
-          <Navigation />
           <div className='home-content'>
             <h3>Welcome to EOS User Stories</h3>
             <p>

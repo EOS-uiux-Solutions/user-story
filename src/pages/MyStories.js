@@ -5,7 +5,6 @@ import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 import axios from 'axios'
 
 import LoadingIndicator from '../modules/LoadingIndicator'
-import Navigation from '../components/Navigation'
 import Button from '../components/Button'
 import StoriesList from '../components/StoriesList'
 
@@ -53,7 +52,6 @@ const MyStories = () => {
     <>
       <div className='base-wrapper'>
         <div className='base-container'>
-          <Navigation />
           <div className='mystories-content'>
             <h3>My Stories</h3>
             <div className='flex flex-row'>

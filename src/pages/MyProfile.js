@@ -4,7 +4,6 @@ import { apiURL } from '../config.json'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 import LoadingIndicator from '../modules/LoadingIndicator'
 
-import Navigation from '../components/Navigation'
 import Button from '../components/Button'
 
 const MyProfile = () => {
@@ -92,7 +91,6 @@ const MyProfile = () => {
     <>
       <div className='base-wrapper'>
         <div className='base-container'>
-          <Navigation />
           {promiseInProgress ? (
             <LoadingIndicator />
           ) : (
