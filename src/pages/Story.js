@@ -70,23 +70,16 @@ const Story = (props) => {
     fetchStory()
     const editStory = async () => {
       const check = await axios.post(
-        `${apiURL}/graphql`,
+        `${apiURL}/checkAuthor`,
         {
-          query: `query {
-            userStories(where: {
-              author: {id: "${userId}"}
-            }) {
-              id
-            }
-          }
-          `
+          id: userId,
+          storyId: storyId
         },
         {
           withCredentials: true
         }
       )
-
-      if (check.data.data.userStories.filter((id) => id === storyId)) {
+      if (check.data) {
         setEditMode(true)
       }
     }
