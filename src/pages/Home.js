@@ -6,6 +6,7 @@ import LoadingIndicator from '../modules/LoadingIndicator'
 import axios from 'axios'
 import { apiURL } from '../config.json'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
+import Navigation from '../components/Navigation'
 
 const stateList = [
   'Under Consideration',
@@ -110,6 +111,7 @@ const Home = () => {
     <>
       <div className='base-wrapper'>
         <div className='base-container'>
+          <Navigation />
           <div className='home-content'>
             <h3>Welcome to EOS User Stories</h3>
             <p>

@@ -5,6 +5,7 @@ import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 
 import LoadingIndicator from '../modules/LoadingIndicator'
 import StoriesList from '../components/StoriesList'
+import Navigation from '../components/Navigation'
 
 const Profile = (props) => {
   const { profileId } = props
@@ -81,6 +82,7 @@ const Profile = (props) => {
     <>
       <div className='base-wrapper'>
         <div className='base-container'>
+          <Navigation />
           {promiseInProgress ? (
             <LoadingIndicator />
           ) : (

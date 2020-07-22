@@ -5,6 +5,7 @@ import axios from 'axios'
 import { apiURL } from '../config.json'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 
+import Navigation from '../components/Navigation'
 import LoadingIndicator from '../modules/LoadingIndicator'
 import Button from '../components/Button'
 import Search from '../modules/TitleSearch'
@@ -87,6 +88,7 @@ const NewStory = () => {
     <>
       <div className='base-wrapper'>
         <div className='base-container'>
+          <Navigation />
           {promiseInProgress ? (
             <LoadingIndicator />
           ) : (

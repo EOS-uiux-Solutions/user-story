@@ -7,6 +7,7 @@ import axios from 'axios'
 import LoadingIndicator from '../modules/LoadingIndicator'
 import Button from '../components/Button'
 import StoriesList from '../components/StoriesList'
+import Navigation from '../components/Navigation'
 
 const MyStories = () => {
   const [stories, setStories] = useState([])
@@ -52,6 +53,7 @@ const MyStories = () => {
     <>
       <div className='base-wrapper'>
         <div className='base-container'>
+          <Navigation />
           <div className='mystories-content'>
             <h3>My Stories</h3>
             <div className='flex flex-row'>

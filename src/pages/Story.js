@@ -9,6 +9,7 @@ import Comments from '../components/Comments'
 import Timeline from '../components/Timeline'
 import Button from '../components/Button'
 import LoadingIndicator from '../modules/LoadingIndicator'
+import Navigation from '../components/Navigation'
 
 const Story = (props) => {
   const { storyId } = props
@@ -186,6 +187,7 @@ const Story = (props) => {
     <>
       <div className='base-wrapper'>
         <div className='base-container'>
+          <Navigation />
           {promiseInProgress ? (
             <LoadingIndicator />
           ) : story ? (
