@@ -22,6 +22,12 @@ const Story = (props) => {
 
   const [editor, setEditor] = useState(false)
 
+  const [voted, setVoted] = useState(false)
+
+  const [votes, setVotes] = useState(0)
+
+  const [followers, setFollowers] = useState([])
+
   useEffect(() => {
     const fetchStory = async () => {
       const response = await axios.post(
@@ -41,27 +47,10 @@ const Story = (props) => {
                 }
                 createdAt
               }
-              user {
+              author {
                 username
               }
-              Votes
-            }
-          }`
-        },
-        {
-          withCredentials: true
-        }
-      )
-      setStory(response.data.data.userStory)
-    }
-    fetchStory()
-    const editStory = async () => {
-      const check = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `query {
-            user(id: "${userId}") {
-              user_stories {
+              followers {
                 id
               }
             }
@@ -71,11 +60,33 @@ const Story = (props) => {
           withCredentials: true
         }
       )
-      if (
-        check.data.data.user.user_stories.filter(
-          (story) => story.id === storyId
-        ).length
-      ) {
+      setStory(response.data.data.userStory)
+      setVotes(response.data.data.userStory.followers.length)
+      const followerIds = response.data.data.userStory.followers.map((item) =>
+        JSON.stringify(item.id)
+      )
+      setFollowers(followerIds)
+    }
+    fetchStory()
+    const editStory = async () => {
+      const check = await axios.post(
+        `${apiURL}/graphql`,
+        {
+          query: `query {
+            userStories(where: {
+              author: {id: "${userId}"}
+            }) {
+              id
+            }
+          }
+          `
+        },
+        {
+          withCredentials: true
+        }
+      )
+
+      if (check.data.data.userStories.filter((id) => id === storyId)) {
         setEditMode(true)
       }
     }
@@ -112,6 +123,63 @@ const Story = (props) => {
     })
   }
 
+  const updateVote = async (event) => {
+    event.preventDefault()
+    if (voted) {
+      setVotes((votes) => votes - 1)
+      followers.pop()
+      const response = await axios.post(
+        `${apiURL}/graphql`,
+        {
+          query: `
+        mutation {
+          updateUserStory(input: {where: {id: "${storyId}"} data: {followers: [${followers}]}}){
+            userStory{
+              followers {
+                id
+              }
+            }
+          }
+        }
+        `
+        },
+        {
+          withCredentials: true
+        }
+      )
+      const followerIds = response.data.data.updateUserStory.userStory.followers.map(
+        (item) => JSON.stringify(item.id)
+      )
+      setFollowers(followerIds)
+    } else {
+      setVotes((votes) => votes + 1)
+      const response = await axios.post(
+        `${apiURL}/graphql`,
+        {
+          query: `
+        mutation {
+          updateUserStory(input: {where: {id: "${storyId}"} data: {followers: [${followers}, "${userId}"]}}){
+            userStory{
+              followers {
+                id
+              }
+            }
+          }
+        }
+        `
+        },
+        {
+          withCredentials: true
+        }
+      )
+      const followerIds = response.data.data.updateUserStory.userStory.followers.map(
+        (item) => JSON.stringify(item.id)
+      )
+      setFollowers(followerIds)
+    }
+    setVoted((voted) => !voted)
+  }
+
   return (
     <>
       <div className='base-wrapper'>
@@ -122,8 +190,10 @@ const Story = (props) => {
               <Timeline status={story.user_story_status.Status} />
               <div className='story-content'>
                 <div className='icon-display'>
-                  {story.Votes}
-                  <i className='eos-icons'>thumb_up</i>
+                  {votes}
+                  <Button onClick={updateVote}>
+                    <i className='eos-icons'>thumb_up</i>
+                  </Button>
                 </div>
                 <h3>{story.Title}</h3>
                 {editor ? (

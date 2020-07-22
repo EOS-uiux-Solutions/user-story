@@ -26,7 +26,7 @@ const StoriesList = (props) => {
                 {strip(story.Description)}
               </div>
               <div className='icon-display'>
-                {story.Votes}
+                {story.followers.length}
                 <i className='eos-icons'>thumb_up</i>
               </div>
               <div className='icon-display'>
