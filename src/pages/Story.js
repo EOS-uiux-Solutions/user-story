@@ -241,7 +241,10 @@ const Story = (props) => {
                   </Button>
                 )}
               </div>
-              <Comments comments={story.user_story_comments} />
+              <Comments
+                comments={story.user_story_comments}
+                storyId={storyId}
+              />
             </>
           ) : (
             ''
