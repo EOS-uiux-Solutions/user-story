@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { apiURL } from '../config.json'
-
+import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
+import LoadingIndicator from '../modules/LoadingIndicator'
 import Navigation from '../components/Navigation'
+
 import Button from '../components/Button'
 
 const MyProfile = () => {
@@ -11,6 +13,8 @@ const MyProfile = () => {
   const [user, setUser] = useState('')
 
   const [updated, setUpdated] = useState(false)
+
+  const { promiseInProgress } = usePromiseTracker()
 
   const handleInputChange = (event) => {
     setUser({
@@ -80,7 +84,7 @@ const MyProfile = () => {
       setUser(response.data.data.user)
     }
     if (userId) {
-      fetchUserInfo()
+      trackPromise(fetchUserInfo())
     }
   }, [userId])
 
@@ -89,7 +93,9 @@ const MyProfile = () => {
       <div className='base-wrapper'>
         <div className='base-container'>
           <Navigation />
-          {user ? (
+          {promiseInProgress ? (
+            <LoadingIndicator />
+          ) : (
             <div className='profile-content'>
               <div className='flex flex-row flex-space-around'>
                 <div className='flex flex-column'>
@@ -222,8 +228,6 @@ const MyProfile = () => {
                 </div>
               </div>
             </div>
-          ) : (
-            ''
           )}
         </div>
       </div>

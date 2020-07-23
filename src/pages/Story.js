@@ -3,11 +3,13 @@ import CKEditor from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import axios from 'axios'
 import { apiURL } from '../config.json'
+import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 
-import Navigation from '../components/Navigation'
 import Comments from '../components/Comments'
 import Timeline from '../components/Timeline'
 import Button from '../components/Button'
+import LoadingIndicator from '../modules/LoadingIndicator'
+import Navigation from '../components/Navigation'
 
 const Story = (props) => {
   const { storyId } = props
@@ -27,6 +29,7 @@ const Story = (props) => {
   const [votes, setVotes] = useState(0)
 
   const [followers, setFollowers] = useState([])
+  const { promiseInProgress } = usePromiseTracker()
 
   useEffect(() => {
     const fetchStory = async () => {
@@ -67,7 +70,7 @@ const Story = (props) => {
       )
       setFollowers(followerIds)
     }
-    fetchStory()
+    trackPromise(fetchStory())
     const editStory = async () => {
       const check = await axios.post(
         `${apiURL}/checkAuthor`,
@@ -84,7 +87,7 @@ const Story = (props) => {
       }
     }
     if (userId) {
-      editStory()
+      trackPromise(editStory())
     }
   }, [storyId, userId])
 
@@ -178,7 +181,9 @@ const Story = (props) => {
       <div className='base-wrapper'>
         <div className='base-container'>
           <Navigation />
-          {story ? (
+          {promiseInProgress ? (
+            <LoadingIndicator />
+          ) : story ? (
             <>
               <Timeline status={story.user_story_status.Status} />
               <div className='story-content'>

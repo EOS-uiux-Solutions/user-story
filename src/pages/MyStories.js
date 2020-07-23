@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import { apiURL } from '../config.json'
+import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
+
 import axios from 'axios'
-import Navigation from '../components/Navigation'
+
+import LoadingIndicator from '../modules/LoadingIndicator'
 import Button from '../components/Button'
 import StoriesList from '../components/StoriesList'
+import Navigation from '../components/Navigation'
 
 const MyStories = () => {
   const [stories, setStories] = useState([])
 
   const [currentStateSelected, selectState] = useState('My Submissions')
+
+  const { promiseInProgress } = usePromiseTracker()
 
   const id = localStorage.getItem('id')
 
@@ -40,7 +46,7 @@ const MyStories = () => {
       )
       setStories(response.data.data.userStories)
     }
-    fetchMyStories()
+    trackPromise(fetchMyStories())
   }, [id])
 
   return (
@@ -72,7 +78,9 @@ const MyStories = () => {
                 Following
               </Button>
             </div>
-            {currentStateSelected === 'My Submissions' && (
+            {currentStateSelected === 'My Submissions' && promiseInProgress ? (
+              <LoadingIndicator />
+            ) : (
               <div className='flex flex-column'>
                 <StoriesList stories={stories} />
               </div>

@@ -2,12 +2,14 @@ body {
   font-family: $font-family;
   font-size: $font-size-general;
   line-height: 1.5em;
+  overflow: hidden;
 }
 
 .app {
   align-items: center;
   display: flex;
   justify-content: center;
+  overflow: scroll;
 }
 
 .app-container {
