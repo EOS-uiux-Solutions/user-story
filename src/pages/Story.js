@@ -123,13 +123,13 @@ const Story = (props) => {
     event.preventDefault()
     if (voted) {
       setVotes((votes) => votes - 1)
-      followers.pop()
+      let followerIds = followers.filter((id) => id !== JSON.stringify(userId))
       const response = await axios.post(
         `${apiURL}/graphql`,
         {
           query: `
         mutation {
-          updateUserStory(input: {where: {id: "${storyId}"} data: {followers: [${followers}]}}){
+          updateUserStory(input: {where: {id: "${storyId}"} data: {followers: [${followerIds}]}}){
             userStory{
               followers {
                 id
@@ -143,7 +143,7 @@ const Story = (props) => {
           withCredentials: true
         }
       )
-      const followerIds = response.data.data.updateUserStory.userStory.followers.map(
+      followerIds = response.data.data.updateUserStory.userStory.followers.map(
         (item) => JSON.stringify(item.id)
       )
       setFollowers(followerIds)
