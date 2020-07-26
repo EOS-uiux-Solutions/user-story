@@ -1,10 +1,53 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from '@reach/router'
-
 import Button from './Button'
+import axios from 'axios'
+import { apiURL } from '../config.json'
 
 const Comments = (props) => {
-  const { comments } = props
+  const { storyId } = props
+
+  const id = localStorage.getItem('id')
+
+  const [comment, setComment] = useState('')
+
+  const [comments, setComments] = useState(props.comments)
+
+  const addComment = async (event) => {
+    event.preventDefault()
+    const response = await axios.post(
+      `${apiURL}/graphql`,
+      {
+        query: `
+      mutation {
+        createUserStoryComment(input: {
+          data: {
+            Comments: "${comment}"
+            user_story: "${storyId}"
+            user: "${id}"
+          }
+        }) {
+          userStoryComment {
+            user {
+              username
+            }
+            Comments
+            createdAt
+          }
+        }
+      }
+      `
+      },
+      {
+        withCredentials: true
+      }
+    )
+    setComments([
+      ...comments,
+      response.data.data.createUserStoryComment.userStoryComment
+    ])
+    setComment('')
+  }
 
   return (
     <div className='comments-wrapper'>
@@ -33,11 +76,6 @@ const Comments = (props) => {
                   </div>
                 </div>
                 <p>{data.Comments}</p>
-                <div className='reply-action'>
-                  <Link className='link link-default' to='#'>
-                    Reply
-                  </Link>
-                </div>
               </div>
             </div>
           )
@@ -47,9 +85,16 @@ const Comments = (props) => {
       )}
       <form className='comment-form'>
         <div className='field'>
-          <textarea rows='4' cols='16'></textarea>
+          <textarea
+            rows='4'
+            cols='16'
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          ></textarea>
         </div>
-        <Button className='btn btn-default'>Add Comment</Button>
+        <Button className='btn btn-default' onClick={addComment}>
+          Add Comment
+        </Button>
       </form>
     </div>
   )
