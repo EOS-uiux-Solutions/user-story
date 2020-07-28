@@ -1,4 +1,5 @@
 .dropdown-container {
+  cursor: pointer;
   display: inline-block;
   padding: 0px 16px 0px 16px;
   position: relative;
@@ -19,16 +20,19 @@
   top: 100%;
   width: 114px;
 
-  &-nodisplay {
+  &-open {
     background-color: $dropdown-colored-bg;
     color: $light-color;
-    display: none;
+    display: block;
     width: 200px;
   }
 
+  &-close {
+    display: none;
+  }
 }
 
-.dropdown-container:hover .dropdown {
+.dropdown-container:hover .dropdown-hover {
   display: block;
 }
 
