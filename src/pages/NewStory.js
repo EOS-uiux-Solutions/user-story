@@ -17,6 +17,7 @@ const tempList = ['devesh vijaywargiya', 'aditya', 'Ola moom']
 const NewStory = () => {
   const initialState = {
     title: '',
+    product: '',
     category: '',
     description: '',
     mediaCollection: null
@@ -24,6 +25,7 @@ const NewStory = () => {
 
   const [data, setData] = useState(initialState)
   const [categories, setCategories] = useState([])
+  const [products, setProducts] = useState([])
 
   const { promiseInProgress } = usePromiseTracker()
 
@@ -40,6 +42,24 @@ const NewStory = () => {
       )
     }
     trackPromise(fetchCategories())
+    const fetchProducts = async () => {
+      const response = await axios.post(
+        `${apiURL}/graphql`,
+        {
+          query: `query {
+          products {
+            id
+            Name
+          }
+        }`
+        },
+        {
+          withCredentials: true
+        }
+      )
+      setProducts(response.data.data.products)
+    }
+    trackPromise(fetchProducts())
   }, [])
 
   const handleInputChange = (event) => {
@@ -69,11 +89,12 @@ const NewStory = () => {
                 Title: "${data.title}"
                 Category: ${data.category}
                 user_story_status: "5f0f33205f5695666b0d2e7e"
+                product: "${data.product}"
               }
             }
           ) {
             userStory {
-              Title
+              createdAt
             }
           }
         }
@@ -103,6 +124,22 @@ const NewStory = () => {
                   onChange={handleInputChange}
                 />
                 <Search listToBeSearched={tempList} title={data.title} />
+                <label htmlFor='product'>Product</label>
+                <select
+                  className='select-default'
+                  name='product'
+                  onChange={handleInputChange}
+                >
+                  <option defaultValue={true}>Select a product</option>
+                  {products &&
+                    products.map((ele, key) => {
+                      return (
+                        <option key={key} value={ele.id}>
+                          {ele.Name}
+                        </option>
+                      )
+                    })}
+                </select>
                 <label htmlFor='category'>Category</label>
                 <select
                   className='select-default'
