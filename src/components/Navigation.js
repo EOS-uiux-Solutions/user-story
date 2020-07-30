@@ -188,13 +188,13 @@ const Navigation = () => {
               }`}
             >
               <ul>
-                <li>
-                  <Link className='link link-light' to='/myStories'>
+                <li onClick={() => navigate('/myStories')}>
+                  <Link className='link link-light' to='#'>
                     MY STORIES
                   </Link>
                 </li>
-                <li>
-                  <Link className='link link-light' to='/myProfile'>
+                <li onClick={() => navigate('/myProfile')}>
+                  <Link className='link link-light' to='#'>
                     MY PROFILE
                   </Link>
                 </li>

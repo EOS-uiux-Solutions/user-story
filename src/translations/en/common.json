@@ -14,6 +14,7 @@
     "confirm-password-label": "Confirm password",
     "forgot-password": "Recover your password",
     "reset-password": "Set your new password",
+    "old-password": "Enter your old password",
     "new-password": "New password",
     "confirm-password": "Confirm password",
     "create-account": "Create an account",

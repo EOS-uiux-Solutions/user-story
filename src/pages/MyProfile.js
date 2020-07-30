@@ -3,6 +3,8 @@ import axios from 'axios'
 import { apiURL } from '../config.json'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 import LoadingIndicator from '../modules/LoadingIndicator'
+import { navigate } from '@reach/router'
+
 import Navigation from '../components/Navigation'
 
 import Button from '../components/Button'
@@ -150,7 +152,12 @@ const MyProfile = () => {
                       </div>
                       <div className='about-element '> {}</div>
                     </div>
-                    <Button className='btn btn-default'>Change Password</Button>
+                    <Button
+                      className='btn btn-default'
+                      onClick={() => navigate('/changePassword')}
+                    >
+                      Change Password
+                    </Button>
                   </div>
                   <div className='basic-about'>
                     <div className='flex flex-row flex-space-between'>
