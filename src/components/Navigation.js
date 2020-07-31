@@ -168,8 +168,13 @@ const Navigation = (props) => {
                   : 'dropdown-close dropdown-left'
               }`}
             >
-              <h4>Notfications</h4>
-              <ul className='dropdown-list'>
+              <h4>
+                <Link className='link link-light' to='/notifications'>
+                  Notfications ( View all)
+                </Link>
+              </h4>
+              <hr />
+              <ul className='dropdown-list'>              
                 {notifications
                   ? notifications.map((notification, key) => (
                       <Link to={`/${notification.link}`} key={key}>

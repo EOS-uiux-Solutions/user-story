@@ -16,6 +16,7 @@ import MyProfile from './pages/MyProfile'
 import Profile from './pages/Profile'
 import ChangePassword from './pages/ChangePassword'
 import Policies from './pages/Policies'
+import Notifications from './pages/Notifications'
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
           <MyStories path='/myStories' />
           <MyProfile path='/myProfile' />
           <Profile path='/profile/:profileId' />
+          <Notifications path='/notifications' />
           <ChangePassword path='/changePassword' />
           <Policies path='/policies' />
         </Router>
