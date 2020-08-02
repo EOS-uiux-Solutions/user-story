@@ -10,6 +10,7 @@ import Timeline from '../components/Timeline'
 import Button from '../components/Button'
 import LoadingIndicator from '../modules/LoadingIndicator'
 import Navigation from '../components/Navigation'
+import { Link } from '@reach/router'
 
 const Story = (props) => {
   const { storyId } = props
@@ -27,6 +28,8 @@ const Story = (props) => {
   const [voted, setVoted] = useState(false)
 
   const [votes, setVotes] = useState(0)
+
+  const [voteClicked, setVoteClicked] = useState(false)
 
   const [followers, setFollowers] = useState([])
   const { promiseInProgress } = usePromiseTracker()
@@ -51,6 +54,7 @@ const Story = (props) => {
                 createdAt
               }
               author {
+                id
                 username
               }
               followers {
@@ -121,6 +125,7 @@ const Story = (props) => {
 
   const updateVote = async (event) => {
     event.preventDefault()
+    setVoteClicked(true)
     if (voted) {
       setVotes((votes) => votes - 1)
       let followerIds = followers.filter((id) => id !== JSON.stringify(userId))
@@ -143,6 +148,8 @@ const Story = (props) => {
           withCredentials: true
         }
       )
+
+      setVoteClicked(false)
       followerIds = response.data.data.updateUserStory.userStory.followers.map(
         (item) => JSON.stringify(item.id)
       )
@@ -168,6 +175,7 @@ const Story = (props) => {
           withCredentials: true
         }
       )
+      setVoteClicked(false)
       const followerIds = response.data.data.updateUserStory.userStory.followers.map(
         (item) => JSON.stringify(item.id)
       )
@@ -187,13 +195,42 @@ const Story = (props) => {
             <>
               <Timeline status={story.user_story_status.Status} />
               <div className='story-content'>
-                <div className='icon-display'>
-                  {votes}
-                  <Button onClick={updateVote}>
-                    <i className='eos-icons'>thumb_up</i>
-                  </Button>
+                <div className='story-heading'>
+                  <h3>{story.Title}</h3>
+                  <div className='flex flex-row flex-space-between'>
+                    <div className='icon-display'>
+                      <Button
+                        className={`btn ${
+                          voted ? 'btn-highlighted' : 'btn-default'
+                        }`}
+                        onClick={updateVote}
+                        disabled={voteClicked}
+                      >
+                        <i className='eos-icons'>thumb_up</i>
+                      </Button>
+                      {votes}
+                    </div>
+                    <div className='author-information'>
+                      <h4>
+                        By:{' '}
+                        <Link
+                          className='link link-default'
+                          to={`/profile/${story.author.id}`}
+                        >
+                          {story.author.username}
+                        </Link>
+                      </h4>
+                      <div className='user-avatar'>
+                        <img
+                          className='avatar'
+                          src={`https://api.adorable.io/avatars/100/${story.author.username}`}
+                          alt='Default User Avatar'
+                        ></img>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <h3>{story.Title}</h3>
+
                 {editor ? (
                   <>
                     <CKEditor
@@ -215,31 +252,35 @@ const Story = (props) => {
                         setDescription(response)
                       }}
                     />
-                    <Button className='btn btn-default' onClick={save}>
-                      Save
-                    </Button>
                   </>
                 ) : (
                   <div
+                    className='story-description'
                     dangerouslySetInnerHTML={{ __html: story.Description }}
                   />
                 )}
-                {editMode && !editor && (
-                  <Button
-                    className='btn btn-default'
-                    onClick={() => setEditor(true)}
-                  >
-                    Edit
-                  </Button>
-                )}
-                {editMode && editor && (
-                  <Button
-                    className='btn btn-default'
-                    onClick={() => setEditor(false)}
-                  >
-                    Cancel
-                  </Button>
-                )}
+                <div className='story-buttons-container'>
+                  {editMode && editor ? (
+                    <Button className='btn btn-default' onClick={save}>
+                      Save
+                    </Button>
+                  ) : (
+                    <Button
+                      className='btn btn-default'
+                      onClick={() => setEditor(true)}
+                    >
+                      Edit
+                    </Button>
+                  )}
+                  {editMode && editor && (
+                    <Button
+                      className='btn btn-default'
+                      onClick={() => setEditor(false)}
+                    >
+                      Cancel
+                    </Button>
+                  )}
+                </div>
               </div>
               <Comments
                 comments={story.user_story_comments}
