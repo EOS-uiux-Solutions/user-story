@@ -1,14 +1,18 @@
 .story-content {
+  display: flex;
+  flex-direction: column;
   padding: 16px 16px;
-
-  .eos-icons {
-    margin-left: 16px;
-    margin-right: 16px;
-    pointer-events: none;
-    vertical-align: bottom;
-  }
 
   .btn {
     margin: 16px 16px 16px 0px;
+  }
+}
+
+.author-information {
+  display: flex;
+  flex-direction: row;
+
+  .user-avatar {
+    margin: 0px 0px 0px 16px;
   }
 }

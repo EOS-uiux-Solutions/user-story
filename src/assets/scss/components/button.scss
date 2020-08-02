@@ -20,6 +20,12 @@
     }
   }
 
+  &-highlighted {
+    background-color: $btn-hover;
+    border-color: $btn-hover;
+    color: $light-color;
+  }
+
   &-tabs {
     background-color: $btn-tabs-bg;
     border-bottom: 2px solid black;
