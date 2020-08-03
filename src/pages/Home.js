@@ -140,23 +140,25 @@ const Home = () => {
                     )}
                     &nbsp; {product}
                   </Button>
-                  {productDropdownState && (
-                    <div className='dropdown-product'>
-                      <ul>
-                        <li onClick={() => handleProductSelection('All')}>
-                          All
+                  <div
+                    className={`dropdown ${
+                      productDropdownState
+                        ? 'dropdown-open dropdown-right'
+                        : 'dropdown-close dropdown-right'
+                    }`}
+                  >
+                    <ul>
+                      <li onClick={() => handleProductSelection('All')}>All</li>
+                      {products.map((item, key) => (
+                        <li
+                          key={key}
+                          onClick={() => handleProductSelection(item.Name)}
+                        >
+                          {item.Name}
                         </li>
-                        {products.map((item, key) => (
-                          <li
-                            key={key}
-                            onClick={() => handleProductSelection(item.Name)}
-                          >
-                            {item.Name}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
+                      ))}
+                    </ul>
+                  </div>
                 </div>
                 <div className='flex flex-row flex-space-between'>
                   {stateList &&

@@ -159,7 +159,9 @@ const Navigation = () => {
             <i className='eos-icons'>notifications</i>
             <div
               className={`dropdown ${
-                notificationsDropdownState ? 'dropdown-open' : 'dropdown-close'
+                notificationsDropdownState
+                  ? 'dropdown-open dropdown-left'
+                  : 'dropdown-close dropdown-left'
               }`}
             >
               <h4>Notfications</h4>
@@ -184,7 +186,9 @@ const Navigation = () => {
             <i className='eos-icons'>person</i>
             <div
               className={`dropdown ${
-                userDropdownState ? 'dropdown-open' : 'dropdown-close'
+                userDropdownState
+                  ? 'dropdown-open dropdown-left'
+                  : 'dropdown-close dropdown-left'
               }`}
             >
               <ul>
