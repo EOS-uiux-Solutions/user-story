@@ -14,11 +14,17 @@
 .dropdown {
   border: 1px solid rgba(0, 0, 0, 0.04);
   box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14);
-  float: right;
   position: absolute;
-  right: 15px;
   top: 100%;
   width: 114px;
+
+  &-left {
+    right: 15px;
+  }
+
+  &-right {
+    left: 0px;
+  }
 
   &-open {
     background-color: $dropdown-colored-bg;
@@ -30,6 +36,8 @@
   &-close {
     display: none;
   }
+
+
 }
 
 .dropdown-container:hover .dropdown-hover {
