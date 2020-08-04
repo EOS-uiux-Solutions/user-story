@@ -276,7 +276,6 @@ const Home = () => {
                   stories={stories}
                   state={currentStateSelected}
                   product={product}
-                  setStories={setStories}
                 />
               </>
             )}
