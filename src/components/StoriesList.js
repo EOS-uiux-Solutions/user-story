@@ -9,8 +9,8 @@ const StoriesList = (props) => {
   }
 
   return (
-    <>
-      {stories.length ? (
+    <div className='flex flex-column'>
+      {stories && stories.length ? (
         stories.map((story, key) => {
           return story.user_story_status.Status === state &&
             (story.product.Name === product || product === 'All') ? (
@@ -41,7 +41,7 @@ const StoriesList = (props) => {
       ) : (
         <h3>No stories</h3>
       )}
-    </>
+    </div>
   )
 }
 
