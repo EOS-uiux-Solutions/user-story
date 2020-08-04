@@ -1,0 +1,16 @@
+.pagination-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.pagination-list {
+  display: inline;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pagination-element {
+  padding: 0px 4px;
+}

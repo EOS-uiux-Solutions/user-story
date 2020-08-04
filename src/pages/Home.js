@@ -7,6 +7,7 @@ import axios from 'axios'
 import { apiURL } from '../config.json'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 import Navigation from '../components/Navigation'
+import Pagination from '../components/Pagination'
 
 const stateList = [
   'Under Consideration',
@@ -147,11 +148,17 @@ const Home = () => {
                         : 'dropdown-close dropdown-right'
                     }`}
                   >
-                    <ul>
-                      <li onClick={() => handleProductSelection('All')}>All</li>
+                    <ul className='dropdown-list'>
+                      <li
+                        className='dropdown-element'
+                        onClick={() => handleProductSelection('All')}
+                      >
+                        All
+                      </li>
                       {products.map((item, key) => (
                         <li
                           key={key}
+                          className='dropdown-element'
                           onClick={() => handleProductSelection(item.Name)}
                         >
                           {item.Name}
@@ -187,6 +194,7 @@ const Home = () => {
                 </div>
               </>
             )}
+            <Pagination />
           </div>
         </div>
       </div>

@@ -165,10 +165,12 @@ const Navigation = () => {
               }`}
             >
               <h4>Notfications</h4>
-              <ul>
+              <ul className='dropdown-list'>
                 {notifications
                   ? notifications.map((notification, key) => (
-                      <li key={key}>{notification.message}</li>
+                      <li className='dropdown-element' key={key}>
+                        {notification.message}
+                      </li>
                     ))
                   : ''}
               </ul>
@@ -191,18 +193,24 @@ const Navigation = () => {
                   : 'dropdown-close dropdown-left'
               }`}
             >
-              <ul>
-                <li onClick={() => navigate('/myStories')}>
+              <ul className='dropdown-list'>
+                <li
+                  className='dropdown-element'
+                  onClick={() => navigate('/myStories')}
+                >
                   <Link className='link link-light' to='#'>
                     MY STORIES
                   </Link>
                 </li>
-                <li onClick={() => navigate('/myProfile')}>
+                <li
+                  className='dropdown-element'
+                  onClick={() => navigate('/myProfile')}
+                >
                   <Link className='link link-light' to='#'>
                     MY PROFILE
                   </Link>
                 </li>
-                <li onClick={handleLogout}>
+                <li className='dropdown-element' onClick={handleLogout}>
                   <Link className='link link-light' to='#'>
                     LOG OUT
                   </Link>
