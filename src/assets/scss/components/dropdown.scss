@@ -44,17 +44,17 @@
   display: block;
 }
 
-ul {
+.dropdown-list {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-li {
+.dropdown-element {
   padding: 8px 16px;
 }
 
-li:hover {
+.dropdown-element:hover {
   background-color: rgba(0, 0, 0, 0.14);
   cursor: pointer;
 }

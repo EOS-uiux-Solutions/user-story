@@ -1,0 +1,17 @@
+.pagination {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  .link {
+    background-color: $primary;
+    color: $light-color;
+    font-weight: normal;
+    margin: 8px 8px;
+    padding: 8px 8px;
+  }
+
+  .link-highlighted {
+    background-color: $primary-light;
+  }
+}
