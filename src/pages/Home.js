@@ -197,13 +197,17 @@ const Home = () => {
                           : 'dropdown-close dropdown-right'
                       }`}
                     >
-                      <ul>
-                        <li onClick={() => handleProductSelection('All')}>
+                      <ul className='dropdown-list'>
+                        <li
+                          className='dropdown-element'
+                          onClick={() => handleProductSelection('All')}
+                        >
                           All
                         </li>
                         {products.map((item, key) => (
                           <li
                             key={key}
+                            className='dropdown-element'
                             onClick={() => handleProductSelection(item.Name)}
                           >
                             {item.Name}
@@ -236,10 +240,11 @@ const Home = () => {
                           : 'dropdown-close dropdown-right'
                       }`}
                     >
-                      <ul>
+                      <ul className='dropdown-list'>
                         {sortByList.map((item, key) => (
                           <li
                             key={key}
+                            className='dropdown-element'
                             onClick={() => handleSortSelection(item)}
                           >
                             {item}
