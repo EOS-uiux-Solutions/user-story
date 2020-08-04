@@ -1,16 +1,17 @@
-.pagination-wrapper {
+.pagination {
   display: flex;
   flex-direction: row;
   justify-content: center;
-}
 
-.pagination-list {
-  display: inline;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
+  .link {
+    background-color: $primary;
+    color: $light-color;
+    font-weight: normal;
+    margin: 8px 8px;
+    padding: 8px 8px;
+  }
 
-.pagination-element {
-  padding: 0px 4px;
+  .link-highlighted {
+    background-color: $primary-light;
+  }
 }
