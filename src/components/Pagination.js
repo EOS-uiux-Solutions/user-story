@@ -30,6 +30,7 @@ const Pagination = () => {
             }`}
             onClick={() => setCurrNumber(ele)}
             to='#'
+            key={key}
           >
             {ele}
           </Link>
