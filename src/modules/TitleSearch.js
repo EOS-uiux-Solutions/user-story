@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { navigate } from '@reach/router'
 
 const Search = (props) => {
   const { listToBeSearched, title } = props
@@ -12,9 +13,9 @@ const Search = (props) => {
         return
       }
       for (let i = 0; i < listToBeSearched.length; i++) {
-        const txtVal = listToBeSearched[i]
+        const txtVal = listToBeSearched[i].Title
         if (txtVal.toUpperCase().indexOf(title.toUpperCase()) > -1)
-          toBeAppended.push(txtVal)
+          toBeAppended.push({ id: listToBeSearched[i].id, Title: txtVal })
       }
       setSearchResults(toBeAppended)
     }
@@ -24,9 +25,17 @@ const Search = (props) => {
   return (
     <div className='search-container'>
       <div className='search-dropdown'>
-        <ul>
+        <ul className='dropdown-list'>
           {searchResults.map((result, key) => {
-            return <li key={key}>{result}</li>
+            return (
+              <li
+                className='dropdown-element'
+                onClick={() => navigate(`/story/${result.id}`)}
+                key={key}
+              >
+                {result.Title}
+              </li>
+            )
           })}
         </ul>
       </div>
