@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { navigate } from '@reach/router'
 
 const Search = (props) => {
   const { listToBeSearched, title } = props
@@ -30,7 +29,7 @@ const Search = (props) => {
             return (
               <li
                 className='dropdown-element'
-                onClick={() => navigate(`/story/${result.id}`)}
+                onClick={() => window.open(`/story/${result.id}`, '_blank')}
                 key={key}
               >
                 {result.Title}
