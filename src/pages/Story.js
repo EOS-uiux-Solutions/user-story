@@ -46,13 +46,6 @@ const Story = (props) => {
               user_story_status {
                 Status
               }
-              user_story_comments {
-                Comments
-                user {
-                  username
-                }
-                createdAt
-              }
               author {
                 id
                 username
@@ -282,10 +275,7 @@ const Story = (props) => {
                   )}
                 </div>
               </div>
-              <Comments
-                comments={story.user_story_comments}
-                storyId={storyId}
-              />
+              <Comments storyId={storyId} />
             </>
           ) : (
             ''
