@@ -47,7 +47,8 @@
     "format": "prettier --write .",
     "js:fix": "eslint src/ --fix",
     "test:js": "eslint src/",
-    "docs": "jsdoc -c jsdoc.conf.json"
+    "docs": "jsdoc -c jsdoc.conf.json",
+    "lint:fix": "sass-lint-auto-fix"
   },
   "husky": {
     "hooks": {

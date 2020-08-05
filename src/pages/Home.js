@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react'
-import Button from '../components/Button'
-import StoriesList from '../components/StoriesList'
-import LoadingIndicator from '../modules/LoadingIndicator'
-
+import { Link } from '@reach/router'
 import axios from 'axios'
 import { apiURL } from '../config.json'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
+import useAuth from '../hooks/useAuth'
+
+import Button from '../components/Button'
+import StoriesList from '../components/StoriesList'
+import LoadingIndicator from '../modules/LoadingIndicator'
 import Navigation from '../components/Navigation'
 import Pagination from '../components/Pagination'
+import Modal from '../components/Modal'
 
 const stateList = [
   'Under consideration',
@@ -21,11 +24,14 @@ const stateList = [
 const sortByList = ['Most Voted', 'Most Discussed']
 
 const Home = () => {
-  const [currentStateSelected, selectState] = useState('Under consideration')
-
   const [page, setPage] = useState(1)
 
   const [storyCount, setStoryCount] = useState()
+  const { logout } = useAuth()
+
+  const userId = localStorage.getItem('id')
+
+  const [currentStateSelected, selectState] = useState('Under Consideration')
 
   const [stories, setStories] = useState([])
 
@@ -39,6 +45,12 @@ const Home = () => {
   const [sort, setSort] = useState('Most Voted')
 
   const [products, setProducts] = useState([])
+
+  const [modal, setModal] = useState(false)
+
+  const [policyUpdate, setPolicyUpdate] = useState()
+
+  const [policyUpdateRejected, setPolicyUpdateRejected] = useState(false)
 
   const handleProductSelection = (value) => {
     setProduct(value)
@@ -54,6 +66,14 @@ const Home = () => {
   }
   const handleSortDropdownState = () => {
     setSortDropdownState(!sortDropdownState)
+  }
+
+  const handlePolicyUpdateReject = async () => {
+    if (!policyUpdateRejected && userId) {
+      await logout()
+      setPolicyUpdateRejected(true)
+    }
+    setModal(false)
   }
 
   const { promiseInProgress } = usePromiseTracker()
@@ -197,11 +217,85 @@ const Home = () => {
     updateStories()
   }, [sort, stories, setStories])
 
+  useEffect(() => {
+    const fetchPolicyNotifications = async () => {
+      const response = await axios.post(
+        `${apiURL}/graphql`,
+        {
+          query: `
+        query {
+          userStoryNotifications(where: {message: "User story privacy policy has been updated"}) {
+            message
+            id
+            users {
+              id
+            }
+            seenBy {
+              id
+            }
+            date
+            link
+          }
+        }`
+        },
+        {
+          withCredentials: true
+        }
+      )
+      const seenBy = response.data.data.userStoryNotifications[0].seenBy.map(
+        (seen) => seen.id
+      )
+      if (
+        response.data.data.userStoryNotifications.length &&
+        !seenBy.includes(userId)
+      ) {
+        setModal(true)
+        setPolicyUpdate(response.data.data.userStoryNotifications[0])
+      }
+    }
+    fetchPolicyNotifications()
+  }, [userId])
+
+  const acceptUpdatedPolicy = async () => {
+    const seenBy = policyUpdate.seenBy.map((seen) => seen.id)
+    if (!seenBy.includes(userId)) {
+      seenBy.push(userId)
+      await axios.post(
+        `${apiURL}/graphql`,
+        {
+          query: `mutation updateNotifications($seenBy: [ID]){
+          updateUserStoryNotification(input: {
+            where: {
+              id: "${policyUpdate.id}"
+            }
+            data: {
+              seenBy: $seenBy
+            }
+          }) {
+            userStoryNotification {
+              id
+            }
+          }
+        }`,
+          variables: {
+            seenBy: seenBy
+          }
+        },
+        {
+          withCredentials: true
+        }
+      )
+      setModal(false)
+    } else {
+      setModal(false)
+    }
+  }
+
   return (
     <>
       <div className='base-wrapper'>
         <div className='base-container'>
-          <Navigation />
+          <Navigation policyUpdateRejected={policyUpdateRejected} />
           <div className='home-content'>
             <h3>Welcome to EOS User Stories</h3>
             <p>
@@ -321,6 +415,24 @@ const Home = () => {
           </div>
         </div>
       </div>
+      {modal && policyUpdate && !policyUpdateRejected ? (
+        <Modal
+          showButtons={true}
+          onCancel={handlePolicyUpdateReject}
+          isActive={modal}
+          show={() => setModal(false)}
+          onOk={acceptUpdatedPolicy}
+        >
+          {
+            <>
+              {policyUpdate.message}
+              <Link to={`/${policyUpdate.link}`}>View privacy policy</Link>
+            </>
+          }
+        </Modal>
+      ) : (
+        ''
+      )}
     </>
   )
 }

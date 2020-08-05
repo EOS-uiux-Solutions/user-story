@@ -109,13 +109,7 @@ export const Register = () => {
                 name='password'
                 onChange={handleInputChange}
               />
-              <div className='flex flex-row flex-space-between'>
-                <label htmlFor='tc'>
-                  I agree to the{' '}
-                  <Link className='link link-default' to='#'>
-                    Terms and Conditions
-                  </Link>
-                </label>
+              <div className='flex flex-row'>
                 <input
                   type='checkbox'
                   name='tc'
@@ -126,6 +120,12 @@ export const Register = () => {
                     })
                   }
                 />
+                <label htmlFor='tc'>
+                  I agree to the{' '}
+                  <Link className='link link-default' to='/policies'>
+                    Terms and Conditions
+                  </Link>
+                </label>
               </div>
               <Button type='submit' className='btn btn-default'>
                 {t('authentication:register-label')}
