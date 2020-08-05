@@ -26,7 +26,7 @@ const Dropdown = (props) => {
     <div className='dropdown-container' ref={container}>
       <Button
         type='button'
-        className='btn btn-dropdown'
+        className='btn btn-transparent'
         onClick={handleButtonClick}
       >
         {dropdownState ? (
