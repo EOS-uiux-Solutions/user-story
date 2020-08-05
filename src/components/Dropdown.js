@@ -38,8 +38,9 @@ const Dropdown = (props) => {
       </Button>
       {dropdownState ? (
         <div className='dropdown'>
-          <ul>
+          <ul className='dropdown-list'>
             <li
+              className='dropdown-element'
               onClick={() => {
                 translator.changeLanguage('en')
                 setDropdownState(false)
@@ -48,6 +49,7 @@ const Dropdown = (props) => {
               English
             </li>
             <li
+              className='dropdown-element'
               onClick={() => {
                 translator.changeLanguage('es')
                 setDropdownState(false)
