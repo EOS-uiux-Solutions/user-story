@@ -180,7 +180,7 @@ const Home = () => {
                   >
                     <Button
                       type='button'
-                      className='btn btn-dropdown btn-flexible'
+                      className='btn btn-transparent'
                       onClick={handleProductDropdownState}
                     >
                       {productDropdownState ? (
@@ -223,7 +223,7 @@ const Home = () => {
                   >
                     <Button
                       type='button'
-                      className='btn btn-dropdown btn-flexible'
+                      className='btn btn-transparent'
                       onClick={handleSortDropdownState}
                     >
                       {sortDropdownState ? (
