@@ -139,6 +139,7 @@ const NewStory = () => {
                   type='text'
                   name='title'
                   onChange={handleInputChange}
+                  autoComplete='off'
                 />
                 <Search listToBeSearched={titles} title={data.title} />
                 <label htmlFor='product'>Product</label>
