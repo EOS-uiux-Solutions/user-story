@@ -22,7 +22,6 @@
 .image {
   &-logo {
     height: 36px;
-    margin-top: 32px;
     width: 88px;
   }
 
@@ -56,7 +55,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 0 120px;
+  padding: 32px 120px 0px 120px;
   width: 675px;
 
   .header {
@@ -71,7 +70,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 0 32px;
+  padding: 32px 32px 0px 32px;
   width: 445px;
 
   .footer {
@@ -100,7 +99,7 @@
   }
 
   .container-right {
-    padding: 0 32px;
+    padding: 32px 32px 0px 32px;
     width: 100%;
 
     .header {

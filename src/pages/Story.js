@@ -260,25 +260,32 @@ const Story = (props) => {
                   />
                 )}
                 <div className='story-buttons-container'>
-                  {editMode && editor ? (
-                    <Button className='btn btn-default' onClick={save}>
-                      Save
-                    </Button>
-                  ) : (
+                  {editMode && !editor ? (
                     <Button
                       className='btn btn-default'
                       onClick={() => setEditor(true)}
                     >
                       Edit
                     </Button>
+                  ) : (
+                    ''
                   )}
-                  {editMode && editor && (
+                  {editor ? (
+                    <Button className='btn btn-default' onClick={save}>
+                      Save
+                    </Button>
+                  ) : (
+                    ''
+                  )}
+                  {editor ? (
                     <Button
                       className='btn btn-default'
                       onClick={() => setEditor(false)}
                     >
                       Cancel
                     </Button>
+                  ) : (
+                    ''
                   )}
                 </div>
               </div>
