@@ -31,20 +31,19 @@ const Search = (props) => {
   }, [title, listToBeSearched])
 
   return searchResults.length > 0 ? (
-    <div className='flex flex-column search-container'>
+    <div className='flex flex-column title-search'>
       <h4>
-        {' '}
         <i className='eos-icons'>arrow_forward</i> We found some matching
         results
       </h4>
       {searchResults.map((result, key) => {
         return (
           <div
-            className='story search-results'
+            className='story title-search-results'
             onClick={() => window.open(`/story/${result.id}`, '_blank')}
             key={key}
           >
-            <div className='stories-content search-result'>
+            <div className='stories-content title-search-result'>
               <h4>{result.Title}</h4>
               {strip(result.Description)}
             </div>

@@ -28,14 +28,14 @@ const NewStory = () => {
 
   const { promiseInProgress } = usePromiseTracker()
 
-  const [size, setSize] = useState(0)
+  const [screenSize, setScreenSize] = useState(0)
   useLayoutEffect(() => {
-    function updateSize() {
-      setSize(window.innerWidth)
+    function updateScreenSize() {
+      setScreenSize(window.innerWidth)
     }
-    window.addEventListener('resize', updateSize)
-    updateSize()
-    return () => window.removeEventListener('resize', updateSize)
+    window.addEventListener('resize', updateScreenSize)
+    updateScreenSize()
+    return () => window.removeEventListener('resize', updateScreenSize)
   }, [])
 
   useEffect(() => {
@@ -145,7 +145,7 @@ const NewStory = () => {
             <LoadingIndicator />
           ) : (
             <div className='flex flex-row'>
-              <div className='newstory-content'>
+              <div className='newstory'>
                 <h3>New Story</h3>
                 <form className='form-default' onSubmit={handleFormSubmit}>
                   <label htmlFor='title'>Title</label>
@@ -156,7 +156,7 @@ const NewStory = () => {
                     onChange={handleInputChange}
                     autoComplete='off'
                   />
-                  {size <= 1120 ? (
+                  {screenSize <= 1120 ? (
                     <Search listToBeSearched={storiesData} title={data.title} />
                   ) : (
                     ''
@@ -228,7 +228,7 @@ const NewStory = () => {
                   </div>
                 </form>
               </div>
-              {size > 1120 ? (
+              {screenSize > 1120 ? (
                 <Search listToBeSearched={storiesData} title={data.title} />
               ) : (
                 ''

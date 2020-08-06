@@ -1,4 +1,4 @@
-.search-container {
+.title-search {
   flex-wrap: initial;
   margin: 64px 16px 0px 16px;
   max-height: 576px;
@@ -8,24 +8,26 @@
 }
 
 
-.search-results {
+.title-search-results {
   background-color: $light-color;
   padding: 8px 8px;
 }
 
-.search-result {
+.title-search-result {
   max-width: 80%;
   padding: 8px 8px;
+
+  &:hover {
+    background-color: $primary-light;
+    cursor: pointer;
+  }
 }
 
-.search-result:hover {
-  background-color: $primary-light;
-  cursor: pointer;
-}
+
 
 @media only screen and (max-width: 1120px) {
-  .search-container {
-    margin: -32px 0px 0px 0px;
+  .title-search {
+    margin: -32px 0px 32px 0px;
     max-height: 384px;
     max-width: 100%;
   }
