@@ -242,15 +242,17 @@ const Home = () => {
           withCredentials: true
         }
       )
-      const seenBy = response.data.data.userStoryNotifications[0].seenBy.map(
-        (seen) => seen.id
-      )
-      if (
-        response.data.data.userStoryNotifications.length &&
-        !seenBy.includes(userId)
-      ) {
-        setModal(true)
-        setPolicyUpdate(response.data.data.userStoryNotifications[0])
+      if (response.data.data.userStoryNotifications) {
+        const seenBy = response.data.data.userStoryNotifications[0].seenBy.map(
+          (seen) => seen.id
+        )
+        if (
+          response.data.data.userStoryNotifications.length &&
+          !seenBy.includes(userId)
+        ) {
+          setModal(true)
+          setPolicyUpdate(response.data.data.userStoryNotifications[0])
+        }
       }
     }
     fetchPolicyNotifications()
