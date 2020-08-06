@@ -30,34 +30,21 @@ const Search = (props) => {
     updateSearchResults()
   }, [title, listToBeSearched])
 
-  return (
-    // <div className='search-container'>
-    //   <div className='search-dropdown'>
-    //     <ul className='dropdown-list'>
-    //       {searchResults.map((result, key) => {
-    //         return (
-    //           <li
-    //             className='dropdown-element'
-    //          nClick={() => window.open(`/story/${result.id}`, '_blank')}
-    //             key={key}
-    //           >
-    //             {result.Title}
-    //           </li>
-    //         )
-    //       })}
-    //     </ul>
-    //   </div>
-    // </div>
+  return searchResults.length > 0 ? (
     <div className='flex flex-column search-container'>
-      {searchResults.length > 0 ? <h4>We found some matching results</h4> : ''}
+      <h4>
+        {' '}
+        <i className='eos-icons'>arrow_forward</i> We found some matching
+        results
+      </h4>
       {searchResults.map((result, key) => {
         return (
           <div
-            className='story search-result'
+            className='story search-results'
             onClick={() => window.open(`/story/${result.id}`, '_blank')}
             key={key}
           >
-            <div className='stories-content'>
+            <div className='stories-content search-result'>
               <h4>{result.Title}</h4>
               {strip(result.Description)}
             </div>
@@ -69,6 +56,8 @@ const Search = (props) => {
         )
       })}
     </div>
+  ) : (
+    ''
   )
 }
 
