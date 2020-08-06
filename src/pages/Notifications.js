@@ -53,7 +53,7 @@ const Notifications = () => {
           {promiseInProgress ? (
             <LoadingIndicator />
           ) : (
-            <div className='notifications-content'>
+            <div className='notifications'>
               <h3>Notifications</h3>
               <div className='flex flex-column'>
                 {notifications ? (
