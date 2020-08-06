@@ -10,12 +10,12 @@ import StoriesList from '../components/StoriesList'
 import Navigation from '../components/Navigation'
 
 const stateList = [
-  'Under Consideration',
+  'Under consideration',
   'Planned',
-  'Design in progress',
-  'Development in progress',
+  'Designing',
+  'Implementing',
   'Testing',
-  'Launched'
+  'Deployed'
 ]
 
 const sortByList = ['Most Voted', 'Most Discussed']
@@ -25,7 +25,7 @@ const MyStories = () => {
 
   const [currentStateSelected, selectState] = useState('My Submissions')
 
-  const [storyStateSelected, selectStoryState] = useState('Under Consideration')
+  const [storyStateSelected, selectStoryState] = useState('Under consideration')
 
   const productDropdownContainer = useRef()
   const sortDropdownContainer = useRef()

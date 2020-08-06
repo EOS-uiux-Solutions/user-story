@@ -205,10 +205,9 @@ const Home = () => {
           <div className='home-content'>
             <h3>Welcome to EOS User Stories</h3>
             <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book.
+              Share with us how you use our products, relate to other users'
+              stories, vote them up, and we'll make sure we deliver cohesive
+              solutions that enhance your experience.
             </p>
             <div className='flex flex-row'>
               <div className='filter-title'>Filter by product</div>
