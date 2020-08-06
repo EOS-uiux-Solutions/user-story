@@ -10,18 +10,22 @@ import Navigation from '../components/Navigation'
 import Pagination from '../components/Pagination'
 
 const stateList = [
-  'Under Consideration',
+  'Under consideration',
   'Planned',
-  'Design in progress',
-  'Development in progress',
+  'Designing',
+  'Implementing',
   'Testing',
-  'Launched'
+  'Deployed'
 ]
 
 const sortByList = ['Most Voted', 'Most Discussed']
 
 const Home = () => {
-  const [currentStateSelected, selectState] = useState('Under Consideration')
+  const [currentStateSelected, selectState] = useState('Under consideration')
+
+  const [page, setPage] = useState(1)
+
+  const [storyCount, setStoryCount] = useState()
 
   const [stories, setStories] = useState([])
 
@@ -54,6 +58,94 @@ const Home = () => {
 
   const { promiseInProgress } = usePromiseTracker()
 
+  const getPage = (page) => {
+    setPage(page)
+  }
+
+  useEffect(() => {
+    const fetchStories = async () => {
+      const response = await axios.post(
+        `${apiURL}/graphql`,
+        {
+          query: `query {
+            userStories(sort: "createdAt:desc", limit: 5, start: ${
+              (page - 1) * 5
+            }, where: {
+              user_story_status : {
+                Status: "${currentStateSelected}"
+              }
+            }) {
+              id
+              Title
+              Description
+              user_story_status {
+                Status
+              }
+              user_story_comments {
+                Comments
+              }
+              product {
+                Name
+              }
+              followers {
+                username
+              }
+            }
+          }
+          `
+        },
+        {
+          withCredentials: true
+        }
+      )
+      setStories(response.data.data.userStories)
+    }
+    trackPromise(fetchStories())
+  }, [currentStateSelected, page])
+
+  useEffect(() => {
+    const fetchStoryCount = async () => {
+      const response = await axios.post(
+        `${apiURL}/graphql`,
+        {
+          query: `
+          query {
+            userStoriesConnection(where: { user_story_status: { Status: "${currentStateSelected}" } }) {
+              aggregate {
+                count
+              }
+            }
+          }`
+        },
+        {
+          withCredentials: true
+        }
+      )
+      setStoryCount(response.data.data.userStoriesConnection.aggregate.count)
+    }
+    fetchStoryCount()
+  }, [currentStateSelected])
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const response = await axios.post(
+        `${apiURL}/graphql`,
+        {
+          query: `query {
+          products {
+            Name
+          }
+        }`
+        },
+        {
+          withCredentials: true
+        }
+      )
+      setProducts(response.data.data.products)
+    }
+    fetchProducts()
+  }, [])
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -69,6 +161,7 @@ const Home = () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [productDropdownContainer])
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -86,57 +179,6 @@ const Home = () => {
   }, [sortDropdownContainer])
 
   useEffect(() => {
-    const fetchStories = async () => {
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `query {
-            userStories(sort: "votes:desc,createdAt:desc") {
-              id
-              Title
-              Description
-              user_story_status {
-                Status
-              }
-              user_story_comments {
-                Comments
-              }
-              product {
-                Name
-              }
-              followers {
-                username
-              }
-            }
-          }`
-        },
-        {
-          withCredentials: true
-        }
-      )
-      setStories(response.data.data.userStories)
-    }
-    trackPromise(fetchStories())
-    const fetchProducts = async () => {
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `query {
-          products {
-            Name
-          }
-        }`
-        },
-        {
-          withCredentials: true
-        }
-      )
-      setProducts(response.data.data.products)
-    }
-    trackPromise(fetchProducts())
-  }, [])
-
-  useEffect(() => {
     const comparatorVotes = (a, b) => {
       return a.followers.length < b.followers.length
     }
@@ -144,7 +186,7 @@ const Home = () => {
       return a.user_story_comments.length < b.user_story_comments.length
     }
 
-    const updateStories = async () => {
+    const updateStories = () => {
       if (sort === 'Most Voted') {
         setStories(stories.sort(comparatorVotes))
       }
@@ -152,7 +194,7 @@ const Home = () => {
         setStories(stories.sort(comparatorComments))
       }
     }
-    trackPromise(updateStories())
+    updateStories()
   }, [sort, stories, setStories])
 
   return (
@@ -168,110 +210,107 @@ const Home = () => {
               ever since the 1500s, when an unknown printer took a galley of
               type and scrambled it to make a type specimen book.
             </p>
+            <div className='flex flex-row'>
+              <div className='filter-title'>Filter by product</div>
+              <div
+                className='dropdown-container'
+                ref={productDropdownContainer}
+              >
+                <Button
+                  type='button'
+                  className='btn btn-dropdown btn-flexible'
+                  onClick={handleProductDropdownState}
+                >
+                  {productDropdownState ? (
+                    <i className='eos-icons'>keyboard_arrow_up</i>
+                  ) : (
+                    <i className='eos-icons'>keyboard_arrow_down</i>
+                  )}
+                  &nbsp; {product}
+                </Button>
+                <div
+                  className={`dropdown ${
+                    productDropdownState
+                      ? 'dropdown-open dropdown-right'
+                      : 'dropdown-close dropdown-right'
+                  }`}
+                >
+                  <ul className='dropdown-list'>
+                    <li
+                      className='dropdown-element'
+                      onClick={() => handleProductSelection('All')}
+                    >
+                      All
+                    </li>
+                    {products.map((item, key) => (
+                      <li
+                        key={key}
+                        className='dropdown-element'
+                        onClick={() => handleProductSelection(item.Name)}
+                      >
+                        {item.Name}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+              <div className='filter-title'>Sort by</div>
+              <div className='dropdown-container' ref={sortDropdownContainer}>
+                <Button
+                  type='button'
+                  className='btn btn-dropdown btn-flexible'
+                  onClick={handleSortDropdownState}
+                >
+                  {sortDropdownState ? (
+                    <i className='eos-icons'>keyboard_arrow_up</i>
+                  ) : (
+                    <i className='eos-icons'>keyboard_arrow_down</i>
+                  )}
+                  &nbsp; {sort}
+                </Button>
+                <div
+                  className={`dropdown ${
+                    sortDropdownState
+                      ? 'dropdown-open dropdown-right'
+                      : 'dropdown-close dropdown-right'
+                  }`}
+                >
+                  <ul className='dropdown-list'>
+                    {sortByList.map((item, key) => (
+                      <li
+                        key={key}
+                        className='dropdown-element'
+                        onClick={() => handleSortSelection(item)}
+                      >
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div className='flex flex-row flex-space-between'>
+              {stateList &&
+                stateList.map((state, key) => {
+                  return (
+                    <Button
+                      className={
+                        currentStateSelected === state
+                          ? 'btn btn-tabs btn-tabs-selected'
+                          : 'btn btn-tabs'
+                      }
+                      key={key}
+                      onClick={() => selectState(state)}
+                    >
+                      {state}
+                    </Button>
+                  )
+                })}
+            </div>
             {promiseInProgress ? (
               <LoadingIndicator />
             ) : (
               <>
-                <div className='flex flex-row'>
-                  <div className='filter-title'>Filter by product</div>
-                  <div
-                    className='dropdown-container'
-                    ref={productDropdownContainer}
-                  >
-                    <Button
-                      type='button'
-                      className='btn btn-transparent'
-                      onClick={handleProductDropdownState}
-                    >
-                      {productDropdownState ? (
-                        <i className='eos-icons'>keyboard_arrow_up</i>
-                      ) : (
-                        <i className='eos-icons'>keyboard_arrow_down</i>
-                      )}
-                      &nbsp; {product}
-                    </Button>
-                    <div
-                      className={`dropdown ${
-                        productDropdownState
-                          ? 'dropdown-open dropdown-right'
-                          : 'dropdown-close dropdown-right'
-                      }`}
-                    >
-                      <ul className='dropdown-list'>
-                        <li
-                          className='dropdown-element'
-                          onClick={() => handleProductSelection('All')}
-                        >
-                          All
-                        </li>
-                        {products.map((item, key) => (
-                          <li
-                            key={key}
-                            className='dropdown-element'
-                            onClick={() => handleProductSelection(item.Name)}
-                          >
-                            {item.Name}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                  <div className='filter-title'>Sort by</div>
-                  <div
-                    className='dropdown-container'
-                    ref={sortDropdownContainer}
-                  >
-                    <Button
-                      type='button'
-                      className='btn btn-transparent'
-                      onClick={handleSortDropdownState}
-                    >
-                      {sortDropdownState ? (
-                        <i className='eos-icons'>keyboard_arrow_up</i>
-                      ) : (
-                        <i className='eos-icons'>keyboard_arrow_down</i>
-                      )}
-                      &nbsp; {sort}
-                    </Button>
-                    <div
-                      className={`dropdown ${
-                        sortDropdownState
-                          ? 'dropdown-open dropdown-right'
-                          : 'dropdown-close dropdown-right'
-                      }`}
-                    >
-                      <ul className='dropdown-list'>
-                        {sortByList.map((item, key) => (
-                          <li
-                            key={key}
-                            className='dropdown-element'
-                            onClick={() => handleSortSelection(item)}
-                          >
-                            {item}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <div className='flex flex-row flex-space-between'>
-                  {stateList &&
-                    stateList.map((state, key) => {
-                      return (
-                        <Button
-                          className={
-                            currentStateSelected === state
-                              ? 'btn btn-tabs btn-tabs-selected'
-                              : 'btn btn-tabs'
-                          }
-                          key={key}
-                          onClick={() => selectState(state)}
-                        >
-                          {state}
-                        </Button>
-                      )
-                    })}
-                </div>
                 <StoriesList
                   stories={stories}
                   state={currentStateSelected}
@@ -279,7 +318,7 @@ const Home = () => {
                 />
               </>
             )}
-            <Pagination />
+            <Pagination getPage={getPage} storyCount={storyCount} />
           </div>
         </div>
       </div>

@@ -1,48 +1,69 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { Link } from '@reach/router'
 
-const pages = [1, 2, 3, 4]
+const Pagination = (props) => {
+  const { getPage, storyCount } = props
 
-const Pagination = () => {
   const [currNumber, setCurrNumber] = useState(1)
+
+  const [pages, setPages] = useState()
+
+  useEffect(() => {
+    if (storyCount) {
+      if (storyCount >= 5) {
+        const n = Math.ceil(storyCount / 5)
+        setPages([...Array(n + 1).keys()].slice(1))
+      } else {
+        setPages([1])
+      }
+    }
+  }, [storyCount])
 
   return (
     <div className='pagination'>
       <Link
         className='link link-default'
         onClick={() => {
-          if (pages.find((page) => page === currNumber - 1))
+          if (pages.find((page) => page === currNumber - 1)) {
             setCurrNumber((currNumber) => currNumber - 1)
+            getPage(currNumber - 1)
+          }
         }}
-        to='#'
+        to='/'
       >
         Prev
       </Link>
 
-      {pages.map((ele, key) => {
-        return (
-          <Link
-            className={`link ${
-              currNumber === ele
-                ? 'link-highlighted link-default'
-                : 'link-default'
-            }`}
-            onClick={() => setCurrNumber(ele)}
-            to='#'
-            key={key}
-          >
-            {ele}
-          </Link>
-        )
-      })}
+      {pages
+        ? pages.map((ele, key) => {
+            return (
+              <Link
+                className={`link ${
+                  currNumber === ele
+                    ? 'link-highlighted link-default'
+                    : 'link-default'
+                }`}
+                onClick={() => {
+                  setCurrNumber(ele)
+                  getPage(ele)
+                }}
+                to='/'
+                key={key}
+              >
+                {ele}
+              </Link>
+            )
+          })
+        : ''}
       <Link
         className='link link-default'
         onClick={() => {
           if (pages.find((page) => page === currNumber + 1))
             setCurrNumber((currNumber) => currNumber + 1)
+          getPage(currNumber + 1)
         }}
-        to='#'
+        to='/'
       >
         Next
       </Link>
