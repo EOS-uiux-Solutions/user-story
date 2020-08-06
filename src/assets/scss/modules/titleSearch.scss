@@ -1,11 +1,12 @@
 .search-container {
-  bottom: 5px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 32px;
-  margin-top: -32px;
-  width: 100%;
+  // bottom: 5px;
+  // box-sizing: border-box;
+  // display: flex;
+  // flex-direction: column;
+  // margin-bottom: 32px;
+  // margin-top: -32px;
+  // width: 100%;
+  margin: -32px 0px 32px 0px;
 }
 
 .search-dropdown {
@@ -14,4 +15,15 @@
   overflow-y: scroll;
   position: absolute;
   width: auto;
+}
+
+
+.search-result {
+  background-color: $light-color;
+  padding: 8px 8px;
+}
+
+.search-result:hover {
+  background-color: $primary-light;
+  cursor: pointer;
 }

@@ -24,7 +24,7 @@ const NewStory = () => {
   const [data, setData] = useState(initialState)
   const [categories, setCategories] = useState([])
   const [products, setProducts] = useState([])
-  const [titles, setTitles] = useState([])
+  const [storiesData, setStoriesData] = useState([])
 
   const { promiseInProgress } = usePromiseTracker()
 
@@ -59,7 +59,7 @@ const NewStory = () => {
       setProducts(response.data.data.products)
     }
     trackPromise(fetchProducts())
-    const fetchTitles = async () => {
+    const fetchStoriesData = async () => {
       const response = await axios.post(
         `${apiURL}/graphql`,
         {
@@ -67,6 +67,10 @@ const NewStory = () => {
             userStories(sort: "votes:desc,createdAt:desc") {
               id
               Title
+              Description
+              followers {
+                username
+              }
             }
           }`
         },
@@ -74,9 +78,9 @@ const NewStory = () => {
           withCredentials: true
         }
       )
-      setTitles(response.data.data.userStories)
+      setStoriesData(response.data.data.userStories)
     }
-    trackPromise(fetchTitles())
+    trackPromise(fetchStoriesData())
   }, [])
 
   const handleInputChange = (event) => {
@@ -141,7 +145,7 @@ const NewStory = () => {
                   onChange={handleInputChange}
                   autoComplete='off'
                 />
-                <Search listToBeSearched={titles} title={data.title} />
+                <Search listToBeSearched={storiesData} title={data.title} />
                 <label htmlFor='product'>Product</label>
                 <select
                   className='select-default'
