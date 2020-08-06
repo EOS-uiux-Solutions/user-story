@@ -12,8 +12,6 @@ import Search from '../modules/TitleSearch'
 import Dragdrop from '../components/Dragdrop'
 import { navigate } from '@reach/router'
 
-const tempList = ['devesh vijaywargiya', 'aditya', 'Ola moom']
-
 const NewStory = () => {
   const initialState = {
     title: '',
@@ -26,6 +24,7 @@ const NewStory = () => {
   const [data, setData] = useState(initialState)
   const [categories, setCategories] = useState([])
   const [products, setProducts] = useState([])
+  const [titles, setTitles] = useState([])
 
   const { promiseInProgress } = usePromiseTracker()
 
@@ -60,6 +59,24 @@ const NewStory = () => {
       setProducts(response.data.data.products)
     }
     trackPromise(fetchProducts())
+    const fetchTitles = async () => {
+      const response = await axios.post(
+        `${apiURL}/graphql`,
+        {
+          query: `query {
+            userStories(sort: "votes:desc,createdAt:desc") {
+              id
+              Title
+            }
+          }`
+        },
+        {
+          withCredentials: true
+        }
+      )
+      setTitles(response.data.data.userStories)
+    }
+    trackPromise(fetchTitles())
   }, [])
 
   const handleInputChange = (event) => {
@@ -122,8 +139,9 @@ const NewStory = () => {
                   type='text'
                   name='title'
                   onChange={handleInputChange}
+                  autoComplete='off'
                 />
-                <Search listToBeSearched={tempList} title={data.title} />
+                <Search listToBeSearched={titles} title={data.title} />
                 <label htmlFor='product'>Product</label>
                 <select
                   className='select-default'
