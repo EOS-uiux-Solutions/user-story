@@ -56,16 +56,27 @@ const Notifications = () => {
             <div className='notifications-content'>
               <h3>Notifications</h3>
               <div className='flex flex-column'>
-                {notifications.map((ele, key) => {
-                  return (
-                    <div className='notification' key={key}>
-                      <div className='notification-text'>{ele.message}</div>
-                      <div className='notification-text'>
-                        {`${ele.date.slice(0, 10)}  ${ele.date.slice(11, 19)}`}
+                {notifications ? (
+                  notifications.map((ele, key) => {
+                    return (
+                      <div className='notification' key={key}>
+                        <div className='notification-text'>{ele.message}</div>
+                        <div className='notification-text'>
+                          {`${ele.date.slice(0, 10)}  ${ele.date.slice(
+                            11,
+                            19
+                          )}`}
+                        </div>
                       </div>
+                    )
+                  })
+                ) : (
+                  <div className='notification'>
+                    <div className='notification-text'>
+                      No notifications at the moment
                     </div>
-                  )
-                })}
+                  </div>
+                )}
               </div>
             </div>
           )}
