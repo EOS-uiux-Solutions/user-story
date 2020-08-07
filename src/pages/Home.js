@@ -415,26 +415,31 @@ const Home = () => {
             )}
             <Pagination getPage={getPage} storyCount={storyCount} />
           </div>
+          {modal && policyUpdate && !policyUpdateRejected ? (
+            <Modal
+              showButtons={true}
+              onCancel={handlePolicyUpdateReject}
+              isActive={modal}
+              show={() => setModal(false)}
+              onOk={acceptUpdatedPolicy}
+            >
+              {
+                <>
+                  {policyUpdate.message}
+                  <Link
+                    className='link link-default'
+                    to={`/${policyUpdate.link}`}
+                  >
+                    View privacy policy
+                  </Link>
+                </>
+              }
+            </Modal>
+          ) : (
+            ''
+          )}
         </div>
       </div>
-      {modal && policyUpdate && !policyUpdateRejected ? (
-        <Modal
-          showButtons={true}
-          onCancel={handlePolicyUpdateReject}
-          isActive={modal}
-          show={() => setModal(false)}
-          onOk={acceptUpdatedPolicy}
-        >
-          {
-            <>
-              {policyUpdate.message}
-              <Link to={`/${policyUpdate.link}`}>View privacy policy</Link>
-            </>
-          }
-        </Modal>
-      ) : (
-        ''
-      )}
     </>
   )
 }

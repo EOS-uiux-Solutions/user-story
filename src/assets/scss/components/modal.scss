@@ -1,74 +1,23 @@
 .modal {
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.8);
   display: flex;
   height: 100%;
-  position: fixed;
+  left: 0;
+  position: absolute;
   top: 0;
   width: 100%;
   z-index: 100;
 
   &-card {
-    background-color: white;
-    border-radius: 8px;
+    background-color: $light-color;
     left: 50%;
     max-width: 450px;
-    position: fixed;
+    position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);
   }
+}
 
-  .modal-content {
-    padding: 24px;
-  }
-
-  .modal-btn {
-    color: $light-color;
-    font-weight: bold;
-    padding: 16px;
-
-    &:hover {
-      cursor: pointer;
-      opacity: 1;
-    }
-
-    &-cancel {
-      background-color: #b8bece;
-      border-radius: 0px 0px 0px 7px;
-    }
-
-    &-accept {
-      background-color: #eb796f;
-      border-radius: 0px 0px 7px 0px;
-    }
-  }
-
-  .close {
-    opacity: 0.3;
-    position: absolute;
-    right: 32px;
-    top: 8px;
-
-    &:hover {
-      cursor: pointer;
-      opacity: 1;
-    }
-
-    &:before,
-    &:after {
-      background-color: #333;
-      content: ' ';
-      height: 16px;
-      left: 16px;
-      position: absolute;
-      width: 4px;
-    }
-
-    &:before {
-      transform: rotate(45deg);
-    }
-
-    &:after {
-      transform: rotate(-45deg);
-    }
-  }
+.modal-content {
+  padding: 24px;
 }

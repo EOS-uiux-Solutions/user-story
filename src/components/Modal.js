@@ -1,5 +1,7 @@
 import React from 'react'
 
+import Button from './Button'
+
 const Modal = (props) => {
   const {
     isActive,
@@ -16,21 +18,13 @@ const Modal = (props) => {
       <div className='modal-card'>
         <div className='flex flex-row modal-content'>{children}</div>
         {showButtons && (
-          <div className='flex flex-row'>
-            <div
-              className='flex-content modal-btn modal-btn-cancel'
-              align='center'
-              onClick={onCancel}
-            >
+          <div className='flex flex-row flex-space-around'>
+            <Button className='btn btn-default' onClick={onCancel}>
               {cancelText || 'Cancel'}
-            </div>
-            <div
-              className='flex-content modal-btn modal-btn-accept'
-              align='center'
-              onClick={onOk}
-            >
+            </Button>
+            <Button className='btn btn-default' onClick={onOk}>
               {okText || 'Accept'}
-            </div>
+            </Button>
           </div>
         )}
       </div>
