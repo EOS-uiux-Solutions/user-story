@@ -25,6 +25,7 @@
     "react-scripts": "3.4.1"
   },
   "devDependencies": {
+    "cypress": "^4.12.1",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.1",
     "eslint-config-standard": "^14.1.1",
@@ -48,7 +49,8 @@
     "js:fix": "eslint src/ --fix",
     "test:js": "eslint src/",
     "docs": "jsdoc -c jsdoc.conf.json",
-    "lint:fix": "sass-lint-auto-fix"
+    "lint:fix": "sass-lint-auto-fix",
+    "cypress:open": "cypress open"
   },
   "husky": {
     "hooks": {
