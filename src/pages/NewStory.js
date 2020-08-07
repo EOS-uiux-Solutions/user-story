@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useLayoutEffect, useState, useEffect } from 'react'
 import CKEditor from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import axios from 'axios'
@@ -24,9 +24,19 @@ const NewStory = () => {
   const [data, setData] = useState(initialState)
   const [categories, setCategories] = useState([])
   const [products, setProducts] = useState([])
-  const [titles, setTitles] = useState([])
+  const [storiesData, setStoriesData] = useState([])
 
   const { promiseInProgress } = usePromiseTracker()
+
+  const [screenSize, setScreenSize] = useState(0)
+  useLayoutEffect(() => {
+    function updateScreenSize() {
+      setScreenSize(window.innerWidth)
+    }
+    window.addEventListener('resize', updateScreenSize)
+    updateScreenSize()
+    return () => window.removeEventListener('resize', updateScreenSize)
+  }, [])
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -59,7 +69,7 @@ const NewStory = () => {
       setProducts(response.data.data.products)
     }
     trackPromise(fetchProducts())
-    const fetchTitles = async () => {
+    const fetchStoriesData = async () => {
       const response = await axios.post(
         `${apiURL}/graphql`,
         {
@@ -67,6 +77,10 @@ const NewStory = () => {
             userStories(sort: "votes:desc,createdAt:desc") {
               id
               Title
+              Description
+              followers {
+                username
+              }
             }
           }`
         },
@@ -74,9 +88,9 @@ const NewStory = () => {
           withCredentials: true
         }
       )
-      setTitles(response.data.data.userStories)
+      setStoriesData(response.data.data.userStories)
     }
-    trackPromise(fetchTitles())
+    trackPromise(fetchStoriesData())
   }, [])
 
   const handleInputChange = (event) => {
@@ -130,84 +144,95 @@ const NewStory = () => {
           {promiseInProgress ? (
             <LoadingIndicator />
           ) : (
-            <div className='newstory-content'>
-              <h3>New Story</h3>
-              <form className='form-default' onSubmit={handleFormSubmit}>
-                <label htmlFor='title'>Title</label>
-                <input
-                  className='input-default'
-                  type='text'
-                  name='title'
-                  onChange={handleInputChange}
-                  autoComplete='off'
-                />
-                <Search listToBeSearched={titles} title={data.title} />
-                <label htmlFor='product'>Product</label>
-                <select
-                  className='select-default'
-                  name='product'
-                  onChange={handleInputChange}
-                >
-                  <option defaultValue={true}>Select a product</option>
-                  {products &&
-                    products.map((ele, key) => {
-                      return (
-                        <option key={key} value={ele.id}>
-                          {ele.Name}
-                        </option>
-                      )
-                    })}
-                </select>
-                <label htmlFor='category'>Category</label>
-                <select
-                  className='select-default'
-                  name='category'
-                  onChange={handleInputChange}
-                >
-                  <option defaultValue={true}>Select a category</option>
-                  {categories &&
-                    categories.map((ele, key) => {
-                      return (
-                        <option key={key} value={ele}>
-                          {ele}
-                        </option>
-                      )
-                    })}
-                </select>
-                <label htmlFor='description'>Description</label>
-                <CKEditor
-                  editor={ClassicEditor}
-                  config={{
-                    toolbar: [
-                      'heading',
-                      '|',
-                      'bold',
-                      'italic',
-                      '|',
-                      'link',
-                      'bulletedList',
-                      'numberedList'
-                    ]
-                  }}
-                  onChange={(event, editor) => {
-                    const response = editor.getData()
-                    setData({
-                      ...data,
-                      description: response
-                    })
-                  }}
-                />
-                <Dragdrop />
-                <div className='flex flex-row flex-center'>
-                  <Button
-                    type='submit'
-                    className='btn btn-default'
-                    disabled={data.isSubmitting}
+            <div className='flex flex-row'>
+              <div className='newstory'>
+                <h3>New Story</h3>
+                <form className='form-default' onSubmit={handleFormSubmit}>
+                  <label htmlFor='title'>Title</label>
+                  <input
+                    className='input-default'
+                    type='text'
+                    name='title'
+                    onChange={handleInputChange}
+                    autoComplete='off'
+                  />
+                  {screenSize <= 1120 ? (
+                    <Search listToBeSearched={storiesData} title={data.title} />
+                  ) : (
+                    ''
+                  )}
+                  <label htmlFor='product'>Product</label>
+                  <select
+                    className='select-default'
+                    name='product'
+                    onChange={handleInputChange}
                   >
-                    Submit
-                  </Button>
-                </div>
-              </form>
+                    <option defaultValue={true}>Select a product</option>
+                    {products &&
+                      products.map((ele, key) => {
+                        return (
+                          <option key={key} value={ele.id}>
+                            {ele.Name}
+                          </option>
+                        )
+                      })}
+                  </select>
+                  <label htmlFor='category'>Category</label>
+                  <select
+                    className='select-default'
+                    name='category'
+                    onChange={handleInputChange}
+                  >
+                    <option defaultValue={true}>Select a category</option>
+                    {categories &&
+                      categories.map((ele, key) => {
+                        return (
+                          <option key={key} value={ele}>
+                            {ele}
+                          </option>
+                        )
+                      })}
+                  </select>
+                  <label htmlFor='description'>Description</label>
+                  <CKEditor
+                    editor={ClassicEditor}
+                    config={{
+                      toolbar: [
+                        'heading',
+                        '|',
+                        'bold',
+                        'italic',
+                        '|',
+                        'link',
+                        'bulletedList',
+                        'numberedList'
+                      ]
+                    }}
+                    onChange={(event, editor) => {
+                      const response = editor.getData()
+                      setData({
+                        ...data,
+                        description: response
+                      })
+                    }}
+                  />
+                  <Dragdrop />
+                  <div className='flex flex-row flex-center'>
+                    <Button
+                      type='submit'
+                      className='btn btn-default'
+                      disabled={data.isSubmitting}
+                    >
+                      Submit
+                    </Button>
+                  </div>
+                </form>
+              </div>
+              {screenSize > 1120 ? (
+                <Search listToBeSearched={storiesData} title={data.title} />
+              ) : (
+                ''
+              )}
             </div>
           )}
         </div>
