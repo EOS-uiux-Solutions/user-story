@@ -31,7 +31,7 @@ const Home = () => {
 
   const userId = localStorage.getItem('id')
 
-  const [currentStateSelected, selectState] = useState('Under Consideration')
+  const [currentStateSelected, selectState] = useState('Under consideration')
 
   const [stories, setStories] = useState([])
 
