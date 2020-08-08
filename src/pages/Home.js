@@ -255,7 +255,9 @@ const Home = () => {
         }
       }
     }
-    fetchPolicyNotifications()
+    if (userId) {
+      fetchPolicyNotifications()
+    }
   }, [userId])
 
   const acceptUpdatedPolicy = async () => {

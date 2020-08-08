@@ -85,7 +85,7 @@ context('Assertions', () => {
           expect(paragraphs, 'has expected text in each paragraph').to.deep.eq([
             'Some text from first p',
             'More text from second p',
-            'And even more text from third p',
+            'And even more text from third p'
           ])
         })
     })
@@ -129,14 +129,14 @@ context('Assertions', () => {
       /**
        * Text from the first element.
        * @type {string}
-      */
+       */
       let text
 
       /**
        * Normalizes passed text,
        * useful before comparing text with spaces and different capitalization.
        * @param {string} s Text to normalize
-      */
+       */
       const normalizeText = (s) => s.replace(/\s/g, '').toLowerCase()
 
       cy.get('.two-elements')
@@ -159,19 +159,18 @@ context('Assertions', () => {
     it('assert - assert shape of an object', () => {
       const person = {
         name: 'Joe',
-        age: 20,
+        age: 20
       }
 
       assert.isObject(person, 'value is object')
     })
 
     it('retries the should callback until assertions pass', () => {
-      cy.get('#random-number')
-        .should(($div) => {
-          const n = parseFloat($div.text())
+      cy.get('#random-number').should(($div) => {
+        const n = parseFloat($div.text())
 
-          expect(n).to.be.gte(1).and.be.lte(10)
-        })
+        expect(n).to.be.gte(1).and.be.lte(10)
+      })
     })
   })
 })
