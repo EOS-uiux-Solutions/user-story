@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { Link } from '@reach/router'
 import axios from 'axios'
 import { apiURL } from '../config.json'
@@ -78,9 +78,9 @@ const Home = () => {
 
   const { promiseInProgress } = usePromiseTracker()
 
-  const getPage = (page) => {
+  const getPage = useCallback((page) => {
     setPage(page)
-  }
+  }, [])
 
   useEffect(() => {
     const fetchStories = async () => {
@@ -120,8 +120,52 @@ const Home = () => {
       )
       setStories(response.data.data.userStories)
     }
-    trackPromise(fetchStories())
-  }, [currentStateSelected, page])
+    const fetchStoriesWithProduct = async () => {
+      const response = await axios.post(
+        `${apiURL}/graphql`,
+        {
+          query: `query {
+            userStories(sort: "createdAt:desc", limit: 5, start: ${
+              (page - 1) * 5
+            }, where: {
+              user_story_status : {
+                Status: "${currentStateSelected}"
+              },
+              product: {
+                Name: "${product}"
+              }
+            }) {
+              id
+              Title
+              Description
+              user_story_status {
+                Status
+              }
+              user_story_comments {
+                Comments
+              }
+              product {
+                Name
+              }
+              followers {
+                username
+              }
+            }
+          }
+          `
+        },
+        {
+          withCredentials: true
+        }
+      )
+      setStories(response.data.data.userStories)
+    }
+    if (product === 'All') {
+      trackPromise(fetchStories())
+    } else {
+      trackPromise(fetchStoriesWithProduct())
+    }
+  }, [currentStateSelected, page, product])
 
   useEffect(() => {
     const fetchStoryCount = async () => {
@@ -143,8 +187,32 @@ const Home = () => {
       )
       setStoryCount(response.data.data.userStoriesConnection.aggregate.count)
     }
-    fetchStoryCount()
-  }, [currentStateSelected])
+    const fetchStoryCountWithProduct = async () => {
+      const response = await axios.post(
+        `${apiURL}/graphql`,
+        {
+          query: `
+          query {
+            userStoriesConnection(where: { user_story_status: { Status: "${currentStateSelected}" }, 
+            product: { Name: "${product}"} }) {
+              aggregate {
+                count
+              }
+            }
+          }`
+        },
+        {
+          withCredentials: true
+        }
+      )
+      setStoryCount(response.data.data.userStoriesConnection.aggregate.count)
+    }
+    if (product === 'All') {
+      fetchStoryCount()
+    } else {
+      fetchStoryCountWithProduct()
+    }
+  }, [currentStateSelected, product])
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -422,6 +490,7 @@ const Home = () => {
               getPage={getPage}
               storyCount={storyCount}
               status={currentStateSelected}
+              product={product}
             />
           </div>
           {modal && policyUpdate && !policyUpdateRejected ? (
