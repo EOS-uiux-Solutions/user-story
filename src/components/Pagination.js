@@ -40,7 +40,7 @@ const Pagination = (props) => {
         }}
         to='/'
       >
-        Prev
+        {`< Prev`}
       </Link>
 
       {pages
@@ -74,7 +74,7 @@ const Pagination = (props) => {
         }}
         to='/'
       >
-        Next
+        {`Next >`}
       </Link>
     </div>
   )

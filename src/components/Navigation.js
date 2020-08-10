@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link, navigate } from '@reach/router'
-import eosIcon from '../assets/images/logo-white.png'
+
+import eosIcon from '../assets/images/logo-coloured.png'
 import useAuth from '../hooks/useAuth'
 import axios from 'axios'
 import { apiURL } from '../config.json'
@@ -137,21 +138,21 @@ const Navigation = (props) => {
 
   return (
     <header className='nav-header'>
-      <Link className='link link-light' to='/'>
-        <div className='brand'>
+      <Link className='link' to='/'>
+        <div className='flex flex-column brand'>
           <img className='logo' src={eosIcon} alt='' />
           <span className='brand-text'>USER STORIES</span>
         </div>
       </Link>
       <nav>
         {state === 'Authenticated' && (
-          <Link className='link link-light' to='/newStory'>
-            NEW STORY
+          <Link className='link link-nav' to='/newStory'>
+            New Story
           </Link>
         )}
         {state !== 'Authenticated' && (
-          <Link className='link link-light' to='/login'>
-            SIGN IN
+          <Link className='link link-nav' to='/login'>
+            Sign In
           </Link>
         )}
         {state === 'Authenticated' && (

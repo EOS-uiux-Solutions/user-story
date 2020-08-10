@@ -369,14 +369,32 @@ const Home = () => {
         <div className='base-container'>
           <Navigation policyUpdateRejected={policyUpdateRejected} />
           <div className='home-content'>
-            <h3>Welcome to EOS User Stories</h3>
+            <h2>TELL US YOUR STORY</h2>
             <p>
               Share with us how you use our products, relate to other users'
               stories, vote them up, and we'll make sure we deliver cohesive
               solutions that enhance your experience.
             </p>
-            <div className='flex flex-row'>
-              <div className='filter-title'>Filter by product</div>
+            <div className='flex flex-row flex-space-between'>
+              {stateList &&
+                stateList.map((state, key) => {
+                  return (
+                    <Button
+                      className={
+                        currentStateSelected === state
+                          ? 'btn btn-tabs btn-tabs-selected'
+                          : 'btn btn-tabs'
+                      }
+                      key={key}
+                      onClick={() => selectState(state)}
+                    >
+                      {state}
+                    </Button>
+                  )
+                })}
+            </div>
+            <div className='flex flex-row options-bar'>
+              <div className='filter-title'>Product</div>
               <div
                 className='dropdown-container'
                 ref={productDropdownContainer}

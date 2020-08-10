@@ -30,7 +30,7 @@
 
   &-open {
     background-color: $dropdown-colored-bg;
-    color: $light-color;
+    color: $dark-color;
     display: block;
     width: 200px;
   }
@@ -38,8 +38,6 @@
   &-close {
     display: none;
   }
-
-
 }
 
 .dropdown-container:hover .dropdown-hover {
