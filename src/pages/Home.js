@@ -378,7 +378,10 @@ const Home = () => {
                             : 'btn btn-tabs'
                         }
                         key={key}
-                        onClick={() => selectState(state.status)}
+                        onClick={() => {
+                          selectState(state.status)
+                          setPage(1)
+                        }}
                       >
                         <i className='eos-icons'>{state.icon}</i>
                         {state.status}
@@ -465,27 +468,6 @@ const Home = () => {
                   </ul>
                 </div>
               </div>
-            </div>
-            <div className='flex flex-row flex-space-between'>
-              {stateList &&
-                stateList.map((state, key) => {
-                  return (
-                    <Button
-                      className={
-                        currentStateSelected === state
-                          ? 'btn btn-tabs btn-tabs-selected'
-                          : 'btn btn-tabs'
-                      }
-                      key={key}
-                      onClick={() => {
-                        selectState(state)
-                        setPage(1)
-                      }}
-                    >
-                      {state}
-                    </Button>
-                  )
-                })}
             </div>
             {promiseInProgress ? (
               <LoadingIndicator />

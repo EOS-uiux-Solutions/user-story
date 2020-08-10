@@ -5,9 +5,15 @@
   position: relative;
 
   .eos-icons {
+    border-radius: 16px;
     margin-right: 0;
+    padding: 4px 8px;
     pointer-events: none;
     vertical-align: sub;
+
+    &-open {
+      background-color: $gray-bg;
+    }
   }
 }
 

@@ -161,7 +161,13 @@ const Navigation = (props) => {
             onClick={updateNotifications}
             ref={notificationsDropdownContainer}
           >
-            <i className='eos-icons'>notifications</i>
+            <i
+              className={`eos-icons ${
+                notificationsDropdownState ? 'eos-icons-open' : ''
+              }`}
+            >
+              notifications
+            </i>
             <div
               className={`dropdown ${
                 notificationsDropdownState
@@ -199,7 +205,13 @@ const Navigation = (props) => {
             }}
             ref={userDropdownContainer}
           >
-            <i className='eos-icons'>person</i>
+            <i
+              className={`eos-icons ${
+                userDropdownState ? 'eos-icons-open' : ''
+              }`}
+            >
+              person
+            </i>
             <div
               className={`dropdown ${
                 userDropdownState
