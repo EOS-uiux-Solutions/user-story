@@ -1,0 +1,23 @@
+.modal {
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+
+  &-card {
+    background-color: $light-color;
+    left: 50%;
+    max-width: 450px;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.modal-content {
+  padding: 24px;
+}

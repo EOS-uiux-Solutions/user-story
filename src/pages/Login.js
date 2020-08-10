@@ -24,6 +24,8 @@ export const Login = () => {
 
   const [error, setError] = useState('')
 
+  const [showPassword, toggleShowPassword] = useState(false)
+
   const handleInputChange = (event) => {
     setData({
       ...data,
@@ -88,10 +90,18 @@ export const Login = () => {
               </label>
               <input
                 className='input-default'
-                type='password'
+                type={showPassword ? 'text' : 'password'}
                 name='password'
                 onChange={handleInputChange}
               />
+              <div className='flex flex-row flex-space-between'>
+                <label htmlFor='showPassword'>Show password</label>
+                <input
+                  type='checkbox'
+                  name='showPassword'
+                  onChange={() => toggleShowPassword(!showPassword)}
+                />
+              </div>
               <Button
                 type='submit'
                 className='btn btn-default'

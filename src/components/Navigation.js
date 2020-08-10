@@ -5,7 +5,7 @@ import useAuth from '../hooks/useAuth'
 import axios from 'axios'
 import { apiURL } from '../config.json'
 
-const Navigation = () => {
+const Navigation = (props) => {
   const { logout } = useAuth()
 
   const userId = localStorage.getItem('id')
@@ -13,8 +13,6 @@ const Navigation = () => {
   const [state, setState] = useState(localStorage.getItem('status'))
 
   const [notifications, setNotifications] = useState([])
-
-  const [updateSeenStatus, setSeenStatus] = useState(false)
 
   const [notificationsDropdownState, setNotificationsDropdownState] = useState(
     false
@@ -24,6 +22,12 @@ const Navigation = () => {
 
   const notificationsDropdownContainer = useRef()
   const userDropdownContainer = useRef()
+
+  useEffect(() => {
+    if (props.policyUpdateRejected) {
+      setState('Public')
+    }
+  }, [props.policyUpdateRejected])
 
   useEffect(() => {
     const fetchNotifications = async () => {
@@ -45,6 +49,7 @@ const Navigation = () => {
               id
             }
             date
+            link
           }
         }`
         },
@@ -55,7 +60,7 @@ const Navigation = () => {
       setNotifications(response.data.data.userStoryNotifications)
     }
     fetchNotifications()
-  }, [userId, updateSeenStatus])
+  }, [userId])
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -122,7 +127,6 @@ const Navigation = () => {
         )
       }
     })
-    setTimeout(() => setSeenStatus(true), 4000)
   }
 
   const handleLogout = async () => {
@@ -168,9 +172,9 @@ const Navigation = () => {
               <ul className='dropdown-list'>
                 {notifications
                   ? notifications.map((notification, key) => (
-                      <li className='dropdown-element' key={key}>
-                        {notification.message}
-                      </li>
+                      <Link to={`/${notification.link}`} key={key}>
+                        <li>{notification.message}</li>
+                      </Link>
                     ))
                   : ''}
               </ul>

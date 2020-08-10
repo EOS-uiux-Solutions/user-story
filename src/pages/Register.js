@@ -16,7 +16,8 @@ export const Register = () => {
   const initialFormState = {
     username: '',
     email: '',
-    password: ''
+    password: '',
+    tc: false
   }
 
   const [data, setData] = useState(initialFormState)
@@ -108,6 +109,24 @@ export const Register = () => {
                 name='password'
                 onChange={handleInputChange}
               />
+              <div className='flex flex-row'>
+                <input
+                  type='checkbox'
+                  name='tc'
+                  onChange={() =>
+                    setData({
+                      ...data,
+                      tc: !data.tc
+                    })
+                  }
+                />
+                <label htmlFor='tc'>
+                  I agree to the{' '}
+                  <Link className='link link-default' to='/policies'>
+                    Terms and Conditions
+                  </Link>
+                </label>
+              </div>
               <Button type='submit' className='btn btn-default'>
                 {t('authentication:register-label')}
               </Button>

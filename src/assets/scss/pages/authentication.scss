@@ -12,9 +12,8 @@
 
 .authentication {
   display: flex;
-  height: 704px;
   margin: auto;
-  overflow: auto;
+  min-height: 704px;
   width: 1120px;
   z-index: 99;
 }
