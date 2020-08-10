@@ -12,16 +12,7 @@ import Navigation from '../components/Navigation'
 import Pagination from '../components/Pagination'
 import Modal from '../components/Modal'
 
-const stateList = [
-  'Under consideration',
-  'Planned',
-  'Designing',
-  'Implementing',
-  'Testing',
-  'Deployed'
-]
-
-const sortByList = ['Most Voted', 'Most Discussed']
+import Lists from '../utils/Lists'
 
 const Home = () => {
   const [page, setPage] = useState(1)
@@ -376,20 +367,23 @@ const Home = () => {
               solutions that enhance your experience.
             </p>
             <div className='flex flex-row flex-space-between'>
-              {stateList &&
-                stateList.map((state, key) => {
+              {Lists.stateList &&
+                Lists.stateList.map((state, key) => {
                   return (
-                    <Button
-                      className={
-                        currentStateSelected === state
-                          ? 'btn btn-tabs btn-tabs-selected'
-                          : 'btn btn-tabs'
-                      }
-                      key={key}
-                      onClick={() => selectState(state)}
-                    >
-                      {state}
-                    </Button>
+                    <>
+                      <Button
+                        className={
+                          currentStateSelected === state.status
+                            ? 'btn btn-tabs btn-tabs-selected'
+                            : 'btn btn-tabs'
+                        }
+                        key={key}
+                        onClick={() => selectState(state.status)}
+                      >
+                        <i className='eos-icons'>{state.icon}</i>
+                        {state.status}
+                      </Button>
+                    </>
                   )
                 })}
             </div>
@@ -459,7 +453,7 @@ const Home = () => {
                   }`}
                 >
                   <ul className='dropdown-list'>
-                    {sortByList.map((item, key) => (
+                    {Lists.sortByList.map((item, key) => (
                       <li
                         key={key}
                         className='dropdown-element'

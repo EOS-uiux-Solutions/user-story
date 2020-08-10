@@ -9,16 +9,7 @@ import Button from '../components/Button'
 import StoriesList from '../components/StoriesList'
 import Navigation from '../components/Navigation'
 
-const stateList = [
-  'Under consideration',
-  'Planned',
-  'Designing',
-  'Implementing',
-  'Testing',
-  'Deployed'
-]
-
-const sortByList = ['Most Voted', 'Most Discussed']
+import Lists from '../utils/Lists'
 
 const MyStories = () => {
   const [stories, setStories] = useState([])
@@ -189,15 +180,34 @@ const MyStories = () => {
                 Following
               </Button>
             </div>
-            <div className='flex flex-row'>
-              <div className='filter-title'>Filter by product</div>
+            <div className='flex flex-row flex-space-between'>
+              {Lists.stateList &&
+                Lists.stateList.map((state, key) => {
+                  return (
+                    <Button
+                      className={
+                        storyStateSelected === state.status
+                          ? 'btn btn-tabs btn-tabs-selected'
+                          : 'btn btn-tabs'
+                      }
+                      key={key}
+                      onClick={() => selectStoryState(state.status)}
+                    >
+                      <i className='eos-icons'>{state.icon}</i>
+                      {state.status}
+                    </Button>
+                  )
+                })}
+            </div>
+            <div className='flex flex-row options-bar'>
+              <div className='filter-title'>Product</div>
               <div
                 className='dropdown-container'
                 ref={productDropdownContainer}
               >
                 <Button
                   type='button'
-                  className='btn btn-dropdown btn-flexible'
+                  className='btn btn-transparent'
                   onClick={handleProductDropdownState}
                 >
                   {productDropdownState ? (
@@ -237,7 +247,7 @@ const MyStories = () => {
               <div className='dropdown-container' ref={sortDropdownContainer}>
                 <Button
                   type='button'
-                  className='btn btn-dropdown btn-flexible'
+                  className='btn btn-transparent'
                   onClick={handleSortDropdownState}
                 >
                   {sortDropdownState ? (
@@ -255,7 +265,7 @@ const MyStories = () => {
                   }`}
                 >
                   <ul className='dropdown-list'>
-                    {sortByList.map((item, key) => (
+                    {Lists.sortByList.map((item, key) => (
                       <li
                         key={key}
                         className='dropdown-element'
@@ -267,24 +277,6 @@ const MyStories = () => {
                   </ul>
                 </div>
               </div>
-            </div>
-            <div className='flex flex-row flex-space-between'>
-              {stateList &&
-                stateList.map((state, key) => {
-                  return (
-                    <Button
-                      className={
-                        storyStateSelected === state
-                          ? 'btn btn-tabs btn-tabs-selected'
-                          : 'btn btn-tabs'
-                      }
-                      key={key}
-                      onClick={() => selectStoryState(state)}
-                    >
-                      {state}
-                    </Button>
-                  )
-                })}
             </div>
             {currentStateSelected === 'My Submissions' && promiseInProgress ? (
               <LoadingIndicator />
