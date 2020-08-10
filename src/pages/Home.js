@@ -186,7 +186,7 @@ const Home = () => {
       return a.user_story_comments.length < b.user_story_comments.length
     }
 
-    const updateStories = () => {
+    const updateStories = async () => {
       if (sort === 'Most Voted') {
         setStories(stories.sort(comparatorVotes))
       }
@@ -194,7 +194,7 @@ const Home = () => {
         setStories(stories.sort(comparatorComments))
       }
     }
-    updateStories()
+    trackPromise(updateStories())
   }, [sort, stories, setStories])
 
   return (
@@ -299,7 +299,10 @@ const Home = () => {
                           : 'btn btn-tabs'
                       }
                       key={key}
-                      onClick={() => selectState(state)}
+                      onClick={() => {
+                        selectState(state)
+                        setPage(1)
+                      }}
                     >
                       {state}
                     </Button>
@@ -317,7 +320,11 @@ const Home = () => {
                 />
               </>
             )}
-            <Pagination getPage={getPage} storyCount={storyCount} />
+            <Pagination
+              getPage={getPage}
+              storyCount={storyCount}
+              status={currentStateSelected}
+            />
           </div>
         </div>
       </div>

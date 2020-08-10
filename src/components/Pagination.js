@@ -3,11 +3,18 @@ import React, { useState, useEffect } from 'react'
 import { Link } from '@reach/router'
 
 const Pagination = (props) => {
-  const { getPage, storyCount } = props
+  const { getPage, storyCount, status } = props
 
   const [currNumber, setCurrNumber] = useState(1)
 
   const [pages, setPages] = useState()
+
+  useEffect(() => {
+    const resetPage = () => {
+      setCurrNumber(1)
+    }
+    resetPage()
+  }, [status])
 
   useEffect(() => {
     if (storyCount) {
@@ -59,9 +66,10 @@ const Pagination = (props) => {
       <Link
         className='link link-default'
         onClick={() => {
-          if (pages.find((page) => page === currNumber + 1))
+          if (pages.find((page) => page === currNumber + 1)) {
             setCurrNumber((currNumber) => currNumber + 1)
-          getPage(currNumber + 1)
+            getPage(currNumber + 1)
+          }
         }}
         to='/'
       >
