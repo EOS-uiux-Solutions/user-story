@@ -3,7 +3,7 @@ import { navigate } from '@reach/router'
 
 const StoriesList = (props) => {
   const { stories, state, product } = props
-
+  // console.log(stories)
   const strip = (html) => {
     return html.replace(/<\s*[^>]*>/gi, '')
   }
