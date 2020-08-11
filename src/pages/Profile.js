@@ -206,7 +206,7 @@ const Profile = (props) => {
               <div className='flex flex-row flex-space-around'>
                 <div className='flex flex-column'>
                   <div className='profile-picture-container'>
-                    {user.profilePicture ? (
+                    {user && user.profilePicture ? (
                       <img
                         className='profile-picture'
                         src={user.profilePicture.url}
