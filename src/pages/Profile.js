@@ -145,30 +145,54 @@ const Profile = (props) => {
         `${apiURL}/graphql`,
         {
           query: `query {
-          user(id: "${profileId}") {
-            feature_requests {
-              id
-              Title
-              Description
-              feature_requests_status {
-                Status
-              }
-              Votes
-              feature_request_comments {
-                Comments
+            user(id: "${profileId}") {
+              user_stories {
+                id
+                Title
+                Description
+                user_story_status {
+                  Status
+                }
+                followers {
+                  username
+                }
+                product {
+                  Name
+                }
+                user_story_comments {
+                  Comments
+                }
               }
             }
-          }
-        }`
+          }`
         },
         {
           withCredentials: true
         }
       )
-      setStories(response.data.data.user.feature_requests)
+      setStories(response.data.data.user.user_stories)
     }
     trackPromise(fetchMyStories())
   }, [profileId])
+
+  useEffect(() => {
+    const comparatorVotes = (a, b) => {
+      return a.followers.length < b.followers.length
+    }
+    const comparatorComments = (a, b) => {
+      return a.user_story_comments.length < b.user_story_comments.length
+    }
+
+    const updateStories = async () => {
+      if (sort === 'Most Voted') {
+        setStories(stories.sort(comparatorVotes))
+      }
+      if (sort === 'Most Discussed') {
+        setStories(stories.sort(comparatorComments))
+      }
+    }
+    trackPromise(updateStories())
+  }, [sort, stories, setStories])
 
   return (
     <>
@@ -276,7 +300,7 @@ const Profile = (props) => {
                     >
                       <Button
                         type='button'
-                        className='btn btn-dropdown btn-flexible'
+                        className='btn btn-transparent'
                         onClick={handleProductDropdownState}
                       >
                         {productDropdownState ? (
@@ -319,7 +343,7 @@ const Profile = (props) => {
                     >
                       <Button
                         type='button'
-                        className='btn btn-dropdown btn-flexible'
+                        className='btn btn-transparent'
                         onClick={handleSortDropdownState}
                       >
                         {sortDropdownState ? (
