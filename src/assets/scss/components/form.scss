@@ -3,13 +3,16 @@
   flex-direction: column;
 }
 
+.form-element {
+  margin: 16px 0px;
+}
+
 .input-default {
   background: transparent;
   border: 0;
   border-bottom: 2px solid black;
   font-family: $font-family;
-  margin-bottom: 32px;
-  margin-top: 16px;
+  margin: 8px 0px;
   outline: 0;
   width: 100%;
 }

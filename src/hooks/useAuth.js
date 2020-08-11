@@ -2,7 +2,7 @@ import axios from 'axios'
 import { apiURL } from '../config.json'
 
 const useAuth = () => {
-  const register = async (credentials) => {
+  const registerUser = async (credentials) => {
     const { data: payload } = await axios.post(
       `${apiURL}/auth/local/register`,
       credentials,
@@ -39,7 +39,7 @@ const useAuth = () => {
   }
 
   return {
-    register,
+    registerUser,
     login,
     logout,
     forgotPassword,

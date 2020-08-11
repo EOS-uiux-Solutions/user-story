@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { useForm } from 'react-hook-form'
+
 import { Link } from '@reach/router'
 import { useTranslation } from 'react-i18next'
 
@@ -7,6 +9,7 @@ import eosLogoColoured from '../assets/images/logo-coloured.png'
 import eosLock from '../assets/images/authentication-lock.png'
 import Button from '../components/Button'
 import Dropdown from '../components/Dropdown'
+import FormError from '../components/FormError'
 import useAuth from '../hooks/useAuth'
 
 const ForgotPassword = () => {
@@ -14,25 +17,13 @@ const ForgotPassword = () => {
 
   const { forgotPassword } = useAuth()
 
-  const initialState = {
-    email: ''
-  }
-
-  const [data, setData] = useState(initialState)
+  const { register, handleSubmit, errors } = useForm()
 
   const [error, setError] = useState('')
 
   const [response, setResponse] = useState('')
 
-  const handleInputChange = (event) => {
-    setData({
-      ...data,
-      [event.target.name]: event.target.value
-    })
-  }
-
-  const handleFormSubmit = async (event) => {
-    event.preventDefault()
+  const onSubmit = async (data) => {
     try {
       const reply = await forgotPassword({
         email: data.email
@@ -76,21 +67,23 @@ const ForgotPassword = () => {
               </>
             ) : (
               <>
-                <form className='form-default' onSubmit={handleFormSubmit}>
-                  <label htmlFor='email'>
-                    {t('authentication:email-label')}
-                  </label>
-                  <input
-                    className='input-default'
-                    type='email'
-                    name='email'
-                    onChange={handleInputChange}
-                  />
-                  <Button
-                    type='submit'
-                    className='btn btn-default'
-                    disabled={data.isSubmitting}
-                  >
+                <form
+                  className='form-default'
+                  onSubmit={handleSubmit(onSubmit)}
+                >
+                  <div className='form-element'>
+                    <label htmlFor='email'>
+                      {t('authentication:email-label')}
+                    </label>
+                    <input
+                      className='input-default'
+                      type='email'
+                      name='email'
+                      ref={register({ required: true })}
+                    />
+                    {errors.email && <FormError type={errors.email.type} />}
+                  </div>
+                  <Button type='submit' className='btn btn-default'>
                     {t('authentication:submit-label')}
                   </Button>
                   {error && <span className='form-error'>{error}</span>}

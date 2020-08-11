@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useForm } from 'react-hook-form'
 
 import { Link, navigate } from '@reach/router'
 import { useTranslation } from 'react-i18next'
@@ -9,32 +10,20 @@ import eosLogoColoured from '../assets/images/logo-coloured.png'
 import eosLock from '../assets/images/authentication-lock.png'
 import Button from '../components/Button'
 import Dropdown from '../components/Dropdown'
+import FormError from '../components/FormError'
 
 export const Login = () => {
   const { t, i18n } = useTranslation()
 
   const { login } = useAuth()
 
-  const initialState = {
-    identifier: '',
-    password: ''
-  }
-
-  const [data, setData] = useState(initialState)
+  const { register, handleSubmit, errors } = useForm()
 
   const [error, setError] = useState('')
 
   const [showPassword, toggleShowPassword] = useState(false)
 
-  const handleInputChange = (event) => {
-    setData({
-      ...data,
-      [event.target.name]: event.target.value
-    })
-  }
-
-  const handleFormSubmit = async (event) => {
-    event.preventDefault()
+  const onSubmit = async (data) => {
     try {
       const payload = await login({
         identifier: data.identifier,
@@ -74,39 +63,47 @@ export const Login = () => {
             <Dropdown translator={i18n} />
           </div>
           <div>
-            <form className='form-default' onSubmit={handleFormSubmit}>
+            <form className='form-default' onSubmit={handleSubmit(onSubmit)}>
               <div className='header'>{t('authentication:title-sign-in')}</div>
-              <label htmlFor='identifer'>
-                {t('authentication:username-label')}
-              </label>
-              <input
-                className='input-default'
-                type='text'
-                name='identifier'
-                onChange={handleInputChange}
-              />
-              <label htmlFor='password'>
-                {t('authentication:password-label')}
-              </label>
-              <input
-                className='input-default'
-                type={showPassword ? 'text' : 'password'}
-                name='password'
-                onChange={handleInputChange}
-              />
-              <div className='flex flex-row flex-space-between'>
-                <label htmlFor='showPassword'>Show password</label>
+              <div className='form-element'>
+                <label htmlFor='identifer'>
+                  {t('authentication:username-label')}
+                </label>
                 <input
-                  type='checkbox'
-                  name='showPassword'
-                  onChange={() => toggleShowPassword(!showPassword)}
+                  className='input-default'
+                  type='text'
+                  name='identifier'
+                  ref={register({ required: true })}
                 />
+                {errors.identifier && (
+                  <FormError type={errors.identifier.type} />
+                )}
               </div>
-              <Button
-                type='submit'
-                className='btn btn-default'
-                disabled={data.isSubmitting}
-              >
+
+              <div className='form-element'>
+                <label htmlFor='password'>
+                  {t('authentication:password-label')}
+                </label>
+                <input
+                  className='input-default'
+                  type={showPassword ? 'text' : 'password'}
+                  name='password'
+                  ref={register({ required: true })}
+                />
+                {errors.password && <FormError type={errors.identifier.type} />}
+              </div>
+
+              <div className='form-element'>
+                <div className='flex flex-row flex-space-between'>
+                  Show password
+                  <input
+                    type='checkbox'
+                    name='showPassword'
+                    onChange={() => toggleShowPassword(!showPassword)}
+                  />
+                </div>
+              </div>
+              <Button type='submit' className='btn btn-default'>
                 {t('authentication:login-label')}
               </Button>
               {error && <span className='form-error'>{error}</span>}

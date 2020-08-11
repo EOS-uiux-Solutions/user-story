@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { useForm } from 'react-hook-form'
+
 import { Link, useLocation } from '@reach/router'
 import { useTranslation } from 'react-i18next'
 
@@ -8,36 +10,22 @@ import eosLock from '../assets/images/authentication-lock.png'
 import Button from '../components/Button'
 import Dropdown from '../components/Dropdown'
 import useAuth from '../hooks/useAuth'
+import FormError from '../components/FormError'
 
 const ChangePassword = () => {
   const { t, i18n } = useTranslation()
 
   const { resetPassword } = useAuth()
 
+  const { register, handleSubmit, errors } = useForm()
+
   const location = useLocation()
-
-  const initialState = {
-    code: '',
-    oldPassword: '',
-    password: '',
-    passwordConfirmation: ''
-  }
-
-  const [data, setData] = useState(initialState)
 
   const [error, setError] = useState('')
 
   const [response, setResponse] = useState('')
 
-  const handleInputChange = (event) => {
-    setData({
-      ...data,
-      [event.target.name]: event.target.value
-    })
-  }
-
-  const handleFormSubmit = async (event) => {
-    event.preventDefault()
+  const onSubmit = async (data) => {
     try {
       const reply = await resetPassword({
         code: location.search.slice(6),
@@ -89,42 +77,51 @@ const ChangePassword = () => {
                 </div>
               </>
             ) : (
-              <form className='form-default' onSubmit={handleFormSubmit}>
+              <form className='form-default' onSubmit={handleSubmit(onSubmit)}>
                 <div className='header'>
                   {t('authentication:reset-password')}
                 </div>
-                <label htmlFor='password'>
-                  {t('authentication:old-password')}
-                </label>
-                <input
-                  className='input-default'
-                  type='password'
-                  name='oldPassword'
-                  onChange={handleInputChange}
-                />
-                <label htmlFor='password'>
-                  {t('authentication:new-password')}
-                </label>
-                <input
-                  className='input-default'
-                  type='password'
-                  name='password'
-                  onChange={handleInputChange}
-                />
-                <label htmlFor='confirm-password'>
-                  {t('authentication:confirm-password')}
-                </label>
-                <input
-                  className='input-default'
-                  type='password'
-                  name='passwordConfirmation'
-                  onChange={handleInputChange}
-                />
-                <Button
-                  type='submit'
-                  className='btn btn-default'
-                  disabled={data.isSubmitting}
-                >
+                <div className='form-element'>
+                  <label htmlFor='password'>
+                    {t('authentication:old-password')}
+                  </label>
+                  <input
+                    className='input-default'
+                    type='password'
+                    name='oldPassword'
+                    ref={register({ required: true })}
+                  />
+                  {errors.oldPassword && (
+                    <FormError type={errors.oldPassword.type} />
+                  )}
+                </div>
+                <div className='form-element'>
+                  <label htmlFor='password'>
+                    {t('authentication:new-password')}
+                  </label>
+                  <input
+                    className='input-default'
+                    type='password'
+                    name='password'
+                    ref={register({ required: true })}
+                  />
+                  {errors.password && <FormError type={errors.password.type} />}
+                </div>
+                <div className='form-element'>
+                  <label htmlFor='confirm-password'>
+                    {t('authentication:confirm-password')}
+                  </label>
+                  <input
+                    className='input-default'
+                    type='password'
+                    name='passwordConfirmation'
+                    ref={register({ required: true })}
+                  />
+                  {errors.passwordConfirmation && (
+                    <FormError type={errors.passwordConfirmation.type} />
+                  )}
+                </div>
+                <Button type='submit' className='btn btn-default'>
                   {t('authentication:submit-label')}
                 </Button>
                 {error && <span className='form-error'>{error}</span>}
