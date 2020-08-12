@@ -1,10 +1,13 @@
 import React, { useLayoutEffect, useState, useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+
 import CKEditor from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import axios from 'axios'
 import { apiURL } from '../config.json'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 
+import FormError from '../components/FormError'
 import Navigation from '../components/Navigation'
 import LoadingIndicator from '../modules/LoadingIndicator'
 import Button from '../components/Button'
@@ -13,15 +16,10 @@ import Dragdrop from '../components/Dragdrop'
 import { navigate } from '@reach/router'
 
 const NewStory = () => {
-  const initialState = {
-    title: '',
-    product: '',
-    category: '',
-    description: '',
-    mediaCollection: null
-  }
+  const { register, handleSubmit, errors, setValue, watch } = useForm()
 
-  const [data, setData] = useState(initialState)
+  const [descriptionError, setDescriptionError] = useState(false)
+
   const [categories, setCategories] = useState([])
   const [products, setProducts] = useState([])
   const [storiesData, setStoriesData] = useState([])
@@ -93,13 +91,6 @@ const NewStory = () => {
     trackPromise(fetchStoriesData())
   }, [])
 
-  const handleInputChange = (event) => {
-    setData({
-      ...data,
-      [event.target.name]: event.target.value
-    })
-  }
-
   /*
   const handleFileUpload = (event) => {
     setData({ ...data, mediaCollection: event.target.files })
@@ -107,8 +98,11 @@ const NewStory = () => {
   feature coming in next PR
   */
 
-  const handleFormSubmit = async (event) => {
-    event.preventDefault()
+  const onSubmit = async (data) => {
+    if (data.description === undefined || data.description.length === 0) {
+      setDescriptionError(true)
+      return
+    }
     await axios.post(
       `${apiURL}/graphql`,
       {
@@ -135,6 +129,9 @@ const NewStory = () => {
     )
     navigate('/')
   }
+  useEffect(() => {
+    register('description')
+  })
 
   return (
     <>
@@ -147,89 +144,111 @@ const NewStory = () => {
             <div className='flex flex-row'>
               <div className='newstory'>
                 <h3>New Story</h3>
-                <form className='form-default' onSubmit={handleFormSubmit}>
-                  <label htmlFor='title'>Title</label>
-                  <input
-                    className='input-default'
-                    type='text'
-                    name='title'
-                    onChange={handleInputChange}
-                    autoComplete='off'
-                  />
+                <form
+                  className='form-default'
+                  onSubmit={handleSubmit(onSubmit)}
+                >
+                  <div className='form-element'>
+                    <label htmlFor='title'>Title</label>
+                    <input
+                      className='input-default'
+                      type='text'
+                      name='title'
+                      autoComplete='off'
+                      ref={register({ required: true })}
+                    />
+                    {errors.title && <FormError type={errors.title.type} />}
+                  </div>
                   {screenSize <= 1120 ? (
-                    <Search listToBeSearched={storiesData} title={data.title} />
+                    <Search
+                      listToBeSearched={storiesData}
+                      title={watch('title') || ''}
+                    />
                   ) : (
                     ''
                   )}
-                  <label htmlFor='product'>Product</label>
-                  <select
-                    className='select-default'
-                    name='product'
-                    onChange={handleInputChange}
-                  >
-                    <option defaultValue={true}>Select a product</option>
-                    {products &&
-                      products.map((ele, key) => {
-                        return (
-                          <option key={key} value={ele.id}>
-                            {ele.Name}
-                          </option>
-                        )
-                      })}
-                  </select>
-                  <label htmlFor='category'>Category</label>
-                  <select
-                    className='select-default'
-                    name='category'
-                    onChange={handleInputChange}
-                  >
-                    <option defaultValue={true}>Select a category</option>
-                    {categories &&
-                      categories.map((ele, key) => {
-                        return (
-                          <option key={key} value={ele}>
-                            {ele}
-                          </option>
-                        )
-                      })}
-                  </select>
-                  <label htmlFor='description'>Description</label>
-                  <CKEditor
-                    editor={ClassicEditor}
-                    config={{
-                      toolbar: [
-                        'heading',
-                        '|',
-                        'bold',
-                        'italic',
-                        '|',
-                        'link',
-                        'bulletedList',
-                        'numberedList'
-                      ]
-                    }}
-                    onChange={(event, editor) => {
-                      const response = editor.getData()
-                      setData({
-                        ...data,
-                        description: response
-                      })
-                    }}
-                  />
+                  <div className='form-element'>
+                    <label htmlFor='product'>Product</label>
+                    <select
+                      className='select-default'
+                      name='product'
+                      ref={register({ required: true })}
+                    >
+                      <option defaultValue={true} value=''>
+                        Select a product
+                      </option>
+                      {products &&
+                        products.map((ele, key) => {
+                          return (
+                            <option key={key} value={ele.id}>
+                              {ele.Name}
+                            </option>
+                          )
+                        })}
+                    </select>
+                    {errors.product && <FormError type={errors.product.type} />}
+                  </div>
+                  <div className='form-element'>
+                    <label htmlFor='category'>Category</label>
+                    <select
+                      className='select-default'
+                      name='category'
+                      ref={register({ required: true })}
+                    >
+                      <option defaultValue={true} value=''>
+                        Select a category
+                      </option>
+                      {categories &&
+                        categories.map((ele, key) => {
+                          return (
+                            <option key={key} value={ele}>
+                              {ele}
+                            </option>
+                          )
+                        })}
+                    </select>
+                    {errors.category && (
+                      <FormError type={errors.category.type} />
+                    )}
+                  </div>
+                  <div className='form-element'>
+                    <label htmlFor='description'>Description</label>
+                    <CKEditor
+                      id='description'
+                      name='description'
+                      editor={ClassicEditor}
+                      config={{
+                        toolbar: [
+                          'heading',
+                          '|',
+                          'bold',
+                          'italic',
+                          '|',
+                          'link',
+                          'bulletedList',
+                          'numberedList'
+                        ]
+                      }}
+                      onChange={(event, editor) => {
+                        setValue('description', editor.getData())
+                      }}
+                      ref={register}
+                    />
+                    {descriptionError && <FormError type='emptyDescription' />}
+                  </div>
                   <Dragdrop />
                   <div className='flex flex-row flex-center'>
-                    <Button
-                      type='submit'
-                      className='btn btn-default'
-                      disabled={data.isSubmitting}
-                    >
+                    <Button type='submit' className='btn btn-default'>
                       Submit
                     </Button>
                   </div>
                 </form>
               </div>
               {screenSize > 1120 ? (
-                <Search listToBeSearched={storiesData} title={data.title} />
+                <Search
+                  listToBeSearched={storiesData}
+                  title={watch('title') || ''}
+                />
               ) : (
                 ''
               )}
