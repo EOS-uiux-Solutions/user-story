@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link, navigate } from '@reach/router'
-import eosIcon from '../assets/images/logo-white.png'
+
+import eosIcon from '../assets/images/logo-coloured.png'
 import useAuth from '../hooks/useAuth'
 import axios from 'axios'
 import { apiURL } from '../config.json'
@@ -9,6 +10,8 @@ const Navigation = (props) => {
   const { logout } = useAuth()
 
   const userId = localStorage.getItem('id')
+  const userName = localStorage.getItem('name')
+  const userEmail = localStorage.getItem('email')
 
   const [state, setState] = useState(localStorage.getItem('status'))
 
@@ -137,21 +140,21 @@ const Navigation = (props) => {
 
   return (
     <header className='nav-header'>
-      <Link className='link link-light' to='/'>
-        <div className='brand'>
+      <Link className='link' to='/'>
+        <div className='flex flex-column brand'>
           <img className='logo' src={eosIcon} alt='' />
           <span className='brand-text'>USER STORIES</span>
         </div>
       </Link>
       <nav>
         {state === 'Authenticated' && (
-          <Link className='link link-light' to='/newStory'>
-            NEW STORY
+          <Link className='link link-nav' to='/newStory'>
+            + New Story
           </Link>
         )}
         {state !== 'Authenticated' && (
-          <Link className='link link-light' to='/login'>
-            SIGN IN
+          <Link className='link link-nav' to='/login'>
+            Sign In
           </Link>
         )}
         {state === 'Authenticated' && (
@@ -160,20 +163,20 @@ const Navigation = (props) => {
             onClick={updateNotifications}
             ref={notificationsDropdownContainer}
           >
-            <i className='eos-icons'>notifications</i>
+            <i
+              className={`eos-icons ${
+                notificationsDropdownState ? 'eos-icons-open' : ''
+              }`}
+            >
+              notifications
+            </i>
             <div
-              className={`dropdown ${
+              className={`dropdown nav-dropdown ${
                 notificationsDropdownState
                   ? 'dropdown-open dropdown-left'
                   : 'dropdown-close dropdown-left'
               }`}
             >
-              <h4>
-                <Link className='link link-light' to='/notifications'>
-                  Notfications ( View all)
-                </Link>
-              </h4>
-              <hr />
               <ul className='dropdown-list'>
                 {notifications
                   ? notifications.map((notification, key) => (
@@ -183,10 +186,19 @@ const Navigation = (props) => {
                         key={key}
                       >
                         {notification.message}
+                        <hr className='dropdown-separator' />
                       </li>
                     ))
                   : ''}
               </ul>
+              <div className='flex flex-row flex-space-between notifications-options'>
+                <Link className='link link-default' to='#'>
+                  Mark all as read
+                </Link>
+                <Link className='link link-default' to='/notifications'>
+                  View all
+                </Link>
+              </div>
             </div>
           </div>
         )}
@@ -198,35 +210,44 @@ const Navigation = (props) => {
             }}
             ref={userDropdownContainer}
           >
-            <i className='eos-icons'>person</i>
+            <i
+              className={`eos-icons ${
+                userDropdownState ? 'eos-icons-open' : ''
+              }`}
+            >
+              person
+            </i>
             <div
-              className={`dropdown ${
+              className={`dropdown nav-dropdown ${
                 userDropdownState
                   ? 'dropdown-open dropdown-left'
                   : 'dropdown-close dropdown-left'
               }`}
             >
               <ul className='dropdown-list'>
+                <li className='dropdown-element user-dropdown-name'>
+                  {userName}
+                </li>
+                <li className='dropdown-element'>{userEmail}</li>
+                <hr className='dropdown-separator' />
                 <li
                   className='dropdown-element'
                   onClick={() => navigate('/myStories')}
                 >
-                  <Link className='link link-light' to='#'>
-                    MY STORIES
-                  </Link>
+                  <i className='eos-icons'>message</i>
+                  My Stories
                 </li>
                 <li
                   className='dropdown-element'
                   onClick={() => navigate('/myProfile')}
                 >
-                  <Link className='link link-light' to='#'>
-                    MY PROFILE
-                  </Link>
+                  <i className='eos-icons'>settings</i>
+                  My Account
                 </li>
+                <hr className='dropdown-separator' />
                 <li className='dropdown-element' onClick={handleLogout}>
-                  <Link className='link link-light' to='#'>
-                    LOG OUT
-                  </Link>
+                  <i className='eos-icons'>exit_to_app</i>
+                  Log Out
                 </li>
               </ul>
             </div>

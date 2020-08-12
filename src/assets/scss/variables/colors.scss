@@ -1,6 +1,6 @@
-$primary: #D64F13;
-$primary-light: #fe673a;
-$light-color: #fff;
+$primary: #00CCD1;
+$primary-light: #19b8bc;
+$light-color: #FFFFFF;
 $dark-color: #000;
 $gray-bg: #eaeaea;
 $light-green: #66DC71;
@@ -10,9 +10,9 @@ $alert: #E6001A;
 $authentication-orange-bg: $primary;
 $authentication-white-bg: $light-color;
 
-$nav-bg: $primary;
+$nav-bg: $light-color;
 
-$dropdown-colored-bg: $primary;
+$dropdown-colored-bg: $light-color;
 
 $btn-default-bg: $primary;
 $btn-hover: $primary-light;
@@ -24,3 +24,7 @@ $hyper-link-color: #008ACF;
 $hyper-link-hover-color: #15578f;
 
 $drag-drop: #bdbdbd;
+
+
+// NEW COLORS
+$status-tabs-bg: $primary;

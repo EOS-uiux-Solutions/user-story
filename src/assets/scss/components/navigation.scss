@@ -11,19 +11,30 @@
   z-index: 10;
 
   .brand {
-    align-items: center;
-    color: $light-color;
-    display: flex;
+    align-items: baseline;
+    color: $dark-color;
+    font-weight: bold;
+    text-align: left;
 
     .logo {
-      margin-right: 16px;
-      width: 70px;
+      width: 47px;
     }
   }
 }
 
-@media (max-width: 768px) {
-  .brand-text {
-    display: none;
-  }
+.user-dropdown-name {
+  font-weight: bold;
+}
+
+.notifications-options {
+  padding: 4px 8px;
+}
+
+.nav-dropdown {
+  max-height: 512px;
+  width: 256px;
+}
+
+.dropdown-separator {
+  opacity: 0.08;
 }

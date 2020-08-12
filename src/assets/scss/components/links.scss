@@ -1,5 +1,4 @@
 .link {
-  font-weight: bold;
   outline: 0;
   text-decoration: none;
 
@@ -13,14 +12,13 @@
     color: $hyper-link-hover-color;
   }
 
-  &-light,
-  &-light:visited,
-  &-light:active {
+  &-nav,
+  &-nav:visited,
+  &-nav:active {
+    background-color: $status-tabs-bg;
+    border-radius: 10px 10px 10px 0px;
     color: $light-color;
-    padding: 0 8px;
-    }
-
-  &-light:hover {
-    color: $light-color;
+    margin: 0px 16px;
+    padding: 8px 8px;
   }
 }

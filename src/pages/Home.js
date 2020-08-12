@@ -12,16 +12,7 @@ import Navigation from '../components/Navigation'
 import Pagination from '../components/Pagination'
 import Modal from '../components/Modal'
 
-const stateList = [
-  'Under consideration',
-  'Planned',
-  'Designing',
-  'Implementing',
-  'Testing',
-  'Deployed'
-]
-
-const sortByList = ['Most Voted', 'Most Discussed']
+import Lists from '../utils/Lists'
 
 const Home = () => {
   const [page, setPage] = useState(1)
@@ -369,14 +360,36 @@ const Home = () => {
         <div className='base-container'>
           <Navigation policyUpdateRejected={policyUpdateRejected} />
           <div className='home-content'>
-            <h3>Welcome to EOS User Stories</h3>
+            <h2>TELL US YOUR STORY</h2>
             <p>
               Share with us how you use our products, relate to other users'
               stories, vote them up, and we'll make sure we deliver cohesive
               solutions that enhance your experience.
             </p>
-            <div className='flex flex-row'>
-              <div className='filter-title'>Filter by product</div>
+            <div className='flex flex-row flex-space-between'>
+              {Lists.stateList &&
+                Lists.stateList.map((state, key) => {
+                  return (
+                    <Button
+                      className={
+                        currentStateSelected === state.status
+                          ? 'btn btn-tabs btn-tabs-selected'
+                          : 'btn btn-tabs'
+                      }
+                      key={key}
+                      onClick={() => {
+                        selectState(state.status)
+                        setPage(1)
+                      }}
+                    >
+                      <i className='eos-icons'>{state.icon}</i>
+                      {state.status}
+                    </Button>
+                  )
+                })}
+            </div>
+            <div className='flex flex-row options-bar'>
+              <div className='filter-title'>Product</div>
               <div
                 className='dropdown-container'
                 ref={productDropdownContainer}
@@ -441,7 +454,7 @@ const Home = () => {
                   }`}
                 >
                   <ul className='dropdown-list'>
-                    {sortByList.map((item, key) => (
+                    {Lists.sortByList.map((item, key) => (
                       <li
                         key={key}
                         className='dropdown-element'
@@ -453,27 +466,6 @@ const Home = () => {
                   </ul>
                 </div>
               </div>
-            </div>
-            <div className='flex flex-row flex-space-between'>
-              {stateList &&
-                stateList.map((state, key) => {
-                  return (
-                    <Button
-                      className={
-                        currentStateSelected === state
-                          ? 'btn btn-tabs btn-tabs-selected'
-                          : 'btn btn-tabs'
-                      }
-                      key={key}
-                      onClick={() => {
-                        selectState(state)
-                        setPage(1)
-                      }}
-                    >
-                      {state}
-                    </Button>
-                  )
-                })}
             </div>
             {promiseInProgress ? (
               <LoadingIndicator />

@@ -27,17 +27,20 @@
   }
 
   &-tabs {
-    background-color: $btn-tabs-bg;
-    border-bottom: 2px solid black;
-    border-left: 2px $gray-bg;
-    border-right: 2px $gray-bg;
-    border-top: 2px solid black;
+    background-color: transparent;
+    border-radius: 10px 10px 10px 0px;
     width: auto;
+
+    .eos-icons {
+      margin-right: 4px;
+      pointer-events: none;
+      vertical-align: sub;
+    }
 
     &-selected,
     &:hover {
-      background-color: $btn-hover;
-      border-color: $btn-hover;
+      background-color: $status-tabs-bg;
+      border-color: $status-tabs-bg;
       color: $light-color;
     }
   }

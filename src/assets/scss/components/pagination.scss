@@ -4,14 +4,12 @@
   justify-content: center;
 
   .link {
-    background-color: $primary;
-    color: $light-color;
-    font-weight: normal;
+    color: $dark-color;
     margin: 8px 8px;
     padding: 8px 8px;
   }
 
   .link-highlighted {
-    background-color: $primary-light;
+    font-weight: bold;
   }
 }
