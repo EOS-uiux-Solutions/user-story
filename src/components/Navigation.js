@@ -149,7 +149,7 @@ const Navigation = (props) => {
       <nav>
         {state === 'Authenticated' && (
           <Link className='link link-nav' to='/newStory'>
-            New Story
+            + New Story
           </Link>
         )}
         {state !== 'Authenticated' && (
