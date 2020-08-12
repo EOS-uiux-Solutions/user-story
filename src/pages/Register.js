@@ -1,40 +1,29 @@
 import React, { useState } from 'react'
+import { useForm } from 'react-hook-form'
+
 import { Link, navigate } from '@reach/router'
 import eosLogoWhite from '../assets/images/logo-white.png'
 import eosLogoColoured from '../assets/images/logo-coloured.png'
 import eosLock from '../assets/images/authentication-lock.png'
 import Button from '../components/Button'
 import useAuth from '../hooks/useAuth'
+
+import FormError from '../components/FormError'
 import Dropdown from '../components/Dropdown'
 import { useTranslation } from 'react-i18next'
 
 export const Register = () => {
-  const { register } = useAuth()
+  const { registerUser } = useAuth()
+
+  const { register, handleSubmit, errors, watch } = useForm()
 
   const { t, i18n } = useTranslation()
 
-  const initialFormState = {
-    username: '',
-    email: '',
-    password: '',
-    tc: false
-  }
-
-  const [data, setData] = useState(initialFormState)
-
   const [error, setError] = useState('')
 
-  const handleInputChange = (event) => {
-    setData({
-      ...data,
-      [event.target.name]: event.target.value
-    })
-  }
-
-  const handleSubmit = async (event) => {
-    event.preventDefault()
+  const onSubmit = async (data) => {
     try {
-      const payload = await register({
+      const payload = await registerUser({
         username: data.username,
         email: data.email,
         password: data.password
@@ -73,60 +62,75 @@ export const Register = () => {
             <Dropdown translator={i18n} />
           </div>
           <div>
-            <form className='form-default' onSubmit={handleSubmit}>
+            <form className='form-default' onSubmit={handleSubmit(onSubmit)}>
               <div className='header'>{t('authentication:title-sign-up')}</div>
-              <label htmlFor='username'>
-                {t('authentication:username-label')}
-              </label>
-              <input
-                className='input-default'
-                type='text'
-                name='username'
-                onChange={handleInputChange}
-              />
-              <label htmlFor='email'>{t('authentication:email-label')}</label>
-              <input
-                className='input-default'
-                type='text'
-                name='email'
-                onChange={handleInputChange}
-              />
-              <label htmlFor='password'>
-                {t('authentication:password-label')}
-              </label>
-              <input
-                className='input-default'
-                type='password'
-                name='password'
-                onChange={handleInputChange}
-              />
-              <label htmlFor='password'>
-                {t('authentication:confirm-password-label')}
-              </label>
-              <input
-                className='input-default'
-                type='password'
-                name='password'
-                onChange={handleInputChange}
-              />
-              <div className='flex flex-row'>
-                <input
-                  type='checkbox'
-                  name='tc'
-                  onChange={() =>
-                    setData({
-                      ...data,
-                      tc: !data.tc
-                    })
-                  }
-                />
-                <label htmlFor='tc'>
-                  I agree to the{' '}
-                  <Link className='link link-default' to='/policies'>
-                    Terms and Conditions
-                  </Link>
+              <div className='form-element'>
+                <label htmlFor='username'>
+                  {t('authentication:username-label')}
                 </label>
+                <input
+                  className='input-default'
+                  type='text'
+                  name='username'
+                  ref={register({ required: true })}
+                />
+                {errors.username && <FormError type={errors.username.type} />}
               </div>
+
+              <div className='form-element'>
+                <label htmlFor='email'>{t('authentication:email-label')}</label>
+                <input
+                  className='input-default'
+                  type='text'
+                  name='email'
+                  ref={register({ required: true })}
+                />
+                {errors.email && <FormError type={errors.email.type} />}
+              </div>
+
+              <div className='form-element'>
+                <label htmlFor='password'>
+                  {t('authentication:password-label')}
+                </label>
+                <input
+                  className='input-default'
+                  type='password'
+                  name='password'
+                  ref={register({
+                    required: true,
+                    validate: (value) => value === watch('confirmPassword')
+                  })}
+                />
+                {errors.password && <FormError type={errors.password.type} />}
+              </div>
+
+              <div className='form-element'>
+                <label htmlFor='password'>
+                  {t('authentication:confirm-password-label')}
+                </label>
+                <input
+                  className='input-default'
+                  type='password'
+                  name='confirmPassword'
+                  ref={register({ required: true })}
+                />
+                {errors.confirmPassword && (
+                  <FormError type={errors.confirmPassword.type} />
+                )}
+              </div>
+
+              <div className='form-element'>
+                <div className='flex flex-row flex-space-between'>
+                  <label htmlFor='tc'>
+                    I agree to the{' '}
+                    <Link className='link link-default' to='/policies'>
+                      Terms and Conditions
+                    </Link>
+                  </label>
+                  <input type='checkbox' name='tc' ref={register} />
+                </div>
+              </div>
+
               <Button type='submit' className='btn btn-default'>
                 {t('authentication:register-label')}
               </Button>
