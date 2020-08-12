@@ -92,7 +92,7 @@ export const Login = () => {
                   name='password'
                   ref={register({ required: true })}
                 />
-                {errors.password && <FormError type={errors.identifier.type} />}
+                {errors.password && <FormError type={errors.password.type} />}
               </div>
 
               <div className='form-element'>
