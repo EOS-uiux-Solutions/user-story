@@ -1,5 +1,5 @@
-$primary: #D64F13;
-$primary-light: #fe673a;
+$primary: #00CCD1;
+$primary-light: #19b8bc;
 $light-color: #FFFFFF;
 $dark-color: #000;
 $gray-bg: #eaeaea;
@@ -27,4 +27,4 @@ $drag-drop: #bdbdbd;
 
 
 // NEW COLORS
-$status-tabs-bg: #00CCD1;
+$status-tabs-bg: $primary;
