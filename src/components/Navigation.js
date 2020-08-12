@@ -169,18 +169,12 @@ const Navigation = (props) => {
               notifications
             </i>
             <div
-              className={`dropdown ${
+              className={`dropdown nav-dropdown ${
                 notificationsDropdownState
                   ? 'dropdown-open dropdown-left'
                   : 'dropdown-close dropdown-left'
               }`}
             >
-              <h4>
-                <Link className='link link-light' to='/notifications'>
-                  Notfications ( View all)
-                </Link>
-              </h4>
-              <hr />
               <ul className='dropdown-list'>
                 {notifications
                   ? notifications.map((notification, key) => (
@@ -190,10 +184,19 @@ const Navigation = (props) => {
                         key={key}
                       >
                         {notification.message}
+                        <hr className='dropdown-separator' />
                       </li>
                     ))
                   : ''}
               </ul>
+              <div className='flex flex-row flex-space-between notifications-options'>
+                <Link className='link link-default' to='#'>
+                  Mark all as read
+                </Link>
+                <Link className='link link-default' to='/notifications'>
+                  View all
+                </Link>
+              </div>
             </div>
           </div>
         )}
@@ -213,7 +216,7 @@ const Navigation = (props) => {
               person
             </i>
             <div
-              className={`dropdown ${
+              className={`dropdown nav-dropdown ${
                 userDropdownState
                   ? 'dropdown-open dropdown-left'
                   : 'dropdown-close dropdown-left'
@@ -224,22 +227,20 @@ const Navigation = (props) => {
                   className='dropdown-element'
                   onClick={() => navigate('/myStories')}
                 >
-                  <Link className='link link-light' to='#'>
-                    MY STORIES
-                  </Link>
+                  <i className='eos-icons'>message</i>
+                  My Stories
                 </li>
                 <li
                   className='dropdown-element'
                   onClick={() => navigate('/myProfile')}
                 >
-                  <Link className='link link-light' to='#'>
-                    MY PROFILE
-                  </Link>
+                  <i className='eos-icons'>settings</i>
+                  My Account
                 </li>
+                <hr className='dropdown-separator' />
                 <li className='dropdown-element' onClick={handleLogout}>
-                  <Link className='link link-light' to='#'>
-                    LOG OUT
-                  </Link>
+                  <i className='eos-icons'>exit_to_app</i>
+                  Log Out
                 </li>
               </ul>
             </div>
