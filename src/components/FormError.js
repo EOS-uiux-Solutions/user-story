@@ -7,6 +7,7 @@ export const FormError = (props) => {
     <div className='form-error'>
       <i className='eos-icons'>error</i>{' '}
       {type === 'required' && 'This is required'}
+      {type === 'validate' && 'Passwords do not match'}
     </div>
   )
 }

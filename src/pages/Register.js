@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next'
 export const Register = () => {
   const { registerUser } = useAuth()
 
-  const { register, handleSubmit, errors } = useForm()
+  const { register, handleSubmit, errors, watch } = useForm()
 
   const { t, i18n } = useTranslation()
 
@@ -96,7 +96,10 @@ export const Register = () => {
                   className='input-default'
                   type='password'
                   name='password'
-                  ref={register({ required: true })}
+                  ref={register({
+                    required: true,
+                    validate: (value) => value === watch('confirmPassword')
+                  })}
                 />
                 {errors.password && <FormError type={errors.password.type} />}
               </div>
