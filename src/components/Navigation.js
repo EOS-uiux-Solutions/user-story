@@ -10,6 +10,8 @@ const Navigation = (props) => {
   const { logout } = useAuth()
 
   const userId = localStorage.getItem('id')
+  const userName = localStorage.getItem('name')
+  const userEmail = localStorage.getItem('email')
 
   const [state, setState] = useState(localStorage.getItem('status'))
 
@@ -223,6 +225,11 @@ const Navigation = (props) => {
               }`}
             >
               <ul className='dropdown-list'>
+                <li className='dropdown-element user-dropdown-name'>
+                  {userName}
+                </li>
+                <li className='dropdown-element'>{userEmail}</li>
+                <hr className='dropdown-separator' />
                 <li
                   className='dropdown-element'
                   onClick={() => navigate('/myStories')}

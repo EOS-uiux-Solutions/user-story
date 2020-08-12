@@ -31,6 +31,8 @@ export const Login = () => {
       })
       localStorage.setItem('status', payload.status)
       localStorage.setItem('id', payload.user.id)
+      localStorage.setItem('name', payload.user.Name)
+      localStorage.setItem('email', payload.user.email)
       navigate('/')
     } catch (e) {
       setError(e.message)
