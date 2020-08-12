@@ -370,23 +370,21 @@ const Home = () => {
               {Lists.stateList &&
                 Lists.stateList.map((state, key) => {
                   return (
-                    <>
-                      <Button
-                        className={
-                          currentStateSelected === state.status
-                            ? 'btn btn-tabs btn-tabs-selected'
-                            : 'btn btn-tabs'
-                        }
-                        key={key}
-                        onClick={() => {
-                          selectState(state.status)
-                          setPage(1)
-                        }}
-                      >
-                        <i className='eos-icons'>{state.icon}</i>
-                        {state.status}
-                      </Button>
-                    </>
+                    <Button
+                      className={
+                        currentStateSelected === state.status
+                          ? 'btn btn-tabs btn-tabs-selected'
+                          : 'btn btn-tabs'
+                      }
+                      key={key}
+                      onClick={() => {
+                        selectState(state.status)
+                        setPage(1)
+                      }}
+                    >
+                      <i className='eos-icons'>{state.icon}</i>
+                      {state.status}
+                    </Button>
                   )
                 })}
             </div>
