@@ -74,6 +74,7 @@ const Comments = (props) => {
           }
         }) {
           userStoryComment {
+            id
             user {
               username
             }
