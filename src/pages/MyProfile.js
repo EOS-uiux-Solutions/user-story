@@ -102,19 +102,20 @@ const MyProfile = () => {
               <div className='flex flex-row flex-space-around'>
                 <div className='flex flex-column'>
                   <div className='profile-picture-container'>
-                    {user && user.profilePicture ? (
-                      <img
-                        className='profile-picture'
-                        src={user.profilePicture.url}
-                        alt='profile pic'
-                      />
-                    ) : (
-                      <img
-                        className='profile-picture'
-                        src={`https://api.adorable.io/avatars/100/${user.username}`}
-                        alt='profile pic'
-                      />
-                    )}
+                    {user &&
+                      (user.profilePicture ? (
+                        <img
+                          className='profile-picture'
+                          src={user.profilePicture.url}
+                          alt='profile pic'
+                        />
+                      ) : (
+                        <img
+                          className='profile-picture'
+                          src={`https://api.adorable.io/avatars/100/${user.username}`}
+                          alt='profile pic'
+                        />
+                      ))}
                     <Button className='btn btn-default'>
                       Change Profile Picture
                     </Button>
