@@ -2,7 +2,7 @@
   flex-wrap: initial;
   margin: 64px 16px 0px 16px;
   max-height: 576px;
-  max-width: 480px;
+  max-width: 416px;
   overflow-x: hidden;
   overflow-y: scroll;
 }
@@ -27,7 +27,7 @@
 
 @media only screen and (max-width: 1120px) {
   .title-search {
-    margin: -32px 0px 32px 0px;
+    margin: -24px 0px 32px 0px;
     max-height: 384px;
     max-width: 100%;
   }
