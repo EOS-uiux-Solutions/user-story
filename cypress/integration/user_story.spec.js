@@ -8,9 +8,9 @@ describe('Test User Story', () => {
 
     cy.url().should('equal', 'http://localhost:3000/login')
 
-    cy.get('[type="text"]').type('test@gmail.com')
+    cy.get('[type="text"]').type(Cypress.env('testEmail'))
 
-    cy.get('[type="password"]').type('1234567')
+    cy.get('[type="password"]').type(Cypress.env('testPassword'))
 
     cy.get('.form-default > .btn').click()
 
