@@ -133,11 +133,6 @@ const NewStory = () => {
     register('description')
   })
 
-  useEffect(() => {
-    setDescriptionError(false)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [watch('description')])
-
   return (
     <>
       <div className='base-wrapper'>
@@ -219,8 +214,6 @@ const NewStory = () => {
                   <div className='form-element'>
                     <label htmlFor='description'>Description</label>
                     <CKEditor
-                      id='description'
-                      name='description'
                       editor={ClassicEditor}
                       config={{
                         toolbar: [
@@ -236,6 +229,7 @@ const NewStory = () => {
                       }}
                       onChange={(event, editor) => {
                         setValue('description', editor.getData())
+                        setDescriptionError(false)
                       }}
                       ref={register}
                     />
