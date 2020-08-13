@@ -141,7 +141,7 @@ const NewStory = () => {
           {promiseInProgress ? (
             <LoadingIndicator />
           ) : (
-            <div className='flex flex-row'>
+            <div className='flex flex-row newstory-content'>
               <div className='newstory'>
                 <h3>New Story</h3>
                 <form

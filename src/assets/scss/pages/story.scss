@@ -1,6 +1,8 @@
 .story-content {
+  background-color: $primary-foreground;
   display: flex;
   flex-direction: column;
+  margin: 0px 8px;
   padding: 16px 16px;
 
   .btn {
