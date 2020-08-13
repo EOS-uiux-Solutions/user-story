@@ -22,8 +22,17 @@
   }
 }
 
-.user-dropdown-name {
-  font-weight: bold;
+.user-dropdown {
+  padding: 8px 16px;
+
+  &-name {
+    font-weight: bold;
+  }
+
+  &-email {
+    color: $light-gray;
+    font-size: $font-size-small;
+  }
 }
 
 .notifications-options {

@@ -225,10 +225,10 @@ const Navigation = (props) => {
               }`}
             >
               <ul className='dropdown-list'>
-                <li className='dropdown-element user-dropdown-name'>
-                  {userName}
+                <li className='user-dropdown user-dropdown-name'>{userName}</li>
+                <li className='user-dropdown user-dropdown-email'>
+                  {userEmail}
                 </li>
-                <li className='dropdown-element'>{userEmail}</li>
                 <hr className='dropdown-separator' />
                 <li
                   className='dropdown-element'

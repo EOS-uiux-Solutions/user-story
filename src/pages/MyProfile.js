@@ -102,7 +102,7 @@ const MyProfile = () => {
               <div className='flex flex-row flex-space-around'>
                 <div className='flex flex-column'>
                   <div className='profile-picture-container'>
-                    {user && user.profilePicture ? (
+                    {user.profilePicture ? (
                       <img
                         className='profile-picture'
                         src={user.profilePicture.url}
