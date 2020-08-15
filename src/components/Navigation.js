@@ -99,14 +99,15 @@ const Navigation = (props) => {
 
   const updateNotifications = () => {
     setNotificationsDropdownState(!notificationsDropdownState)
-    notifications.forEach(async (notification) => {
-      const seenBy = notification.seenBy.map((seen) => seen.id)
-      if (!seenBy.includes(userId)) {
-        seenBy.push(userId)
-        await axios.post(
-          `${apiURL}/graphql`,
-          {
-            query: `mutation updateNotifications($seenBy: [ID]){
+    if (notifications) {
+      notifications.forEach(async (notification) => {
+        const seenBy = notification.seenBy.map((seen) => seen.id)
+        if (!seenBy.includes(userId)) {
+          seenBy.push(userId)
+          await axios.post(
+            `${apiURL}/graphql`,
+            {
+              query: `mutation updateNotifications($seenBy: [ID]){
             updateUserStoryNotification(input: {
               where: {
                 id: "${notification.id}"
@@ -120,16 +121,17 @@ const Navigation = (props) => {
               }
             }
           }`,
-            variables: {
-              seenBy: seenBy
+              variables: {
+                seenBy: seenBy
+              }
+            },
+            {
+              withCredentials: true
             }
-          },
-          {
-            withCredentials: true
-          }
-        )
-      }
-    })
+          )
+        }
+      })
+    }
   }
 
   const handleLogout = async () => {
