@@ -153,9 +153,11 @@ const MyProfile = () => {
                       </div>
                       <div className='about-element '> {user.email} </div>
                     </div>
-                    <Link className='link link-default' to='/changePassword'>
-                      Change Password
-                    </Link>
+                    <div className='about-element about-element-label'>
+                      <Link className='link link-default' to='/changePassword'>
+                        Change Password
+                      </Link>
+                    </div>
                   </div>
                   <div className='basic-about'>
                     <div className='flex flex-row flex-space-between'>
