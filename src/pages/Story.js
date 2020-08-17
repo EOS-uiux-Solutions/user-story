@@ -66,6 +66,9 @@ const Story = (props) => {
         JSON.stringify(item.id)
       )
       setFollowers(followerIds)
+      if (followerIds.includes(JSON.stringify(userId))) {
+        setVoted(true)
+      }
     }
     trackPromise(fetchStory())
     const editStory = async () => {

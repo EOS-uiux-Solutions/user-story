@@ -3,7 +3,7 @@ import axios from 'axios'
 import { apiURL } from '../config.json'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 import LoadingIndicator from '../modules/LoadingIndicator'
-import { navigate } from '@reach/router'
+import { Link } from '@reach/router'
 
 import Navigation from '../components/Navigation'
 
@@ -18,6 +18,8 @@ const MyProfile = () => {
 
   const [user, setUser] = useState('')
 
+  const [edit, setEdit] = useState(false)
+
   const [updated, setUpdated] = useState(false)
 
   const { promiseInProgress } = usePromiseTracker()
@@ -30,6 +32,7 @@ const MyProfile = () => {
   }
 
   const updateProfile = async () => {
+    setEdit(false)
     const response = await axios.post(
       `${apiURL}/graphql`,
       {
@@ -44,6 +47,7 @@ const MyProfile = () => {
             Company: "${user.Company}"
             LinkedIn: "${user.LinkedIn}"
             Twitter: "${user.Twitter}"
+            Bio: "${user.Bio}"
           }
         }) {
           user {
@@ -127,10 +131,10 @@ const MyProfile = () => {
                     <textarea
                       rows='6'
                       cols='17'
-                      readOnly={true}
+                      name='Bio'
                       defaultValue={user.Bio ? user.Bio : ''}
+                      onChange={handleInputChange}
                     ></textarea>
-                    <Button className='btn btn-default'>Change Bio</Button>
                   </div>
                 </div>
                 <div className='flex flex-column'>
@@ -149,19 +153,9 @@ const MyProfile = () => {
                       </div>
                       <div className='about-element '> {user.email} </div>
                     </div>
-                    <div className='flex flex-row flex-space-between'>
-                      <div className='about-element about-element-label'>
-                        {' '}
-                        Password:{' '}
-                      </div>
-                      <div className='about-element '> {}</div>
-                    </div>
-                    <Button
-                      className='btn btn-default'
-                      onClick={() => navigate('/changePassword')}
-                    >
+                    <Link className='link link-default' to='/changePassword'>
                       Change Password
-                    </Button>
+                    </Link>
                   </div>
                   <div className='basic-about'>
                     <div className='flex flex-row flex-space-between'>
@@ -231,9 +225,29 @@ const MyProfile = () => {
                         onChange={handleInputChange}
                       />
                     </div>
-                    <Button className='btn btn-default' onClick={updateProfile}>
-                      Update Profile
-                    </Button>
+                    {edit ? (
+                      <>
+                        <Button
+                          className='btn btn-default'
+                          onClick={updateProfile}
+                        >
+                          Save
+                        </Button>
+                        <Button
+                          className='btn btn-default'
+                          onClick={() => setEdit(false)}
+                        >
+                          Cancel
+                        </Button>
+                      </>
+                    ) : (
+                      <Button
+                        className='btn btn-default'
+                        onClick={() => setEdit(true)}
+                      >
+                        Update Profile
+                      </Button>
+                    )}
                     {updated ? <h3>Profile Updated successfully</h3> : ''}
                   </div>
                 </div>

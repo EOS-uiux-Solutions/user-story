@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Router } from '@reach/router'
 
 import './assets/scss/index.scss'
@@ -20,11 +20,17 @@ import Notifications from './pages/Notifications'
 import AuthContext from './modules/AuthContext'
 
 const App = () => {
-  const authHook = useState(false)
+  const [auth, setAuth] = useState(false)
+
+  useEffect(() => {
+    if (localStorage.getItem('id')) {
+      setAuth(true)
+    }
+  }, [])
 
   return (
     <div className='app'>
-      <AuthContext.Provider value={authHook}>
+      <AuthContext.Provider value={[auth, setAuth]}>
         <div className='app-container'>
           <Router>
             <Home path='/' />
