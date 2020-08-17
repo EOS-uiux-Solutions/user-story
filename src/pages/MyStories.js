@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useContext } from 'react'
 import { apiURL } from '../config.json'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 
@@ -10,8 +10,12 @@ import StoriesList from '../components/StoriesList'
 import Navigation from '../components/Navigation'
 
 import Lists from '../utils/Lists'
+import AuthContext from '../modules/AuthContext'
+import Login from './Login'
 
 const MyStories = () => {
+  const [auth] = useContext(AuthContext)
+
   const [stories, setStories] = useState([])
 
   const [currentStateSelected, selectState] = useState('My Submissions')
@@ -186,7 +190,7 @@ const MyStories = () => {
     }
   }, [sortDropdownContainer])
 
-  return (
+  return auth ? (
     <>
       <div className='base-wrapper'>
         <div className='base-container'>
@@ -333,6 +337,8 @@ const MyStories = () => {
         </div>
       </div>
     </>
+  ) : (
+    <Login message='Please login to access your stories' />
   )
 }
 

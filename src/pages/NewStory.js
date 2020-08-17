@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState, useEffect } from 'react'
+import React, { useLayoutEffect, useState, useEffect, useContext } from 'react'
 import { useForm } from 'react-hook-form'
 
 import CKEditor from '@ckeditor/ckeditor5-react'
@@ -14,8 +14,11 @@ import Button from '../components/Button'
 import Search from '../modules/TitleSearch'
 import Dragdrop from '../components/Dragdrop'
 import { navigate } from '@reach/router'
+import AuthContext from '../modules/AuthContext'
+import Login from './Login'
 
 const NewStory = () => {
+  const [auth] = useContext(AuthContext)
   const { register, handleSubmit, errors, setValue, watch } = useForm()
 
   const [descriptionError, setDescriptionError] = useState(false)
@@ -133,7 +136,7 @@ const NewStory = () => {
     register('description')
   })
 
-  return (
+  return auth ? (
     <>
       <div className='base-wrapper'>
         <div className='base-container'>
@@ -256,6 +259,8 @@ const NewStory = () => {
         </div>
       </div>
     </>
+  ) : (
+    <Login message='Please login to create a new story' />
   )
 }
 

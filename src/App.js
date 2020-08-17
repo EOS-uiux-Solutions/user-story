@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Router } from '@reach/router'
 
 import './assets/scss/index.scss'
@@ -17,27 +17,32 @@ import Profile from './pages/Profile'
 import ChangePassword from './pages/ChangePassword'
 import Policies from './pages/Policies'
 import Notifications from './pages/Notifications'
+import AuthContext from './modules/AuthContext'
 
 const App = () => {
+  const authHook = useState(false)
+
   return (
     <div className='app'>
-      <div className='app-container'>
-        <Router>
-          <Home path='/' />
-          <Register path='/register' />
-          <Login path='/login' />
-          <ForgotPassword path='/forgotPassword' />
-          <ResetPassword path='/resetPassword' />
-          <NewStory path='/newStory' />
-          <Story path='/story/:storyId' />
-          <MyStories path='/myStories' />
-          <MyProfile path='/myProfile' />
-          <Profile path='/profile/:profileId' />
-          <Notifications path='/notifications' />
-          <ChangePassword path='/changePassword' />
-          <Policies path='/policies' />
-        </Router>
-      </div>
+      <AuthContext.Provider value={authHook}>
+        <div className='app-container'>
+          <Router>
+            <Home path='/' />
+            <Register path='/register' />
+            <Login path='/login' />
+            <ForgotPassword path='/forgotPassword' />
+            <ResetPassword path='/resetPassword' />
+            <NewStory path='/newStory' />
+            <Story path='/story/:storyId' />
+            <MyStories path='/myStories' />
+            <MyProfile path='/myProfile' />
+            <Profile path='/profile/:profileId' />
+            <Notifications path='/notifications' />
+            <ChangePassword path='/changePassword' />
+            <Policies path='/policies' />
+          </Router>
+        </div>
+      </AuthContext.Provider>
     </div>
   )
 }
