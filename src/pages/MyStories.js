@@ -208,6 +208,7 @@ const MyStories = () => {
               >
                 My Submissions
               </Button>
+              &nbsp; &nbsp;
               <Button
                 className={
                   currentStateSelected === 'Following'
@@ -219,119 +220,114 @@ const MyStories = () => {
                 Following
               </Button>
             </div>
+            <div className='flex flex-row flex-space-between'>
+              {Lists.stateList &&
+                Lists.stateList.map((state, key) => {
+                  return (
+                    <Button
+                      className={
+                        storyStateSelected === state.status
+                          ? 'btn btn-tabs btn-tabs-selected'
+                          : 'btn btn-tabs'
+                      }
+                      key={key}
+                      onClick={() => selectStoryState(state.status)}
+                    >
+                      <i className='eos-icons'>{state.icon}</i>
+                      {state.status}
+                    </Button>
+                  )
+                })}
+            </div>
+            <div className='flex flex-row options-bar'>
+              <div className='filter-title'>Product</div>
+              <div
+                className='dropdown-container'
+                ref={productDropdownContainer}
+              >
+                <Button
+                  type='button'
+                  className='btn btn-transparent'
+                  onClick={handleProductDropdownState}
+                >
+                  {productDropdownState ? (
+                    <i className='eos-icons'>keyboard_arrow_up</i>
+                  ) : (
+                    <i className='eos-icons'>keyboard_arrow_down</i>
+                  )}
+                  &nbsp; {product}
+                </Button>
+                <div
+                  className={`dropdown ${
+                    productDropdownState
+                      ? 'dropdown-open dropdown-right'
+                      : 'dropdown-close dropdown-right'
+                  }`}
+                >
+                  <ul className='dropdown-list'>
+                    <li
+                      className='dropdown-element'
+                      onClick={() => handleProductSelection('All')}
+                    >
+                      All
+                    </li>
+                    {products.map((item, key) => (
+                      <li
+                        key={key}
+                        className='dropdown-element'
+                        onClick={() => handleProductSelection(item.Name)}
+                      >
+                        {item.Name}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+              <div className='filter-title'>Sort by</div>
+              <div className='dropdown-container' ref={sortDropdownContainer}>
+                <Button
+                  type='button'
+                  className='btn btn-transparent'
+                  onClick={handleSortDropdownState}
+                >
+                  {sortDropdownState ? (
+                    <i className='eos-icons'>keyboard_arrow_up</i>
+                  ) : (
+                    <i className='eos-icons'>keyboard_arrow_down</i>
+                  )}
+                  &nbsp; {sort}
+                </Button>
+                <div
+                  className={`dropdown ${
+                    sortDropdownState
+                      ? 'dropdown-open dropdown-right'
+                      : 'dropdown-close dropdown-right'
+                  }`}
+                >
+                  <ul className='dropdown-list'>
+                    {Lists.sortByList.map((item, key) => (
+                      <li
+                        key={key}
+                        className='dropdown-element'
+                        onClick={() => handleSortSelection(item)}
+                      >
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
             {promiseInProgress ? (
               <LoadingIndicator />
             ) : (
-              <>
-                <div className='flex flex-row flex-space-between'>
-                  {Lists.stateList &&
-                    Lists.stateList.map((state, key) => {
-                      return (
-                        <Button
-                          className={
-                            storyStateSelected === state.status
-                              ? 'btn btn-tabs btn-tabs-selected'
-                              : 'btn btn-tabs'
-                          }
-                          key={key}
-                          onClick={() => selectStoryState(state.status)}
-                        >
-                          <i className='eos-icons'>{state.icon}</i>
-                          {state.status}
-                        </Button>
-                      )
-                    })}
-                </div>
-                <div className='flex flex-row options-bar'>
-                  <div className='filter-title'>Product</div>
-                  <div
-                    className='dropdown-container'
-                    ref={productDropdownContainer}
-                  >
-                    <Button
-                      type='button'
-                      className='btn btn-transparent'
-                      onClick={handleProductDropdownState}
-                    >
-                      {productDropdownState ? (
-                        <i className='eos-icons'>keyboard_arrow_up</i>
-                      ) : (
-                        <i className='eos-icons'>keyboard_arrow_down</i>
-                      )}
-                      &nbsp; {product}
-                    </Button>
-                    <div
-                      className={`dropdown ${
-                        productDropdownState
-                          ? 'dropdown-open dropdown-right'
-                          : 'dropdown-close dropdown-right'
-                      }`}
-                    >
-                      <ul className='dropdown-list'>
-                        <li
-                          className='dropdown-element'
-                          onClick={() => handleProductSelection('All')}
-                        >
-                          All
-                        </li>
-                        {products.map((item, key) => (
-                          <li
-                            key={key}
-                            className='dropdown-element'
-                            onClick={() => handleProductSelection(item.Name)}
-                          >
-                            {item.Name}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                  <div className='filter-title'>Sort by</div>
-                  <div
-                    className='dropdown-container'
-                    ref={sortDropdownContainer}
-                  >
-                    <Button
-                      type='button'
-                      className='btn btn-transparent'
-                      onClick={handleSortDropdownState}
-                    >
-                      {sortDropdownState ? (
-                        <i className='eos-icons'>keyboard_arrow_up</i>
-                      ) : (
-                        <i className='eos-icons'>keyboard_arrow_down</i>
-                      )}
-                      &nbsp; {sort}
-                    </Button>
-                    <div
-                      className={`dropdown ${
-                        sortDropdownState
-                          ? 'dropdown-open dropdown-right'
-                          : 'dropdown-close dropdown-right'
-                      }`}
-                    >
-                      <ul className='dropdown-list'>
-                        {Lists.sortByList.map((item, key) => (
-                          <li
-                            key={key}
-                            className='dropdown-element'
-                            onClick={() => handleSortSelection(item)}
-                          >
-                            {item}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <div className='flex flex-column'>
-                  <StoriesList
-                    stories={stories}
-                    state={storyStateSelected}
-                    product={product}
-                  />
-                </div>
-              </>
+              <div className='flex flex-column'>
+                <StoriesList
+                  stories={stories}
+                  state={storyStateSelected}
+                  product={product}
+                />
+              </div>
             )}
           </div>
         </div>
