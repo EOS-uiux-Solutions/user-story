@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import axios from 'axios'
 import { apiURL } from '../config.json'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
@@ -8,9 +8,13 @@ import { navigate } from '@reach/router'
 import Navigation from '../components/Navigation'
 
 import Button from '../components/Button'
+import AuthContext from '../modules/AuthContext'
+import Login from './Login'
 
 const MyProfile = () => {
   const userId = localStorage.getItem('id')
+
+  const [auth] = useContext(AuthContext)
 
   const [user, setUser] = useState('')
 
@@ -90,7 +94,7 @@ const MyProfile = () => {
     }
   }, [userId])
 
-  return (
+  return auth ? (
     <>
       <div className='base-wrapper'>
         <div className='base-container'>
@@ -239,6 +243,8 @@ const MyProfile = () => {
         </div>
       </div>
     </>
+  ) : (
+    <Login message='Please login to access your profile' />
   )
 }
 

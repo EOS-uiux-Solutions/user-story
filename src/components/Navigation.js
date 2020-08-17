@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useContext } from 'react'
 import { Link, navigate } from '@reach/router'
 
 import eosIcon from '../assets/images/logo-coloured.png'
 import useAuth from '../hooks/useAuth'
 import axios from 'axios'
 import { apiURL } from '../config.json'
+import AuthContext from '../modules/AuthContext'
 
 const Navigation = (props) => {
   const { logout } = useAuth()
@@ -13,7 +14,7 @@ const Navigation = (props) => {
   const userName = localStorage.getItem('name')
   const userEmail = localStorage.getItem('email')
 
-  const [state, setState] = useState(localStorage.getItem('status'))
+  const [auth, setAuth] = useContext(AuthContext)
 
   const [notifications, setNotifications] = useState([])
 
@@ -28,9 +29,9 @@ const Navigation = (props) => {
 
   useEffect(() => {
     if (props.policyUpdateRejected) {
-      setState('Public')
+      setAuth(false)
     }
-  }, [props.policyUpdateRejected])
+  }, [props.policyUpdateRejected, setAuth])
 
   useEffect(() => {
     const fetchNotifications = async () => {
@@ -136,8 +137,8 @@ const Navigation = (props) => {
 
   const handleLogout = async () => {
     await logout()
+    setAuth(false)
     navigate('/')
-    setState('Public')
   }
 
   return (
@@ -149,17 +150,17 @@ const Navigation = (props) => {
         </div>
       </Link>
       <nav>
-        {state === 'Authenticated' && (
+        {auth && (
           <Link className='link link-nav' to='/newStory'>
             + New Story
           </Link>
         )}
-        {state !== 'Authenticated' && (
+        {!auth && (
           <Link className='link link-nav' to='/login'>
             Sign In
           </Link>
         )}
-        {state === 'Authenticated' && (
+        {auth && (
           <div
             className='dropdown-container'
             onClick={updateNotifications}
@@ -204,7 +205,7 @@ const Navigation = (props) => {
             </div>
           </div>
         )}
-        {state === 'Authenticated' && (
+        {auth && (
           <div
             className='dropdown-container'
             onClick={() => {

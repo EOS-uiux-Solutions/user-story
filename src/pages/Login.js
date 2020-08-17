@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { Link, navigate } from '@reach/router'
@@ -11,8 +11,11 @@ import eosLock from '../assets/images/authentication-lock.png'
 import Button from '../components/Button'
 import Dropdown from '../components/Dropdown'
 import FormError from '../components/FormError'
+import AuthContext from '../modules/AuthContext'
 
-export const Login = () => {
+export const Login = (props) => {
+  const { message } = props
+
   const { t, i18n } = useTranslation()
 
   const { login } = useAuth()
@@ -23,16 +26,18 @@ export const Login = () => {
 
   const [showPassword, toggleShowPassword] = useState(false)
 
+  const [, setAuth] = useContext(AuthContext)
+
   const onSubmit = async (data) => {
     try {
       const payload = await login({
         identifier: data.identifier,
         password: data.password
       })
-      localStorage.setItem('status', payload.status)
       localStorage.setItem('id', payload.user.id)
       localStorage.setItem('name', payload.user.Name)
       localStorage.setItem('email', payload.user.email)
+      setAuth(true)
       navigate('/')
     } catch (e) {
       setError(e.message)
@@ -65,6 +70,11 @@ export const Login = () => {
             <Dropdown translator={i18n} />
           </div>
           <div>
+            {message && (
+              <div className='form-error'>
+                <i className='eos-icons'>error</i> {message}
+              </div>
+            )}
             <form className='form-default' onSubmit={handleSubmit(onSubmit)}>
               <div className='header'>{t('authentication:title-sign-in')}</div>
               <div className='form-element'>
