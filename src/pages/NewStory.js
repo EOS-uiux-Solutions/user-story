@@ -14,11 +14,11 @@ import Button from '../components/Button'
 import Search from '../modules/TitleSearch'
 import Dragdrop from '../components/Dragdrop'
 import { navigate } from '@reach/router'
-import AuthContext from '../modules/AuthContext'
+import Context from '../modules/Context'
 import Login from './Login'
 
 const NewStory = () => {
-  const [auth] = useContext(AuthContext)
+  const { state } = useContext(Context)
   const { register, handleSubmit, errors, setValue, watch } = useForm()
 
   const [descriptionError, setDescriptionError] = useState(false)
@@ -136,7 +136,7 @@ const NewStory = () => {
     register('description')
   })
 
-  return auth ? (
+  return state.auth ? (
     <>
       <div className='base-wrapper'>
         <div className='base-container'>

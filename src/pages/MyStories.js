@@ -10,11 +10,11 @@ import StoriesList from '../components/StoriesList'
 import Navigation from '../components/Navigation'
 
 import Lists from '../utils/Lists'
-import AuthContext from '../modules/AuthContext'
+import Context from '../modules/Context'
 import Login from './Login'
 
 const MyStories = () => {
-  const [auth] = useContext(AuthContext)
+  const { state } = useContext(Context)
 
   const [stories, setStories] = useState([])
 
@@ -190,7 +190,7 @@ const MyStories = () => {
     }
   }, [sortDropdownContainer])
 
-  return auth ? (
+  return state.auth ? (
     <>
       <div className='base-wrapper'>
         <div className='base-container'>

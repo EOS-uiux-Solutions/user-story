@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { Link } from '@reach/router'
@@ -11,15 +11,16 @@ import Button from '../components/Button'
 import Dropdown from '../components/Dropdown'
 import FormError from '../components/FormError'
 import useAuth from '../hooks/useAuth'
+import Context from '../modules/Context'
 
 const ForgotPassword = () => {
   const { t, i18n } = useTranslation()
 
+  const { state } = useContext(Context)
+
   const { forgotPassword } = useAuth()
 
   const { register, handleSubmit, errors } = useForm()
-
-  const [error, setError] = useState('')
 
   const [response, setResponse] = useState('')
 
@@ -29,9 +30,7 @@ const ForgotPassword = () => {
         email: data.email
       })
       setResponse(reply)
-    } catch (e) {
-      setError(e.message)
-    }
+    } catch (e) {}
   }
 
   return (
@@ -67,6 +66,7 @@ const ForgotPassword = () => {
               </>
             ) : (
               <>
+                {state.errorCode && <FormError status={state.errorCode} />}
                 <form
                   className='form-default'
                   onSubmit={handleSubmit(onSubmit)}
@@ -86,7 +86,6 @@ const ForgotPassword = () => {
                   <Button type='submit' className='btn btn-default'>
                     {t('authentication:submit-label')}
                   </Button>
-                  {error && <span className='form-error'>{error}</span>}
                 </form>
                 <div className='flex flex-row flex-space-between'>
                   <Link className='link link-default' to='/login'>

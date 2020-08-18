@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useReducer } from 'react'
 import { Router } from '@reach/router'
 
 import './assets/scss/index.scss'
@@ -17,20 +17,28 @@ import Profile from './pages/Profile'
 import ChangePassword from './pages/ChangePassword'
 import Policies from './pages/Policies'
 import Notifications from './pages/Notifications'
-import AuthContext from './modules/AuthContext'
+import Context from './modules/Context'
+import ContextReducer from './modules/ContextReducer'
+
+const initialState = {
+  auth: false,
+  errorCode: null
+}
 
 const App = () => {
-  const [auth, setAuth] = useState(false)
+  const [state, dispatch] = useReducer(ContextReducer, initialState)
 
   useEffect(() => {
     if (localStorage.getItem('id')) {
-      setAuth(true)
+      dispatch({
+        type: 'AUTHENTICATE'
+      })
     }
   }, [])
 
   return (
     <div className='app'>
-      <AuthContext.Provider value={[auth, setAuth]}>
+      <Context.Provider value={{ state, dispatch }}>
         <div className='app-container'>
           <Router>
             <Home path='/' />
@@ -48,7 +56,7 @@ const App = () => {
             <Policies path='/policies' />
           </Router>
         </div>
-      </AuthContext.Provider>
+      </Context.Provider>
     </div>
   )
 }
