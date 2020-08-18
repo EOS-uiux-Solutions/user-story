@@ -1,7 +1,11 @@
 import axios from 'axios'
 import { apiURL } from '../config.json'
+import Context from '../modules/Context'
+import { useContext } from 'react'
 
 const useAuth = () => {
+  const { dispatch } = useContext(Context)
+
   const registerUser = async (credentials) => {
     const { data: payload } = await axios.post(
       `${apiURL}/auth/local/register`,
@@ -12,11 +16,14 @@ const useAuth = () => {
   }
 
   const login = async (credentials) => {
-    const { data: payload } = await axios.post(
-      `${apiURL}/auth/local`,
-      credentials,
-      { withCredentials: true }
-    )
+    const { data: payload } = await axios
+      .post(`${apiURL}/auth/local`, credentials, { withCredentials: true })
+      .catch((err) => {
+        dispatch({
+          type: 'ERROR',
+          payload: err.response.status
+        })
+      })
     return payload
   }
 

@@ -11,7 +11,7 @@ import eosLock from '../assets/images/authentication-lock.png'
 import Button from '../components/Button'
 import Dropdown from '../components/Dropdown'
 import FormError from '../components/FormError'
-import AuthContext from '../modules/AuthContext'
+import Context from '../modules/Context'
 
 export const Login = (props) => {
   const { message } = props
@@ -22,11 +22,9 @@ export const Login = (props) => {
 
   const { register, handleSubmit, errors } = useForm()
 
-  const [error, setError] = useState('')
-
   const [showPassword, toggleShowPassword] = useState(false)
 
-  const [, setAuth] = useContext(AuthContext)
+  const { state, dispatch } = useContext(Context)
 
   const onSubmit = async (data) => {
     try {
@@ -37,11 +35,11 @@ export const Login = (props) => {
       localStorage.setItem('id', payload.user.id)
       localStorage.setItem('name', payload.user.Name)
       localStorage.setItem('email', payload.user.email)
-      setAuth(true)
+      dispatch({
+        type: 'AUTHENTICATE'
+      })
       navigate('/')
-    } catch (e) {
-      setError(e.message)
-    }
+    } catch (e) {}
   }
 
   return (
@@ -70,11 +68,8 @@ export const Login = (props) => {
             <Dropdown translator={i18n} />
           </div>
           <div>
-            {message && (
-              <div className='form-error'>
-                <i className='eos-icons'>error</i> {message}
-              </div>
-            )}
+            {message && <FormError message={message} />}
+            {state.errorCode && <FormError status={state.errorCode} />}
             <form className='form-default' onSubmit={handleSubmit(onSubmit)}>
               <div className='header'>{t('authentication:title-sign-in')}</div>
               <div className='form-element'>
@@ -118,7 +113,6 @@ export const Login = (props) => {
               <Button type='submit' className='btn btn-default'>
                 {t('authentication:login-label')}
               </Button>
-              {error && <span className='form-error'>{error}</span>}
             </form>
             <div className='flex flex-row flex-space-between'>
               <Link className='link link-default' to='/forgotPassword'>

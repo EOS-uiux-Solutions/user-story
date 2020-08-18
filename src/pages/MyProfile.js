@@ -8,13 +8,13 @@ import { Link } from '@reach/router'
 import Navigation from '../components/Navigation'
 
 import Button from '../components/Button'
-import AuthContext from '../modules/AuthContext'
+import Context from '../modules/Context'
 import Login from './Login'
 
 const MyProfile = () => {
   const userId = localStorage.getItem('id')
 
-  const [auth] = useContext(AuthContext)
+  const { state } = useContext(Context)
 
   const [user, setUser] = useState('')
 
@@ -98,7 +98,7 @@ const MyProfile = () => {
     }
   }, [userId])
 
-  return auth ? (
+  return state.auth ? (
     <>
       <div className='base-wrapper'>
         <div className='base-container'>

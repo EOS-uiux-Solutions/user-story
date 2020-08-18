@@ -5,7 +5,7 @@ import eosIcon from '../assets/images/logo-coloured.png'
 import useAuth from '../hooks/useAuth'
 import axios from 'axios'
 import { apiURL } from '../config.json'
-import AuthContext from '../modules/AuthContext'
+import Context from '../modules/Context'
 
 const Navigation = (props) => {
   const { logout } = useAuth()
@@ -14,7 +14,7 @@ const Navigation = (props) => {
   const userName = localStorage.getItem('name')
   const userEmail = localStorage.getItem('email')
 
-  const [auth, setAuth] = useContext(AuthContext)
+  const { state, dispatch } = useContext(Context)
 
   const [notifications, setNotifications] = useState([])
 
@@ -29,9 +29,11 @@ const Navigation = (props) => {
 
   useEffect(() => {
     if (props.policyUpdateRejected) {
-      setAuth(false)
+      dispatch({
+        type: 'DEAUTHENTICATE'
+      })
     }
-  }, [props.policyUpdateRejected, setAuth])
+  }, [props.policyUpdateRejected, dispatch])
 
   useEffect(() => {
     const fetchNotifications = async () => {
@@ -137,7 +139,9 @@ const Navigation = (props) => {
 
   const handleLogout = async () => {
     await logout()
-    setAuth(false)
+    dispatch({
+      type: 'DEAUTHENTICATE'
+    })
     navigate('/')
   }
 
@@ -150,17 +154,17 @@ const Navigation = (props) => {
         </div>
       </Link>
       <nav>
-        {auth && (
+        {state.auth && (
           <Link className='link link-nav' to='/newStory'>
             + New Story
           </Link>
         )}
-        {!auth && (
+        {!state.auth && (
           <Link className='link link-nav' to='/login'>
             Sign In
           </Link>
         )}
-        {auth && (
+        {state.auth && (
           <div
             className='dropdown-container'
             onClick={updateNotifications}
@@ -205,7 +209,7 @@ const Navigation = (props) => {
             </div>
           </div>
         )}
-        {auth && (
+        {state.auth && (
           <div
             className='dropdown-container'
             onClick={() => {
