@@ -5,8 +5,7 @@ export const FormError = (props) => {
 
   return (
     <div className='form-error'>
-      <i className='eos-icons'>error</i>{' '}
-      {status === 400 && 'Invalid combination'}
+      <i className='eos-icons'>error</i> {status !== null && status}
       {message !== null && message}
       {type === 'required' && 'This is required'}
       {type === 'validate' && 'Passwords do not match'}

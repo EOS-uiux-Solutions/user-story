@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { Link, useLocation } from '@reach/router'
@@ -11,17 +11,18 @@ import Button from '../components/Button'
 import Dropdown from '../components/Dropdown'
 import useAuth from '../hooks/useAuth'
 import FormError from '../components/FormError'
+import Context from '../modules/Context'
 
 const ChangePassword = () => {
   const { t, i18n } = useTranslation()
+
+  const { state } = useContext(Context)
 
   const { resetPassword } = useAuth()
 
   const { register, handleSubmit, errors } = useForm()
 
   const location = useLocation()
-
-  const [error, setError] = useState('')
 
   const [response, setResponse] = useState('')
 
@@ -33,9 +34,7 @@ const ChangePassword = () => {
         passwordConfirmation: data.passwordConfirmation
       })
       setResponse(reply)
-    } catch (e) {
-      setError(e.message)
-    }
+    } catch (e) {}
   }
 
   return (
@@ -77,55 +76,62 @@ const ChangePassword = () => {
                 </div>
               </>
             ) : (
-              <form className='form-default' onSubmit={handleSubmit(onSubmit)}>
-                <div className='header'>
-                  {t('authentication:reset-password')}
-                </div>
-                <div className='form-element'>
-                  <label htmlFor='password'>
-                    {t('authentication:old-password')}
-                  </label>
-                  <input
-                    className='input-default'
-                    type='password'
-                    name='oldPassword'
-                    ref={register({ required: true })}
-                  />
-                  {errors.oldPassword && (
-                    <FormError type={errors.oldPassword.type} />
-                  )}
-                </div>
-                <div className='form-element'>
-                  <label htmlFor='password'>
-                    {t('authentication:new-password')}
-                  </label>
-                  <input
-                    className='input-default'
-                    type='password'
-                    name='password'
-                    ref={register({ required: true })}
-                  />
-                  {errors.password && <FormError type={errors.password.type} />}
-                </div>
-                <div className='form-element'>
-                  <label htmlFor='confirm-password'>
-                    {t('authentication:confirm-password')}
-                  </label>
-                  <input
-                    className='input-default'
-                    type='password'
-                    name='passwordConfirmation'
-                    ref={register({ required: true })}
-                  />
-                  {errors.passwordConfirmation && (
-                    <FormError type={errors.passwordConfirmation.type} />
-                  )}
-                </div>
-                <Button type='submit' className='btn btn-default'>
-                  {t('authentication:submit-label')}
-                </Button>
-                {error && <span className='form-error'>{error}</span>}
-              </form>
+              <>
+                {state.errorCode && <FormError status={state.errorCode} />}
+                <form
+                  className='form-default'
+                  onSubmit={handleSubmit(onSubmit)}
+                >
+                  <div className='header'>
+                    {t('authentication:reset-password')}
+                  </div>
+                  <div className='form-element'>
+                    <label htmlFor='password'>
+                      {t('authentication:old-password')}
+                    </label>
+                    <input
+                      className='input-default'
+                      type='password'
+                      name='oldPassword'
+                      ref={register({ required: true })}
+                    />
+                    {errors.oldPassword && (
+                      <FormError type={errors.oldPassword.type} />
+                    )}
+                  </div>
+                  <div className='form-element'>
+                    <label htmlFor='password'>
+                      {t('authentication:new-password')}
+                    </label>
+                    <input
+                      className='input-default'
+                      type='password'
+                      name='password'
+                      ref={register({ required: true })}
+                    />
+                    {errors.password && (
+                      <FormError type={errors.password.type} />
+                    )}
+                  </div>
+                  <div className='form-element'>
+                    <label htmlFor='confirm-password'>
+                      {t('authentication:confirm-password')}
+                    </label>
+                    <input
+                      className='input-default'
+                      type='password'
+                      name='passwordConfirmation'
+                      ref={register({ required: true })}
+                    />
+                    {errors.passwordConfirmation && (
+                      <FormError type={errors.passwordConfirmation.type} />
+                    )}
+                  </div>
+                  <Button type='submit' className='btn btn-default'>
+                    {t('authentication:submit-label')}
+                  </Button>
+                </form>
+              </>
             )}
           </div>
           <div className='footer'>

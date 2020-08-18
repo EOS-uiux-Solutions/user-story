@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { Link, navigate } from '@reach/router'
@@ -7,6 +7,7 @@ import eosLogoColoured from '../assets/images/logo-coloured.png'
 import eosLock from '../assets/images/authentication-lock.png'
 import Button from '../components/Button'
 import useAuth from '../hooks/useAuth'
+import Context from '../modules/Context'
 
 import FormError from '../components/FormError'
 import Dropdown from '../components/Dropdown'
@@ -15,11 +16,11 @@ import { useTranslation } from 'react-i18next'
 export const Register = () => {
   const { registerUser } = useAuth()
 
+  const { state } = useContext(Context)
+
   const { register, handleSubmit, errors, watch } = useForm()
 
   const { t, i18n } = useTranslation()
-
-  const [error, setError] = useState('')
 
   const onSubmit = async (data) => {
     try {
@@ -33,9 +34,7 @@ export const Register = () => {
       localStorage.setItem('name', payload.user.Name)
       localStorage.setItem('email', payload.user.email)
       navigate('/')
-    } catch (e) {
-      setError(e.message)
-    }
+    } catch (e) {}
   }
 
   return (
@@ -64,6 +63,7 @@ export const Register = () => {
             <Dropdown translator={i18n} />
           </div>
           <div>
+            {state.errorCode && <FormError status={state.errorCode} />}
             <form className='form-default' onSubmit={handleSubmit(onSubmit)}>
               <div className='header'>{t('authentication:title-sign-up')}</div>
               <div className='form-element'>
@@ -136,7 +136,6 @@ export const Register = () => {
               <Button type='submit' className='btn btn-default'>
                 {t('authentication:register-label')}
               </Button>
-              {error && <span className='form-error'>{error}</span>}
             </form>
             <Link className='link link-default' to='/login'>
               {t('authentication:existing-user')}
