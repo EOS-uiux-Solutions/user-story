@@ -58,7 +58,7 @@ const Notifications = () => {
             <div className='notifications'>
               <h3>Notifications</h3>
               <div className='flex flex-column'>
-                {notifications ? (
+                {notifications.length > 0 ? (
                   notifications.map((ele, key) => {
                     return (
                       <div

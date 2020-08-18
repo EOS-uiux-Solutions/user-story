@@ -16,7 +16,7 @@ import { useTranslation } from 'react-i18next'
 export const Register = () => {
   const { registerUser } = useAuth()
 
-  const { state } = useContext(Context)
+  const { state, dispatch } = useContext(Context)
 
   const { register, handleSubmit, errors, watch } = useForm()
 
@@ -33,6 +33,9 @@ export const Register = () => {
       localStorage.setItem('id', payload.user.id)
       localStorage.setItem('name', payload.user.Name)
       localStorage.setItem('email', payload.user.email)
+      dispatch({
+        type: 'AUTHENTICATE'
+      })
       navigate('/')
     } catch (e) {}
   }
