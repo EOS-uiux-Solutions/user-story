@@ -11,7 +11,7 @@ const Navigation = (props) => {
   const { logout } = useAuth()
 
   const userId = localStorage.getItem('id')
-  const userName = localStorage.getItem('name')
+  const userName = localStorage.getItem('username')
   const userEmail = localStorage.getItem('email')
 
   const { state, dispatch } = useContext(Context)

@@ -360,12 +360,14 @@ const Home = () => {
         <div className='base-container'>
           <Navigation policyUpdateRejected={policyUpdateRejected} />
           <div className='home-content'>
-            <h2>TELL US YOUR STORY</h2>
-            <p>
-              Share with us how you use our products, relate to other users'
-              stories, vote them up, and we'll make sure we deliver cohesive
-              solutions that enhance your experience.
-            </p>
+            <div className='product-introduction'>
+              <h2>TELL US YOUR STORY</h2>
+              <p>
+                Share with us how you use our products, relate to other users'
+                stories, vote them up, and we'll make sure we deliver cohesive
+                solutions that enhance your experience.
+              </p>
+            </div>
             <div className='flex flex-row flex-space-between'>
               {Lists.stateList &&
                 Lists.stateList.map((state, key) => {

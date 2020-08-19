@@ -33,7 +33,7 @@ export const Login = (props) => {
         password: data.password
       })
       localStorage.setItem('id', payload.user.id)
-      localStorage.setItem('name', payload.user.Name)
+      localStorage.setItem('username', payload.user.username)
       localStorage.setItem('email', payload.user.email)
       dispatch({
         type: 'AUTHENTICATE'
