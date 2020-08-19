@@ -35,6 +35,7 @@ const Comments = (props) => {
               id
               Comments
               user {
+                id
                 username
               }
               createdAt
@@ -42,6 +43,7 @@ const Comments = (props) => {
                 createdAt
                 Comments
                 user {
+                  id
                   username
                 }
               }
@@ -76,6 +78,7 @@ const Comments = (props) => {
           userStoryComment {
             id
             user {
+              id
               username
             }
             Comments
@@ -84,6 +87,7 @@ const Comments = (props) => {
               createdAt
               Comments
               user {
+                id
                 username
               }
             }
@@ -145,7 +149,10 @@ const Comments = (props) => {
                 ></img>
               </div>
               <div className='comment-content'>
-                <Link className='link link-default' to='#'>
+                <Link
+                  className='link link-default'
+                  to={`/profile/${data.user.id}`}
+                >
                   {data.user.username}
                 </Link>
                 <div className='metadata'>
@@ -205,7 +212,10 @@ const Comments = (props) => {
                         ></img>
                       </div>
                       <div className='comment-content'>
-                        <Link className='link link-default' to='#'>
+                        <Link
+                          className='link link-default'
+                          to={`/profile/${data.user.id}`}
+                        >
                           {reply.user.username}
                         </Link>
                         <div className='metadata'>
