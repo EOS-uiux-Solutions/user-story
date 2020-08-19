@@ -189,7 +189,7 @@ const Story = (props) => {
             <LoadingIndicator />
           ) : story ? (
             <>
-              <Timeline status={story.user_story_status.Status} />
+              <Timeline currentStatus={story.user_story_status.Status} />
               <div className='story-content'>
                 <div className='story-heading'>
                   <h3>{story.Title}</h3>

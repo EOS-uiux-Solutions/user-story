@@ -31,7 +31,7 @@ export const Register = () => {
       })
       localStorage.setItem('status', payload.status)
       localStorage.setItem('id', payload.user.id)
-      localStorage.setItem('name', payload.user.Name)
+      localStorage.setItem('username', payload.user.username)
       localStorage.setItem('email', payload.user.email)
       dispatch({
         type: 'AUTHENTICATE'
