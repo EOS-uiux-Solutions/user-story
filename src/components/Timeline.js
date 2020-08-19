@@ -8,7 +8,7 @@ const Timeline = (props) => {
   const [previousStatuses, setPreviousStatuses] = useState([])
   useEffect(() => {
     const setStatuses = () => {
-      let tempList = []
+      const tempList = []
       for (let i = 0; i < Lists.stateList.length; i++) {
         if (Lists.stateList[i].status === currentStatus) break
         tempList.push(Lists.stateList[i].status)
@@ -23,7 +23,6 @@ const Timeline = (props) => {
     <div className='timeline-wrapper'>
       <div className='timeline-container'>
         <div className='status'>
-          {console.log(previousStatuses)}
           {previousStatuses.map((ele, key) => {
             return (
               <div className='status-wrapper status-wrapper-complete' key={key}>
