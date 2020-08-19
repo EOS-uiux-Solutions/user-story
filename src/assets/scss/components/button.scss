@@ -1,6 +1,6 @@
 .btn {
   border: 2px solid transparent;
-  border-radius: 2px;
+  border-radius: 10px 10px 10px 0px;
   margin: 16px 0;
   padding: 8px 8px;
 
@@ -28,7 +28,6 @@
 
   &-tabs {
     background-color: transparent;
-    border-radius: 10px 10px 10px 0px;
     width: auto;
 
     .eos-icons {

@@ -199,12 +199,18 @@ const Navigation = (props) => {
                   : ''}
               </ul>
               <div className='flex flex-row flex-space-between notifications-options'>
-                <Link className='link link-default' to='#'>
-                  Mark all as read
-                </Link>
-                <Link className='link link-default' to='/notifications'>
-                  View all
-                </Link>
+                {notifications.length > 0 ? (
+                  <>
+                    <Link className='link link-default' to='#'>
+                      Mark all as read
+                    </Link>
+                    <Link className='link link-default' to='/notifications'>
+                      View all
+                    </Link>
+                  </>
+                ) : (
+                  'No notifications at the moment'
+                )}
               </div>
             </div>
           </div>

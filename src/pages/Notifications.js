@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
+import { navigate } from '@reach/router'
 
 import Navigation from '../components/Navigation'
 import LoadingIndicator from '../modules/LoadingIndicator'
@@ -33,6 +34,7 @@ const Notifications = () => {
               id
             }
             date
+            link
           }
         }`
         },
@@ -56,10 +58,14 @@ const Notifications = () => {
             <div className='notifications'>
               <h3>Notifications</h3>
               <div className='flex flex-column'>
-                {notifications ? (
+                {notifications.length > 0 ? (
                   notifications.map((ele, key) => {
                     return (
-                      <div className='notification' key={key}>
+                      <div
+                        className='notification'
+                        key={key}
+                        onClick={() => navigate(`/${ele.link}`)}
+                      >
                         <div className='notification-text'>{ele.message}</div>
                         <div className='notification-text'>
                           {`${ele.date.slice(0, 10)}  ${ele.date.slice(
