@@ -21,7 +21,6 @@ const Timeline = (props) => {
 
   return (
     <div className='flex flex-row flex-space-around status-wrapper'>
-      <hr className='divider'></hr>
       {Lists.stateList.map((ele, key) => {
         return (
           <div className='status-element' key={key}>
