@@ -19,17 +19,23 @@ import Login from './Login'
 
 const NewStory = () => {
   const { state } = useContext(Context)
+
   const { register, handleSubmit, errors, setValue, watch } = useForm()
 
   const [descriptionError, setDescriptionError] = useState(false)
 
   const [categories, setCategories] = useState([])
+
+  const [priorities, setPriorities] = useState([])
+
   const [products, setProducts] = useState([])
+
   const [storiesData, setStoriesData] = useState([])
 
   const { promiseInProgress } = usePromiseTracker()
 
   const [screenSize, setScreenSize] = useState(0)
+
   useLayoutEffect(() => {
     function updateScreenSize() {
       setScreenSize(window.innerWidth)
@@ -51,7 +57,9 @@ const NewStory = () => {
         })
       )
     }
+
     trackPromise(fetchCategories())
+
     const fetchProducts = async () => {
       const response = await axios.post(
         `${apiURL}/graphql`,
@@ -69,7 +77,29 @@ const NewStory = () => {
       )
       setProducts(response.data.data.products)
     }
+
     trackPromise(fetchProducts())
+
+    const fetchPriorities = async () => {
+      const response = await axios.post(`${apiURL}/graphql`, {
+        query: `query {
+          __type(name: "ENUM_USERSTORY_PRIORITY") {
+            enumValues {
+              name
+            }
+          }
+        }`
+      })
+
+      setPriorities(
+        response.data.data.__type.enumValues.map((ele) => {
+          return ele.name
+        })
+      )
+    }
+
+    trackPromise(fetchPriorities())
+
     const fetchStoriesData = async () => {
       const response = await axios.post(
         `${apiURL}/graphql`,
@@ -91,7 +121,7 @@ const NewStory = () => {
       )
       setStoriesData(response.data.data.userStories)
     }
-    trackPromise(fetchStoriesData())
+    fetchStoriesData()
   }, [])
 
   /*
@@ -118,6 +148,7 @@ const NewStory = () => {
                 Category: ${data.category}
                 user_story_status: "5f0f33205f5695666b0d2e7e"
                 product: "${data.product}"
+                Priority: ${data.priority}
               }
             }
           ) {
@@ -212,6 +243,29 @@ const NewStory = () => {
                     </select>
                     {errors.category && (
                       <FormError type={errors.category.type} />
+                    )}
+                  </div>
+                  <div className='form-element'>
+                    <label htmlFor='priority'>Priority</label>
+                    <select
+                      className='select-default'
+                      name='priority'
+                      ref={register({ required: true })}
+                    >
+                      <option defaultValue={true} value=''>
+                        Select priority
+                      </option>
+                      {priorities &&
+                        priorities.map((ele, key) => {
+                          return (
+                            <option key={key} value={ele}>
+                              {ele}
+                            </option>
+                          )
+                        })}
+                    </select>
+                    {errors.priority && (
+                      <FormError type={errors.priority.type} />
                     )}
                   </div>
                   <div className='form-element'>
