@@ -11,6 +11,7 @@ import Button from '../components/Button'
 import LoadingIndicator from '../modules/LoadingIndicator'
 import Navigation from '../components/Navigation'
 import { Link } from '@reach/router'
+import Vote from '../components/Vote'
 
 const Story = (props) => {
   const { storyId } = props
@@ -25,13 +26,6 @@ const Story = (props) => {
 
   const [editor, setEditor] = useState(false)
 
-  const [voted, setVoted] = useState(false)
-
-  const [votes, setVotes] = useState(0)
-
-  const [voteClicked, setVoteClicked] = useState(false)
-
-  const [followers, setFollowers] = useState([])
   const { promiseInProgress } = usePromiseTracker()
 
   useEffect(() => {
@@ -41,6 +35,7 @@ const Story = (props) => {
         {
           query: `query {
             userStory(id: "${storyId}") {
+              id
               Title
               Description
               user_story_status {
@@ -61,14 +56,6 @@ const Story = (props) => {
         }
       )
       setStory(response.data.data.userStory)
-      setVotes(response.data.data.userStory.followers.length)
-      const followerIds = response.data.data.userStory.followers.map((item) =>
-        JSON.stringify(item.id)
-      )
-      setFollowers(followerIds)
-      if (followerIds.includes(JSON.stringify(userId))) {
-        setVoted(true)
-      }
     }
     trackPromise(fetchStory())
     const editStory = async () => {
@@ -87,7 +74,7 @@ const Story = (props) => {
       }
     }
     if (userId) {
-      trackPromise(editStory())
+      editStory()
     }
   }, [storyId, userId])
 
@@ -119,67 +106,6 @@ const Story = (props) => {
     })
   }
 
-  const updateVote = async (event) => {
-    event.preventDefault()
-    setVoteClicked(true)
-    if (voted) {
-      setVotes((votes) => votes - 1)
-      let followerIds = followers.filter((id) => id !== JSON.stringify(userId))
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `
-        mutation {
-          updateUserStory(input: {where: {id: "${storyId}"} data: {followers: [${followerIds}]}}){
-            userStory{
-              followers {
-                id
-              }
-            }
-          }
-        }
-        `
-        },
-        {
-          withCredentials: true
-        }
-      )
-
-      setVoteClicked(false)
-      followerIds = response.data.data.updateUserStory.userStory.followers.map(
-        (item) => JSON.stringify(item.id)
-      )
-      setFollowers(followerIds)
-    } else {
-      setVotes((votes) => votes + 1)
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `
-        mutation {
-          updateUserStory(input: {where: {id: "${storyId}"} data: {followers: [${followers}, "${userId}"]}}){
-            userStory{
-              followers {
-                id
-              }
-            }
-          }
-        }
-        `
-        },
-        {
-          withCredentials: true
-        }
-      )
-      setVoteClicked(false)
-      const followerIds = response.data.data.updateUserStory.userStory.followers.map(
-        (item) => JSON.stringify(item.id)
-      )
-      setFollowers(followerIds)
-    }
-    setVoted((voted) => !voted)
-  }
-
   return (
     <>
       <div className='base-wrapper'>
@@ -194,18 +120,7 @@ const Story = (props) => {
                 <div className='story-heading'>
                   <h3>{story.Title}</h3>
                   <div className='flex flex-row flex-space-between'>
-                    <div className='icon-display'>
-                      <Button
-                        className={`btn ${
-                          voted ? 'btn-highlighted' : 'btn-default'
-                        }`}
-                        onClick={updateVote}
-                        disabled={voteClicked}
-                      >
-                        <i className='eos-icons'>thumb_up</i>
-                      </Button>
-                      {votes}
-                    </div>
+                    <Vote story={story} />
                     <div className='author-information'>
                       <h4>
                         By:{' '}
