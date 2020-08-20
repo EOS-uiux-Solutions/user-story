@@ -177,6 +177,7 @@ const Navigation = (props) => {
             >
               notifications
             </i>
+            <span className='notifications-count'> 5</span>
             <div
               className={`dropdown nav-dropdown ${
                 notificationsDropdownState
@@ -199,7 +200,7 @@ const Navigation = (props) => {
                   : ''}
               </ul>
               <div className='flex flex-row flex-space-between notifications-options'>
-                {notifications.length > 0 ? (
+                {notifications && notifications.length > 0 ? (
                   <>
                     <Link className='link link-default' to='#'>
                       Mark all as read

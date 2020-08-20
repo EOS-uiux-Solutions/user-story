@@ -10,8 +10,8 @@ const Timeline = (props) => {
     const setStatuses = () => {
       const tempList = []
       for (let i = 0; i < Lists.stateList.length; i++) {
-        if (Lists.stateList[i].status === currentStatus) break
         tempList.push(Lists.stateList[i].status)
+        if (Lists.stateList[i].status === currentStatus) break
       }
 
       setPreviousStatuses(tempList)
@@ -20,33 +20,22 @@ const Timeline = (props) => {
   }, [currentStatus])
 
   return (
-    <div className='timeline-wrapper'>
-      <div className='timeline-container'>
-        <div className='status'>
-          {previousStatuses.map((ele, key) => {
-            return (
-              <div className='status-wrapper status-wrapper-complete' key={key}>
-                {/* <div className='timestamp'>
-                  <span className='author'> {ele.approver} </span>
-                  <span className='date'> {ele.date} </span>
-                </div> */}
-                <div className='status'>
-                  <h5> {ele} </h5>
-                </div>
-              </div>
-            )
-          })}
-          <div className='status-wrapper'>
-            {/* <div className='timestamp'>
-              <span className='author'> {ele.approver} </span>
-              <span className='date'> {ele.date} </span>
-            </div> */}
-            <div className='status'>
-              <h5> {currentStatus} </h5>
+    <div className='flex flex-row flex-space-around status-wrapper'>
+      <hr className='divider'></hr>
+      {Lists.stateList.map((ele, key) => {
+        return (
+          <div className='status-element' key={key}>
+            <div className='status flex flex-column'>
+              {previousStatuses.includes(ele.status) ? (
+                <i className='eos-icons tick'>check</i>
+              ) : (
+                <i className='eos-icons no-tick'></i>
+              )}
+              <h4> {ele.status} </h4>
             </div>
           </div>
-        </div>
-      </div>
+        )
+      })}
     </div>
   )
 }
