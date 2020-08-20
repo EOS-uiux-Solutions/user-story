@@ -99,7 +99,7 @@ const Home = () => {
                 Name
               }
               followers {
-                username
+                id
               }
             }
           }
@@ -139,7 +139,7 @@ const Home = () => {
                 Name
               }
               followers {
-                username
+                id
               }
             }
           }
