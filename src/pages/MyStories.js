@@ -8,6 +8,7 @@ import LoadingIndicator from '../modules/LoadingIndicator'
 import Button from '../components/Button'
 import StoriesList from '../components/StoriesList'
 import Navigation from '../components/Navigation'
+import DropdownOptions from '../components/DropdownOptions'
 
 import Lists from '../utils/Lists'
 import Context from '../modules/Context'
@@ -22,43 +23,30 @@ const MyStories = () => {
 
   const [storyStateSelected, selectStoryState] = useState('Under consideration')
 
+  const [product, setProduct] = useState('All')
+  const [sort, setSort] = useState('Most Voted')
+  const [category, setCategory] = useState('All')
+
   const productDropdownContainer = useRef()
   const sortDropdownContainer = useRef()
+  const categoryDropdownContainer = useRef()
+
+  const [categories, setCategories] = useState([])
 
   const { promiseInProgress } = usePromiseTracker()
 
   const id = localStorage.getItem('id')
 
-  const [productDropdownState, setProductDropdownState] = useState(false)
-  const [sortDropdownState, setSortDropdownState] = useState(false)
-
-  const [product, setProduct] = useState('All')
-  const [sort, setSort] = useState('Most Voted')
-
   const [products, setProducts] = useState([])
-
-  const handleProductSelection = (value) => {
-    setProduct(value)
-    setProductDropdownState(false)
-  }
-
-  const handleSortSelection = (value) => {
-    setSort(value)
-    setSortDropdownState(false)
-  }
-  const handleProductDropdownState = () => {
-    setProductDropdownState(!productDropdownState)
-  }
-  const handleSortDropdownState = () => {
-    setSortDropdownState(!sortDropdownState)
-  }
 
   useEffect(() => {
     const comparatorVotes = (a, b) => {
-      return a.followers.length < b.followers.length
+      return a.followers.length > b.followers.length ? -1 : 1
     }
     const comparatorComments = (a, b) => {
-      return a.user_story_comments.length < b.user_story_comments.length
+      return a.user_story_comments.length > b.user_story_comments.length
+        ? -1
+        : 1
     }
 
     const updateStories = async () => {
@@ -153,42 +141,31 @@ const MyStories = () => {
           withCredentials: true
         }
       )
-      setProducts(response.data.data.products)
+      setProducts(
+        response.data.data.products.map((ele) => {
+          return ele.Name
+        })
+      )
+      setProducts((products) => ['All', ...products])
     }
     trackPromise(fetchProducts())
   }, [id])
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        productDropdownContainer.current &&
-        !productDropdownContainer.current.contains(event.target)
-      ) {
-        setProductDropdownState(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside)
+    const fetchCategories = async () => {
+      const response = await axios.post(`${apiURL}/graphql`, {
+        query: '{ __type(name: "ENUM_USERSTORY_CATEGORY") {enumValues {name}}}'
+      })
 
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
+      setCategories(
+        response.data.data.__type.enumValues.map((ele) => {
+          return ele.name
+        })
+      )
+      setCategories((categories) => ['All', ...categories])
     }
-  }, [productDropdownContainer])
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        sortDropdownContainer.current &&
-        !sortDropdownContainer.current.contains(event.target)
-      ) {
-        setSortDropdownState(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside)
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [sortDropdownContainer])
+    trackPromise(fetchCategories())
+  }, [])
 
   return state.auth ? (
     <>
@@ -240,83 +217,27 @@ const MyStories = () => {
                 })}
             </div>
             <div className='flex flex-row options-bar'>
-              <div className='filter-title'>Product</div>
-              <div
-                className='dropdown-container'
-                ref={productDropdownContainer}
-              >
-                <Button
-                  type='button'
-                  className='btn btn-transparent'
-                  onClick={handleProductDropdownState}
-                >
-                  {productDropdownState ? (
-                    <i className='eos-icons'>keyboard_arrow_up</i>
-                  ) : (
-                    <i className='eos-icons'>keyboard_arrow_down</i>
-                  )}
-                  &nbsp; {product}
-                </Button>
-                <div
-                  className={`dropdown ${
-                    productDropdownState
-                      ? 'dropdown-open dropdown-right'
-                      : 'dropdown-close dropdown-right'
-                  }`}
-                >
-                  <ul className='dropdown-list'>
-                    <li
-                      className='dropdown-element'
-                      onClick={() => handleProductSelection('All')}
-                    >
-                      All
-                    </li>
-                    {products.map((item, key) => (
-                      <li
-                        key={key}
-                        className='dropdown-element'
-                        onClick={() => handleProductSelection(item.Name)}
-                      >
-                        {item.Name}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-              <div className='filter-title'>Sort by</div>
-              <div className='dropdown-container' ref={sortDropdownContainer}>
-                <Button
-                  type='button'
-                  className='btn btn-transparent'
-                  onClick={handleSortDropdownState}
-                >
-                  {sortDropdownState ? (
-                    <i className='eos-icons'>keyboard_arrow_up</i>
-                  ) : (
-                    <i className='eos-icons'>keyboard_arrow_down</i>
-                  )}
-                  &nbsp; {sort}
-                </Button>
-                <div
-                  className={`dropdown ${
-                    sortDropdownState
-                      ? 'dropdown-open dropdown-right'
-                      : 'dropdown-close dropdown-right'
-                  }`}
-                >
-                  <ul className='dropdown-list'>
-                    {Lists.sortByList.map((item, key) => (
-                      <li
-                        key={key}
-                        className='dropdown-element'
-                        onClick={() => handleSortSelection(item)}
-                      >
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
+              <DropdownOptions
+                title='Product'
+                reference={productDropdownContainer}
+                curr={product}
+                setCurr={setProduct}
+                itemList={products}
+              />
+              <DropdownOptions
+                title='Categories'
+                reference={categoryDropdownContainer}
+                curr={category}
+                setCurr={setCategory}
+                itemList={categories}
+              />
+              <DropdownOptions
+                title='Sort By'
+                reference={sortDropdownContainer}
+                curr={sort}
+                setCurr={setSort}
+                itemList={Lists.sortByList}
+              />
             </div>
             {promiseInProgress ? (
               <LoadingIndicator />

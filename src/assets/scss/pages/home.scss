@@ -1,17 +1,21 @@
 .home-content {
   background-color: $primary-foreground;
   border-radius: 8px;
-  margin: 0px 8px;
+  margin: 8px;
   padding: 16px 16px;
 }
 
 .product-introduction {
   font-family: $font-family-spartan;
-}
+  margin: 16px 0px;
 
-.filter-title {
-  font-weight: bold;
-  padding-top: 8px;
+  .header {
+    font-size: $font-size-header;
+  }
+
+  p {
+    font-size: $font-size-label;
+  }
 }
 
 .options-bar {
