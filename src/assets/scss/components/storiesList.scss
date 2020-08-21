@@ -1,10 +1,10 @@
 .story {
   align-items: center;
   border-bottom: 2px solid $gray-bg;
-  cursor: pointer;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  height: 128px;
+  justify-content: space-around;
   width: 100%;
 
   .eos-icons {
@@ -17,10 +17,10 @@
 }
 
 .stories-content {
+  cursor: pointer;
   flex-grow: 2;
   margin: 0px;
-  max-width: 100%;
-  width: 640px;
+  max-width: 640px;
 }
 
 @media only screen and (max-width: 768px) {
