@@ -25,10 +25,18 @@
 
   .author-info {
     align-items: center;
+  }
 
-    .mini-label {
-      color: $light-gray;
-      font-size: $font-size-small;
+  .mini-label {
+    color: $light-gray;
+    font-size: $font-size-small;
+  }
+
+  .story-meta {
+    font-size: $font-size-small;
+
+    .eos-icons {
+      font-size: $font-size-label;
     }
   }
 }

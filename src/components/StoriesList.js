@@ -47,9 +47,21 @@ const StoriesList = (props) => {
                   </Link>
                 </div>
               </div>
-              <div className='icon-display'>
-                {story.user_story_comments.length}
-                <i className='eos-icons'>comment</i>
+              <div className='flex flex-column'>
+                <span className='mini-label'>Category</span>
+                <Link className='link link-default' to='#'>
+                  Category
+                </Link>
+              </div>
+              <div className='flex flex-column'>
+                <span className='story-meta'>
+                  <i className='eos-icons'>attachment</i>
+                  {story.user_story_comments.length}
+                </span>
+                <span className='story-meta'>
+                  <i className='eos-icons'>comment</i>
+                  {story.user_story_comments.length}
+                </span>
               </div>
             </div>
           ) : (
