@@ -109,6 +109,10 @@ const MyStories = () => {
               product {
                 Name
               }
+              author {
+                id
+                username
+              }
               user_story_status {
                 Status
               }

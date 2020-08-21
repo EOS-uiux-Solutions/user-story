@@ -14,6 +14,23 @@
     vertical-align: middle;
   }
 
+  .story-title {
+    font-size: $font-size-label;
+    font-weight: bold;
+  }
+
+  .story-description {
+    margin: 16px 0px;
+  }
+
+  .author-info {
+    align-items: center;
+
+    .mini-label {
+      color: $light-gray;
+      font-size: $font-size-small;
+    }
+  }
 }
 
 .stories-content {

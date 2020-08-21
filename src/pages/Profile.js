@@ -125,6 +125,10 @@ const Profile = (props) => {
                 product {
                   Name
                 }
+                author {
+                  id
+                  username
+                }
                 user_story_comments {
                   Comments
                 }

@@ -88,6 +88,10 @@ const Home = () => {
               product {
                 Name
               }
+              author {
+                id
+                username
+              }
               followers {
                 id
               }
