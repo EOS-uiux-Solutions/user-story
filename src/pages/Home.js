@@ -1,56 +1,61 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { Link } from '@reach/router'
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useContext
+} from 'react'
 import axios from 'axios'
+import { Link } from '@reach/router'
 import { apiURL } from '../config.json'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
-import useAuth from '../hooks/useAuth'
 
 import Button from '../components/Button'
 import StoriesList from '../components/StoriesList'
 import LoadingIndicator from '../modules/LoadingIndicator'
 import Navigation from '../components/Navigation'
 import Pagination from '../components/Pagination'
+import Dropdown from '../components/Dropdown'
 import Modal from '../components/Modal'
-import DropdownOptions from '../components/DropdownOptions'
 
 import Lists from '../utils/Lists'
+import useAuth from '../hooks/useAuth'
+import Context from '../modules/Context'
 
 const Home = () => {
-  const [page, setPage] = useState(1)
-
-  const [storyCount, setStoryCount] = useState()
   const { logout } = useAuth()
 
   const userId = localStorage.getItem('id')
+
+  const { dispatch } = useContext(Context)
+
+  const [page, setPage] = useState(1)
+
+  const [storyCount, setStoryCount] = useState()
+
+  const [modal, setModal] = useState(false)
+
+  const [policyUpdate, setPolicyUpdate] = useState()
 
   const [currentStateSelected, selectState] = useState('Under consideration')
 
   const [stories, setStories] = useState([])
 
   const productDropdownContainer = useRef()
+
   const sortDropdownContainer = useRef()
+
   const categoryDropdownContainer = useRef()
 
   const [product, setProduct] = useState('All')
+
   const [sort, setSort] = useState('Most Voted')
+
   const [category, setCategory] = useState('All')
 
   const [products, setProducts] = useState([])
+
   const [categories, setCategories] = useState([])
-
-  const [modal, setModal] = useState(false)
-
-  const [policyUpdate, setPolicyUpdate] = useState()
-
-  const [policyUpdateRejected, setPolicyUpdateRejected] = useState(false)
-
-  const handlePolicyUpdateReject = async () => {
-    if (!policyUpdateRejected && userId) {
-      await logout()
-      setPolicyUpdateRejected(true)
-    }
-    setModal(false)
-  }
 
   const { promiseInProgress } = usePromiseTracker()
 
@@ -205,12 +210,12 @@ const Home = () => {
           withCredentials: true
         }
       )
-      setProducts(
-        response.data.data.products.map((ele) => {
+      setProducts([
+        'All',
+        ...response.data.data.products.map((ele) => {
           return ele.Name
         })
-      )
-      setProducts((products) => ['All', ...products])
+      ])
     }
     fetchProducts()
   }, [])
@@ -220,15 +225,14 @@ const Home = () => {
       const response = await axios.post(`${apiURL}/graphql`, {
         query: '{ __type(name: "ENUM_USERSTORY_CATEGORY") {enumValues {name}}}'
       })
-
-      setCategories(
-        response.data.data.__type.enumValues.map((ele) => {
+      setCategories([
+        'All',
+        ...response.data.data.__type.enumValues.map((ele) => {
           return ele.name
         })
-      )
-      setCategories((categories) => ['All', ...categories])
+      ])
     }
-    trackPromise(fetchCategories())
+    fetchCategories()
   }, [])
 
   useEffect(() => {
@@ -249,7 +253,7 @@ const Home = () => {
         setStories(stories.sort(comparatorComments))
       }
     }
-    trackPromise(updateStories())
+    updateStories()
   }, [sort, stories, setStories])
 
   useEffect(() => {
@@ -297,12 +301,11 @@ const Home = () => {
 
   const acceptUpdatedPolicy = async () => {
     const seenBy = policyUpdate.seenBy.map((seen) => seen.id)
-    if (!seenBy.includes(userId)) {
-      seenBy.push(userId)
-      await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `mutation updateNotifications($seenBy: [ID]){
+    seenBy.push(userId)
+    await axios.post(
+      `${apiURL}/graphql`,
+      {
+        query: `mutation updateNotifications($seenBy: [ID]){
           updateUserStoryNotification(input: {
             where: {
               id: "${policyUpdate.id}"
@@ -316,25 +319,32 @@ const Home = () => {
             }
           }
         }`,
-          variables: {
-            seenBy: seenBy
-          }
-        },
-        {
-          withCredentials: true
+        variables: {
+          seenBy: seenBy
         }
-      )
-      setModal(false)
-    } else {
-      setModal(false)
+      },
+      {
+        withCredentials: true
+      }
+    )
+    setModal(false)
+  }
+
+  const handlePolicyUpdateReject = async () => {
+    if (userId) {
+      await logout()
+      dispatch({
+        type: 'DEAUTHENTICATE'
+      })
     }
+    setModal(false)
   }
 
   return (
     <>
       <div className='base-wrapper'>
         <div className='base-container'>
-          <Navigation policyUpdateRejected={policyUpdateRejected} />
+          <Navigation />
           <div className='home-content'>
             <div className='product-introduction'>
               <div className='header'>TELL US YOUR STORY</div>
@@ -367,21 +377,21 @@ const Home = () => {
                 })}
             </div>
             <div className='flex flex-row options-bar'>
-              <DropdownOptions
+              <Dropdown
                 title='Product'
                 reference={productDropdownContainer}
                 curr={product}
                 setCurr={setProduct}
                 itemList={products}
               />
-              <DropdownOptions
+              <Dropdown
                 title='Categories'
                 reference={categoryDropdownContainer}
                 curr={category}
                 setCurr={setCategory}
                 itemList={categories}
               />
-              <DropdownOptions
+              <Dropdown
                 title='Sort By'
                 reference={sortDropdownContainer}
                 curr={sort}
@@ -407,7 +417,7 @@ const Home = () => {
               product={product}
             />
           </div>
-          {modal && policyUpdate && !policyUpdateRejected ? (
+          {modal && policyUpdate ? (
             <Modal
               showButtons={true}
               onCancel={handlePolicyUpdateReject}

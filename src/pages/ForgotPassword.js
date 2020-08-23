@@ -8,7 +8,7 @@ import eosLogoWhite from '../assets/images/logo-white.png'
 import eosLogoColoured from '../assets/images/logo-coloured.png'
 import eosLock from '../assets/images/authentication-lock.png'
 import Button from '../components/Button'
-import Dropdown from '../components/Dropdown'
+import LanguageDropdown from '../components/LanguageDropdown'
 import FormError from '../components/FormError'
 import useAuth from '../hooks/useAuth'
 import Context from '../modules/Context'
@@ -56,7 +56,7 @@ const ForgotPassword = () => {
             <div className='image image-logo eos-logo-resize'>
               <img src={eosLogoColoured} alt='EOS Logo' />
             </div>
-            <Dropdown translator={i18n} />
+            <LanguageDropdown translator={i18n} />
           </div>
           <div>
             <div className='header'>{t('authentication:forgot-password')}</div>
