@@ -75,7 +75,9 @@ const Notifications = () => {
       })
       setNotificationCount(calculateNotifications)
     }
-    fetchNotifications()
+    if (userId) {
+      fetchNotifications()
+    }
   }, [userId, notificationsSeen])
 
   const updateNotifications = () => {
