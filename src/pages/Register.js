@@ -10,7 +10,7 @@ import useAuth from '../hooks/useAuth'
 import Context from '../modules/Context'
 
 import FormError from '../components/FormError'
-import Dropdown from '../components/Dropdown'
+import LanguageDropdown from '../components/LanguageDropdown'
 import { useTranslation } from 'react-i18next'
 
 export const Register = () => {
@@ -63,7 +63,7 @@ export const Register = () => {
             <div className='image image-logo eos-logo-resize'>
               <img src={eosLogoColoured} alt='EOS Logo' />
             </div>
-            <Dropdown translator={i18n} />
+            <LanguageDropdown translator={i18n} />
           </div>
           <div>
             {state.errorCode && <FormError status={state.errorCode} />}

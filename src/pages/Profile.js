@@ -7,7 +7,7 @@ import LoadingIndicator from '../modules/LoadingIndicator'
 import StoriesList from '../components/StoriesList'
 import Navigation from '../components/Navigation'
 import Button from '../components/Button'
-import DropdownOptions from '../components/DropdownOptions'
+import Dropdown from '../components/Dropdown'
 
 import Lists from '../utils/Lists'
 
@@ -261,21 +261,21 @@ const Profile = (props) => {
                 <div className='flex flex-column'>
                   <h3>Stories by this user</h3>
                   <div className='flex flex-row options-bar'>
-                    <DropdownOptions
+                    <Dropdown
                       title='Product'
                       reference={productDropdownContainer}
                       curr={product}
                       setCurr={setProduct}
                       itemList={products}
                     />
-                    <DropdownOptions
+                    <Dropdown
                       title='Categories'
                       reference={categoryDropdownContainer}
                       curr={category}
                       setCurr={setCategory}
                       itemList={categories}
                     />
-                    <DropdownOptions
+                    <Dropdown
                       title='Sort By'
                       reference={sortDropdownContainer}
                       curr={sort}

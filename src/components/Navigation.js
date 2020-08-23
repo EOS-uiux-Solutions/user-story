@@ -3,86 +3,20 @@ import { Link, navigate } from '@reach/router'
 
 import eosIcon from '../assets/images/logo-coloured.png'
 import useAuth from '../hooks/useAuth'
-import axios from 'axios'
-import { apiURL } from '../config.json'
 import Context from '../modules/Context'
+import Notifications from './Notifications'
 
 const Navigation = (props) => {
   const { logout } = useAuth()
 
-  const userId = localStorage.getItem('id')
   const userName = localStorage.getItem('username')
   const userEmail = localStorage.getItem('email')
 
   const { state, dispatch } = useContext(Context)
 
-  const [notifications, setNotifications] = useState([])
-
-  const [notificationsDropdownState, setNotificationsDropdownState] = useState(
-    false
-  )
-
   const [userDropdownState, setUserDropdownState] = useState(false)
 
-  const notificationsDropdownContainer = useRef()
   const userDropdownContainer = useRef()
-
-  useEffect(() => {
-    if (props.policyUpdateRejected) {
-      dispatch({
-        type: 'DEAUTHENTICATE'
-      })
-    }
-  }, [props.policyUpdateRejected, dispatch])
-
-  useEffect(() => {
-    const fetchNotifications = async () => {
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `query {
-          userStoryNotifications (where: {
-            users: {
-              id: "${userId}"
-            }
-          }){
-            message
-            id
-            users {
-              id
-            }
-            seenBy {
-              id
-            }
-            date
-            link
-          }
-        }`
-        },
-        {
-          withCredentials: true
-        }
-      )
-      setNotifications(response.data.data.userStoryNotifications)
-    }
-    fetchNotifications()
-  }, [userId])
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        notificationsDropdownContainer.current &&
-        !notificationsDropdownContainer.current.contains(event.target)
-      ) {
-        setNotificationsDropdownState(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside)
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [notificationsDropdownContainer])
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -99,43 +33,6 @@ const Navigation = (props) => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [userDropdownContainer])
-
-  const updateNotifications = () => {
-    setNotificationsDropdownState(!notificationsDropdownState)
-    if (notifications) {
-      notifications.forEach(async (notification) => {
-        const seenBy = notification.seenBy.map((seen) => seen.id)
-        if (!seenBy.includes(userId)) {
-          seenBy.push(userId)
-          await axios.post(
-            `${apiURL}/graphql`,
-            {
-              query: `mutation updateNotifications($seenBy: [ID]){
-            updateUserStoryNotification(input: {
-              where: {
-                id: "${notification.id}"
-              }
-              data: {
-                seenBy: $seenBy
-              }
-            }) {
-              userStoryNotification {
-                id
-              }
-            }
-          }`,
-              variables: {
-                seenBy: seenBy
-              }
-            },
-            {
-              withCredentials: true
-            }
-          )
-        }
-      })
-    }
-  }
 
   const handleLogout = async () => {
     await logout()
@@ -164,58 +61,7 @@ const Navigation = (props) => {
             Sign In
           </Link>
         )}
-        {state.auth && (
-          <div
-            className='dropdown-container'
-            onClick={updateNotifications}
-            ref={notificationsDropdownContainer}
-          >
-            <i
-              className={`eos-icons ${
-                notificationsDropdownState ? 'eos-icons-open' : ''
-              }`}
-            >
-              notifications
-            </i>
-            <span className='notifications-count'> 5</span>
-            <div
-              className={`dropdown nav-dropdown ${
-                notificationsDropdownState
-                  ? 'dropdown-open dropdown-left'
-                  : 'dropdown-close dropdown-left'
-              }`}
-            >
-              <ul className='dropdown-list'>
-                {notifications
-                  ? notifications.map((notification, key) => (
-                      <li
-                        className='dropdown-element'
-                        onClick={() => navigate(`/${notification.link}`)}
-                        key={key}
-                      >
-                        {notification.message}
-                        <hr className='dropdown-separator' />
-                      </li>
-                    ))
-                  : ''}
-              </ul>
-              <div className='flex flex-row flex-space-between notifications-options'>
-                {notifications && notifications.length > 0 ? (
-                  <>
-                    <Link className='link link-default' to='#'>
-                      Mark all as read
-                    </Link>
-                    <Link className='link link-default' to='/notifications'>
-                      View all
-                    </Link>
-                  </>
-                ) : (
-                  'No notifications at the moment'
-                )}
-              </div>
-            </div>
-          </div>
-        )}
+        <Notifications />
         {state.auth && (
           <div
             className='dropdown-container'
