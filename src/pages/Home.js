@@ -257,7 +257,7 @@ const Home = () => {
         setStories(stories.sort(comparatorComments))
       }
     }
-    updateStories()
+    trackPromise(updateStories())
   }, [sort, stories, setStories])
 
   useEffect(() => {
