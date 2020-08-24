@@ -67,12 +67,14 @@ const Notifications = () => {
       )
       setNotifications(response.data.data.userStoryNotifications)
       let calculateNotifications = 0
-      response.data.data.userStoryNotifications.forEach((notification) => {
-        const seenBy = notification.seenBy.map((seen) => seen.id)
-        if (!seenBy.includes(userId)) {
-          calculateNotifications++
-        }
-      })
+      if (response.data.data.userStoryNotifications) {
+        response.data.data.userStoryNotifications.forEach((notification) => {
+          const seenBy = notification.seenBy.map((seen) => seen.id)
+          if (!seenBy.includes(userId)) {
+            calculateNotifications++
+          }
+        })
+      }
       setNotificationCount(calculateNotifications)
     }
     if (userId) {

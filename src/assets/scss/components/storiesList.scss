@@ -1,5 +1,6 @@
 .story {
   align-items: center;
+  background-color: $light-color;
   border-bottom: 2px solid $gray-bg;
   display: flex;
   flex-direction: row;
@@ -34,6 +35,7 @@
 
   .story-meta {
     font-size: $font-size-small;
+    margin: 4px 16px 4px 0px;
 
     .eos-icons {
       font-size: $font-size-label;
