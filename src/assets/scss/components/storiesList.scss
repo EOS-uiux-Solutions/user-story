@@ -2,6 +2,8 @@
   align-items: center;
   background-color: $light-color;
   border-bottom: 2px solid $gray-bg;
+  border-radius: 10px 10px 10px 0px;
+  box-shadow: 0px 2px 15px $shadow-color;
   display: flex;
   flex-direction: row;
   height: 128px;
