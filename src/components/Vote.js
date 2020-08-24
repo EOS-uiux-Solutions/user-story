@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { apiURL } from '../config.json'
 
-import Button from './Button'
-
 const Vote = (props) => {
   const { story } = props
 
@@ -88,21 +86,22 @@ const Vote = (props) => {
   }
 
   return (
-    <div className='icon-display'>
-      {votes}
-      {userId ? (
-        <Button
-          className={`btn ${voted ? 'btn-highlighted' : 'btn-default'}`}
-          onClick={() => {
-            updateVote(story)
-          }}
-          disabled={voteClicked}
-        >
-          <i className='eos-icons'>thumb_up</i>
-        </Button>
-      ) : (
+    <div
+      className={`flex flex-column vote-wrapper ${
+        userId && voted ? 'vote-wrapper-voted' : ''
+      }`}
+    >
+      <div className='votes-count'>{votes}</div>
+      <div
+        className={`vote-button ${userId ? 'vote-button-clickable' : ''}`}
+        onClick={() => {
+          if (userId) updateVote(story)
+        }}
+        disabled={voteClicked}
+      >
         <i className='eos-icons'>thumb_up</i>
-      )}
+        Vote
+      </div>
     </div>
   )
 }

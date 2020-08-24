@@ -47,10 +47,12 @@ body {
 .user-avatar {
   display: block;
   float: left;
+  margin: 4px 16px;
 
   .avatar {
+    border-radius: 32px;
     height: 4.5em;
-    width: 4em;
+    width: 4.5em;
   }
 }
 

@@ -88,6 +88,10 @@ const Home = () => {
               product {
                 Name
               }
+              author {
+                id
+                username
+              }
               followers {
                 id
               }
@@ -253,7 +257,7 @@ const Home = () => {
         setStories(stories.sort(comparatorComments))
       }
     }
-    updateStories()
+    trackPromise(updateStories())
   }, [sort, stories, setStories])
 
   useEffect(() => {

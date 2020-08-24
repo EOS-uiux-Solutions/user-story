@@ -1,0 +1,33 @@
+.vote-wrapper {
+  background-color: $primary;
+  border-radius: 10px 10px 10px 0px;
+  padding: 4px 4px;
+
+  &-voted {
+    background-color: $light-green;
+  }
+}
+
+.votes-count {
+  background-color: $light-color;
+  border-radius: 6px;
+  font-size: $font-size-votes;
+  font-weight: bold;
+  padding: 10px 10px;
+  text-align: center;
+}
+
+.vote-button {
+  color: $light-color;
+  font-weight: bold;
+  margin: 4px 4px;
+
+  &-clickable {
+    cursor: pointer;
+  }
+
+  .eos-icons {
+    font-size: $font-size-label;
+    margin: 0px 4px 0px 4px;
+  }
+}

@@ -1,5 +1,5 @@
 import React from 'react'
-import { navigate } from '@reach/router'
+import { navigate, Link } from '@reach/router'
 
 import Vote from './Vote'
 
@@ -17,22 +17,51 @@ const StoriesList = (props) => {
           return story.user_story_status.Status === state &&
             (story.product.Name === product || product === 'All') ? (
             <div className='story' key={key}>
+              <Vote story={story} />
               <div
+                className='stories-content'
                 onClick={() => {
                   navigate(`/story/${story.id}`)
                 }}
               >
-                <div className='stories-content'>
-                  <h4>{story.Title}</h4>
+                <div className='story-title'>{story.Title}</div>
+                <div className='story-description'>
                   {strip(story.Description)}
                 </div>
               </div>
-              <div>
-                <Vote story={story} />
-                <div className='icon-display'>
-                  {story.user_story_comments.length}
-                  <i className='eos-icons'>comment</i>
+              <div className='flex flex-row author-info'>
+                <div className='user-avatar'>
+                  <img
+                    className='avatar'
+                    src={`https://api.adorable.io/avatars/100/${story.author.username}`}
+                    alt='Default User Avatar'
+                  ></img>
                 </div>
+                <div className='flex flex-column'>
+                  <span className='mini-label'>Created by</span>
+                  <Link
+                    className='link link-default'
+                    to={`/profile/${story.author.id}`}
+                  >
+                    {story.author.username}
+                  </Link>
+                </div>
+              </div>
+              <div className='flex flex-column'>
+                <span className='mini-label'>Category</span>
+                <Link className='link link-default' to='#'>
+                  Category
+                </Link>
+              </div>
+              <div className='flex flex-column'>
+                <span className='story-meta'>
+                  <i className='eos-icons'>attachment</i>
+                  {story.user_story_comments.length}
+                </span>
+                <span className='story-meta'>
+                  <i className='eos-icons'>comment</i>
+                  {story.user_story_comments.length}
+                </span>
               </div>
             </div>
           ) : (
