@@ -13,6 +13,10 @@
     color: $hyper-link-hover-color;
   }
 
+  &-highlighted {
+    background-color: $primary-light;
+  }
+
   &-nav,
   &-nav:visited,
   &-nav:active {
