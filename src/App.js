@@ -28,13 +28,33 @@ const initialState = {
 const App = () => {
   const [state, dispatch] = useReducer(ContextReducer, initialState)
 
+  const userId = localStorage.getItem('id')
+
   useEffect(() => {
-    if (localStorage.getItem('id')) {
+    window.addEventListener('storage', (e) => {
+      if (localStorage.getItem('id')) {
+        dispatch({
+          type: 'AUTHENTICATE'
+        })
+      } else {
+        dispatch({
+          type: 'DEAUTHENTICATE'
+        })
+      }
+    })
+  }, [])
+
+  useEffect(() => {
+    if (userId) {
       dispatch({
         type: 'AUTHENTICATE'
       })
+    } else {
+      dispatch({
+        type: 'DEAUTHENTICATE'
+      })
     }
-  }, [])
+  }, [userId])
 
   return (
     <div className='app'>

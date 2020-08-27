@@ -1,11 +1,29 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Link } from '@reach/router'
 import Button from './Button'
 import axios from 'axios'
 import { apiURL } from '../config.json'
+import { useForm } from 'react-hook-form'
+
+import Context from '../modules/Context'
+import FormError from '../components/FormError'
 
 const Comments = (props) => {
   const { storyId } = props
+
+  const {
+    register: registerComment,
+    errors: errorsComment,
+    handleSubmit: handleSubmitComment
+  } = useForm()
+
+  const {
+    register: registerReply,
+    errors: errorsReply,
+    handleSubmit: handleSubmitReply
+  } = useForm()
+
+  const { state } = useContext(Context)
 
   const id = localStorage.getItem('id')
 
@@ -19,7 +37,7 @@ const Comments = (props) => {
 
   const [comments, setComments] = useState([])
 
-  const [repliesToggled, setRepliesToggled] = useState([])
+  const [repliesToggled, setRepliesToggled] = useState()
 
   const [viewRepliesToggled, setViewRepliesToggled] = useState([])
 
@@ -61,8 +79,7 @@ const Comments = (props) => {
     fetchComments()
   }, [storyId, fetchComments])
 
-  const addComment = async (event) => {
-    event.preventDefault()
+  const addComment = async (data) => {
     const response = await axios.post(
       `${apiURL}/graphql`,
       {
@@ -70,7 +87,7 @@ const Comments = (props) => {
       mutation {
         createUserStoryComment(input: {
           data: {
-            Comments: "${comment}"
+            Comments: "${data.addComment}"
             user_story: "${storyId}"
             user: "${id}"
           }
@@ -107,8 +124,7 @@ const Comments = (props) => {
     setComment('')
   }
 
-  const addCommentReply = async (event) => {
-    event.preventDefault()
+  const addCommentReply = async (data) => {
     await axios.post(
       `${apiURL}/graphql`,
       {
@@ -116,7 +132,7 @@ const Comments = (props) => {
       mutation {
         createUserStoryCommentThread (input: {
           data: {
-            Comments: "${commentReply}"
+            Comments: "${data.addReply}"
             user_story_comment: "${commentId}"
             user: "${id}"
           }
@@ -132,6 +148,7 @@ const Comments = (props) => {
     )
     setCommentReply('')
     setFetchComments((fetchComments) => !fetchComments)
+    setRepliesToggled(null)
   }
 
   return (
@@ -165,21 +182,28 @@ const Comments = (props) => {
                 </div>
                 <p>{data.Comments}</p>
                 <div className='reply-action'>
-                  <Button
-                    className='btn btn-default'
-                    onClick={() => {
-                      setCommentId(data.id)
-                      repliesToggled.find((item) => item === key + 1)
-                        ? setRepliesToggled((repliesToggled) =>
-                            repliesToggled.filter((item) => item !== key + 1)
-                          )
-                        : setRepliesToggled((repliesToggled) =>
-                            repliesToggled.concat(key + 1)
-                          )
-                    }}
-                  >
-                    Reply
-                  </Button>{' '}
+                  {state.auth && (
+                    <Button
+                      className='btn btn-default'
+                      onClick={() => {
+                        setCommentId(data.id)
+                        repliesToggled === key + 1
+                          ? setRepliesToggled(null)
+                          : setRepliesToggled(key + 1)
+                        viewRepliesToggled.find((item) => item === key + 1)
+                          ? setViewRepliesToggled((viewRepliesToggled) =>
+                              viewRepliesToggled.filter(
+                                (item) => item !== key + 1
+                              )
+                            )
+                          : setViewRepliesToggled((viewRepliesToggled) =>
+                              viewRepliesToggled.concat(key + 1)
+                            )
+                      }}
+                    >
+                      Reply
+                    </Button>
+                  )}
                   {data.user_story_comment_replies.length > 0 ? (
                     <Button
                       className='btn btn-default'
@@ -232,22 +256,25 @@ const Comments = (props) => {
                       </div>
                     </div>
                   ))}
-                {repliesToggled.find((item) => item === key + 1) && (
-                  <form className='comment-form'>
+                {repliesToggled === key + 1 && state.auth && (
+                  <form
+                    className='comment-form'
+                    onSubmit={handleSubmitReply(addCommentReply)}
+                  >
                     <div className='field'>
                       <textarea
                         rows='4'
                         cols='16'
+                        name='addReply'
+                        ref={registerReply({ required: true })}
                         value={commentReply}
                         onChange={(e) => setCommentReply(e.target.value)}
                       ></textarea>
+                      {errorsReply.addReply && (
+                        <FormError message='Reply cannot be empty' />
+                      )}
                     </div>
-                    <Button
-                      className='btn btn-default'
-                      onClick={addCommentReply}
-                    >
-                      Add Reply
-                    </Button>
+                    <Button className='btn btn-default'>Add Reply</Button>
                   </form>
                 )}
               </div>
@@ -257,19 +284,27 @@ const Comments = (props) => {
       ) : (
         <h3>No comments yet</h3>
       )}
-      <form className='comment-form'>
-        <div className='field'>
-          <textarea
-            rows='4'
-            cols='16'
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-          ></textarea>
-        </div>
-        <Button className='btn btn-default' onClick={addComment}>
-          Add Comment
-        </Button>
-      </form>
+      {state.auth && (
+        <form
+          className='comment-form'
+          onSubmit={handleSubmitComment(addComment)}
+        >
+          <div className='field'>
+            <textarea
+              rows='4'
+              name='addComment'
+              cols='16'
+              ref={registerComment({ required: true })}
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+            ></textarea>
+            {errorsComment.addComment && (
+              <FormError message='Comment cannot be empty' />
+            )}
+          </div>
+          <Button className='btn btn-default'>Add Comment</Button>
+        </form>
+      )}
     </div>
   )
 }
