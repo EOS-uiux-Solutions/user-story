@@ -29,6 +29,11 @@
 
   .author-info {
     align-items: center;
+    width: 40%;
+
+    .author-info-element {
+      flex-grow: 1;
+    }
   }
 
   .mini-label {
@@ -50,7 +55,7 @@
   cursor: pointer;
   flex-grow: 2;
   margin: 0px 16px;
-  max-width: 640px;
+  width: 50%;
 }
 
 @media only screen and (max-width: 768px) {

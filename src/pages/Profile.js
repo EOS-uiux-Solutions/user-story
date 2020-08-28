@@ -132,6 +132,7 @@ const Profile = (props) => {
                 user_story_comments {
                   Comments
                 }
+                Category
               }
             }
           }`
