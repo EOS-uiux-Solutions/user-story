@@ -95,6 +95,7 @@ const Home = () => {
               followers {
                 id
               }
+              Category
             }
           }
           `
@@ -139,6 +140,7 @@ const Home = () => {
               followers {
                 id
               }
+              Category
             }
           }
           `

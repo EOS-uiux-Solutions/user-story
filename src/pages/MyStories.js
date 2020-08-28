@@ -86,6 +86,7 @@ const MyStories = () => {
               user_story_status {
                 Status
               }
+              Category
             }
           }`
         },
