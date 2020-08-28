@@ -49,6 +49,11 @@
       font-size: $font-size-label;
     }
   }
+
+  .category-text {
+    color: $hyper-link-color;
+    font-weight: bold;
+  }
 }
 
 .stories-content {

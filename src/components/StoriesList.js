@@ -52,9 +52,7 @@ const StoriesList = (props) => {
                 </div>
                 <div className='flex flex-column author-info-element'>
                   <span className='mini-label'>Category</span>
-                  <Link className='link link-default' to='#'>
-                    {story.Category}
-                  </Link>
+                  <span className='category-text'>{story.Category}</span>
                 </div>
                 <div className='flex flex-column author-info-element'>
                   <span className='story-meta'>
