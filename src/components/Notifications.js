@@ -141,7 +141,7 @@ const Notifications = () => {
           {notificationCount > 0 ? notificationCount : ''}
         </span>
         <div
-          className={`dropdown nav-dropdown ${
+          className={`dropdown notifications-dropdown ${
             notificationsDropdownState
               ? 'dropdown-open dropdown-left'
               : 'dropdown-close dropdown-left'
