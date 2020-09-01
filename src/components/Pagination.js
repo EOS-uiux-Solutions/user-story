@@ -31,7 +31,7 @@ const Pagination = (props) => {
   return (
     <div className='pagination'>
       <Link
-        className='link link-default'
+        className='btn btn-pagination'
         onClick={() => {
           if (pages.find((page) => page === currNumber - 1)) {
             setCurrNumber((currNumber) => currNumber - 1)
@@ -42,30 +42,27 @@ const Pagination = (props) => {
       >
         {`< Prev`}
       </Link>
-
-      {pages
-        ? pages.map((ele, key) => {
-            return (
-              <Link
-                className={`link ${
-                  currNumber === ele
-                    ? 'link-highlighted link-default'
-                    : 'link-default'
-                }`}
-                onClick={() => {
-                  setCurrNumber(ele)
-                  getPage(ele)
-                }}
-                to='/'
-                key={key}
-              >
-                {ele}
-              </Link>
-            )
-          })
-        : ''}
+      <div className='btn-pagination'>
+        {pages
+          ? pages.map((ele, key) => {
+              return (
+                <Link
+                  className={`number ${currNumber === ele ? 'selected' : ''}`}
+                  onClick={() => {
+                    setCurrNumber(ele)
+                    getPage(ele)
+                  }}
+                  to='/'
+                  key={key}
+                >
+                  {ele}
+                </Link>
+              )
+            })
+          : ''}
+      </div>
       <Link
-        className='link link-default'
+        className='btn btn-pagination'
         onClick={() => {
           if (pages.find((page) => page === currNumber + 1)) {
             setCurrNumber((currNumber) => currNumber + 1)
