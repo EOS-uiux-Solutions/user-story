@@ -1,8 +1,12 @@
+// Variables
+$subheader-font-size: 18px;
+
 .product-introduction {
   font-family: $font-family-spartan;
   margin: 88px 0px;
 
   .subheader {
+    font-size: $subheader-font-size;
     font-weight: 100;
   }
 }
