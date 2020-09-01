@@ -8,31 +8,13 @@
   height: 90px;
   justify-content: space-around;
   margin: 16px 0px;
-  padding: 16px;
+  padding: 20px;
 
   .eos-icons {
     margin-left: 16px;
     margin-right: 16px;
     pointer-events: none;
     vertical-align: middle;
-  }
-
-  &-title {
-    font-size: $font-size-label;
-    font-weight: bold;
-  }
-
-  &-description {
-    margin: 16px 0px;
-  }
-
-  .author-info {
-    align-items: center;
-    width: 40%;
-
-    .author-info-element {
-      flex-grow: 1;
-    }
   }
 
   .mini-label {
@@ -42,7 +24,17 @@
 
   &-meta {
     font-size: $font-size-small;
-    margin: 4px 16px 4px 0px;
+    margin: 4px 0px 4px 0px;
+  }
+
+  &-author {
+    align-items: center;
+    display: flex;
+  }
+
+  &-subcontent {
+    margin: 0 16px;
+    min-width: 105px;
   }
 
   .category-text {
