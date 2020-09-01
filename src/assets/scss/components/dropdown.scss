@@ -1,15 +1,16 @@
 .dropdown-container {
   cursor: pointer;
   display: inline-block;
-  padding: 0px 16px 0px 16px;
+  padding: 0px 8px;
   position: relative;
 
   .eos-icons {
-    border-radius: 16px;
-    margin-right: 0;
-    padding: 4px 8px;
-    pointer-events: none;
+    border-radius: 24px;
+    height: 24px;
+    padding: 8px;
+    text-align: center;
     vertical-align: sub;
+    width: 24px;
 
     &-open {
       background-color: $gray-bg;

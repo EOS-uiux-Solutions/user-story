@@ -4,21 +4,8 @@
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
-  padding: 32px 16px;
+  padding: 32px 32px 0;
   width: 100%;
-
-  .brand {
-    align-items: baseline;
-    color: $dark-color;
-    font-family: $font-family-spartan;
-    font-size: $font-size-label;
-    font-weight: bold;
-    text-align: left;
-
-    .logo {
-      width: 47px;
-    }
-  }
 }
 
 .user-dropdown {

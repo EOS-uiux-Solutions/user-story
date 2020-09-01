@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from 'react'
 import { Link, navigate } from '@reach/router'
 
-import eosIcon from '../assets/images/logo-coloured.png'
+import eosIcon from '../assets/images/user-story-logo.svg'
 import useAuth from '../hooks/useAuth'
 import Context from '../modules/Context'
 import Notifications from './Notifications'
@@ -45,10 +45,7 @@ const Navigation = (props) => {
   return (
     <header className='nav-header'>
       <Link className='link' to='/'>
-        <div className='flex flex-column brand'>
-          <img className='logo' src={eosIcon} alt='' />
-          <span className='brand-text'>USER STORIES</span>
-        </div>
+        <img className='logo' src={eosIcon} alt='' />
       </Link>
       <nav>
         {state.auth && (
@@ -75,7 +72,7 @@ const Navigation = (props) => {
                 userDropdownState ? 'eos-icons-open' : ''
               }`}
             >
-              person
+              account_circle
             </i>
             <div
               className={`dropdown nav-dropdown ${
