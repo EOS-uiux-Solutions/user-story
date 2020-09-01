@@ -40,7 +40,8 @@ const Pagination = (props) => {
         }}
         to='/'
       >
-        {`< Prev`}
+        <i className='eos-icons eos-18'>keyboard_arrow_left</i>
+        {`Prev`}
       </Link>
       <div className='btn-pagination'>
         {pages
@@ -71,7 +72,8 @@ const Pagination = (props) => {
         }}
         to='/'
       >
-        {`Next >`}
+        {`Next`}
+        <i className='eos-icons eos-18'>keyboard_arrow_right</i>
       </Link>
     </div>
   )
