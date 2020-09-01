@@ -2,4 +2,35 @@
   @extend .flex;
   @extend .flex-row;
   @extend .flex-space-between;
+  margin-bottom: 32px;
+  position: relative;
+
+  &::before {
+    border-top: 1px solid gray;
+    content: '';
+    position: absolute;
+    top: 38px;
+    width: 100%;
+    z-index: 1;
+  }
+
+  .btn {
+    background: $eos-cerulean-50;
+    z-index: 10;
+  }
+
+  .btn-tabs {
+
+    .eos-icons {
+      margin-right: 12px;
+      vertical-align: sub;
+    }
+
+    &-selected,
+    &:hover {
+      background-color: $status-tabs-bg;
+      border-color: $status-tabs-bg;
+      color: $light-color;
+    }
+  }
 }
