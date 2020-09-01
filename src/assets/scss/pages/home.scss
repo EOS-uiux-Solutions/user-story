@@ -1,13 +1,9 @@
 .product-introduction {
   font-family: $font-family-spartan;
-  margin: 16px 0px;
+  margin: 88px 0px;
 
-  .header {
-    font-size: $font-size-header;
-  }
-
-  p {
-    font-size: $font-size-label;
+  .subheader {
+    font-weight: 100;
   }
 }
 

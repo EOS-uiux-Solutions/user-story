@@ -356,12 +356,12 @@ const Home = () => {
       <div className='body-content'>
         <div className='body-wrapper'>
           <div className='product-introduction'>
-            <div className='header'>TELL US YOUR STORY</div>
-            <p>
+            <h1>TELL US YOUR STORY</h1>
+            <h2 className='subheader'>
               Share with us how you use our products, relate to other users'
               stories, vote them up, and we'll make sure we deliver cohesive
               solutions that enhance your experience.
-            </p>
+            </h2>
           </div>
           <div className='flex flex-row flex-space-between'>
             {Lists.stateList &&
