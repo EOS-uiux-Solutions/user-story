@@ -169,155 +169,153 @@ const Profile = (props) => {
 
   return (
     <>
-      <div className='base-wrapper'>
-        <div className='base-container'>
-          <Navigation />
-          {promiseInProgress ? (
-            <LoadingIndicator />
-          ) : (
-            <div className='profile-content'>
-              <div className='flex flex-row flex-space-around'>
-                <div className='flex flex-column'>
-                  <div className='profile-picture-container'>
-                    {user && user.profilePicture ? (
-                      <img
-                        className='profile-picture'
-                        src={user.profilePicture.url}
-                        alt='Profile'
-                      />
-                    ) : (
-                      <img
-                        className='profile-picture'
-                        src={`https://api.adorable.io/avatars/100/${user.username}`}
-                        alt='Profile'
-                      />
-                    )}
-                  </div>
-                  <textarea
-                    rows='6'
-                    cols='17'
-                    readOnly={true}
-                    defaultValue={user.Bio}
-                  ></textarea>
+      <Navigation />
+      {promiseInProgress ? (
+        <LoadingIndicator />
+      ) : (
+        <div className='body-content'>
+          <div className='body-wrapper'>
+            <div className='flex flex-row flex-space-around'>
+              <div className='flex flex-column'>
+                <div className='profile-picture-container'>
+                  {user && user.profilePicture ? (
+                    <img
+                      className='profile-picture'
+                      src={user.profilePicture.url}
+                      alt='Profile'
+                    />
+                  ) : (
+                    <img
+                      className='profile-picture'
+                      src={`https://api.adorable.io/avatars/100/${user.username}`}
+                      alt='Profile'
+                    />
+                  )}
                 </div>
-                <div className='flex flex-column'>
-                  <div className='basic-about'>
-                    <div className='flex flex-row flex-space-between'>
-                      <div className='about-element about-element-label'>
-                        {' '}
-                        Username:{' '}
-                      </div>
-                      <div className='about-element '> {user.username} </div>
+                <textarea
+                  rows='6'
+                  cols='17'
+                  readOnly={true}
+                  defaultValue={user.Bio}
+                ></textarea>
+              </div>
+              <div className='flex flex-column'>
+                <div className='basic-about'>
+                  <div className='flex flex-row flex-space-between'>
+                    <div className='about-element about-element-label'>
+                      {' '}
+                      Username:{' '}
                     </div>
-                    <div className='flex flex-row flex-space-between'>
-                      <div className='about-element about-element-label'>
-                        {' '}
-                        Name:{' '}
-                      </div>
-                      <div className='about-element '>
-                        {' '}
-                        {user.Name !== 'null' ? user.Name : ''}{' '}
-                      </div>
+                    <div className='about-element '> {user.username} </div>
+                  </div>
+                  <div className='flex flex-row flex-space-between'>
+                    <div className='about-element about-element-label'>
+                      {' '}
+                      Name:{' '}
                     </div>
-                    <div className='flex flex-row flex-space-between'>
-                      <div className='about-element about-element-label'>
-                        {' '}
-                        Profession:{' '}
-                      </div>
-                      <div className='about-element '>
-                        {' '}
-                        {user.Profession !== 'null' ? user.Profession : ''}{' '}
-                      </div>
+                    <div className='about-element '>
+                      {' '}
+                      {user.Name !== 'null' ? user.Name : ''}{' '}
                     </div>
-                    <div className='flex flex-row flex-space-between'>
-                      <div className='about-element about-element-label'>
-                        {' '}
-                        Company/Institute:{' '}
-                      </div>
-                      <div className='about-element '>
-                        {' '}
-                        {user.Company !== 'null' ? user.Company : ''}{' '}
-                      </div>
+                  </div>
+                  <div className='flex flex-row flex-space-between'>
+                    <div className='about-element about-element-label'>
+                      {' '}
+                      Profession:{' '}
                     </div>
-                    <div className='flex flex-row flex-space-between'>
-                      <div className='about-element about-element-label'>
-                        {' '}
-                        LinkedIn:{' '}
-                      </div>
-                      <div className='about-element '>
-                        {' '}
-                        {user.Linkedin !== 'null' ? user.Linkedin : ''}{' '}
-                      </div>
+                    <div className='about-element '>
+                      {' '}
+                      {user.Profession !== 'null' ? user.Profession : ''}{' '}
                     </div>
-                    <div className='flex flex-row flex-space-between'>
-                      <div className='about-element about-element-label'>
-                        {' '}
-                        Twitter:{' '}
-                      </div>
-                      <div className='about-element '>
-                        {' '}
-                        {user.Twitter !== 'null' ? user.Twitter : ''}{' '}
-                      </div>
+                  </div>
+                  <div className='flex flex-row flex-space-between'>
+                    <div className='about-element about-element-label'>
+                      {' '}
+                      Company/Institute:{' '}
+                    </div>
+                    <div className='about-element '>
+                      {' '}
+                      {user.Company !== 'null' ? user.Company : ''}{' '}
+                    </div>
+                  </div>
+                  <div className='flex flex-row flex-space-between'>
+                    <div className='about-element about-element-label'>
+                      {' '}
+                      LinkedIn:{' '}
+                    </div>
+                    <div className='about-element '>
+                      {' '}
+                      {user.Linkedin !== 'null' ? user.Linkedin : ''}{' '}
+                    </div>
+                  </div>
+                  <div className='flex flex-row flex-space-between'>
+                    <div className='about-element about-element-label'>
+                      {' '}
+                      Twitter:{' '}
+                    </div>
+                    <div className='about-element '>
+                      {' '}
+                      {user.Twitter !== 'null' ? user.Twitter : ''}{' '}
                     </div>
                   </div>
                 </div>
               </div>
-              {
-                <div className='flex flex-column'>
-                  <h3>Stories by this user</h3>
-                  <div className='flex flex-row options-bar'>
-                    <Dropdown
-                      title='Product'
-                      reference={productDropdownContainer}
-                      curr={product}
-                      setCurr={setProduct}
-                      itemList={products}
-                    />
-                    <Dropdown
-                      title='Categories'
-                      reference={categoryDropdownContainer}
-                      curr={category}
-                      setCurr={setCategory}
-                      itemList={categories}
-                    />
-                    <Dropdown
-                      title='Sort By'
-                      reference={sortDropdownContainer}
-                      curr={sort}
-                      setCurr={setSort}
-                      itemList={Lists.sortByList}
-                    />
-                  </div>
-                  <div className='flex flex-row flex-space-between'>
-                    {Lists.stateList &&
-                      Lists.stateList.map((state, key) => {
-                        return (
-                          <Button
-                            className={
-                              currentStateSelected === state.status
-                                ? 'btn btn-tabs btn-tabs-selected'
-                                : 'btn btn-tabs'
-                            }
-                            key={key}
-                            onClick={() => selectState(state.status)}
-                          >
-                            <i className='eos-icons'>{state.icon}</i>
-                            {state.status}
-                          </Button>
-                        )
-                      })}
-                  </div>
-                  <StoriesList
-                    stories={stories}
-                    state={currentStateSelected}
-                    product={product}
+            </div>
+            {
+              <div className='flex flex-column'>
+                <h3>Stories by this user</h3>
+                <div className='flex flex-row options-bar'>
+                  <Dropdown
+                    title='Product'
+                    reference={productDropdownContainer}
+                    curr={product}
+                    setCurr={setProduct}
+                    itemList={products}
+                  />
+                  <Dropdown
+                    title='Categories'
+                    reference={categoryDropdownContainer}
+                    curr={category}
+                    setCurr={setCategory}
+                    itemList={categories}
+                  />
+                  <Dropdown
+                    title='Sort By'
+                    reference={sortDropdownContainer}
+                    curr={sort}
+                    setCurr={setSort}
+                    itemList={Lists.sortByList}
                   />
                 </div>
-              }
-            </div>
-          )}
+                <div className='flex flex-row flex-space-between'>
+                  {Lists.stateList &&
+                    Lists.stateList.map((state, key) => {
+                      return (
+                        <Button
+                          className={
+                            currentStateSelected === state.status
+                              ? 'btn btn-tabs btn-tabs-selected'
+                              : 'btn btn-tabs'
+                          }
+                          key={key}
+                          onClick={() => selectState(state.status)}
+                        >
+                          <i className='eos-icons'>{state.icon}</i>
+                          {state.status}
+                        </Button>
+                      )
+                    })}
+                </div>
+                <StoriesList
+                  stories={stories}
+                  state={currentStateSelected}
+                  product={product}
+                />
+              </div>
+            }
+          </div>
         </div>
-      </div>
+      )}
     </>
   )
 }

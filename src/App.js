@@ -57,27 +57,23 @@ const App = () => {
   }, [userId])
 
   return (
-    <div className='app'>
-      <Context.Provider value={{ state, dispatch }}>
-        <div className='app-container'>
-          <Router>
-            <Home path='/' />
-            <Register path='/register' />
-            <Login path='/login' />
-            <ForgotPassword path='/forgotPassword' />
-            <ResetPassword path='/resetPassword' />
-            <NewStory path='/newStory' />
-            <Story path='/story/:storyId' />
-            <MyStories path='/myStories' />
-            <MyProfile path='/myProfile' />
-            <Profile path='/profile/:profileId' />
-            <Notifications path='/notifications' />
-            <ChangePassword path='/changePassword' />
-            <Policies path='/policies' />
-          </Router>
-        </div>
-      </Context.Provider>
-    </div>
+    <Context.Provider value={{ state, dispatch }}>
+      <Router>
+        <Home path='/' />
+        <Register path='/register' />
+        <Login path='/login' />
+        <ForgotPassword path='/forgotPassword' />
+        <ResetPassword path='/resetPassword' />
+        <NewStory path='/newStory' />
+        <Story path='/story/:storyId' />
+        <MyStories path='/myStories' />
+        <MyProfile path='/myProfile' />
+        <Profile path='/profile/:profileId' />
+        <Notifications path='/notifications' />
+        <ChangePassword path='/changePassword' />
+        <Policies path='/policies' />
+      </Router>
+    </Context.Provider>
   )
 }
 

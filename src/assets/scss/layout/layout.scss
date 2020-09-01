@@ -1,0 +1,49 @@
+// Variables specific to this document
+$body-content-background: $eos-cerulean-50;
+
+// Classes
+
+body {
+  color: $eos-blue-900;
+  font-family: $font-family;
+  font-size: $font-size-general;
+  line-height: 1.5em;
+}
+
+.eos-icons {
+  margin-right: 0;
+  pointer-events: none;
+  vertical-align: middle;
+}
+
+.base-wrapper {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-width: 100%;
+}
+
+.user-avatar {
+  display: block;
+  float: left;
+  margin: 4px 16px;
+
+  .avatar {
+    border-radius: 32px;
+    height: 4.5em;
+    width: 4.5em;
+  }
+}
+
+.body-content {
+  background-color: $body-content-background;
+  border-radius: 10px;
+  margin: 16px;
+  padding: 16px 16px;
+}
+
+.body-wrapper {
+  margin: auto;
+  max-width: 1120px;
+}

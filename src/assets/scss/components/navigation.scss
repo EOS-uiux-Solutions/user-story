@@ -4,11 +4,8 @@
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
-  max-width: 1120px;
   padding: 32px 16px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  width: 100%;
 
   .brand {
     align-items: baseline;

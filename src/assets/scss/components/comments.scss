@@ -1,8 +1,6 @@
 .comments-wrapper {
-  display: flex;
-  flex-direction: column;
-  margin: 8px 8px;
-  padding: 16px 16px;
+  border-top: 1px solid $eos-gray-100;
+  margin-top: 32px;
 }
 
 .comment {

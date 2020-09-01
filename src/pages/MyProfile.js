@@ -100,164 +100,160 @@ const MyProfile = () => {
 
   return state.auth ? (
     <>
-      <div className='base-wrapper'>
-        <div className='base-container'>
-          <Navigation />
-          {promiseInProgress ? (
-            <LoadingIndicator />
-          ) : (
-            <div className='profile-content'>
-              <div className='flex flex-row flex-space-around'>
-                <div className='flex flex-column'>
-                  <div className='profile-picture-container'>
-                    {user.profilePicture ? (
-                      <img
-                        className='profile-picture'
-                        src={user.profilePicture.url}
-                        alt='profile pic'
-                      />
-                    ) : (
-                      <img
-                        className='profile-picture'
-                        src={`https://api.adorable.io/avatars/100/${user.username}`}
-                        alt='profile pic'
-                      />
-                    )}
-                    <Button className='btn btn-default'>
-                      Change Profile Picture
-                    </Button>
+      <Navigation />
+      {promiseInProgress ? (
+        <LoadingIndicator />
+      ) : (
+        <div className='body-content'>
+          <div className='body-wrapper'>
+            <div className='flex flex-row flex-space-around'>
+              <div className='flex flex-column'>
+                <div className='profile-picture-container'>
+                  {user.profilePicture ? (
+                    <img
+                      className='profile-picture'
+                      src={user.profilePicture.url}
+                      alt='profile pic'
+                    />
+                  ) : (
+                    <img
+                      className='profile-picture'
+                      src={`https://api.adorable.io/avatars/100/${user.username}`}
+                      alt='profile pic'
+                    />
+                  )}
+                  <Button className='btn btn-default'>
+                    Change Profile Picture
+                  </Button>
+                </div>
+                <div className='profile-picture-container'>
+                  <textarea
+                    rows='6'
+                    cols='17'
+                    name='Bio'
+                    defaultValue={user.Bio ? user.Bio : ''}
+                    onChange={handleInputChange}
+                  ></textarea>
+                </div>
+              </div>
+              <div className='flex flex-column'>
+                <div className='basic-about'>
+                  <div className='flex flex-row flex-space-between'>
+                    <div className='about-element about-element-label'>
+                      {' '}
+                      Username:{' '}
+                    </div>
+                    <div className='about-element '> {user.username} </div>
                   </div>
-                  <div className='profile-picture-container'>
-                    <textarea
-                      rows='6'
-                      cols='17'
-                      name='Bio'
-                      defaultValue={user.Bio ? user.Bio : ''}
-                      onChange={handleInputChange}
-                    ></textarea>
+                  <div className='flex flex-row flex-space-between'>
+                    <div className='about-element about-element-label'>
+                      {' '}
+                      Email ID:{' '}
+                    </div>
+                    <div className='about-element '> {user.email} </div>
+                  </div>
+                  <div className='about-element about-element-label'>
+                    <Link className='link link-default' to='/changePassword'>
+                      Change Password
+                    </Link>
                   </div>
                 </div>
-                <div className='flex flex-column'>
-                  <div className='basic-about'>
-                    <div className='flex flex-row flex-space-between'>
-                      <div className='about-element about-element-label'>
-                        {' '}
-                        Username:{' '}
-                      </div>
-                      <div className='about-element '> {user.username} </div>
-                    </div>
-                    <div className='flex flex-row flex-space-between'>
-                      <div className='about-element about-element-label'>
-                        {' '}
-                        Email ID:{' '}
-                      </div>
-                      <div className='about-element '> {user.email} </div>
-                    </div>
+                <div className='basic-about'>
+                  <div className='flex flex-row flex-space-between'>
                     <div className='about-element about-element-label'>
-                      <Link className='link link-default' to='/changePassword'>
-                        Change Password
-                      </Link>
+                      {' '}
+                      Name:{' '}
                     </div>
+                    <input
+                      className='input-profile'
+                      type='text'
+                      name='Name'
+                      value={user.Name !== 'null' ? user.Name : ''}
+                      onChange={handleInputChange}
+                    />
                   </div>
-                  <div className='basic-about'>
-                    <div className='flex flex-row flex-space-between'>
-                      <div className='about-element about-element-label'>
-                        {' '}
-                        Name:{' '}
-                      </div>
-                      <input
-                        className='input-profile'
-                        type='text'
-                        name='Name'
-                        value={user.Name !== 'null' ? user.Name : ''}
-                        onChange={handleInputChange}
-                      />
+                  <div className='flex flex-row flex-space-between'>
+                    <div className='about-element about-element-label'>
+                      {' '}
+                      Profession:{' '}
                     </div>
-                    <div className='flex flex-row flex-space-between'>
-                      <div className='about-element about-element-label'>
-                        {' '}
-                        Profession:{' '}
-                      </div>
-                      <input
-                        className='input-profile'
-                        type='text'
-                        name='Profession'
-                        value={
-                          user.Profession !== 'null' ? user.Profession : ''
-                        }
-                        onChange={handleInputChange}
-                      />
+                    <input
+                      className='input-profile'
+                      type='text'
+                      name='Profession'
+                      value={user.Profession !== 'null' ? user.Profession : ''}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className='flex flex-row flex-space-between'>
+                    <div className='about-element about-element-label'>
+                      {' '}
+                      Company/Institute:{' '}
                     </div>
-                    <div className='flex flex-row flex-space-between'>
-                      <div className='about-element about-element-label'>
-                        {' '}
-                        Company/Institute:{' '}
-                      </div>
-                      <input
-                        className='input-profile'
-                        type='text'
-                        name='Company'
-                        value={user.Company !== 'null' ? user.Company : ''}
-                        onChange={handleInputChange}
-                      />
+                    <input
+                      className='input-profile'
+                      type='text'
+                      name='Company'
+                      value={user.Company !== 'null' ? user.Company : ''}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className='flex flex-row flex-space-between'>
+                    <div className='about-element about-element-label'>
+                      {' '}
+                      LinkedIn:{' '}
                     </div>
-                    <div className='flex flex-row flex-space-between'>
-                      <div className='about-element about-element-label'>
-                        {' '}
-                        LinkedIn:{' '}
-                      </div>
-                      <input
-                        className='input-profile'
-                        type='text'
-                        name='LinkedIn'
-                        value={user.LinkedIn !== 'null' ? user.LinkedIn : ''}
-                        onChange={handleInputChange}
-                      />
+                    <input
+                      className='input-profile'
+                      type='text'
+                      name='LinkedIn'
+                      value={user.LinkedIn !== 'null' ? user.LinkedIn : ''}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className='flex flex-row flex-space-between'>
+                    <div className='about-element about-element-label'>
+                      {' '}
+                      Twitter:{' '}
                     </div>
-                    <div className='flex flex-row flex-space-between'>
-                      <div className='about-element about-element-label'>
-                        {' '}
-                        Twitter:{' '}
-                      </div>
-                      <input
-                        className='input-profile'
-                        type='text'
-                        name='Twitter'
-                        value={user.Twitter !== 'null' ? user.Twitter : ''}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                    {edit ? (
-                      <>
-                        <Button
-                          className='btn btn-default'
-                          onClick={updateProfile}
-                        >
-                          Save
-                        </Button>
-                        <Button
-                          className='btn btn-default'
-                          onClick={() => setEdit(false)}
-                        >
-                          Cancel
-                        </Button>
-                      </>
-                    ) : (
+                    <input
+                      className='input-profile'
+                      type='text'
+                      name='Twitter'
+                      value={user.Twitter !== 'null' ? user.Twitter : ''}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  {edit ? (
+                    <>
                       <Button
                         className='btn btn-default'
-                        onClick={() => setEdit(true)}
+                        onClick={updateProfile}
                       >
-                        Update Profile
+                        Save
                       </Button>
-                    )}
-                    {updated ? <h3>Profile Updated successfully</h3> : ''}
-                  </div>
+                      <Button
+                        className='btn btn-default'
+                        onClick={() => setEdit(false)}
+                      >
+                        Cancel
+                      </Button>
+                    </>
+                  ) : (
+                    <Button
+                      className='btn btn-default'
+                      onClick={() => setEdit(true)}
+                    >
+                      Update Profile
+                    </Button>
+                  )}
+                  {updated ? <h3>Profile Updated successfully</h3> : ''}
                 </div>
               </div>
             </div>
-          )}
+          </div>
         </div>
-      </div>
+      )}
     </>
   ) : (
     <Login message='Please login to access your profile' />

@@ -49,45 +49,40 @@ const Notifications = () => {
 
   return (
     <>
-      <div className='base-wrapper'>
-        <div className='base-container'>
-          <Navigation />
-          {promiseInProgress ? (
-            <LoadingIndicator />
-          ) : (
-            <div className='notifications'>
-              <h3>Notifications</h3>
-              <div className='flex flex-column'>
-                {notifications.length > 0 ? (
-                  notifications.map((ele, key) => {
-                    return (
-                      <div
-                        className='notification'
-                        key={key}
-                        onClick={() => navigate(`/${ele.link}`)}
-                      >
-                        <div className='notification-text'>{ele.message}</div>
-                        <div className='notification-text'>
-                          {`${ele.date.slice(0, 10)}  ${ele.date.slice(
-                            11,
-                            19
-                          )}`}
-                        </div>
+      <Navigation />
+      {promiseInProgress ? (
+        <LoadingIndicator />
+      ) : (
+        <div className='body-content'>
+          <div className='body-wrapper'>
+            <h3>Notifications</h3>
+            <div className='flex flex-column'>
+              {notifications.length > 0 ? (
+                notifications.map((ele, key) => {
+                  return (
+                    <div
+                      className='notification'
+                      key={key}
+                      onClick={() => navigate(`/${ele.link}`)}
+                    >
+                      <div className='notification-text'>{ele.message}</div>
+                      <div className='notification-text'>
+                        {`${ele.date.slice(0, 10)}  ${ele.date.slice(11, 19)}`}
                       </div>
-                    )
-                  })
-                ) : (
-                  <div className='notification'>
-                    <div className='notification-text'>
-                      No notifications at the moment
                     </div>
+                  )
+                })
+              ) : (
+                <div className='notification'>
+                  <div className='notification-text'>
+                    No notifications at the moment
                   </div>
-                )}
-              </div>
+                </div>
+              )}
             </div>
-          )}
+          </div>
         </div>
-      </div>
+      )}
     </>
   )
 }

@@ -184,7 +184,7 @@ const Home = () => {
         {
           query: `
           query {
-            userStoriesConnection(where: { user_story_status: { Status: "${currentStateSelected}" }, 
+            userStoriesConnection(where: { user_story_status: { Status: "${currentStateSelected}" },
             product: { Name: "${product}"} }) {
               aggregate {
                 count
@@ -352,106 +352,101 @@ const Home = () => {
 
   return (
     <>
-      <div className='base-wrapper'>
-        <div className='base-container'>
-          <Navigation />
-          <div className='home-content'>
-            <div className='product-introduction'>
-              <div className='header'>TELL US YOUR STORY</div>
-              <p>
-                Share with us how you use our products, relate to other users'
-                stories, vote them up, and we'll make sure we deliver cohesive
-                solutions that enhance your experience.
-              </p>
-            </div>
-            <div className='flex flex-row flex-space-between'>
-              {Lists.stateList &&
-                Lists.stateList.map((state, key) => {
-                  return (
-                    <Button
-                      className={
-                        currentStateSelected === state.status
-                          ? 'btn btn-tabs btn-tabs-selected'
-                          : 'btn btn-tabs'
-                      }
-                      key={key}
-                      onClick={() => {
-                        selectState(state.status)
-                        setPage(1)
-                      }}
-                    >
-                      <i className='eos-icons'>{state.icon}</i>
-                      {state.status}
-                    </Button>
-                  )
-                })}
-            </div>
-            <div className='flex flex-row options-bar'>
-              <Dropdown
-                title='Product'
-                reference={productDropdownContainer}
-                curr={product}
-                setCurr={setProduct}
-                itemList={products}
-              />
-              <Dropdown
-                title='Categories'
-                reference={categoryDropdownContainer}
-                curr={category}
-                setCurr={setCategory}
-                itemList={categories}
-              />
-              <Dropdown
-                title='Sort By'
-                reference={sortDropdownContainer}
-                curr={sort}
-                setCurr={setSort}
-                itemList={Lists.sortByList}
-              />
-            </div>
-            {promiseInProgress ? (
-              <LoadingIndicator />
-            ) : (
-              <>
-                <StoriesList
-                  stories={stories}
-                  state={currentStateSelected}
-                  product={product}
-                />
-              </>
-            )}
-            <Pagination
-              getPage={getPage}
-              storyCount={storyCount}
-              status={currentStateSelected}
-              product={product}
+      <Navigation />
+      <div className='body-content'>
+        <div className='body-wrapper'>
+          <div className='product-introduction'>
+            <div className='header'>TELL US YOUR STORY</div>
+            <p>
+              Share with us how you use our products, relate to other users'
+              stories, vote them up, and we'll make sure we deliver cohesive
+              solutions that enhance your experience.
+            </p>
+          </div>
+          <div className='flex flex-row flex-space-between'>
+            {Lists.stateList &&
+              Lists.stateList.map((state, key) => {
+                return (
+                  <Button
+                    className={
+                      currentStateSelected === state.status
+                        ? 'btn btn-tabs btn-tabs-selected'
+                        : 'btn btn-tabs'
+                    }
+                    key={key}
+                    onClick={() => {
+                      selectState(state.status)
+                      setPage(1)
+                    }}
+                  >
+                    <i className='eos-icons'>{state.icon}</i>
+                    {state.status}
+                  </Button>
+                )
+              })}
+          </div>
+          <div className='flex flex-row options-bar'>
+            <Dropdown
+              title='Product'
+              reference={productDropdownContainer}
+              curr={product}
+              setCurr={setProduct}
+              itemList={products}
+            />
+            <Dropdown
+              title='Categories'
+              reference={categoryDropdownContainer}
+              curr={category}
+              setCurr={setCategory}
+              itemList={categories}
+            />
+            <Dropdown
+              title='Sort By'
+              reference={sortDropdownContainer}
+              curr={sort}
+              setCurr={setSort}
+              itemList={Lists.sortByList}
             />
           </div>
-          {modal && policyUpdate ? (
-            <Modal
-              showButtons={true}
-              onCancel={handlePolicyUpdateReject}
-              isActive={modal}
-              show={() => setModal(false)}
-              onOk={acceptUpdatedPolicy}
-            >
-              {
-                <>
-                  {policyUpdate.message}
-                  <Link
-                    className='link link-default'
-                    to={`/${policyUpdate.link}`}
-                  >
-                    View privacy policy
-                  </Link>
-                </>
-              }
-            </Modal>
+          {promiseInProgress ? (
+            <LoadingIndicator />
           ) : (
-            ''
+            <>
+              <StoriesList
+                stories={stories}
+                state={currentStateSelected}
+                product={product}
+              />
+            </>
           )}
+          <Pagination
+            getPage={getPage}
+            storyCount={storyCount}
+            status={currentStateSelected}
+            product={product}
+          />
         </div>
       </div>
+      {modal && policyUpdate ? (
+        <Modal
+          showButtons={true}
+          onCancel={handlePolicyUpdateReject}
+          isActive={modal}
+          show={() => setModal(false)}
+          onOk={acceptUpdatedPolicy}
+        >
+          {
+            <>
+              {policyUpdate.message}
+              <Link className='link link-default' to={`/${policyUpdate.link}`}>
+                View privacy policy
+              </Link>
+            </>
+          }
+        </Modal>
+      ) : (
+        ''
+      )}
     </>
   )
 }
