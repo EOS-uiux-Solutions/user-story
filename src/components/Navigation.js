@@ -91,19 +91,19 @@ const Navigation = (props) => {
                   className='dropdown-element'
                   onClick={() => navigate('/myStories')}
                 >
-                  <i className='eos-icons'>message</i>
+                  <i className='eos-icons eos-18'>message</i>
                   My Stories
                 </li>
                 <li
                   className='dropdown-element'
                   onClick={() => navigate('/myProfile')}
                 >
-                  <i className='eos-icons'>settings</i>
+                  <i className='eos-icons eos-18'>settings</i>
                   My Account
                 </li>
                 <hr className='dropdown-separator' />
                 <li className='dropdown-element' onClick={handleLogout}>
-                  <i className='eos-icons'>exit_to_app</i>
+                  <i className='eos-icons eos-18'>exit_to_app</i>
                   Log Out
                 </li>
               </ul>

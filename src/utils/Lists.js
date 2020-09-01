@@ -1,7 +1,7 @@
 const Lists = {
   stateList: [
     {
-      icon: 'schedule',
+      icon: 'watch_later',
       status: 'Under consideration'
     },
     {

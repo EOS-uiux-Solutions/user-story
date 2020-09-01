@@ -7,20 +7,3 @@
   padding: 32px 32px 0;
   width: 100%;
 }
-
-.user-dropdown {
-  padding: 8px 16px;
-
-  &-name {
-    font-weight: bold;
-  }
-
-  &-email {
-    color: $light-gray;
-    font-size: $font-size-small;
-  }
-}
-
-.dropdown-separator {
-  opacity: 0.08;
-}

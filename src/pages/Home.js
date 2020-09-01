@@ -363,7 +363,7 @@ const Home = () => {
               solutions that enhance your experience.
             </h2>
           </div>
-          <div className='flex flex-row flex-space-between'>
+          <div className='roadmap'>
             {Lists.stateList &&
               Lists.stateList.map((state, key) => {
                 return (
