@@ -178,88 +178,86 @@ const MyStories = () => {
 
   return state.auth ? (
     <>
-      <div className='base-wrapper'>
-        <div className='base-container'>
-          <Navigation />
-          <div className='mystories-content'>
-            <h3>My Stories</h3>
-            <div className='flex flex-row'>
-              <Button
-                className={
-                  currentStateSelected === 'My Submissions'
-                    ? 'btn btn-tabs btn-tabs-selected'
-                    : 'btn btn-tabs'
-                }
-                onClick={() => selectState('My Submissions')}
-              >
-                My Submissions
-              </Button>
-              &nbsp; &nbsp;
-              <Button
-                className={
-                  currentStateSelected === 'Following'
-                    ? 'btn btn-tabs btn-tabs-selected'
-                    : 'btn btn-tabs'
-                }
-                onClick={() => selectState('Following')}
-              >
-                Following
-              </Button>
-            </div>
-            <div className='flex flex-row flex-space-between'>
-              {Lists.stateList &&
-                Lists.stateList.map((state, key) => {
-                  return (
-                    <Button
-                      className={
-                        storyStateSelected === state.status
-                          ? 'btn btn-tabs btn-tabs-selected'
-                          : 'btn btn-tabs'
-                      }
-                      key={key}
-                      onClick={() => selectStoryState(state.status)}
-                    >
-                      <i className='eos-icons'>{state.icon}</i>
-                      {state.status}
-                    </Button>
-                  )
-                })}
-            </div>
-            <div className='flex flex-row options-bar'>
-              <Dropdown
-                title='Product'
-                reference={productDropdownContainer}
-                curr={product}
-                setCurr={setProduct}
-                itemList={products}
-              />
-              <Dropdown
-                title='Categories'
-                reference={categoryDropdownContainer}
-                curr={category}
-                setCurr={setCategory}
-                itemList={categories}
-              />
-              <Dropdown
-                title='Sort By'
-                reference={sortDropdownContainer}
-                curr={sort}
-                setCurr={setSort}
-                itemList={Lists.sortByList}
-              />
-            </div>
-            {promiseInProgress ? (
-              <LoadingIndicator />
-            ) : (
-              <div className='flex flex-column'>
-                <StoriesList
-                  stories={stories}
-                  state={storyStateSelected}
-                  product={product}
-                />
-              </div>
-            )}
+      <Navigation />
+      <div className='body-content'>
+        <div className='body-wrapper'>
+          <h3>My Stories</h3>
+          <div className='flex flex-row'>
+            <Button
+              className={
+                currentStateSelected === 'My Submissions'
+                  ? 'btn btn-tabs btn-tabs-selected'
+                  : 'btn btn-tabs'
+              }
+              onClick={() => selectState('My Submissions')}
+            >
+              My Submissions
+            </Button>
+            &nbsp; &nbsp;
+            <Button
+              className={
+                currentStateSelected === 'Following'
+                  ? 'btn btn-tabs btn-tabs-selected'
+                  : 'btn btn-tabs'
+              }
+              onClick={() => selectState('Following')}
+            >
+              Following
+            </Button>
           </div>
+          <div className='flex flex-row flex-space-between'>
+            {Lists.stateList &&
+              Lists.stateList.map((state, key) => {
+                return (
+                  <Button
+                    className={
+                      storyStateSelected === state.status
+                        ? 'btn btn-tabs btn-tabs-selected'
+                        : 'btn btn-tabs'
+                    }
+                    key={key}
+                    onClick={() => selectStoryState(state.status)}
+                  >
+                    <i className='eos-icons'>{state.icon}</i>
+                    {state.status}
+                  </Button>
+                )
+              })}
+          </div>
+          <div className='flex flex-row options-bar'>
+            <Dropdown
+              title='Product'
+              reference={productDropdownContainer}
+              curr={product}
+              setCurr={setProduct}
+              itemList={products}
+            />
+            <Dropdown
+              title='Categories'
+              reference={categoryDropdownContainer}
+              curr={category}
+              setCurr={setCategory}
+              itemList={categories}
+            />
+            <Dropdown
+              title='Sort By'
+              reference={sortDropdownContainer}
+              curr={sort}
+              setCurr={setSort}
+              itemList={Lists.sortByList}
+            />
+          </div>
+          {promiseInProgress ? (
+            <LoadingIndicator />
+          ) : (
+            <div className='flex flex-column'>
+              <StoriesList
+                stories={stories}
+                state={storyStateSelected}
+                product={product}
+              />
+            </div>
+          )}
         </div>
       </div>
     </>

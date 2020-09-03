@@ -108,105 +108,103 @@ const Story = (props) => {
 
   return (
     <>
-      <div className='base-wrapper'>
-        <div className='base-container'>
-          <Navigation />
-          {promiseInProgress ? (
-            <LoadingIndicator />
-          ) : story ? (
-            <>
+      <Navigation />
+      {promiseInProgress ? (
+        <LoadingIndicator />
+      ) : story ? (
+        <>
+          <div className='body-content'>
+            <div className='body-wrapper'>
               <Timeline currentStatus={story.user_story_status.Status} />
-              <div className='story-content'>
-                <div className='story-heading'>
-                  <h3>{story.Title}</h3>
-                  <div className='flex flex-row flex-space-between'>
-                    <Vote story={story} />
-                    <div className='author-information'>
-                      <h4>
-                        By:{' '}
-                        <Link
-                          className='link link-default'
-                          to={`/profile/${story.author.id}`}
-                        >
-                          {story.author.username}
-                        </Link>
-                      </h4>
-                      <div className='user-avatar'>
-                        <img
-                          className='avatar'
-                          src={`https://api.adorable.io/avatars/100/${story.author.username}`}
-                          alt='Default User Avatar'
-                        ></img>
-                      </div>
+              <div className='story-heading'>
+                <h3>{story.Title}</h3>
+                <div className='flex flex-row flex-space-between'>
+                  <Vote story={story} />
+                  <div className='author-information'>
+                    <h4>
+                      By:{' '}
+                      <Link
+                        className='link link-default'
+                        to={`/profile/${story.author.id}`}
+                      >
+                        {story.author.username}
+                      </Link>
+                    </h4>
+                    <div className='user-avatar'>
+                      <img
+                        className='avatar'
+                        src={`https://api.adorable.io/avatars/100/${story.author.username}`}
+                        alt='Default User Avatar'
+                      ></img>
                     </div>
                   </div>
                 </div>
+              </div>
 
-                {editor ? (
-                  <>
-                    <CKEditor
-                      editor={ClassicEditor}
-                      config={{
-                        toolbar: [
-                          'heading',
-                          '|',
-                          'bold',
-                          'italic',
-                          '|',
-                          'link',
-                          'bulletedList',
-                          'numberedList'
-                        ]
-                      }}
-                      onChange={(event, editor) => {
-                        const response = editor.getData()
-                        setDescription(response)
-                      }}
-                    />
-                  </>
-                ) : (
-                  <div
-                    className='story-description'
-                    dangerouslySetInnerHTML={{ __html: story.Description }}
+              {editor ? (
+                <>
+                  <CKEditor
+                    editor={ClassicEditor}
+                    config={{
+                      toolbar: [
+                        'heading',
+                        '|',
+                        'bold',
+                        'italic',
+                        '|',
+                        'link',
+                        'bulletedList',
+                        'numberedList'
+                      ]
+                    }}
+                    onChange={(event, editor) => {
+                      const response = editor.getData()
+                      setDescription(response)
+                    }}
                   />
+                </>
+              ) : (
+                <div
+                  className='story-description'
+                  dangerouslySetInnerHTML={{ __html: story.Description }}
+                />
+              )}
+              <div className='story-buttons-container'>
+                {editMode && !editor ? (
+                  <Button
+                    className='btn btn-default'
+                    onClick={() => setEditor(true)}
+                  >
+                    Edit
+                  </Button>
+                ) : (
+                  ''
                 )}
-                <div className='story-buttons-container'>
-                  {editMode && !editor ? (
-                    <Button
-                      className='btn btn-default'
-                      onClick={() => setEditor(true)}
-                    >
-                      Edit
-                    </Button>
-                  ) : (
-                    ''
-                  )}
-                  {editor ? (
-                    <Button className='btn btn-default' onClick={save}>
-                      Save
-                    </Button>
-                  ) : (
-                    ''
-                  )}
-                  {editor ? (
-                    <Button
-                      className='btn btn-default'
-                      onClick={() => setEditor(false)}
-                    >
-                      Cancel
-                    </Button>
-                  ) : (
-                    ''
-                  )}
-                </div>
+                {editor ? (
+                  <Button className='btn btn-default' onClick={save}>
+                    Save
+                  </Button>
+                ) : (
+                  ''
+                )}
+                {editor ? (
+                  <Button
+                    className='btn btn-default'
+                    onClick={() => setEditor(false)}
+                  >
+                    Cancel
+                  </Button>
+                ) : (
+                  ''
+                )}
               </div>
               <Comments storyId={storyId} />
-            </>
-          ) : (
-            ''
-          )}
-        </div>
-      </div>
+            </div>
+          </div>
+        </>
+      ) : (
+        ''
+      )}
     </>
   )
 }

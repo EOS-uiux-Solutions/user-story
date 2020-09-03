@@ -27,15 +27,15 @@ const Policies = () => {
   }, [])
 
   return (
-    <div className='base-wrapper'>
-      <div className='base-container'>
-        <Navigation />
-        <div className='home-content'>
+    <>
+      <Navigation />
+      <div className='body-content'>
+        <div className='body-wrapper'>
           <h3>User Story Privacy Policy</h3>
           {policies && <p>{policies}</p>}
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

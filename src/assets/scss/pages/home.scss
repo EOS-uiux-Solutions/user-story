@@ -1,26 +1,20 @@
-.home-content {
-  background-color: $primary-foreground;
-  border-radius: 8px;
-  margin: 8px;
-  padding: 16px 16px;
-}
+// Variables
+$subheader-font-size: 18px;
 
 .product-introduction {
   font-family: $font-family-spartan;
-  margin: 16px 0px;
+  margin: 88px 0px;
 
-  .header {
-    font-size: $font-size-header;
-  }
-
-  p {
-    font-size: $font-size-label;
+  .subheader {
+    font-size: $subheader-font-size;
+    font-weight: 100;
   }
 }
 
 .options-bar {
+  align-items: center;
   background-color: $light-color;
   border-radius: 10px;
   margin: 16px 0px 16px 0px;
-  padding: 8px 8px;
+  padding: 8px 20px;
 }

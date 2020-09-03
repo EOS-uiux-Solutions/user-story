@@ -28,12 +28,10 @@ const StoriesList = (props) => {
                   navigate(`/story/${story.id}`)
                 }}
               >
-                <div className='story-title'>{story.Title}</div>
-                <div className='story-description'>
-                  {strip(story.Description)}
-                </div>
+                <h3>{story.Title}</h3>
+                <p>{strip(story.Description)}</p>
               </div>
-              <div className='flex flex-row flex-space-between author-info'>
+              <div className='story-author story-subcontent'>
                 <div className='user-avatar'>
                   <img
                     className='avatar'
@@ -41,8 +39,8 @@ const StoriesList = (props) => {
                     alt='Default User Avatar'
                   ></img>
                 </div>
-                <div className='flex flex-column author-info-element'>
-                  <span className='mini-label'>Created by</span>
+                <div className='flex flex-column'>
+                  <small>Created by</small>
                   <Link
                     className='link link-default'
                     to={`/profile/${story.author.id}`}
@@ -50,20 +48,20 @@ const StoriesList = (props) => {
                     {story.author.username}
                   </Link>
                 </div>
-                <div className='flex flex-column author-info-element'>
-                  <span className='mini-label'>Category</span>
-                  <span className='category-text'>{story.Category}</span>
-                </div>
-                <div className='flex flex-column author-info-element'>
-                  <span className='story-meta'>
-                    <i className='eos-icons'>attachment</i>
-                    {story.user_story_comments.length}
-                  </span>
-                  <span className='story-meta'>
-                    <i className='eos-icons'>comment</i>
-                    {story.user_story_comments.length}
-                  </span>
-                </div>
+              </div>
+              <div className='flex flex-column story-subcontent'>
+                <small>Category</small>
+                <span className='category-text'>{story.Category}</span>
+              </div>
+              <div className='flex flex-column'>
+                <span className='story-meta'>
+                  <i className='eos-icons'>attachment</i>
+                  {story.user_story_comments.length}
+                </span>
+                <span className='story-meta'>
+                  <i className='eos-icons'>comment</i>
+                  {story.user_story_comments.length}
+                </span>
               </div>
             </div>
           ) : (

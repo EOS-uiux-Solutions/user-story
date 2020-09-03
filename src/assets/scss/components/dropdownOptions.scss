@@ -1,4 +1,7 @@
 .filter-title {
   font-weight: bold;
-  padding-top: 8px;
+
+  &:not(:first-of-type) {
+    margin-left: 48px;
+  }
 }

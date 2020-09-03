@@ -4,39 +4,6 @@
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
-  max-width: 1120px;
-  padding: 32px 16px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-
-  .brand {
-    align-items: baseline;
-    color: $dark-color;
-    font-family: $font-family-spartan;
-    font-size: $font-size-label;
-    font-weight: bold;
-    text-align: left;
-
-    .logo {
-      width: 47px;
-    }
-  }
-}
-
-.user-dropdown {
-  padding: 8px 16px;
-
-  &-name {
-    font-weight: bold;
-  }
-
-  &-email {
-    color: $light-gray;
-    font-size: $font-size-small;
-  }
-}
-
-.dropdown-separator {
-  opacity: 0.08;
+  padding: 32px 32px 0;
+  width: 100%;
 }

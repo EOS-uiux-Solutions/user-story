@@ -169,149 +169,140 @@ const NewStory = () => {
 
   return state.auth ? (
     <>
-      <div className='base-wrapper'>
-        <div className='base-container'>
-          <Navigation />
-          {promiseInProgress ? (
-            <LoadingIndicator />
-          ) : (
-            <div className='flex flex-row newstory-content'>
-              <div className='newstory'>
-                <h3>New Story</h3>
-                <form
-                  className='form-default'
-                  onSubmit={handleSubmit(onSubmit)}
-                >
-                  <div className='form-element'>
-                    <label htmlFor='title'>Title</label>
-                    <input
-                      className='input-default'
-                      type='text'
-                      name='title'
-                      autoComplete='off'
-                      ref={register({ required: true })}
-                    />
-                    {errors.title && <FormError type={errors.title.type} />}
-                  </div>
-                  {screenSize <= 1120 ? (
-                    <Search
-                      listToBeSearched={storiesData}
-                      title={watch('title') || ''}
-                    />
-                  ) : (
-                    ''
-                  )}
-                  <div className='form-element'>
-                    <label htmlFor='product'>Product</label>
-                    <select
-                      className='select-default'
-                      name='product'
-                      ref={register({ required: true })}
-                    >
-                      <option defaultValue={true} value=''>
-                        Select a product
-                      </option>
-                      {products &&
-                        products.map((ele, key) => {
-                          return (
-                            <option key={key} value={ele.id}>
-                              {ele.Name}
-                            </option>
-                          )
-                        })}
-                    </select>
-                    {errors.product && <FormError type={errors.product.type} />}
-                  </div>
-                  <div className='form-element'>
-                    <label htmlFor='category'>Category</label>
-                    <select
-                      className='select-default'
-                      name='category'
-                      ref={register({ required: true })}
-                    >
-                      <option defaultValue={true} value=''>
-                        Select a category
-                      </option>
-                      {categories &&
-                        categories.map((ele, key) => {
-                          return (
-                            <option key={key} value={ele}>
-                              {ele}
-                            </option>
-                          )
-                        })}
-                    </select>
-                    {errors.category && (
-                      <FormError type={errors.category.type} />
-                    )}
-                  </div>
-                  <div className='form-element'>
-                    <label htmlFor='priority'>Priority</label>
-                    <select
-                      className='select-default'
-                      name='priority'
-                      ref={register({ required: true })}
-                    >
-                      <option defaultValue={true} value=''>
-                        Select priority
-                      </option>
-                      {priorities &&
-                        priorities.map((ele, key) => {
-                          return (
-                            <option key={key} value={ele}>
-                              {ele}
-                            </option>
-                          )
-                        })}
-                    </select>
-                    {errors.priority && (
-                      <FormError type={errors.priority.type} />
-                    )}
-                  </div>
-                  <div className='form-element'>
-                    <label htmlFor='description'>Description</label>
-                    <CKEditor
-                      editor={ClassicEditor}
-                      config={{
-                        toolbar: [
-                          'heading',
-                          '|',
-                          'bold',
-                          'italic',
-                          '|',
-                          'link',
-                          'bulletedList',
-                          'numberedList'
-                        ]
-                      }}
-                      onChange={(event, editor) => {
-                        setValue('description', editor.getData())
-                        setDescriptionError(false)
-                      }}
-                      ref={register}
-                    />
-                    {descriptionError && <FormError type='emptyDescription' />}
-                  </div>
-                  <Dragdrop />
-                  <div className='flex flex-row flex-center'>
-                    <Button type='submit' className='btn btn-default'>
-                      Submit
-                    </Button>
-                  </div>
-                </form>
-              </div>
-              {screenSize > 1120 ? (
-                <Search
-                  listToBeSearched={storiesData}
-                  title={watch('title') || ''}
-                />
-              ) : (
-                ''
-              )}
+      <Navigation />
+      {promiseInProgress ? (
+        <LoadingIndicator />
+      ) : (
+        <div className='body-content'>
+          <div className='flex flex-row body-wrapper'>
+            <div className='newstory'>
+              <h3>New Story</h3>
+              <form className='form-default' onSubmit={handleSubmit(onSubmit)}>
+                <div className='form-element'>
+                  <label htmlFor='title'>Title</label>
+                  <input
+                    className='input-default'
+                    type='text'
+                    name='title'
+                    autoComplete='off'
+                    ref={register({ required: true })}
+                  />
+                  {errors.title && <FormError type={errors.title.type} />}
+                </div>
+                {screenSize <= 1120 ? (
+                  <Search
+                    listToBeSearched={storiesData}
+                    title={watch('title') || ''}
+                  />
+                ) : (
+                  ''
+                )}
+                <div className='form-element'>
+                  <label htmlFor='product'>Product</label>
+                  <select
+                    className='select-default'
+                    name='product'
+                    ref={register({ required: true })}
+                  >
+                    <option defaultValue={true} value=''>
+                      Select a product
+                    </option>
+                    {products &&
+                      products.map((ele, key) => {
+                        return (
+                          <option key={key} value={ele.id}>
+                            {ele.Name}
+                          </option>
+                        )
+                      })}
+                  </select>
+                  {errors.product && <FormError type={errors.product.type} />}
+                </div>
+                <div className='form-element'>
+                  <label htmlFor='category'>Category</label>
+                  <select
+                    className='select-default'
+                    name='category'
+                    ref={register({ required: true })}
+                  >
+                    <option defaultValue={true} value=''>
+                      Select a category
+                    </option>
+                    {categories &&
+                      categories.map((ele, key) => {
+                        return (
+                          <option key={key} value={ele}>
+                            {ele}
+                          </option>
+                        )
+                      })}
+                  </select>
+                  {errors.category && <FormError type={errors.category.type} />}
+                </div>
+                <div className='form-element'>
+                  <label htmlFor='priority'>Priority</label>
+                  <select
+                    className='select-default'
+                    name='priority'
+                    ref={register({ required: true })}
+                  >
+                    <option defaultValue={true} value=''>
+                      Select priority
+                    </option>
+                    {priorities &&
+                      priorities.map((ele, key) => {
+                        return (
+                          <option key={key} value={ele}>
+                            {ele}
+                          </option>
+                        )
+                      })}
+                  </select>
+                  {errors.priority && <FormError type={errors.priority.type} />}
+                </div>
+                <div className='form-element'>
+                  <label htmlFor='description'>Description</label>
+                  <CKEditor
+                    editor={ClassicEditor}
+                    config={{
+                      toolbar: [
+                        'heading',
+                        '|',
+                        'bold',
+                        'italic',
+                        '|',
+                        'link',
+                        'bulletedList',
+                        'numberedList'
+                      ]
+                    }}
+                    onChange={(event, editor) => {
+                      setValue('description', editor.getData())
+                      setDescriptionError(false)
+                    }}
+                    ref={register}
+                  />
+                  {descriptionError && <FormError type='emptyDescription' />}
+                </div>
+                <Dragdrop />
+                <div className='flex flex-row flex-center'>
+                  <Button type='submit' className='btn btn-default'>
+                    Submit
+                  </Button>
+                </div>
+              </form>
             </div>
-          )}
+            {screenSize > 1120 ? (
+              <Search
+                listToBeSearched={storiesData}
+                title={watch('title') || ''}
+              />
+            ) : (
+              ''
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </>
   ) : (
     <Login message='Please login to create a new story' />
