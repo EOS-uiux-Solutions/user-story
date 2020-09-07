@@ -4,6 +4,10 @@
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
-  padding: 32px 32px 0;
+  padding: 22px 32px 0;
   width: 100%;
+
+  .logo {
+    height: 45px;
+  }
 }
