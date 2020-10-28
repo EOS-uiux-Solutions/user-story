@@ -2,16 +2,16 @@ import React, { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { Link, navigate } from '@reach/router'
-import eosLogoWhite from '../assets/images/logo-white.png'
-import eosLogoColoured from '../assets/images/logo-coloured.png'
-import eosLock from '../assets/images/authentication-lock.png'
 import Button from '../components/Button'
 import useAuth from '../hooks/useAuth'
 import Context from '../modules/Context'
 
 import FormError from '../components/FormError'
-import LanguageDropdown from '../components/LanguageDropdown'
 import { useTranslation } from 'react-i18next'
+import AuthWrapper, {
+  AuthLeftContainer,
+  AuthRightContainer
+} from '../components/AuthWrapper'
 
 export const Register = () => {
   const { registerUser } = useAuth()
@@ -20,7 +20,7 @@ export const Register = () => {
 
   const { register, handleSubmit, errors, watch } = useForm()
 
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
 
   const onSubmit = async (data) => {
     try {
@@ -41,30 +41,10 @@ export const Register = () => {
   }
 
   return (
-    <div className='authentication-wrapper'>
+    <AuthWrapper>
       <div className='authentication'>
-        <div className='container-left'>
-          <div>
-            <div className='image image-logo'>
-              <img src={eosLogoWhite} alt='EOS Logo' />
-            </div>
-            <div className='image image-center'>
-              <img src={eosLock} alt='EOS Logo' />
-            </div>
-            <div>
-              <div className='header'>{t('authentication:header-left')}</div>
-              <p>{t('authentication:user-stories-description')}</p>
-            </div>
-          </div>
-          <div className='footer'>{t('authentication:footer-left')}</div>
-        </div>
-        <div className='container-right'>
-          <div className='flex flex-row flex-space-between'>
-            <div className='image image-logo eos-logo-resize'>
-              <img src={eosLogoColoured} alt='EOS Logo' />
-            </div>
-            <LanguageDropdown translator={i18n} />
-          </div>
+        <AuthLeftContainer />
+        <AuthRightContainer>
           <div>
             {state.errorCode && <FormError status={state.errorCode} />}
             <form className='form-default' onSubmit={handleSubmit(onSubmit)}>
@@ -144,13 +124,9 @@ export const Register = () => {
               {t('authentication:existing-user')}
             </Link>
           </div>
-          <div className='footer'>
-            <i className='eos-icons'>copyright</i>
-            <span> {t('authentication:footer-right')} </span>
-          </div>
-        </div>
+        </AuthRightContainer>
       </div>
-    </div>
+    </AuthWrapper>
   )
 }
 
