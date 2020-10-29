@@ -104,14 +104,14 @@ export const Register = () => {
             </div>
 
             <div className='form-element'>
-              <div className='flex flex-row flex-space-between'>
+              <div className='flex flex-row flex-align-center '>
+                <input type='checkbox' name='tc' ref={register} />
                 <label htmlFor='tc'>
                   I agree to the{' '}
                   <Link className='link link-default' to='/policies'>
                     Terms and Conditions
                   </Link>
                 </label>
-                <input type='checkbox' name='tc' ref={register} />
               </div>
             </div>
 

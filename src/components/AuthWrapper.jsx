@@ -1,9 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import LanguageDropdown from './LanguageDropdown'
-import eosLogoWhite from '../assets/images/logo-white.png'
 import eosLogoColoured from '../assets/images/logo-coloured.png'
-import eosLock from '../assets/images/authentication-lock.png'
 
 export const AuthWrapper = ({ children }) => {
   return (
@@ -18,22 +16,13 @@ export const AuthLeftContainer = ({ logo, illustration }) => {
 
   return (
     <div className='container-left'>
-      <div>
-        <div className='image image-logo'>
-          <img src={logo ?? eosLogoWhite} alt='EOS Logo' />
+      <div className='container-left-content'>
+        <div className='header header-uppercase'>
+          {t('authentication:header-left')}
         </div>
-        <div className='image image-center'>
-          <img
-            src={illustration ?? eosLock}
-            alt='Illustration of a lock with dots floating around'
-          />
-        </div>
-        <div>
-          <div className='header'>{t('authentication:header-left')}</div>
-          <p>{t('authentication:user-stories-description')}</p>
-        </div>
+        <p>{t('authentication:user-stories-description')}</p>
+        <div className='footer'>{t('authentication:footer-left')}</div>
       </div>
-      <div className='footer'>{t('authentication:footer-left')}</div>
     </div>
   )
 }
@@ -51,8 +40,14 @@ export const AuthRightContainer = ({ children, logo }) => {
       </div>
       {children}
       <div className='footer'>
-        <i className='eos-icons'>copyright</i>
-        <span> {t('authentication:footer-right')} </span>
+        <span>
+          <i className='eos-icons'>copyright</i>
+          <span> {t('authentication:footer-right')} </span>
+        </span>
+        <a className='link link-default' href='#todo'>
+          {' '}
+          Terms and conditions
+        </a>
       </div>
     </div>
   )
