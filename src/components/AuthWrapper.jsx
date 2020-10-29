@@ -104,6 +104,15 @@ export const AuthRightContainer = ({ children, logo }) => {
           Terms and conditions
         </a>
       </div>
+
+      <div className='cookies-mobile'>
+        <p>
+          {t('authentication:footer-left')} -{' '}
+          <a className='link link-default' href='/todo'>
+            Learn More
+          </a>
+        </p>
+      </div>
     </div>
   )
 }

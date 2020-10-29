@@ -125,6 +125,10 @@
   visibility: hidden;
 }
 
+.cookies-mobile {
+  visibility: hidden;
+}
+
 @media only screen and (max-width: 1120px) {
   .authentication {
     height: 100%;
@@ -153,5 +157,24 @@
     height: 30px;
     visibility: visible;
     width: 74px;
+  }
+
+  .footer {
+    border-top: 1px solid $border-gray;
+    padding: 16px 0;
+  }
+
+  .cookies-mobile {
+    background: $light-color;
+    bottom: 0;
+    box-shadow: $box-shadow;
+    display: flex;
+    flex-wrap: wrap;
+    left: 0;
+    padding: 16px;
+    position: fixed;
+    visibility: visible;
+    width: 100vw;
+    z-index: 1;
   }
 }
