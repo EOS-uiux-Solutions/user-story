@@ -39,8 +39,8 @@ const ResetPassword = () => {
 
   return (
     <AuthWrapper>
-      <AuthLeftContainer logo={eosLogoWhite} illustration={eosLock} />
-      <AuthRightContainer logo={eosLogoColoured}>
+      <AuthLeftContainer />
+      <AuthRightContainer>
         <div>
           {response ? (
             <>

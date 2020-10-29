@@ -1,6 +1,6 @@
 .authentication-wrapper {
   align-content: center;
-  background-image: url('../../images/background.png');
+  background-image: url('../../images/background.svg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -8,9 +8,11 @@
   height: 100vh;
   justify-content: center;
   width: 100vw;
+
 }
 
 .authentication {
+  box-shadow: $box-shadow;
   display: flex;
   margin: auto;
   min-height: 704px;
@@ -40,8 +42,13 @@
 }
 
 .header {
+  color: $dark-color;
   font-size: $font-size-header;
   font-weight: bold;
+
+  &-uppercase {
+    text-transform: uppercase;
+  }
 }
 
 .footer {
@@ -57,22 +64,48 @@
   width: 675px;
 
   .header {
-    color: $authentication-orange-header;
     margin-bottom: 32px;
+  }
+
+  .footer {
+    display: flex;
+    margin-top: 32px;
+
+    a {
+      padding: 0 8px;
+    }
+  }
+
+  .btn {
+    font-weight: bold;
+
+    i {
+      margin: 0;
+      padding: 0;
+    }
   }
 }
 
 .container-left {
-  background-color: $authentication-orange-bg;
-  color: $light-color;
+  align-items: center;
+  background-color: $light-color;
+  background-image: url('../../images/auth-left.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: $dark-color;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   padding: 32px 32px 0px 32px;
   width: 445px;
 
   .footer {
-    color: $light-color;
+    color: $dark-color;
+  }
+
+  &-content {
+    margin-top: 124px;
+    padding: 49px 30px;
   }
 
 }

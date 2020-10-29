@@ -37,7 +37,7 @@ export const Register = () => {
         type: 'AUTHENTICATE'
       })
       navigate('/')
-    } catch (e) {}
+    } catch (e) { }
   }
 
   return (
@@ -90,29 +90,14 @@ export const Register = () => {
               </div>
 
               <div className='form-element'>
-                <label htmlFor='password'>
-                  {t('authentication:confirm-password-label')}
-                </label>
-                <input
-                  className='input-default'
-                  type='password'
-                  name='confirmPassword'
-                  ref={register({ required: true })}
-                />
-                {errors.confirmPassword && (
-                  <FormError type={errors.confirmPassword.type} />
-                )}
-              </div>
-
-              <div className='form-element'>
-                <div className='flex flex-row flex-space-between'>
+                <div className='flex flex-row flex-align-center '>
+                  <input type='checkbox' name='tc' ref={register} />
                   <label htmlFor='tc'>
                     I agree to the{' '}
                     <Link className='link link-default' to='/policies'>
                       Terms and Conditions
                     </Link>
                   </label>
-                  <input type='checkbox' name='tc' ref={register} />
                 </div>
               </div>
 
