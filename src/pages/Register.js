@@ -37,7 +37,7 @@ export const Register = () => {
         type: 'AUTHENTICATE'
       })
       navigate('/')
-    } catch (e) { }
+    } catch (e) {}
   }
 
   return (

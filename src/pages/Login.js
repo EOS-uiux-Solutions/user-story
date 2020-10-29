@@ -68,25 +68,26 @@ export const Login = (props) => {
               <label htmlFor='password'>
                 {t('authentication:password-label')}
               </label>
-              <input
-                className='input-default'
-                type={showPassword ? 'text' : 'password'}
-                name='password'
-                ref={register({ required: true })}
-              />
+              <div className='input-group'>
+                <input
+                  className='input-default'
+                  type={showPassword ? 'text' : 'password'}
+                  name='password'
+                  ref={register({ required: true })}
+                ></input>
+
+                <div
+                  className='input-group-append'
+                  onClick={() => toggleShowPassword(!showPassword)}
+                >
+                  <i className='eos-icons eos-18'>
+                    {showPassword ? 'visibility_off ' : 'visibility'}
+                  </i>
+                </div>
+              </div>
               {errors.password && <FormError type={errors.password.type} />}
             </div>
 
-            <div className='form-element'>
-              <div className='flex flex-row flex-space-between'>
-                Show password
-                <input
-                  type='checkbox'
-                  name='showPassword'
-                  onChange={() => toggleShowPassword(!showPassword)}
-                />
-              </div>
-            </div>
             <Button type='submit' className='btn btn-default'>
               {t('authentication:login-label')}
             </Button>

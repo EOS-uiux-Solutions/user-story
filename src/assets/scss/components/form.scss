@@ -50,3 +50,17 @@
 input[type='checkbox'] {
   margin-right: 8px;
 }
+
+.input-group {
+  display: flex;
+  position: relative;
+
+  &-append {
+    position: absolute;
+    right: 5px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

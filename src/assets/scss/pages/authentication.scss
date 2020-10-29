@@ -47,6 +47,7 @@
   font-weight: bold;
 
   &-uppercase {
+    line-height: 2rem;
     text-transform: uppercase;
   }
 }
@@ -89,7 +90,7 @@
 .container-left {
   align-items: center;
   background-color: $light-color;
-  background-image: url('../../images/auth-left.svg');
+  background-image: url('../../images/auth-left.png');
   background-repeat: no-repeat;
   background-size: cover;
   color: $dark-color;
@@ -105,7 +106,17 @@
 
   &-content {
     margin-top: 124px;
-    padding: 49px 30px;
+    padding-left: 42px;
+  }
+
+  .social-media {
+    align-items: center;
+    display: flex;
+    margin-top: 24px;
+
+    a:first-child {
+      margin-right: 24px;
+    }
   }
 
 }
