@@ -46,3 +46,26 @@
   padding: 8px 8px 8px 8px;
   width: 50%;
 }
+
+input[type='checkbox'] {
+  margin-right: 8px;
+}
+
+input {
+  padding: 10px 5px;
+}
+
+.input-group {
+  display: flex;
+  position: relative;
+
+  &-append {
+    position: absolute;
+    right: 5px;
+    top: 15px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

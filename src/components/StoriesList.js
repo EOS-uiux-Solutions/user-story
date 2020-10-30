@@ -35,7 +35,7 @@ const StoriesList = (props) => {
                 <div className='user-avatar'>
                   <img
                     className='avatar'
-                    src={`https://api.adorable.io/avatars/100/${story.author.username}`}
+                    src={`https://avatars.dicebear.com/api/gridy/${story.author.username}.svg`}
                     alt='Default User Avatar'
                   ></img>
                 </div>

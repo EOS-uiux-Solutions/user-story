@@ -26,7 +26,7 @@ const LanguageDropdown = (props) => {
     <div className='dropdown-container' ref={container}>
       <Button
         type='button'
-        className='btn btn-transparent'
+        className='btn btn-secondary'
         onClick={handleButtonClick}
       >
         {dropdownState ? (

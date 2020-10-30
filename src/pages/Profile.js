@@ -187,7 +187,7 @@ const Profile = (props) => {
                   ) : (
                     <img
                       className='profile-picture'
-                      src={`https://api.adorable.io/avatars/100/${user.username}`}
+                      src={`https://avatars.dicebear.com/api/gridy/${user.username}.svg`}
                       alt='Profile'
                     />
                   )}

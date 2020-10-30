@@ -1,10 +1,8 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import LanguageDropdown from './LanguageDropdown'
-import eosLogoWhite from '../assets/images/logo-white.png'
 import eosLogoColoured from '../assets/images/logo-coloured.png'
-import eosLock from '../assets/images/authentication-lock.png'
-
+import SocialMediaLinks from '../components/SocialMediaLinks'
 export const AuthWrapper = ({ children }) => {
   return (
     <div className='authentication-wrapper'>
@@ -13,27 +11,26 @@ export const AuthWrapper = ({ children }) => {
   )
 }
 
-export const AuthLeftContainer = ({ logo, illustration }) => {
+export const AuthLeftContainer = () => {
   const { t } = useTranslation()
 
   return (
     <div className='container-left'>
-      <div>
-        <div className='image image-logo'>
-          <img src={logo ?? eosLogoWhite} alt='EOS Logo' />
+      <div className='container-left-content'>
+        <div className='header header-uppercase'>
+          {t('authentication:header-left')}
         </div>
-        <div className='image image-center'>
-          <img
-            src={illustration ?? eosLock}
-            alt='Illustration of a lock with dots floating around'
-          />
+        <p>{t('authentication:user-stories-description')}</p>
+        <div className='footer'>
+          <p>
+            {t('authentication:footer-left')} -{' '}
+            <a className='link link-default' href='/todo'>
+              Learn More
+            </a>
+          </p>
         </div>
-        <div>
-          <div className='header'>{t('authentication:header-left')}</div>
-          <p>{t('authentication:user-stories-description')}</p>
-        </div>
+        <SocialMediaLinks />
       </div>
-      <div className='footer'>{t('authentication:footer-left')}</div>
     </div>
   )
 }
@@ -51,8 +48,23 @@ export const AuthRightContainer = ({ children, logo }) => {
       </div>
       {children}
       <div className='footer'>
-        <i className='eos-icons'>copyright</i>
-        <span> {t('authentication:footer-right')} </span>
+        <span>
+          <i className='eos-icons'>copyright</i>
+          <span> {t('authentication:footer-right')} </span>
+        </span>
+        <a className='link link-default' href='#todo'>
+          {' '}
+          Terms and conditions
+        </a>
+      </div>
+
+      <div className='cookies-mobile'>
+        <p>
+          {t('authentication:footer-left')} -{' '}
+          <a className='link link-default' href='/todo'>
+            Learn More
+          </a>
+        </p>
       </div>
     </div>
   )

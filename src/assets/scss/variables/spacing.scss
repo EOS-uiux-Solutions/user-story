@@ -1,0 +1,9 @@
+$eos-space-base: 16px;
+
+$eos-m: $eos-space-base; // this is the regular size = 16px
+$eos-xs: $eos-m / 4; // = 4px
+$eos-s: $eos-m / 2; // = 8px
+$eos-l: $eos-m + ($eos-m / 2); // = 24px
+$eos-xl: $eos-m * 2; // = 32px
+$eos-xxl: $eos-m * 3; // = 48px
+$eos-xxxl: $eos-m * 4; // = 64px

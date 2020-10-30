@@ -1,6 +1,6 @@
 .authentication-wrapper {
   align-content: center;
-  background-image: url('../../images/background.png');
+  background-image: url('../../images/background.svg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -8,9 +8,11 @@
   height: 100vh;
   justify-content: center;
   width: 100vw;
+
 }
 
 .authentication {
+  box-shadow: $box-shadow;
   display: flex;
   margin: auto;
   min-height: 704px;
@@ -40,8 +42,14 @@
 }
 
 .header {
+  color: $dark-color;
   font-size: $font-size-header;
   font-weight: bold;
+
+  &-uppercase {
+    line-height: 1.5em;
+    text-transform: uppercase;
+  }
 }
 
 .footer {
@@ -57,27 +65,67 @@
   width: 675px;
 
   .header {
-    color: $authentication-orange-header;
     margin-bottom: 32px;
+  }
+
+  .footer {
+    display: flex;
+    margin-top: 32px;
+
+    a {
+      padding: 0 8px;
+    }
+  }
+
+  .btn {
+    font-weight: bold;
+
+    i {
+      margin: 0;
+      padding: 0;
+    }
   }
 }
 
 .container-left {
-  background-color: $authentication-orange-bg;
-  color: $light-color;
+  align-items: center;
+  background-color: $light-color;
+  background-image: url('../../images/auth-left.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: $dark-color;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   padding: 32px 32px 0px 32px;
   width: 445px;
 
   .footer {
-    color: $light-color;
+    color: $dark-color;
+  }
+
+  &-content {
+    margin-top: 124px;
+    padding-left: 42px;
+  }
+
+  .social-media {
+    align-items: center;
+    display: flex;
+    margin-top: 24px;
+
+    a:first-child {
+      margin-right: 24px;
+    }
   }
 
 }
 
 .eos-logo-resize {
+  visibility: hidden;
+}
+
+.cookies-mobile {
   visibility: hidden;
 }
 
@@ -109,5 +157,24 @@
     height: 30px;
     visibility: visible;
     width: 74px;
+  }
+
+  .footer {
+    border-top: 1px solid $border-gray;
+    padding: 16px 0;
+  }
+
+  .cookies-mobile {
+    background: $light-color;
+    bottom: 0;
+    box-shadow: $box-shadow;
+    display: flex;
+    flex-wrap: wrap;
+    left: 0;
+    padding: 16px;
+    position: fixed;
+    visibility: visible;
+    width: 100vw;
+    z-index: 1;
   }
 }

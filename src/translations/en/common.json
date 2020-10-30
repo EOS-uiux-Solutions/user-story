@@ -12,7 +12,7 @@
     "email-label": "Enter your email",
     "password-label": "Enter your password",
     "confirm-password-label": "Confirm password",
-    "forgot-password": "Recover your password",
+    "forgot-password": "Forgot password?",
     "reset-password": "Set your new password",
     "old-password": "Enter your old password",
     "new-password": "New password",
