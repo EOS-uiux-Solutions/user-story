@@ -161,7 +161,7 @@ const Comments = (props) => {
               <div className='user-avatar'>
                 <img
                   className='avatar'
-                  src={`https://api.adorable.io/avatars/100/${data.user.username}`}
+                  src={`https://avatars.dicebear.com/api/gridy/${data.user.username}.svg`}
                   alt='Default User Avatar'
                 ></img>
               </div>
@@ -231,7 +231,7 @@ const Comments = (props) => {
                       <div className='user-avatar'>
                         <img
                           className='avatar'
-                          src={`https://api.adorable.io/avatars/100/${reply.user.username}`}
+                          src={`https://avatars.dicebear.com/api/gridy/${reply.user.username}.svg`}
                           alt='Default User Avatar'
                         ></img>
                       </div>

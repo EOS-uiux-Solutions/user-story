@@ -1,0 +1,14 @@
+$eos-sizes-collection: (m: $eos-m, xs: $eos-xs, s: $eos-s, l: $eos-l, xl: $eos-xl, xxl: $eos-xxl, xxxl: $eos-xxxl);
+
+@mixin margins($eos-direction) {
+  @each $eos-key, $eos-value in $eos-sizes-collection {
+    .margin-#{$eos-direction}-#{$eos-key} {
+      margin-#{$eos-direction}: $eos-value;
+    }
+  }
+}
+
+@include margins(top);
+@include margins(bottom);
+@include margins(left);
+@include margins(right);

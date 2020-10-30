@@ -92,7 +92,7 @@ export const Login = (props) => {
               {t('authentication:login-label')}
             </Button>
           </form>
-          <div className='flex flex-row flex-space-between'>
+          <div className='flex flex-row flex-space-between margin-top-l'>
             <Link className='link link-default' to='/forgotPassword'>
               {t('authentication:forgot-password')}
             </Link>

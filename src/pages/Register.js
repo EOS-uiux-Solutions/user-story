@@ -104,9 +104,11 @@ export const Register = () => {
               {t('authentication:register-label')}
             </Button>
           </form>
-          <Link className='link link-default' to='/login'>
-            {t('authentication:existing-user')}
-          </Link>
+          <div className='flex flex-row flex-space-between margin-top-l'>
+            <Link className='link link-default' to='/login'>
+              {t('authentication:existing-user')}
+            </Link>
+          </div>
         </div>
       </AuthRightContainer>
     </AuthWrapper>

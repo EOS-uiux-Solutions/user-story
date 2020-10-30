@@ -63,7 +63,7 @@ const ForgotPassword = () => {
                   {t('authentication:submit-label')}
                 </Button>
               </form>
-              <div className='flex flex-row flex-space-between'>
+              <div className='flex flex-row flex-space-between margin-top-l'>
                 <Link className='link link-default' to='/login'>
                   {t('authentication:existing-user')}
                 </Link>
