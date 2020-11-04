@@ -43,11 +43,11 @@ export const UserSettings = ({ user }) => {
       <ul>
         <li>
           Email address:
-          <span>some@example.com</span>
+          <span>{user?.email}</span>
         </li>
         <li>
           Username:
-          <span>some@example.com</span>
+          <span>{user?.username}</span>
         </li>
         <li>
           <a className='link link-default' href='/changePassword'>
