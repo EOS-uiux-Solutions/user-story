@@ -1,0 +1,95 @@
+.user-profile {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+  .input-default {
+    width: 50%;
+  }
+
+  &-details {
+    display: flex;
+    flex-direction: column;
+    padding: 0 64px;
+    width: 85%;
+
+    h2 {
+      font-family: $font-family-spartan;
+    }
+  }
+
+  &-avatar {
+    width: 25%;
+
+    img {
+      background-color: #fff;
+      border: 1px solid #707070;
+      border-radius: 50%;
+      height: 150px;
+      padding: 5px;
+      width: 150px;
+    }
+  }
+
+  @media only screen and (max-width: 768px) {
+    flex-direction: column;
+
+    &-avatar {
+      width: auto;
+    }
+
+    &-details {
+      display: flex;
+      flex-direction: column;
+      padding: 0 64px;
+      width: auto;
+    }
+  }
+
+}
+
+.user-profile-extra {
+  ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+
+    li {
+      display: flex;
+      flex-direction: column;
+      font-weight: bold;
+      list-style: none;
+      padding: $eos-m;
+
+
+      &:first-child {
+        padding-left: 0;
+      }
+
+      span {
+        font-weight: normal;
+        width: 100%;
+      }
+
+      &.hidden {
+        display: none;
+      }
+    }
+  }
+}
+
+.user-profile-settings {
+  @extend .user-profile-extra;
+
+  ul {
+    flex-direction: column;
+
+    li {
+      padding: $eos-s 0;
+    }
+  }
+}

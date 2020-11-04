@@ -1,0 +1,21 @@
+.editable-label {
+  align-items: center;
+  display: flex;
+
+  button {
+    background-color: transparent;
+    border: 0;
+    margin-left: $eos-s;
+  }
+
+  button.editable-label-edit-btn {
+    visibility: hidden;
+  }
+
+  &:hover {
+    button {
+      cursor: pointer;
+      visibility: visible;
+    }
+  }
+}

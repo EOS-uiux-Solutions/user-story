@@ -35,7 +35,7 @@ const StoriesList = (props) => {
                 <div className='user-avatar'>
                   <img
                     className='avatar'
-                    src={`https://avatars.dicebear.com/api/gridy/${story.author.username}.svg`}
+                    src={`https://avatars.dicebear.com/api/jdenticon/${story.author.username}.svg`}
                     alt='Default User Avatar'
                   ></img>
                 </div>

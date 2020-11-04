@@ -8,7 +8,7 @@ import StoriesList from '../components/StoriesList'
 import Navigation from '../components/Navigation'
 import Button from '../components/Button'
 import Dropdown from '../components/Dropdown'
-
+import UserProfile from '../components/UserProfile'
 import Lists from '../utils/Lists'
 
 const Profile = (props) => {
@@ -177,88 +177,7 @@ const Profile = (props) => {
           <div className='body-wrapper'>
             <div className='flex flex-row flex-space-around'>
               <div className='flex flex-column'>
-                <div className='profile-picture-container'>
-                  {user && user.profilePicture ? (
-                    <img
-                      className='profile-picture'
-                      src={user.profilePicture.url}
-                      alt='Profile'
-                    />
-                  ) : (
-                    <img
-                      className='profile-picture'
-                      src={`https://avatars.dicebear.com/api/gridy/${user.username}.svg`}
-                      alt='Profile'
-                    />
-                  )}
-                </div>
-                <textarea
-                  rows='6'
-                  cols='17'
-                  readOnly={true}
-                  defaultValue={user.Bio}
-                ></textarea>
-              </div>
-              <div className='flex flex-column'>
-                <div className='basic-about'>
-                  <div className='flex flex-row flex-space-between'>
-                    <div className='about-element about-element-label'>
-                      {' '}
-                      Username:{' '}
-                    </div>
-                    <div className='about-element '> {user.username} </div>
-                  </div>
-                  <div className='flex flex-row flex-space-between'>
-                    <div className='about-element about-element-label'>
-                      {' '}
-                      Name:{' '}
-                    </div>
-                    <div className='about-element '>
-                      {' '}
-                      {user.Name !== 'null' ? user.Name : ''}{' '}
-                    </div>
-                  </div>
-                  <div className='flex flex-row flex-space-between'>
-                    <div className='about-element about-element-label'>
-                      {' '}
-                      Profession:{' '}
-                    </div>
-                    <div className='about-element '>
-                      {' '}
-                      {user.Profession !== 'null' ? user.Profession : ''}{' '}
-                    </div>
-                  </div>
-                  <div className='flex flex-row flex-space-between'>
-                    <div className='about-element about-element-label'>
-                      {' '}
-                      Company/Institute:{' '}
-                    </div>
-                    <div className='about-element '>
-                      {' '}
-                      {user.Company !== 'null' ? user.Company : ''}{' '}
-                    </div>
-                  </div>
-                  <div className='flex flex-row flex-space-between'>
-                    <div className='about-element about-element-label'>
-                      {' '}
-                      LinkedIn:{' '}
-                    </div>
-                    <div className='about-element '>
-                      {' '}
-                      {user.Linkedin !== 'null' ? user.Linkedin : ''}{' '}
-                    </div>
-                  </div>
-                  <div className='flex flex-row flex-space-between'>
-                    <div className='about-element about-element-label'>
-                      {' '}
-                      Twitter:{' '}
-                    </div>
-                    <div className='about-element '>
-                      {' '}
-                      {user.Twitter !== 'null' ? user.Twitter : ''}{' '}
-                    </div>
-                  </div>
-                </div>
+                <UserProfile user={user} />
               </div>
             </div>
             {
