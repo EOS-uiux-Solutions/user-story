@@ -11,6 +11,16 @@
 # production
 /build
 
+############################
+# Logs and databases
+############################
+
+.tmp
+*.log
+*.sql
+*.sqlite
+*.sqlite3
+
 #documentation
 /docs
 
