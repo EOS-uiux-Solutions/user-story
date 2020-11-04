@@ -19,6 +19,13 @@ export const EditableLabel = ({
           <TextInput
             onChange={handleInputChange}
             defaultValue={value}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                handleInputChange(e)
+                updateProfile()
+                setEditMode(!editMode)
+              }
+            }}
             name={name}
             {...props}
           />
@@ -29,6 +36,7 @@ export const EditableLabel = ({
           <TextArea
             onChange={handleInputChange}
             defaultValue={value}
+            onKeyPress={handleInputChange}
             name={name}
           />
         )

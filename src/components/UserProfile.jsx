@@ -10,7 +10,7 @@ export const UserProfile = ({
 }) => {
   return (
     <>
-      <div className='user-profile margin-top-xxl margin-bottom-xxl'>
+      <div className='user-profile margin-top-xxl margin-bottom-m'>
         <UserAvatar
           avatarURL={
             user?.profilePicture?.url ??
@@ -129,7 +129,7 @@ export const UserDetails = ({
             >
               <a
                 className='link link-default'
-                href={`https://twitter.com/${user?.LinkedIn}`}
+                href={`https://www.linkedin.com/in/${user?.LinkedIn}`}
                 target='_blank'
                 rel='noopener noreferrer'
               >

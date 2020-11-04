@@ -14,9 +14,19 @@
     padding: 0 64px;
     width: 85%;
 
-    h2 {
+    h2,
+    p {
       font-family: $font-family-spartan;
     }
+
+    h2 {
+      text-transform: uppercase;
+    }
+
+    p {
+      font-size: $font-size-bio;
+    }
+
   }
 
   &-avatar {
@@ -53,7 +63,6 @@
   ul {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     margin: 0;
     padding: 0;
     width: 100%;
@@ -87,6 +96,7 @@
 
   ul {
     flex-direction: column;
+    width: 25%;
 
     li {
       padding: $eos-s 0;
