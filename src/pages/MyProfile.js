@@ -103,14 +103,14 @@ const MyProfile = () => {
           <div className='body-wrapper'>
             <div className='flex flex-row flex-space-around'>
               <div className='flex flex-column'>
-                  <UserProfile
-                    user={user}
-                    handleInputChange={handleInputChange}
-                    updateProfile={updateProfile}
-                    allowEditing
+                <UserProfile
+                  user={user}
+                  handleInputChange={handleInputChange}
+                  updateProfile={updateProfile}
+                  allowEditing
                 >
-                    <h1>Hello world</h1>
-                  </UserProfile>
+                  <h1>Hello world</h1>
+                </UserProfile>
               </div>
             </div>
           </div>
