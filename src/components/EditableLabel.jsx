@@ -20,8 +20,9 @@ export const EditableLabel = ({
             onChange={handleInputChange}
             defaultValue={value}
             onKeyPress={(e) => {
+              handleInputChange(e)
+
               if (e.key === 'Enter') {
-                handleInputChange(e)
                 updateProfile()
                 setEditMode(!editMode)
               }
