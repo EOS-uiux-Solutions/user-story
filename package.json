@@ -20,6 +20,7 @@
     "react-dropzone": "^11.0.1",
     "react-hook-form": "^6.3.2",
     "react-i18next": "^11.5.0",
+    "react-markdown": "^5.0.2",
     "react-promise-tracker": "^2.1.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1"

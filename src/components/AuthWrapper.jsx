@@ -24,7 +24,7 @@ export const AuthLeftContainer = () => {
         <div className='footer'>
           <p>
             {t('authentication:footer-left')} -{' '}
-            <a className='link link-default' href='/todo'>
+            <a className='link link-default' href='/policies'>
               Learn More
             </a>
           </p>
@@ -52,16 +52,16 @@ export const AuthRightContainer = ({ children, logo }) => {
           <i className='eos-icons'>copyright</i>
           <span> {t('authentication:footer-right')} </span>
         </span>
-        <a className='link link-default' href='#todo'>
+        <a className='link link-default' href='/policies'>
           {' '}
-          Terms and conditions
+          Cookies and Privacy policy
         </a>
       </div>
 
       <div className='cookies-mobile'>
         <p>
           {t('authentication:footer-left')} -{' '}
-          <a className='link link-default' href='/todo'>
+          <a className='link link-default' href='/policies'>
             Learn More
           </a>
         </p>
