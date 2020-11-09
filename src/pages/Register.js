@@ -90,7 +90,6 @@ export const Register = () => {
                 <FormError message={errors.password.message} />
               )}
             </div>
-            7lPYrwEiDLy3uN(g&(*UhYYi
             <div className='form-element'>
               <div className='flex flex-row flex-align-center '>
                 <input
