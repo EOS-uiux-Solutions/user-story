@@ -18,7 +18,7 @@ export const Register = () => {
 
   const { state, dispatch } = useContext(Context)
 
-  const { register, handleSubmit, errors, watch } = useForm()
+  const { register, handleSubmit, errors } = useForm()
 
   const { t } = useTranslation()
 
@@ -60,7 +60,6 @@ export const Register = () => {
               />
               {errors.username && <FormError type={errors.username.type} />}
             </div>
-
             <div className='form-element'>
               <label htmlFor='email'>{t('authentication:email-label')}</label>
               <input
@@ -71,7 +70,6 @@ export const Register = () => {
               />
               {errors.email && <FormError type={errors.email.type} />}
             </div>
-
             <div className='form-element'>
               <label htmlFor='password'>
                 {t('authentication:password-label')}
@@ -81,25 +79,35 @@ export const Register = () => {
                 type='password'
                 name='password'
                 ref={register({
-                  required: true,
-                  validate: (value) => value === watch('confirmPassword')
+                  required: 'This is required',
+                  minLength: {
+                    value: 8,
+                    message: 'Password must have at least 8 characters'
+                  }
                 })}
               />
-              {errors.password && <FormError type={errors.password.type} />}
+              {errors.password && (
+                <FormError message={errors.password.message} />
+              )}
             </div>
-
             <div className='form-element'>
               <div className='flex flex-row flex-align-center '>
-                <input type='checkbox' name='tc' ref={register} />
+                <input
+                  type='checkbox'
+                  name='tc'
+                  ref={register({
+                    required: 'You must accept our Terms and Conditions'
+                  })}
+                />
                 <label htmlFor='tc'>
                   I agree to the{' '}
                   <Link className='link link-default' to='/policies'>
                     Terms and Conditions
                   </Link>
+                  {errors.tc && <FormError message={errors.tc.message} />}
                 </label>
               </div>
             </div>
-
             <Button type='submit' className='btn btn-default'>
               {t('authentication:register-label')}
             </Button>
