@@ -356,12 +356,21 @@ const Home = () => {
       <div className='body-content'>
         <div className='body-wrapper'>
           <div className='product-introduction'>
-            <h1>TELL US YOUR STORY</h1>
-            <h2 className='subheader'>
-              Share with us how you use our products, relate to other users'
-              stories, vote them up, and we'll make sure we deliver cohesive
-              solutions that enhance your experience.
-            </h2>
+            <div>
+              <h1>TELL US YOUR STORY</h1>
+              <h2 className='subheader'>
+                Share with us how you use our products, relate to other users'
+                stories, vote them up, and we'll make sure we deliver cohesive
+                solutions that enhance your experience.
+              </h2>
+            </div>
+            <div className='img-wrap'>
+              <img
+                className='profile-picture'
+                src={require(`../assets/images/user-story-graphic.svg`)}
+                alt='profile pic'
+              />
+            </div>
           </div>
           <div className='roadmap'>
             {Lists.stateList &&
