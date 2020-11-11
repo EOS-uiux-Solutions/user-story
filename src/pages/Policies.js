@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { apiURL } from '../config.json'
 import Navigation from '../components/Navigation'
+import ReactMarkdown from 'react-markdown'
 
 const Policies = () => {
   const [policies, setPolicies] = useState('')
@@ -31,8 +32,7 @@ const Policies = () => {
       <Navigation />
       <div className='body-content'>
         <div className='body-wrapper'>
-          <h3>User Story Privacy Policy</h3>
-          {policies && <p>{policies}</p>}
+          <ReactMarkdown>{policies && `${policies}`}</ReactMarkdown>
         </div>
       </div>
     </>
