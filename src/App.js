@@ -19,6 +19,7 @@ import Policies from './pages/Policies'
 import Notifications from './pages/Notifications'
 import Context from './modules/Context'
 import ContextReducer from './modules/ContextReducer'
+import Footer from './components/Footer'
 
 const initialState = {
   auth: false,
@@ -73,6 +74,7 @@ const App = () => {
         <ChangePassword path='/changePassword' />
         <Policies path='/policies' />
       </Router>
+      <Footer />
     </Context.Provider>
   )
 }
