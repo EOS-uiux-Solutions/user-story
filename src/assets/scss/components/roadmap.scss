@@ -9,7 +9,7 @@
     border-top: 1px solid gray;
     content: '';
     position: absolute;
-    top: 38px;
+    top: 22px;
     width: 100%;
     z-index: 1;
   }
@@ -20,6 +20,8 @@
   }
 
   .btn-tabs {
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
 
     .eos-icons {
       margin-right: 12px;
@@ -31,12 +33,9 @@
     &:focus {
       border-bottom-color: $status-tabs-bg;
       border-radius: 0px;
-      border-width: 0 0 2px 0;
-      padding: 10px 10px 8px 10px; // this hack is necessary so that the btn doesn't change size when selected. it is 10px because originally .btn has 8px, so we need to add 2px more to balance it, as the border-bottom is 2px.
     }
 
     &:focus {
-      border-bottom-color: $eos-gray-500;
       outline: transparent 0px;
     }
   }
