@@ -44,10 +44,10 @@
 
   &-open {
     background-color: $dropdown-colored-bg;
-    color: $dark-color;
     display: block;
     margin-top: 8px;
     width: 200px;
+    z-index: 100;
   }
 
   &-close {

@@ -1,8 +1,8 @@
 .btn {
-  border: 2px solid transparent;
-  border-radius: 10px 10px 10px 0px;
-  margin: 16px 0;
-  padding: 8px 8px;
+  border: 0;
+  border-radius: 10px;
+  padding: 8px 16px;
+  text-decoration: none;
 
   &:hover {
     cursor: pointer;
@@ -11,19 +11,19 @@
   &-default {
     background-color: $btn-default-bg;
     border-color: $btn-default-bg;
-    color: $light-color;
+    color: $eos-white;
 
     &:hover {
       background-color: $btn-hover;
       border-color: $btn-hover;
-      color: $light-color;
+      color: $eos-white;
     }
   }
 
   &-highlighted {
     background-color: $light-green;
     border-color: $btn-hover;
-    color: $light-color;
+    color: $eos-white;
   }
 
   &-transparent {

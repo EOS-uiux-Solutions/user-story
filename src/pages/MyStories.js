@@ -180,7 +180,7 @@ const MyStories = () => {
     <>
       <Navigation />
       <div className='body-content'>
-        <div className='body-wrapper'>
+        <div className='body-wrapper my-stories'>
           <h3>My Stories</h3>
           <div className='flex flex-row'>
             <Button

@@ -1,7 +1,6 @@
-$primary: $eos-cerulean-500;
-$primary-light: $eos-cerulean-100;
+$primary: #1E3B51;
+$light-blue: $eos-cerulean-500;
 
-$light-color: #FFFFFF;
 $dark-color: #1A2A3A;
 $gray-bg: #eaeaea;
 $light-gray: #777777;
@@ -10,23 +9,14 @@ $light-green: #66DC71;
 $alert: #E6001A;
 $shadow-color: #D3EBF0;
 $box-shadow: 0 0px 24px 2px rgba(70, 45, 45, 0.14);
-
-$authentication-orange-bg: $primary;
-$authentication-white-bg: $light-color;
-
-$nav-bg: $light-color;
-
-$dropdown-colored-bg: $light-color;
-
-$btn-default-bg: $primary;
-$btn-hover: $primary-light;
-$btn-tabs-bg: $light-color;
-
+$authentication-white-bg: $eos-white;
+$nav-bg: $eos-white;
+$dropdown-colored-bg: $eos-white;
+$btn-default-bg: $eos-cerulean-900;
+$btn-hover: $eos-cerulean-900;
+$btn-tabs-bg: $eos-white;
 $timeline-success-color: $light-green;
-
 $hyper-link-color: #008ACF;
 $hyper-link-hover-color: #15578f;
-
 $drag-drop: #bdbdbd;
-
-$status-tabs-bg: $primary;
+$status-tabs-bg: $light-blue;

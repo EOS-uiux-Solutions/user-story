@@ -49,12 +49,12 @@ const Navigation = (props) => {
       </Link>
       <nav>
         {state.auth && (
-          <Link className='link link-nav' to='/newStory'>
+          <Link className='btn btn-default' to='/newStory'>
             + New Story
           </Link>
         )}
         {!state.auth && (
-          <Link className='link link-nav' to='/login'>
+          <Link className='btn btn-default' to='/login'>
             Sign In
           </Link>
         )}
