@@ -47,10 +47,10 @@ export const Login = (props) => {
       <AuthLeftContainer />
       <AuthRightContainer>
         <div>
-          {message && <FormError message={message} />}
-          {state.errorCode && <FormError status={state.errorCode} />}
           <form className='form-default' onSubmit={handleSubmit(onSubmit)}>
             <div className='header'>{t('authentication:title-sign-in')}</div>
+            {message && <FormError message={message} />}
+            {state.errorCode && <FormError status={state.errorCode} />}
             <div className='form-element'>
               <label htmlFor='identifer'>
                 {t('authentication:username-label')}
