@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from 'react'
 import { apiURL } from '../config.json'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
+import { Helmet } from 'react-helmet'
 
 import axios from 'axios'
 
@@ -178,6 +179,10 @@ const MyStories = () => {
 
   return state.auth ? (
     <>
+      <Helmet>
+        <title>My stories | EOS User story</title>
+        <meta name='robots' content='noindex' />
+      </Helmet>
       <Navigation />
       <div className='body-content'>
         <div className='body-wrapper my-stories'>

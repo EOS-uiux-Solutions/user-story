@@ -6,6 +6,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import axios from 'axios'
 import { apiURL } from '../config.json'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
+import { Helmet } from 'react-helmet'
 
 import FormError from '../components/FormError'
 import Navigation from '../components/Navigation'
@@ -169,6 +170,10 @@ const NewStory = () => {
 
   return state.auth ? (
     <>
+      <Helmet>
+        <title>New story | EOS User story</title>
+        <meta name='robots' content='noindex' />
+      </Helmet>
       <Navigation />
       {promiseInProgress ? (
         <LoadingIndicator />

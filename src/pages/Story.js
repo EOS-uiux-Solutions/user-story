@@ -5,6 +5,8 @@ import axios from 'axios'
 import { apiURL } from '../config.json'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 
+import { Helmet } from 'react-helmet'
+
 import Comments from '../components/Comments'
 import Timeline from '../components/Timeline'
 import Button from '../components/Button'
@@ -108,6 +110,11 @@ const Story = (props) => {
 
   return (
     <>
+      <Helmet>
+        <title>{`${story.Title} | EOS User story`}</title>
+        <meta name='description' content={`${story.Description}`} />
+        <meta name='keywords' content='user story, issue tracker' />
+      </Helmet>
       <Navigation />
       {promiseInProgress ? (
         <LoadingIndicator />

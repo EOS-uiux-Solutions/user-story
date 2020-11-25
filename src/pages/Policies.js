@@ -3,6 +3,7 @@ import axios from 'axios'
 import { apiURL } from '../config.json'
 import Navigation from '../components/Navigation'
 import ReactMarkdown from 'react-markdown'
+import { Helmet } from 'react-helmet'
 
 const Policies = () => {
   const [policies, setPolicies] = useState('')
@@ -29,6 +30,10 @@ const Policies = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Cookie & Privacy Policies | EOS User story</title>
+        <meta name='robots' content='noindex' />
+      </Helmet>
       <Navigation />
       <div className='body-content'>
         <div className='body-wrapper'>

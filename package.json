@@ -18,6 +18,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-dropzone": "^11.0.1",
+    "react-helmet": "^6.1.0",
     "react-hook-form": "^6.3.2",
     "react-i18next": "^11.5.0",
     "react-markdown": "^5.0.2",

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 import { apiURL } from '../config.json'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
+import { Helmet } from 'react-helmet'
 
 import LoadingIndicator from '../modules/LoadingIndicator'
 import StoriesList from '../components/StoriesList'
@@ -169,6 +170,11 @@ const Profile = (props) => {
 
   return (
     <>
+      <Helmet>
+        <title>{`${user.username} | EOS User story`}</title>
+        <meta name='description' content={`${user.Bio}`} />
+        <meta name='keywords' content='user story, issue tracker' />
+      </Helmet>
       <Navigation />
       {promiseInProgress ? (
         <LoadingIndicator />
