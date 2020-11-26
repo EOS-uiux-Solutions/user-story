@@ -3,6 +3,7 @@ import axios from 'axios'
 import { apiURL } from '../config.json'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 import LoadingIndicator from '../modules/LoadingIndicator'
+import { Helmet } from 'react-helmet'
 
 import Navigation from '../components/Navigation'
 import Context from '../modules/Context'
@@ -95,6 +96,10 @@ const MyProfile = () => {
 
   return state.auth ? (
     <>
+      <Helmet>
+        <title>My profile | EOS User story</title>
+        <meta name='robots' content='noindex' />
+      </Helmet>
       <Navigation />
       {promiseInProgress ? (
         <LoadingIndicator />

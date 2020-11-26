@@ -6,6 +6,7 @@ import Navigation from '../components/Navigation'
 import LoadingIndicator from '../modules/LoadingIndicator'
 import axios from 'axios'
 import { apiURL } from '../config.json'
+import { Helmet } from 'react-helmet'
 
 const Notifications = () => {
   const userId = localStorage.getItem('id')
@@ -49,6 +50,10 @@ const Notifications = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Notifications | EOS User story</title>
+        <meta name='robots' content='noindex' />
+      </Helmet>
       <Navigation />
       {promiseInProgress ? (
         <LoadingIndicator />

@@ -9,6 +9,7 @@ import axios from 'axios'
 import { Link } from '@reach/router'
 import { apiURL } from '../config.json'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
+import { Helmet } from 'react-helmet'
 
 import Button from '../components/Button'
 import StoriesList from '../components/StoriesList'
@@ -352,6 +353,18 @@ const Home = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Home | EOS User story</title>
+        <meta
+          name='description'
+          content="Share with us how you use our products, relate to other users stories, vote them up, and we'll make sure we deliver cohesive solutions that enhance your experience."
+        />
+        <meta
+          name='keywords'
+          content='feature request, open roadmap, user voice, feature request tracking, issue tracker open source '
+        />
+      </Helmet>
+
       <Navigation />
       <div className='body-content'>
         <div className='body-wrapper'>

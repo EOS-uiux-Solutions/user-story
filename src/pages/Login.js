@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { Link, navigate } from '@reach/router'
 import { useTranslation } from 'react-i18next'
 import useAuth from '../hooks/useAuth'
+import { Helmet } from 'react-helmet'
 
 import Button from '../components/Button'
 import FormError from '../components/FormError'
@@ -43,66 +44,74 @@ export const Login = (props) => {
   }
 
   return (
-    <AuthWrapper>
-      <AuthLeftContainer />
-      <AuthRightContainer>
-        <div>
-          {message && <FormError message={message} />}
-          {state.errorCode && <FormError status={state.errorCode} />}
-          <form className='form-default' onSubmit={handleSubmit(onSubmit)}>
-            <div className='header'>{t('authentication:title-sign-in')}</div>
-            <div className='form-element'>
-              <label htmlFor='identifer'>
-                {t('authentication:username-label')}
-              </label>
-              <input
-                className='input-default'
-                type='text'
-                name='identifier'
-                ref={register({ required: true })}
-              />
-              {errors.identifier && <FormError type={errors.identifier.type} />}
-            </div>
-
-            <div className='form-element'>
-              <label htmlFor='password'>
-                {t('authentication:password-label')}
-              </label>
-              <div className='input-group'>
+    <>
+      <Helmet>
+        <title>Login | EOS User story</title>
+        <meta name='robots' content='noindex' />
+      </Helmet>
+      <AuthWrapper>
+        <AuthLeftContainer />
+        <AuthRightContainer>
+          <div>
+            {message && <FormError message={message} />}
+            {state.errorCode && <FormError status={state.errorCode} />}
+            <form className='form-default' onSubmit={handleSubmit(onSubmit)}>
+              <div className='header'>{t('authentication:title-sign-in')}</div>
+              <div className='form-element'>
+                <label htmlFor='identifer'>
+                  {t('authentication:username-label')}
+                </label>
                 <input
                   className='input-default'
-                  type={showPassword ? 'text' : 'password'}
-                  name='password'
+                  type='text'
+                  name='identifier'
                   ref={register({ required: true })}
-                ></input>
-
-                <div
-                  className='input-group-append'
-                  onClick={() => toggleShowPassword(!showPassword)}
-                >
-                  <i className='eos-icons eos-18'>
-                    {showPassword ? 'visibility_off ' : 'visibility'}
-                  </i>
-                </div>
+                />
+                {errors.identifier && (
+                  <FormError type={errors.identifier.type} />
+                )}
               </div>
-              {errors.password && <FormError type={errors.password.type} />}
-            </div>
 
-            <Button type='submit' className='btn btn-default'>
-              {t('authentication:login-label')}
-            </Button>
-          </form>
-          <div className='flex flex-row flex-space-between margin-top-l'>
-            <Link className='link link-default' to='/forgotPassword'>
-              {t('authentication:forgot-password')}
-            </Link>
-            <Link className='link link-default' to='/register'>
-              {t('authentication:create-account')}
-            </Link>
+              <div className='form-element'>
+                <label htmlFor='password'>
+                  {t('authentication:password-label')}
+                </label>
+                <div className='input-group'>
+                  <input
+                    className='input-default'
+                    type={showPassword ? 'text' : 'password'}
+                    name='password'
+                    ref={register({ required: true })}
+                  ></input>
+
+                  <div
+                    className='input-group-append'
+                    onClick={() => toggleShowPassword(!showPassword)}
+                  >
+                    <i className='eos-icons eos-18'>
+                      {showPassword ? 'visibility_off ' : 'visibility'}
+                    </i>
+                  </div>
+                </div>
+                {errors.password && <FormError type={errors.password.type} />}
+              </div>
+
+              <Button type='submit' className='btn btn-default'>
+                {t('authentication:login-label')}
+              </Button>
+            </form>
+            <div className='flex flex-row flex-space-between margin-top-l'>
+              <Link className='link link-default' to='/forgotPassword'>
+                {t('authentication:forgot-password')}
+              </Link>
+              <Link className='link link-default' to='/register'>
+                {t('authentication:create-account')}
+              </Link>
+            </div>
           </div>
-        </div>
-      </AuthRightContainer>
-    </AuthWrapper>
+        </AuthRightContainer>
+      </AuthWrapper>
+    </>
   )
 }
 

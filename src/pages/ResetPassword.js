@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form'
 import { Link, useLocation } from '@reach/router'
 import { useTranslation } from 'react-i18next'
 
+import { Helmet } from 'react-helmet'
+
 import Button from '../components/Button'
 import FormError from '../components/FormError'
 import useAuth from '../hooks/useAuth'
@@ -38,65 +40,76 @@ const ResetPassword = () => {
   }
 
   return (
-    <AuthWrapper>
-      <AuthLeftContainer />
-      <AuthRightContainer>
-        <div>
-          {response ? (
-            <>
-              <div className='header'>
-                {t('authentication:forgot-password')}
-              </div>
-              <p>Your password has been reset.</p>
-              <div className='flex flex-row flex-space-between'>
-                <Link className='link link-default' to='/login'>
-                  {t('authentication:reset-password-done')}
-                </Link>
-              </div>
-            </>
-          ) : (
-            <>
-              {state.errorCode && <FormError status={state.errorCode} />}
-              <form className='form-default' onSubmit={handleSubmit(onSubmit)}>
+    <>
+      <Helmet>
+        <title>Reset your password | EOS User story</title>
+        <meta name='robots' content='noindex' />
+      </Helmet>
+      <AuthWrapper>
+        <AuthLeftContainer />
+        <AuthRightContainer>
+          <div>
+            {response ? (
+              <>
                 <div className='header'>
-                  {t('authentication:reset-password')}
+                  {t('authentication:forgot-password')}
                 </div>
-                <div className='form-element'>
-                  <label htmlFor='password'>
-                    {t('authentication:new-password')}
-                  </label>
-                  <input
-                    className='input-default'
-                    type='password'
-                    name='password'
-                    ref={register({ required: true })}
-                  />
+                <p>Your password has been reset.</p>
+                <div className='flex flex-row flex-space-between'>
+                  <Link className='link link-default' to='/login'>
+                    {t('authentication:reset-password-done')}
+                  </Link>
+                </div>
+              </>
+            ) : (
+              <>
+                {state.errorCode && <FormError status={state.errorCode} />}
+                <form
+                  className='form-default'
+                  onSubmit={handleSubmit(onSubmit)}
+                >
+                  <div className='header'>
+                    {t('authentication:reset-password')}
+                  </div>
+                  <div className='form-element'>
+                    <label htmlFor='password'>
+                      {t('authentication:new-password')}
+                    </label>
+                    <input
+                      className='input-default'
+                      type='password'
+                      name='password'
+                      ref={register({ required: true })}
+                    />
 
-                  {errors.password && <FormError type={errors.password.type} />}
-                </div>
-                <div className='form-element'>
-                  <label htmlFor='confirm-password'>
-                    {t('authentication:confirm-password')}
-                  </label>
-                  <input
-                    className='input-default'
-                    type='password'
-                    name='passwordConfirmation'
-                    ref={register({ required: true })}
-                  />
-                  {errors.passwordConfirmation && (
-                    <FormError type={errors.passwordConfirmation.type} />
-                  )}
-                </div>
-                <Button type='submit' className='btn btn-default'>
-                  {t('authentication:submit-label')}
-                </Button>
-              </form>
-            </>
-          )}
-        </div>
-      </AuthRightContainer>
-    </AuthWrapper>
+                    {errors.password && (
+                      <FormError type={errors.password.type} />
+                    )}
+                  </div>
+                  <div className='form-element'>
+                    <label htmlFor='confirm-password'>
+                      {t('authentication:confirm-password')}
+                    </label>
+                    <input
+                      className='input-default'
+                      type='password'
+                      name='passwordConfirmation'
+                      ref={register({ required: true })}
+                    />
+                    {errors.passwordConfirmation && (
+                      <FormError type={errors.passwordConfirmation.type} />
+                    )}
+                  </div>
+                  <Button type='submit' className='btn btn-default'>
+                    {t('authentication:submit-label')}
+                  </Button>
+                </form>
+              </>
+            )}
+          </div>
+        </AuthRightContainer>
+      </AuthWrapper>
+    </>
   )
 }
 
