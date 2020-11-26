@@ -45,9 +45,9 @@ export const Register = () => {
       <AuthLeftContainer />
       <AuthRightContainer>
         <div>
-          {state.errorCode && <FormError status={state.errorCode} />}
           <form className='form-default' onSubmit={handleSubmit(onSubmit)}>
             <div className='header'>{t('authentication:title-sign-up')}</div>
+            {state.errorCode && <FormError status={state.errorCode} />}
             <div className='form-element'>
               <label htmlFor='username'>
                 {t('authentication:username-label')}
