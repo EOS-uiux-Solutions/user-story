@@ -359,7 +359,10 @@ const Home = () => {
           name='description'
           content="Share with us how you use our products, relate to other users stories, vote them up, and we'll make sure we deliver cohesive solutions that enhance your experience."
         />
-        <meta name='keywords' content='user story, issue tracker' />
+        <meta
+          name='keywords'
+          content='feature request, open roadmap, user voice, feature request tracking, issue tracker open source '
+        />
       </Helmet>
 
       <Navigation />
