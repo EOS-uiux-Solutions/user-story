@@ -1,0 +1,119 @@
+/* Alerts
+   ========================================================================== */
+/**
+*  These rules overwrite existing Bootstrap rules
+*  Alerts depend on 3 classes: alert alert-position alert-type
+*  Use it in HTML as
+*  <div class='alert alert-global alert-danger'>
+*    Alert content goes here
+*  </div>
+*
+*
+* Variables file: assets/stylesheets/eos-components/alerts/alerts.variables.scss
+*/
+
+/* Shared styles */
+.alert {
+  border: 0;
+  border-radius: 0;
+  display: flex;
+  padding: 8px;
+  position: relative;
+
+  .close {
+    margin-left: 8px;
+    opacity: 1;
+    text-shadow: none;
+
+    i {
+      margin-right: 0;
+    }
+  }
+
+  > i {
+    margin-right: 8px;
+  }
+
+  a {
+    font-weight: bold;
+    text-decoration: underline;
+  }
+
+  &-body {
+    flex: 1;
+    line-height: 24px;
+  }
+}
+
+/*
+  Affects all danger alerts:
+  Given that alert-danger do not have a close button, the alert requires an extra padding on the right
+  to avoid getting too close to the right edge and look consistent with the rest of the alerts
+*/
+
+.alert-danger {
+  padding-right: 16px;
+}
+
+
+/* Section alerts
+   ========================================================================== */
+.alert-section {
+  // reset Bootstrap default border colours
+  border-left: 5px solid;
+  color: $eos-black;
+
+  a:not([href]):not([tabindex]),
+  a {
+    color: $eos-black;
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .alert-title {
+    font-size: $font-size-votes;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+
+  /* Danger alert */
+  &.alert-danger {
+    background-color: $eos-red-100;
+    border-color: $eos-red-500;
+
+    .alert-icon {
+      color: $eos-red-500;
+    }
+  }
+}
+
+/* Inline alerts
+   ========================================================================== */
+.alert-inline {
+  // reset inherited border properties
+  border-left: 5px solid;
+  color: $eos-black;
+
+  a:not([href]):not([tabindex]),
+  a {
+    color: $eos-black;
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  /* Danger alert */
+  &.alert-danger {
+    background-color: $eos-red-100;
+    border-color: $eos-red-500;
+
+    .alert-icon {
+      color: $eos-red-500;
+    }
+  }
+}
