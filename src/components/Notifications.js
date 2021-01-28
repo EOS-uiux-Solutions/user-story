@@ -65,32 +65,27 @@ const Notifications = () => {
           withCredentials: true
         }
       )
-      setNotifications(response.data.data.userStoryNotifications)
-      let calculateNotifications = 0
+      let unseenNotifications = []
       if (response.data.data.userStoryNotifications) {
-        response.data.data.userStoryNotifications.forEach((notification) => {
+        unseenNotifications = response.data.data.userStoryNotifications
+        unseenNotifications = unseenNotifications.filter((notification) => {
           const seenBy = notification.seenBy.map((seen) => seen.id)
-          if (!seenBy.includes(userId)) {
-            calculateNotifications++
-          }
+          return !seenBy.includes(userId)
         })
       }
-      setNotificationCount(calculateNotifications)
+      setNotifications(unseenNotifications)
+      setNotificationCount(unseenNotifications.length)
     }
     if (userId) {
       fetchNotifications()
     }
   }, [userId, notificationsSeen])
 
-  const updateNotifications = () => {
-    setNotificationsDropdownState(!notificationsDropdownState)
+  const markAllNotificationsAsRead = () => {
     if (notifications) {
       notifications.forEach(async (notification) => {
         const seenBy = notification.seenBy.map((seen) => seen.id)
         if (!seenBy.includes(userId)) {
-          setTimeout(() => setNotificationsSeen(true), 3000)
-          if (notificationCount !== 0)
-            setNotificationCount((notificationCount) => notificationCount - 1)
           seenBy.push(userId)
           await axios.post(
             `${apiURL}/graphql`,
@@ -117,6 +112,9 @@ const Notifications = () => {
               withCredentials: true
             }
           )
+          setNotifications([])
+          setNotificationCount(0)
+          setNotificationsSeen(false)
         }
       })
     }
@@ -126,7 +124,10 @@ const Notifications = () => {
     state.auth && (
       <div
         className='dropdown-container'
-        onClick={updateNotifications}
+        onClick={() => {
+          setNotificationsDropdownState(!notificationsDropdownState)
+          setNotificationsSeen(true)
+        }}
         ref={notificationsDropdownContainer}
       >
         <i
@@ -138,7 +139,7 @@ const Notifications = () => {
         </i>
         <span className='notifications-count'>
           {' '}
-          {notificationCount > 0 ? notificationCount : ''}
+          {!notificationsSeen && notificationCount > 0 ? notificationCount : ''}
         </span>
         <div
           className={`dropdown notifications-dropdown ${
@@ -164,16 +165,22 @@ const Notifications = () => {
           <div className='flex flex-row flex-space-between notifications-options'>
             {notifications && notifications.length > 0 ? (
               <>
-                <Link className='link link-default' to='#'>
+                <Link
+                  className='link link-default'
+                  to='#'
+                  onClick={markAllNotificationsAsRead}
+                >
                   Mark all as read
-                </Link>
-                <Link className='link link-default' to='/notifications'>
-                  View all
                 </Link>
               </>
             ) : (
-              'No notifications at the moment'
+              'No new notifications at the moment'
             )}
+            <>
+              <Link className='link link-default' to='/notifications'>
+                View all
+              </Link>
+            </>
           </div>
         </div>
       </div>
