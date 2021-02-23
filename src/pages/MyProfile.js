@@ -106,7 +106,7 @@ const MyProfile = () => {
       ) : (
         <div className='body-content'>
           <div className='body-wrapper'>
-            <div className='flex flex-row flex-space-around'>
+            <div className='flex flex-row'>
               <div className='flex flex-column'>
                 <UserProfile
                   user={user}
