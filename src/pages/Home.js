@@ -293,7 +293,7 @@ const Home = () => {
         }
       )
       if (response.data.data.userStoryNotifications) {
-        const seenBy = response.data.data.userStoryNotifications[0].seenBy.map(
+        const seenBy = response.data.data.userStoryNotifications[0]?.seenBy.map(
           (seen) => seen.id
         )
         if (
