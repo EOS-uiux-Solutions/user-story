@@ -12,6 +12,8 @@ In the project directory, you can run:
 
 After cloning this repository you will need to install all the dependencies: `npm i`
 
+This repository uses [EOS/eos-strapi](https://gitlab.com/SUSE-UIUX/eos-strapi) as the backend Strapi server. Follow these instructions to [set it up](https://gitlab.com/SUSE-UIUX/eos-strapi#how-to-install-it).
+
 Now you need to connect to the Strapi server. To do this, duplicate the file `src/config.json.template` into a new file called `src/config.json` and replace the content of the variable with your server URL.
 
 Then run: `npm start` to run the app in the development mode.
