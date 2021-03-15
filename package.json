@@ -2,7 +2,7 @@
   "name": "eos-issue-request",
   "version": "0.1.0",
   "private": false,
-  "homepage": "https://jarvis.eosdesignsystem.com",
+  "homepage": "https://userstory.eosdesignsystem.com/",
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^19.0.2",
     "@ckeditor/ckeditor5-react": "^2.1.0",
@@ -43,6 +43,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "with-docker": "docker-compose stop && docker-compose up -d && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

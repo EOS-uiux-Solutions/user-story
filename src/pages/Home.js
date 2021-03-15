@@ -177,7 +177,7 @@ const Home = () => {
           withCredentials: true
         }
       )
-      setStoryCount(response.data.data.userStoriesConnection.aggregate.count)
+      setStoryCount(response.data.data.userStoriesConnection?.aggregate.count)
     }
     const fetchStoryCountWithProduct = async () => {
       const response = await axios.post(
@@ -212,21 +212,24 @@ const Home = () => {
         `${apiURL}/graphql`,
         {
           query: `query {
-          products {
-            Name
-          }
-        }`
+            products {
+              Name
+            }
+          }`
         },
         {
           withCredentials: true
         }
       )
-      setProducts([
-        'All',
-        ...response.data.data.products.map((ele) => {
-          return ele.Name
-        })
-      ])
+
+      return response.data.data.product !== null
+        ? setProducts([
+            'All',
+            ...response.data.data.products?.map((ele) => {
+              return ele.Name
+            })
+          ])
+        : setProducts(['All'])
     }
     fetchProducts()
   }, [])
