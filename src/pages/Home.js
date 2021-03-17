@@ -136,27 +136,8 @@ const Home = () => {
         {
           query: `
           query {
-            userStoriesConnection(where: { user_story_status: { Status: "${currentStateSelected}" } }) {
-              aggregate {
-                count
-              }
-            }
-          }`
-        },
-        {
-          withCredentials: true
-        }
-      )
-      setStoryCount(response.data.data.userStoriesConnection.aggregate.count)
-    }
-    const fetchStoryCountWithProduct = async () => {
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `
-          query {
             userStoriesConnection(where: { user_story_status: { Status: "${currentStateSelected}" },
-            product: { Name: "${product}"} }) {
+            ${productQuery} }) {
               aggregate {
                 count
               }
@@ -169,12 +150,8 @@ const Home = () => {
       )
       setStoryCount(response.data.data.userStoriesConnection.aggregate.count)
     }
-    if (product === 'All') {
-      fetchStoryCount()
-    } else {
-      fetchStoryCountWithProduct()
-    }
-  }, [currentStateSelected, product])
+    fetchStoryCount()
+  }, [currentStateSelected, product, productQuery])
 
   useEffect(() => {
     const fetchProducts = async () => {
