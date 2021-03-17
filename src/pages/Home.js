@@ -60,9 +60,26 @@ const Home = () => {
 
   const { promiseInProgress } = usePromiseTracker()
 
+  const [productQuery, setProductQuery] = useState(``)
+
+  const [categoryQuery, setCategoryQuery] = useState(``)
+
   const getPage = useCallback((page) => {
     setPage(page)
   }, [])
+
+  useEffect(() => {
+    if (product !== 'All') {
+      setProductQuery(`product : {Name: "${product}"}`)
+    } else {
+      setProductQuery(``)
+    }
+    if (category !== 'All') {
+      setCategoryQuery(`Category : "${category}"`)
+    } else {
+      setCategoryQuery(``)
+    }
+  }, [product, category])
 
   useEffect(() => {
     const fetchStories = async () => {
@@ -73,9 +90,11 @@ const Home = () => {
             userStories(sort: "createdAt:desc", limit: 5, start: ${
               (page - 1) * 5
             }, where: {
-              user_story_status : {
-                Status: "${currentStateSelected}"
-              }
+                user_story_status : {
+                  Status: "${currentStateSelected}"
+                },
+                ${categoryQuery}
+                ${productQuery}
             }) {
               id
               Title
@@ -107,57 +126,8 @@ const Home = () => {
       )
       setStories(response.data.data.userStories)
     }
-    const fetchStoriesWithProduct = async () => {
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `query {
-            userStories(sort: "createdAt:desc", limit: 5, start: ${
-              (page - 1) * 5
-            }, where: {
-              user_story_status : {
-                Status: "${currentStateSelected}"
-              },
-              product: {
-                Name: "${product}"
-              }
-            }) {
-              id
-              Title
-              Description
-              user_story_status {
-                Status
-              }
-              user_story_comments {
-                Comments
-              }
-              product {
-                Name
-              }
-              author {
-                id
-                username
-              }
-              followers {
-                id
-              }
-              Category
-            }
-          }
-          `
-        },
-        {
-          withCredentials: true
-        }
-      )
-      setStories(response.data.data.userStories)
-    }
-    if (product === 'All') {
-      trackPromise(fetchStories())
-    } else {
-      trackPromise(fetchStoriesWithProduct())
-    }
-  }, [currentStateSelected, page, product])
+    trackPromise(fetchStories())
+  }, [categoryQuery, currentStateSelected, page, productQuery])
 
   useEffect(() => {
     const fetchStoryCount = async () => {
