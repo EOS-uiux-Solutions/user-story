@@ -1,0 +1,80 @@
+.row {
+  display: flex;
+}
+
+.col {
+  float: left;
+}
+
+.animation {
+  padding: 0.8em;
+  width: 55%;
+}
+
+.text-col {
+  text-align: center;
+  width: 45%;
+}
+
+.head {
+  font-size: $heading-404-page;
+}
+
+.txt {
+  font-size: $font-size-404;
+  margin-top: -4em;
+  padding-bottom: 1em;
+}
+
+.btn1 {
+  background-color: $eos-white;
+  border: solid 3px;
+  cursor: pointer;
+  font-size: $font-size-btn;
+  font-weight: bold;
+  padding: 0.2em;
+}
+
+.hand-2 {
+  animation: hand 1s infinite alternate;
+}
+
+.alien {
+  animation: object 3s infinite alternate;
+  transform-origin: top;
+}
+
+.yellow1,
+.yellow2,
+.yellow3,
+.yellow4,
+.yellow5 {
+  animation: disc 3s infinite alternate;
+  transform-origin: bottom;
+}
+
+@keyframes object {
+  from {
+    transform: rotateX(0deg);
+  }
+
+  to {
+    transform: rotateX(34deg);
+  }
+}
+
+@keyframes hand {
+  100% {
+    transform: translateY(4px);
+  }
+}
+
+@keyframes disc {
+  from {
+    transform: rotateX(0deg);
+  }
+
+  to {
+    transform: rotateX(30deg);
+  }
+}

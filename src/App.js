@@ -13,6 +13,7 @@ import NewStory from './pages/NewStory'
 import Story from './pages/Story'
 import MyStories from './pages/MyStories'
 import MyProfile from './pages/MyProfile'
+import Page404 from './pages/Page404'
 import Profile from './pages/Profile'
 import ChangePassword from './pages/ChangePassword'
 import Policies from './pages/Policies'
@@ -73,6 +74,7 @@ const App = () => {
         <Notifications path='/notifications' />
         <ChangePassword path='/changePassword' />
         <Policies path='/policies' />
+        <Page404 default />
       </Router>
       <Footer />
     </Context.Provider>
