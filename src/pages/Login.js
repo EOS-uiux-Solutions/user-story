@@ -39,8 +39,13 @@ export const Login = (props) => {
       dispatch({
         type: 'AUTHENTICATE'
       })
-      navigate('/')
+      navigate('/', { replace: true })
     } catch (e) {}
+  }
+
+  if (state.auth) {
+    navigate('/', { replace: true })
+    return null
   }
 
   return (

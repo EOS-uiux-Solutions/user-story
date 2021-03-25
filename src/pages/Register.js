@@ -37,8 +37,13 @@ export const Register = () => {
       dispatch({
         type: 'AUTHENTICATE'
       })
-      navigate('/')
+      navigate('/', { replace: true })
     } catch (e) {}
+  }
+
+  if (state.auth) {
+    navigate('/', { replace: true })
+    return null
   }
 
   return (
