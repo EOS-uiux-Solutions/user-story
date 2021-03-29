@@ -19,6 +19,7 @@ export const FormError = (props) => {
           {type === 'required' && 'This is required'}
           {type === 'validate' && 'Passwords do not match'}
           {type === 'emptyDescription' && 'Description cannot be empty'}
+          {message !== null && message}
         </div>
       )}
     </div>
