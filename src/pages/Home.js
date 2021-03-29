@@ -159,21 +159,24 @@ const Home = () => {
         `${apiURL}/graphql`,
         {
           query: `query {
-          products {
-            Name
-          }
-        }`
+            products {
+              Name
+            }
+          }`
         },
         {
           withCredentials: true
         }
       )
-      setProducts([
-        'All',
-        ...response.data.data.products.map((ele) => {
-          return ele.Name
-        })
-      ])
+
+      return response.data.data.product !== null
+        ? setProducts([
+            'All',
+            ...response.data.data.products?.map((ele) => {
+              return ele.Name
+            })
+          ])
+        : setProducts(['All'])
     }
     fetchProducts()
   }, [])

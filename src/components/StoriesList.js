@@ -18,7 +18,7 @@ const StoriesList = (props) => {
     <div className='flex flex-column'>
       {stories && stories.length ? (
         stories.map((story, key) => {
-          return story.user_story_status.Status === state &&
+          return story.user_story_status?.Status === state &&
             (story.product.Name === product || product === 'All') ? (
             <div className='story' key={key}>
               <Vote story={story} />
