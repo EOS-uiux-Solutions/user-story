@@ -114,6 +114,7 @@ const Home = () => {
               }
               followers {
                 id
+                username
               }
               Category
             }

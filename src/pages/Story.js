@@ -49,6 +49,7 @@ const Story = (props) => {
               }
               followers {
                 id
+                username
               }
             }
           }`

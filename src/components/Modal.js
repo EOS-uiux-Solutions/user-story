@@ -10,27 +10,49 @@ const Modal = (props) => {
     okText,
     onCancel,
     onOk,
-    showButtons
+    showButtons,
+    active
   } = props
 
-  return isActive ? (
-    <div className='modal'>
-      <div className='modal-card'>
-        <div className='flex flex-row modal-content'>{children}</div>
-        {showButtons && (
-          <div className='flex flex-row flex-space-around'>
-            <Button className='btn btn-default' onClick={onCancel}>
-              {cancelText || 'Cancel'}
-            </Button>
-            <Button className='btn btn-default' onClick={onOk}>
-              {okText || 'Accept'}
-            </Button>
+  return (
+    <>
+      {' '}
+      {isActive ? (
+        <div className='modal'>
+          <div className='modal-card'>
+            <div className='flex flex-row modal-content'>{children}</div>
+            {showButtons && (
+              <div className='flex flex-row flex-space-around'>
+                <Button className='btn btn-default' onClick={onCancel}>
+                  {cancelText || 'Cancel'}
+                </Button>
+                <Button className='btn btn-default' onClick={onOk}>
+                  {okText || 'Accept'}
+                </Button>
+              </div>
+            )}
           </div>
-        )}
-      </div>
-    </div>
-  ) : (
-    ''
+        </div>
+      ) : (
+        ''
+      )}
+      {active ? (
+        <>
+          <div className='modal'>
+            <div className='modal-card-vote'>
+              <div className='modal-content'>
+                <span className='close-icon' onClick={props.handleClose}>
+                  &times;
+                </span>
+                {props.content}
+              </div>
+            </div>
+          </div>
+        </>
+      ) : (
+        ''
+      )}
+    </>
   )
 }
 
