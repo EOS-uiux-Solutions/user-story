@@ -73,6 +73,7 @@ const MyStories = () => {
               Description
               followers {
                 id
+                username
               }
               user_story_comments {
                 Comments
