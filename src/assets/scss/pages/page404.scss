@@ -1,80 +1,60 @@
-.row {
-  display: flex;
-}
-
-.col {
-  float: left;
-}
-
-.animation {
-  padding: 0.8em;
-  width: 55%;
-}
-
-.text-col {
+.pg-404 {
+  align-content: center;
+  height: 70vh;
   text-align: center;
-  width: 45%;
 }
 
-.head {
-  font-size: $heading-404-page;
+.heading-404 {
+  color: $dark-color;
+  font-family: $font-family-spartan;
+  font-size: $font-size-heading-404;
+  font-weight: $font-weight-404;
+  margin-bottom: 0;
+  padding-left: 0.5em;
 }
 
-.txt {
-  font-size: $font-size-404;
-  margin-top: -4em;
-  padding-bottom: 1em;
+.hr-404 {
+  background-color: $alert;
+  display: block;
+  height: 0.25em;
+  margin: auto;
+  width: 10em;
 }
 
-.btn1 {
-  background-color: $eos-white;
-  border: solid 3px;
-  cursor: pointer;
-  font-size: $font-size-btn;
-  font-weight: bold;
-  padding: 0.2em;
+.p-404 {
+  display: block;
+  font-family: $font-family-spartan;
+  font-size: $font-size-bio;
+  font-weight: normal;
+  margin: auto;
+  padding: 2em;
 }
 
-.hand-2 {
-  animation: hand 1s infinite alternate;
+.btn-404 {
+  display: block;
+  margin: auto;
 }
 
-.alien {
-  animation: object 3s infinite alternate;
-  transform-origin: top;
+.svg-right {
+  float: right;
+  margin-top: -6em;
 }
 
-.yellow1,
-.yellow2,
-.yellow3,
-.yellow4,
-.yellow5 {
-  animation: disc 3s infinite alternate;
-  transform-origin: bottom;
+.svg-left {
+  float: left;
+  margin-top: -8em;
 }
 
-@keyframes object {
-  from {
-    transform: rotateX(0deg);
+@media(max-width: 60rem) {
+  .svg-left {
+    display: none;
   }
 
-  to {
-    transform: rotateX(34deg);
-  }
-}
-
-@keyframes hand {
-  100% {
-    transform: translateY(4px);
-  }
-}
-
-@keyframes disc {
-  from {
-    transform: rotateX(0deg);
+  .svg-right {
+    display: none;
   }
 
-  to {
-    transform: rotateX(30deg);
+  .heading-404 {
+    padding-left: 0;
   }
 }
