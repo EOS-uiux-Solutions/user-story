@@ -1,0 +1,60 @@
+.pg-404 {
+  align-content: center;
+  height: 70vh;
+  text-align: center;
+}
+
+.heading-404 {
+  color: $dark-color;
+  font-family: $font-family-spartan;
+  font-size: $font-size-heading-404;
+  font-weight: $font-weight-404;
+  margin-bottom: 0;
+  padding-left: 0.5em;
+}
+
+.hr-404 {
+  background-color: $alert;
+  display: block;
+  height: 0.25em;
+  margin: auto;
+  width: 10em;
+}
+
+.p-404 {
+  display: block;
+  font-family: $font-family-spartan;
+  font-size: $font-size-bio;
+  font-weight: normal;
+  margin: auto;
+  padding: 2em;
+}
+
+.btn-404 {
+  display: block;
+  margin: auto;
+}
+
+.svg-right {
+  float: right;
+  margin-top: -6em;
+}
+
+.svg-left {
+  float: left;
+  margin-top: -8em;
+}
+
+@media(max-width: 60rem) {
+  .svg-left {
+    display: none;
+  }
+
+  .svg-right {
+    display: none;
+  }
+
+  .heading-404 {
+    padding-left: 0;
+  }
+}
