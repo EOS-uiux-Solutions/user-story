@@ -47,7 +47,7 @@ const Navigation = (props) => {
       <Link className='link' to='/'>
         <img className='logo' src={eosIcon} alt='' />
       </Link>
-      <nav>
+      <nav className='navbar-content'>
         {state.auth && (
           <Link className='btn btn-default' to='/newStory'>
             + New Story
