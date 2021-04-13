@@ -50,9 +50,9 @@
     }
 
     &-details {
+      align-items: center;
       display: flex;
       flex-direction: column;
-      padding: 0 64px;
       width: auto;
     }
   }
@@ -89,6 +89,18 @@
       }
     }
   }
+
+  @media only screen and (max-width: 768px) {
+    ul {
+      flex-direction: column;
+
+      li {
+        &:first-child {
+          padding-left: $eos-m;
+        }
+      }
+    }
+  }
 }
 
 .user-profile-settings {
@@ -100,6 +112,10 @@
 
     li {
       padding: $eos-s 0;
+
+      &:first-child {
+        padding-left: 0;
+      }
     }
   }
 }
