@@ -1,0 +1,24 @@
+name: Run Tests
+
+on:
+  push:
+    branches: [ main, ops/ci-setup ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Test SASS
+        run: npm run test:sass
+
+      - name: Test JS
+        run: npm run test:js
