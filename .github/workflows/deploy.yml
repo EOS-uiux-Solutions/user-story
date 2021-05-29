@@ -1,0 +1,29 @@
+name: Deploy site
+
+on:
+  push:
+    branches: [main, ops/setup-actions]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository code
+      uses: actions/checkout@v2
+
+    - name: Install node modules & build
+      run: |
+        npm install
+        echo "$CONFIG_JSON" > src/config.json
+        npm run build
+      env:
+        CONFIG_JSON: ${{ secrets.CONFIG_JSON }}
+
+    - name: Deploy
+      uses: s0/git-publish-subdir-action@develop
+      env:
+        REPO: self
+        BRANCH: gh-pages
+        FOLDER: build
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
