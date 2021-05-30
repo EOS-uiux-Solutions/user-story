@@ -2,7 +2,7 @@ name: Deploy site
 
 on:
   push:
-    branches: [ main, ops/setup-actions ]
+    branches: [ master ]
 
 jobs:
   deploy:
