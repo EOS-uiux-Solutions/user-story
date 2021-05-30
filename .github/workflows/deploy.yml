@@ -2,7 +2,7 @@ name: Deploy site
 
 on:
   push:
-    branches: [main, ops/setup-actions]
+    branches: [ main, ops/setup-actions ]
 
 jobs:
   deploy:
@@ -12,9 +12,19 @@ jobs:
     - name: Checkout repository code
       uses: actions/checkout@v2
 
-    - name: Install node modules & build
+    - name: Cache node_modules
+      id: cache-node-modules
+      uses: actions/cache@v2
+      with:
+        path: node_modules
+        key: node_modules-deploy-${{ hashFiles('package-lock.json') }}
+
+    - name: Install node modules
+      if: steps.cache-node-modules.outputs.cache-hit != 'true'
+      run: npm install
+
+    - name: Build the site
       run: |
-        npm install
         echo "$CONFIG_JSON" > src/config.json
         npm run build
       env:
