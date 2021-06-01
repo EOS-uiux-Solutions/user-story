@@ -98,12 +98,40 @@ const useAuth = () => {
     return reply
   }
 
+  const changePassword = async (credentials) => {
+    if (credentials.password !== credentials.passwordConfirmation) {
+      dispatch({
+        type: 'ERROR',
+        payload: 'The new password and confirm passwords do not match.'
+      })
+      return null
+    }
+    const data = await axios
+      .post(`${apiURL}/auth/change-password`, credentials, {
+        withCredentials: true
+      })
+      .catch((err) => {
+        if (err.message === 'Network Error')
+          dispatch({
+            type: 'ERROR',
+            payload: err.message
+          })
+        else
+          dispatch({
+            type: 'ERROR',
+            payload: err.response.data.message[0].messages[0].message
+          })
+      })
+    return data
+  }
+
   return {
     registerUser,
     login,
     logout,
     forgotPassword,
-    resetPassword
+    resetPassword,
+    changePassword
   }
 }
 
