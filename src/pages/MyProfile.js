@@ -69,6 +69,7 @@ const MyProfile = () => {
           query: `query {
           user(id: "${userId}") {
             profilePicture {
+              id
               url
             }
             Name
@@ -109,7 +110,7 @@ const MyProfile = () => {
             <div className='flex flex-row'>
               <div className='flex flex-column'>
                 <UserProfile
-                  user={user}
+                  user={Object.assign(user, { id: userId })}
                   handleInputChange={handleInputChange}
                   updateProfile={updateProfile}
                   allowEditing
