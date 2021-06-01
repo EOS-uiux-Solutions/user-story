@@ -11,6 +11,7 @@
 
   &-default:hover {
     color: $hyper-link-hover-color;
+    cursor: pointer;
   }
 
   &-highlighted {
