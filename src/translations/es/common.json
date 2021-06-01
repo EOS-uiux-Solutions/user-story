@@ -20,6 +20,7 @@
     "create-account": "Crea una cuenta",
     "footer-right": "2020 EOS",
     "existing-user": "¿Usuario existente?",
-    "reset-password-done": "Llévame a la página de inicio de sesión"
+    "reset-password-done": "Llévame a la página de inicio de sesión",
+    "success": "Éxito"
   }
 }
