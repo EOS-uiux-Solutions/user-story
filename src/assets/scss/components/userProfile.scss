@@ -32,7 +32,7 @@
   &-avatar {
     width: 25%;
 
-    img {
+    &-img {
       background-color: #fff;
       border: 1px solid #707070;
       border-radius: 50%;
@@ -40,6 +40,25 @@
       padding: 5px;
       width: 150px;
     }
+
+    &:hover {
+      .user-profile-edit-badge {
+        display: flex;
+      }
+    }
+  }
+
+  &-edit-badge {
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 50%;
+    color: $eos-white;
+    display: none;
+    font-size: $font-size-label;
+    height: 162px;
+    justify-content: center;
+    position: absolute;
+    width: 162px;
   }
 
   @media only screen and (max-width: 768px) {

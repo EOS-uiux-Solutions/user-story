@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
+import ProfileImageUploader from './ProfileImageUploader'
 import EditableLabel from './EditableLabel'
+import EditProfileBadge from './EditProfileBadge'
 
 export const UserProfile = ({
   children,
@@ -14,8 +16,12 @@ export const UserProfile = ({
         <UserAvatar
           avatarURL={
             user?.profilePicture?.url ??
-            'https://avatars.dicebear.com/api/jdenticon/eos.svg'
+            `https://avatars.dicebear.com/api/jdenticon/${user.username}.svg`
           }
+          allowEditing={allowEditing}
+          userId={user.id}
+          profilePicURL={user?.profilePicture?.url ?? null}
+          profilePicId={user?.profilePicture?.id ?? null}
         />
         <UserDetails
           user={user}
@@ -29,10 +35,35 @@ export const UserProfile = ({
   )
 }
 
-export const UserAvatar = ({ avatarURL }) => {
+export const UserAvatar = ({
+  avatarURL,
+  allowEditing,
+  userId,
+  profilePicURL,
+  profilePicId
+}) => {
+  const [modalVisible, setModalVisible] = useState(false)
+
   return (
     <div className='user-profile-avatar'>
-      <img src={avatarURL} alt='User avatar' />
+      <EditProfileBadge
+        allowEditing={allowEditing}
+        showModal={() => setModalVisible(true)}
+      />
+      <img
+        className='user-profile-avatar-img'
+        src={avatarURL}
+        alt='User avatar'
+      />
+      {modalVisible && (
+        <ProfileImageUploader
+          userId={userId}
+          show={modalVisible}
+          setShow={setModalVisible}
+          profilePicURL={profilePicURL}
+          profilePicId={profilePicId}
+        />
+      )}
     </div>
   )
 }
