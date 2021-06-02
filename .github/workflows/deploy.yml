@@ -27,6 +27,7 @@ jobs:
       run: |
         echo "$CONFIG_JSON" > src/config.json
         npm run build
+        cp build/index.html build/404.html
       env:
         CONFIG_JSON: ${{ secrets.CONFIG_JSON }}
 
