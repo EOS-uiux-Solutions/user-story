@@ -14,11 +14,11 @@ After cloning this repository you will need to install all the dependencies: `np
 
 There are two options to set up the `backend` for this repository:
 
-1. If you are planning to work only on the UI/UX of `eos-user-story`, then you can directly use `docker` to setup the backend. In case, you want to work on backend as well, see point 2, for setup instructions. For setting up using `docker`, first make sure you have `docker` & `docker-compose` installed ([Install instructions](https://docs.docker.com/engine/install/)). Next, run `docker-compose up` and wait for the server to start on `http://localhost:1337`. Visit [http://localhost:1337/admin/auth/](http://localhost:1337/admin/auth/) and create the admin user for Strapi. Then set the roles and permissions for the api endpoints. Voilà, the backend is up and running. Proceed to the next paragraph for futher instructions.
+1. If you are planning to work only on the UI/UX of `eos-user-story`, then follow along. Skip to point 2 if you need to setup backend as well. For setting up using `docker`, first make sure you have `docker` & `docker-compose` installed ([Install instructions](https://docs.docker.com/engine/install/)). Next, run `docker-compose up` and wait for the server to start on `http://localhost:1337`. Visit [http://localhost:1337/admin/auth/](http://localhost:1337/admin/auth/) and create the admin user for Strapi. Then set the roles and permissions for the api endpoints. That's it, the backend is up and running. Proceed to the next paragraph for further instructions.
 
-2. See this, if you are going to work on the backend as well. This repository uses [EOS/eos-strapi](https://gitlab.com/SUSE-UIUX/eos-strapi) as the backend Strapi server. Follow these instructions to [set it up](https://gitlab.com/SUSE-UIUX/eos-strapi#how-to-install-it).
+2. This repository uses [EOS-uiux-Solutions/strapi](https://github.com/EOS-uiux-Solutions/strapi) as the backend Strapi server. Follow [these](https://github.com/EOS-uiux-Solutions/strapi#how-to-install-it) instructions to set it up.
 
-Now you need to connect to the Strapi server. To do this, duplicate the file `src/config.json.template` into a new file called `src/config.json` and replace the content of the variable with your server URL.
+After setting up the backend, you need to connect the frontend to the Strapi server. To do this, duplicate the file `src/config.json.template` into a new file called `src/config.json` and replace the content of the variable with your server URL.
 
 Then run: `npm start` to run the app in the development mode.
 
