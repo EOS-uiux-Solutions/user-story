@@ -188,7 +188,7 @@ const MyStories = () => {
       <div className='body-content'>
         <div className='body-wrapper my-stories'>
           <h3>My Stories</h3>
-          <div className='flex flex-row'>
+          <div className='flex flex-row roadmap-one'>
             <Button
               className={
                 currentStateSelected === 'My Submissions'
@@ -211,7 +211,7 @@ const MyStories = () => {
               Following
             </Button>
           </div>
-          <div className='flex flex-row flex-space-between'>
+          <div className='flex flex-row flex-space-between roadmap-one'>
             {Lists.stateList &&
               Lists.stateList.map((state, key) => {
                 return (
