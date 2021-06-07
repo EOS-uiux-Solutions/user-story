@@ -381,6 +381,11 @@ const Home = () => {
                   onChange={(event) => {
                     setSearchTerm(event.target.value)
                   }}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter' && searchTerm.length > 0) {
+                      setSearchQuery(`Title_contains: "${searchTerm}"`)
+                    }
+                  }}
                 />
                 <div className='close-btn-div'>
                   <span
