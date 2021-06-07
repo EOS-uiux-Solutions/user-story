@@ -1,0 +1,25 @@
+.search-input {
+  border: 0;
+  border-bottom: 2px solid rgb(51, 51, 51);
+  border-radius: 0;
+  justify-content: space-between;
+  outline: none;
+  padding: 0px 10px;
+  width: 220px;
+}
+
+.search-input > input {
+  border: 0px;
+  outline: none;
+  padding: 0px;
+  width: 167px;
+}
+
+.close-btn-div {
+  width: 15px;
+}
+
+.close-btn {
+  cursor: pointer;
+}
+  

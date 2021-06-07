@@ -58,11 +58,15 @@ const Home = () => {
 
   const [categories, setCategories] = useState([])
 
+  const [searchTerm, setSearchTerm] = useState('')
+
   const { promiseInProgress } = usePromiseTracker()
 
   const [productQuery, setProductQuery] = useState(``)
 
   const [categoryQuery, setCategoryQuery] = useState(``)
+
+  const [searchQuery, setSearchQuery] = useState('')
 
   const getPage = useCallback((page) => {
     setPage(page)
@@ -79,7 +83,10 @@ const Home = () => {
     } else {
       setCategoryQuery(``)
     }
-  }, [product, category])
+    if (searchTerm === '') {
+      setSearchQuery('')
+    }
+  }, [product, category, searchTerm])
 
   useEffect(() => {
     const fetchStories = async () => {
@@ -95,6 +102,7 @@ const Home = () => {
                 },
                 ${categoryQuery}
                 ${productQuery}
+                ${searchQuery}
             }) {
               id
               Title
@@ -128,7 +136,7 @@ const Home = () => {
       setStories(response.data.data.userStories)
     }
     trackPromise(fetchStories())
-  }, [categoryQuery, currentStateSelected, page, productQuery])
+  }, [categoryQuery, currentStateSelected, page, productQuery, searchQuery])
 
   useEffect(() => {
     const fetchStoryCount = async () => {
@@ -138,7 +146,7 @@ const Home = () => {
           query: `
           query {
             userStoriesConnection(where: { user_story_status: { Status: "${currentStateSelected}" },
-            ${productQuery} }) {
+            ${productQuery}, ${searchQuery} }) {
               aggregate {
                 count
               }
@@ -152,7 +160,7 @@ const Home = () => {
       setStoryCount(response.data.data.userStoriesConnection.aggregate.count)
     }
     fetchStoryCount()
-  }, [currentStateSelected, product, productQuery])
+  }, [currentStateSelected, product, productQuery, searchQuery])
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -358,28 +366,68 @@ const Home = () => {
                 )
               })}
           </div>
-          <div className='flex flex-row options-bar'>
-            <Dropdown
-              title='Product'
-              reference={productDropdownContainer}
-              curr={product}
-              setCurr={setProduct}
-              itemList={products}
-            />
-            <Dropdown
-              title='Categories'
-              reference={categoryDropdownContainer}
-              curr={category}
-              setCurr={setCategory}
-              itemList={categories}
-            />
-            <Dropdown
-              title='Sort By'
-              reference={sortDropdownContainer}
-              curr={sort}
-              setCurr={setSort}
-              itemList={Lists.sortByList}
-            />
+
+          <div className='flex flex-row search-bar'>
+            <div className='flex flex-row search-controls'>
+              <div className='flex flex-row search-input'>
+                <span>
+                  <i className='eos-icons'>search</i>
+                </span>
+                <input
+                  type='text'
+                  name='search'
+                  placeholder='Search'
+                  value={searchTerm}
+                  onChange={(event) => {
+                    setSearchTerm(event.target.value)
+                  }}
+                />
+                <div className='close-btn-div'>
+                  <span
+                    className='close-btn'
+                    onClick={() => {
+                      if (searchTerm.length > 0) setSearchTerm('')
+                    }}
+                  >
+                    {searchTerm.length > 0 && (
+                      <i className='eos-icons'>close</i>
+                    )}
+                  </span>
+                </div>
+              </div>
+              <Button
+                type='submit'
+                className='btn btn-default'
+                onClick={() => {
+                  setSearchQuery(`Title_contains: "${searchTerm}"`)
+                }}
+              >
+                Search
+              </Button>
+            </div>
+            <div className='flex flex-row options-bar'>
+              <Dropdown
+                title='Product'
+                reference={productDropdownContainer}
+                curr={product}
+                setCurr={setProduct}
+                itemList={products}
+              />
+              <Dropdown
+                title='Categories'
+                reference={categoryDropdownContainer}
+                curr={category}
+                setCurr={setCategory}
+                itemList={categories}
+              />
+              <Dropdown
+                title='Sort By'
+                reference={sortDropdownContainer}
+                curr={sort}
+                setCurr={setSort}
+                itemList={Lists.sortByList}
+              />
+            </div>
           </div>
           {promiseInProgress ? (
             <LoadingIndicator />
