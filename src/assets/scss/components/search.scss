@@ -5,7 +5,20 @@
   justify-content: space-between;
   outline: none;
   padding: 0px 10px;
-  width: 220px;
+  padding-left: 0px;
+  width: 290px;
+}
+
+.search-input > .filter-title {
+  display: none;
+}
+
+.search-input .dropdown-container .btn {
+  height: 30px;
+}
+
+.search-input .dropdown-container .eos-icons {
+  padding: 0px;
 }
 
 .search-input > input {
@@ -13,6 +26,15 @@
   outline: none;
   padding: 0px;
   width: 167px;
+}
+
+.search-input .user-suggest-dropdown {
+  background-color: white;
+  max-height: 80px;
+  overflow-y: scroll;
+  position: absolute;
+  top: 100%;
+  z-index: 4;
 }
 
 .close-btn-div {

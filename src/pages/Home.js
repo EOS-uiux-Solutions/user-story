@@ -18,6 +18,7 @@ import Navigation from '../components/Navigation'
 import Pagination from '../components/Pagination'
 import Dropdown from '../components/Dropdown'
 import Modal from '../components/Modal'
+import UsersSuggestionDropdown from '../components/UsersSuggestionDropdown'
 
 import Lists from '../utils/Lists'
 import useAuth from '../hooks/useAuth'
@@ -68,6 +69,16 @@ const Home = () => {
 
   const [searchQuery, setSearchQuery] = useState('')
 
+  const fieldToSearchDropdownContainer = useRef()
+
+  const [fieldToSearch, setFieldToSearch] = useState('Title')
+
+  const [usersSuggestionOpen, setUsersSuggestionOpen] = useState(false)
+
+  const [userTerm, setUserTerm] = useState('')
+
+  const [userQuery, setUserQuery] = useState('')
+
   const getPage = useCallback((page) => {
     setPage(page)
   }, [])
@@ -86,7 +97,10 @@ const Home = () => {
     if (searchTerm === '') {
       setSearchQuery('')
     }
-  }, [product, category, searchTerm])
+    if (userTerm === '') {
+      setUserQuery('')
+    }
+  }, [product, category, searchTerm, userTerm])
 
   useEffect(() => {
     const fetchStories = async () => {
@@ -100,6 +114,9 @@ const Home = () => {
                 user_story_status : {
                   Status: "${currentStateSelected}"
                 },
+                author: {
+                  username_contains: "${userQuery}"
+                }
                 ${categoryQuery}
                 ${productQuery}
                 ${searchQuery}
@@ -136,7 +153,14 @@ const Home = () => {
       setStories(response.data.data.userStories)
     }
     trackPromise(fetchStories())
-  }, [categoryQuery, currentStateSelected, page, productQuery, searchQuery])
+  }, [
+    categoryQuery,
+    currentStateSelected,
+    page,
+    productQuery,
+    searchQuery,
+    userQuery
+  ])
 
   useEffect(() => {
     const fetchStoryCount = async () => {
@@ -145,8 +169,16 @@ const Home = () => {
         {
           query: `
           query {
-            userStoriesConnection(where: { user_story_status: { Status: "${currentStateSelected}" },
-            ${productQuery}, ${searchQuery} }) {
+            userStoriesConnection(where: {
+              user_story_status: {
+                Status: "${currentStateSelected}"
+              },
+              author: {
+                username_contains: "${userQuery}"
+              }
+              ${productQuery},
+              ${searchQuery}
+            }) {
               aggregate {
                 count
               }
@@ -160,7 +192,7 @@ const Home = () => {
       setStoryCount(response.data.data.userStoriesConnection.aggregate.count)
     }
     fetchStoryCount()
-  }, [currentStateSelected, product, productQuery, searchQuery])
+  }, [currentStateSelected, product, productQuery, searchQuery, userQuery])
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -373,17 +405,41 @@ const Home = () => {
                 <span>
                   <i className='eos-icons'>search</i>
                 </span>
+                {
+                  <UsersSuggestionDropdown
+                    isOpen={usersSuggestionOpen}
+                    userTerm={userTerm}
+                    setUserTerm={setUserTerm}
+                    setUserQuery={setUserQuery}
+                    setUsersSuggestionOpen={setUsersSuggestionOpen}
+                  />
+                }
                 <input
                   type='text'
                   name='search'
                   placeholder='Search'
-                  value={searchTerm}
+                  autoComplete='off'
+                  value={fieldToSearch === 'Title' ? searchTerm : userTerm}
                   onChange={(event) => {
-                    setSearchTerm(event.target.value)
+                    if (fieldToSearch === 'Title') {
+                      setSearchTerm(event.target.value)
+                    } else {
+                      setUserTerm(event.target.value)
+                      setUsersSuggestionOpen(true)
+                    }
                   }}
                   onKeyDown={(event) => {
-                    if (event.key === 'Enter' && searchTerm.length > 0) {
-                      setSearchQuery(`Title_contains: "${searchTerm}"`)
+                    if (event.key === 'Enter') {
+                      if (fieldToSearch === 'Title' && searchTerm.length > 0) {
+                        setSearchQuery(`Title_contains: "${searchTerm}"`)
+                      } else if (userTerm.length > 0) {
+                        setUserQuery(userTerm)
+                      }
+                    }
+                  }}
+                  onFocus={() => {
+                    if (fieldToSearch === 'Author' && userTerm.length > 0) {
+                      setUsersSuggestionOpen(true)
                     }
                   }}
                 />
@@ -391,20 +447,36 @@ const Home = () => {
                   <span
                     className='close-btn'
                     onClick={() => {
-                      if (searchTerm.length > 0) setSearchTerm('')
+                      if (fieldToSearch === 'Title' && searchTerm.length > 0) {
+                        setSearchTerm('')
+                      } else if (userTerm.length > 0) {
+                        setUserTerm('')
+                      }
                     }}
                   >
-                    {searchTerm.length > 0 && (
+                    {((fieldToSearch === 'Title' && searchTerm.length > 0) ||
+                      (fieldToSearch === 'Author' && userTerm.length > 0)) && (
                       <i className='eos-icons'>close</i>
                     )}
                   </span>
                 </div>
+                <Dropdown
+                  title=''
+                  reference={fieldToSearchDropdownContainer}
+                  curr={fieldToSearch}
+                  setCurr={setFieldToSearch}
+                  itemList={['Title', 'Author']}
+                />
               </div>
               <Button
                 type='submit'
                 className='btn btn-default'
                 onClick={() => {
-                  setSearchQuery(`Title_contains: "${searchTerm}"`)
+                  if (fieldToSearch === 'Title' && searchTerm.length > 0) {
+                    setSearchQuery(`Title_contains: "${searchTerm}"`)
+                  } else if (userTerm.length > 0) {
+                    setUserQuery(userTerm)
+                  }
                 }}
               >
                 Search
