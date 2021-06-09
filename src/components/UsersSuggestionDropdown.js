@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
+import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 import { apiURL } from '../config.json'
+import LoadingIndicator from '../modules/LoadingIndicator'
 
 const UsersSuggestionDropdown = ({
   isOpen,
@@ -10,6 +12,10 @@ const UsersSuggestionDropdown = ({
   setUsersSuggestionOpen
 }) => {
   const [usersToSuggest, setUsersToSuggest] = useState([])
+
+  const { promiseInProgress } = usePromiseTracker({
+    area: 'user-suggest-dropdown'
+  })
 
   const dropDown = useRef(null)
 
@@ -39,13 +45,16 @@ const UsersSuggestionDropdown = ({
           }) {
             id
             username
+            profilePicture {
+              url
+            }
           }
         }`
       })
       setUsersToSuggest(response.data.data.users)
     }
     if (userTerm.length > 0) {
-      fetchUsers()
+      trackPromise(fetchUsers(), 'user-suggest-dropdown')
     } else {
       setUsersToSuggest([])
     }
@@ -55,27 +64,41 @@ const UsersSuggestionDropdown = ({
     return null
   }
   return (
-    <div ref={dropDown} className='dropdown nav-dropdown user-suggest-dropdown'>
-      <div>
-        {usersToSuggest.length > 0 ? (
-          <ul>
-            {usersToSuggest.map((u) => (
-              <li
-                key={u.id}
-                onClick={() => {
-                  setUserTerm(u.username)
-                  setUserQuery(u.username)
-                  setUsersSuggestionOpen(false)
-                }}
-              >
-                {u.username}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No results found</p>
-        )}
-      </div>
+    <div
+      ref={dropDown}
+      className='flex flex-center dropdown user-suggest-dropdown'
+    >
+      {promiseInProgress ? (
+        <LoadingIndicator />
+      ) : usersToSuggest.length > 0 ? (
+        <ul className='dropdown-list'>
+          {usersToSuggest.map((user) => (
+            <li
+              key={user.id}
+              onClick={() => {
+                setUserTerm(user.username)
+                setUserQuery(user.username)
+                setUsersSuggestionOpen(false)
+              }}
+              className='user-data'
+            >
+              <div className='user-row flex flex-space-between flex-align-center'>
+                <img
+                  className='avatar'
+                  src={
+                    user?.profilePicture?.url ??
+                    `https://avatars.dicebear.com/api/jdenticon/${user.username}.svg`
+                  }
+                  alt='Default User Avatar'
+                ></img>
+                <span>{user.username}</span>
+              </div>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No users found</p>
+      )}
     </div>
   )
 }

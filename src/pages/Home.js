@@ -434,6 +434,7 @@ const Home = () => {
                         setSearchQuery(`Title_contains: "${searchTerm}"`)
                       } else if (userTerm.length > 0) {
                         setUserQuery(userTerm)
+                        setUsersSuggestionOpen(false)
                       }
                     }
                   }}
