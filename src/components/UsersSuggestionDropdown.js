@@ -19,6 +19,8 @@ const UsersSuggestionDropdown = ({
 
   const dropDown = useRef(null)
 
+  const cancelToken = useRef()
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropDown.current && !dropDown.current.contains(event.target)) {
@@ -37,20 +39,31 @@ const UsersSuggestionDropdown = ({
       setUsersSuggestionOpen(false)
       return
     }
+
+    if (typeof cancelToken.current !== typeof undefined) {
+      cancelToken.current.cancel()
+    }
+
+    cancelToken.current = axios.CancelToken.source()
+
     const fetchUsers = async () => {
-      const response = await axios.post(`${apiURL}/graphql`, {
-        query: `query {
-          users (where: {
-            username_contains: "${userTerm}"
-          }) {
-            id
-            username
-            profilePicture {
-              url
+      const response = await axios.post(
+        `${apiURL}/graphql`,
+        {
+          query: `query {
+            users (where: {
+              username_contains: "${userTerm}"
+            }) {
+              id
+              username
+              profilePicture {
+                url
+              }
             }
-          }
-        }`
-      })
+          }`
+        },
+        { cancelToken: cancelToken.current.token }
+      )
       setUsersToSuggest(response.data.data.users)
     }
     if (userTerm.length > 0) {
