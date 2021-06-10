@@ -1,27 +1,54 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useRef } from 'react'
 import { Link } from '@reach/router'
 import Button from './Button'
 import axios from 'axios'
 import { apiURL } from '../config.json'
 import { useForm } from 'react-hook-form'
+import { EditorState } from 'draft-js'
+import Editor from 'draft-js-plugins-editor'
+import createMentionPlugin, { defaultSuggestionsFilter } from 'draft-js-mention-plugin'
+import 'draft-js/dist/Draft.css'
+import 'draft-js-mention-plugin/lib/plugin.css'
 
 import Context from '../modules/Context'
 import FormError from '../components/FormError'
+
+const mentionPlugin = createMentionPlugin()
+const {MentionSuggestions} = mentionPlugin
+const plugins = [mentionPlugin]
 
 const Comments = (props) => {
   const { storyId } = props
 
   const {
-    register: registerComment,
+    // register: registerComment,
     errors: errorsComment,
     handleSubmit: handleSubmitComment
   } = useForm()
 
   const {
-    register: registerReply,
+    // register: registerReply,
     errors: errorsReply,
     handleSubmit: handleSubmitReply
   } = useForm()
+
+  const mentions = async() => {
+    const response = await axios.post(
+      `${apiURL}/graphql`,
+      {
+        query: `query {
+          users {
+            username
+          }
+        }`
+      },
+      {
+        withCredentials: true
+      }
+    )
+
+    return response.data.data.user
+  }
 
   const { state } = useContext(Context)
 
@@ -40,6 +67,24 @@ const Comments = (props) => {
   const [repliesToggled, setRepliesToggled] = useState()
 
   const [viewRepliesToggled, setViewRepliesToggled] = useState([])
+
+  const [suggestions, setSuggestions] = useState(mentions)
+
+  const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
+
+  const editor = useRef(null)
+
+  const onSearchChange = ({value}) => {
+    setSuggestions(defaultSuggestionsFilter(value, mentions))
+  }
+
+  const onAddMention = () => {
+
+  }
+
+  const focusEditor = () => {
+    editor.current.focus()
+  }
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -261,15 +306,24 @@ const Comments = (props) => {
                     className='comment-form'
                     onSubmit={handleSubmitReply(addCommentReply)}
                   >
-                    <div className='field'>
-                      <textarea
-                        rows='4'
-                        cols='16'
+                    <div className='field' onClick={() => focusEditor()}>
+                      <Editor
+                        // rows='4'
+                        // cols='16'
                         name='addReply'
-                        ref={registerReply({ required: true })}
+                        editorState={editorState}
+                        plugins={plugins}
+                        // ref={registerReply({ required: true })}
+                        ref={editor}
                         value={commentReply}
-                        onChange={(e) => setCommentReply(e.target.value)}
-                      ></textarea>
+                        // onChange={(e) => setCommentReply(e.target.value)}
+                        onChange={editorState => setEditorState(editorState)}
+                      />
+                      <MentionSuggestions 
+                        onSearchChange={onSearchChange}
+                        suggestions={suggestions}
+                        onAddMention={onAddMention}
+                      />
                       {errorsReply.addReply && (
                         <FormError message='Reply cannot be empty' />
                       )}
@@ -289,15 +343,24 @@ const Comments = (props) => {
           className='comment-form'
           onSubmit={handleSubmitComment(addComment)}
         >
-          <div className='field'>
-            <textarea
-              rows='4'
+          <div className='field' onClick={() => focusEditor()}>
+            <Editor
+              // rows='4'
               name='addComment'
-              cols='16'
-              ref={registerComment({ required: true })}
+              // cols='16'
+              // ref={registerComment({ required: true })}
+              ref={editor}
+              editorState={editorState}
+              plugins={plugins}
               value={comment}
-              onChange={(e) => setComment(e.target.value)}
-            ></textarea>
+              // onChange={(e) => setComment(e.target.value)}
+              onChange={editorState => setEditorState(editorState)}
+            />
+            <MentionSuggestions
+              onSearchChange={onSearchChange}
+              suggestions={suggestions}
+              onAddMention={onAddMention}
+            />
             {errorsComment.addComment && (
               <FormError message='Comment cannot be empty' />
             )}
