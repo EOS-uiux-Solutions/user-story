@@ -53,7 +53,8 @@
     "test:js": "eslint src/",
     "docs": "jsdoc -c jsdoc.conf.json",
     "lint:fix": "sass-lint-auto-fix",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run --headless"
   },
   "husky": {
     "hooks": {

@@ -39,3 +39,5 @@ yarn-error.log*
 /cypress/fixtures
 /cypress/plugins
 cypress.env.json
+/cypress/screenshots
+/cypress/videos
