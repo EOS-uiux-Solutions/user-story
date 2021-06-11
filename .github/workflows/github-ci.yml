@@ -87,5 +87,7 @@ jobs:
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: npm install
 
-      - name: Test JS
-        run: npm run cypress:run
+      - name: Test Cypress
+        uses: cypress-io/github-action@v2
+        with:
+          start: npm start
