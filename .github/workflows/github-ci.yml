@@ -87,6 +87,11 @@ jobs:
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: npm install
 
+      - name: Create config.json
+        run: echo "$TEST_CONFIG_JSON" > src/config.json
+        env:
+          TEST_CONFIG_JSON: ${{ secrets.TEST_CONFIG_JSON }}
+
       - name: Test Cypress
         uses: cypress-io/github-action@v2
         with:
