@@ -4,6 +4,7 @@ import Button from './Button'
 import axios from 'axios'
 import { apiURL } from '../config.json'
 import { useForm } from 'react-hook-form'
+import { MentionsInput, Mention} from 'react-mentions'
 
 import Context from '../modules/Context'
 import FormError from '../components/FormError'
@@ -41,6 +42,8 @@ const Comments = (props) => {
 
   const [viewRepliesToggled, setViewRepliesToggled] = useState([])
 
+  const [users, setUsers] = useState([])
+
   useEffect(() => {
     const fetchComments = async () => {
       const response = await axios.post(
@@ -76,7 +79,25 @@ const Comments = (props) => {
       )
       setComments(response.data.data.userStory.user_story_comments)
     }
+    const fetchUsers = async () => {
+      const response = await axios.post(
+        `${apiURL}/graphql`,
+        {
+          query: `query {
+            users {
+              id
+              display: username
+            }
+          }`
+        },
+        {
+          withCredentials: true
+        }
+      )
+      setUsers(response.data.data.users)
+    }
     fetchComments()
+    fetchUsers()
   }, [storyId, fetchComments])
 
   const addComment = async (data) => {
@@ -262,14 +283,18 @@ const Comments = (props) => {
                     onSubmit={handleSubmitReply(addCommentReply)}
                   >
                     <div className='field'>
-                      <textarea
-                        rows='4'
-                        cols='16'
+                      <MentionsInput
                         name='addReply'
-                        ref={registerReply({ required: true })}
+                        inputRef={registerReply({ required: true })}
                         value={commentReply}
                         onChange={(e) => setCommentReply(e.target.value)}
-                      ></textarea>
+                        allowSuggestionsAboveCursor={true}
+                      >
+                        <Mention 
+                          trigger="@"
+                          data={users}
+                        />
+                      </MentionsInput>
                       {errorsReply.addReply && (
                         <FormError message='Reply cannot be empty' />
                       )}
@@ -290,14 +315,18 @@ const Comments = (props) => {
           onSubmit={handleSubmitComment(addComment)}
         >
           <div className='field'>
-            <textarea
-              rows='4'
+            <MentionsInput
               name='addComment'
-              cols='16'
-              ref={registerComment({ required: true })}
+              inputRef={registerComment({ required: true })}
               value={comment}
               onChange={(e) => setComment(e.target.value)}
-            ></textarea>
+              allowSuggestionsAboveCursor={true}
+            >
+              <Mention 
+                trigger="@"
+                data={users}
+              />
+            </MentionsInput>
             {errorsComment.addComment && (
               <FormError message='Comment cannot be empty' />
             )}
