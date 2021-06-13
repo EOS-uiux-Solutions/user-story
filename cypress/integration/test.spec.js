@@ -3,7 +3,11 @@ describe('Test spec', () => {
     cy.visit('/')
   })
 
-  it('Has tell use your story', () => {
+  it('Has tell us your story', () => {
     cy.contains('TELL US YOUR STORY')
+  })
+
+  it('Has Add profile image update feature', () => {
+    cy.contains('Add profile image update feature')
   })
 })

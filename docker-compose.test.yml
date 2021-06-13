@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  eosstrapi:
+    image: ghcr.io/sundeepchand/ghcr.io/eos-uiux-solutions/strapi:tests-bootstrap-0b7ee6d
+    environment:
+      DATABASE_CLIENT: mongo
+      DATABASE_NAME: strapi
+      DATABASE_HOST: mongodb
+      DATABASE_PORT: 27017
+      DATABASE_USERNAME: strapi
+      DATABASE_PASSWORD: password
+      EOS_CORS_DOMAINS: 'http://localhost:3000, http://localhost:4999'
+    restart: unless-stopped
+    networks:
+      - eos-strapi
+    ports:
+      - '1337:1337'
+
+  mongodb:
+    image: mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: strapi
+      MONGO_INITDB_ROOT_PASSWORD: password
+    networks:
+      - eos-strapi
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    ports:
+      - '27017:27017'
+
+networks:
+  eos-strapi:
+    driver: bridge
