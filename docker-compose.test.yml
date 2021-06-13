@@ -2,7 +2,7 @@ version: '3'
 
 services:
   eosstrapi:
-    image: ghcr.io/sundeepchand/ghcr.io/eos-uiux-solutions/strapi:tests-bootstrap-0b7ee6d
+    image: ghcr.io/sundeepchand/ghcr.io/eos-uiux-solutions/strapi:tests-bootstrap-9f819ce
     environment:
       DATABASE_CLIENT: mongo
       DATABASE_NAME: strapi
