@@ -119,7 +119,7 @@ const useAuth = () => {
         else
           dispatch({
             type: 'ERROR',
-            payload: err.response.data.message[0].messages[0].message
+            payload: err.response.data?.message?.[0]?.messages?.[0]?.message
           })
       })
     return data
