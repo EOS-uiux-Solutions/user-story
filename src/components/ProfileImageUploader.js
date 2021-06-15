@@ -169,7 +169,7 @@ const ProfileImageUploader = ({
               />
             </aside>
           ))}
-        {error && <FormError message={error} />}
+        {!!error && <FormError message={error} />}
       </section>
     </Modal>
   )
