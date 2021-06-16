@@ -4,7 +4,7 @@ import Button from './Button'
 import axios from 'axios'
 import { apiURL } from '../config.json'
 import { useForm } from 'react-hook-form'
-import { MentionsInput, Mention} from 'react-mentions'
+import { MentionsInput, Mention } from 'react-mentions'
 
 import Context from '../modules/Context'
 import FormError from '../components/FormError'
@@ -282,17 +282,19 @@ const Comments = (props) => {
                     className='comment-form'
                     onSubmit={handleSubmitReply(addCommentReply)}
                   >
-                    <div className='field'>
+                    <div className='field textarea'>
                       <MentionsInput
                         name='addReply'
                         inputRef={registerReply({ required: true })}
                         value={commentReply}
                         onChange={(e) => setCommentReply(e.target.value)}
                         allowSuggestionsAboveCursor={true}
+                        className='mentions'
                       >
-                        <Mention 
-                          trigger="@"
+                        <Mention
+                          trigger='@'
                           data={users}
+                          markup='@@@____id__^^^____display__@@@^^^'
                         />
                       </MentionsInput>
                       {errorsReply.addReply && (
@@ -314,17 +316,19 @@ const Comments = (props) => {
           className='comment-form'
           onSubmit={handleSubmitComment(addComment)}
         >
-          <div className='field'>
+          <div className='field textarea'>
             <MentionsInput
               name='addComment'
               inputRef={registerComment({ required: true })}
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               allowSuggestionsAboveCursor={true}
+              className='mentions'
             >
-              <Mention 
-                trigger="@"
+              <Mention
+                trigger='@'
                 data={users}
+                markup='@@@____id__^^^____display__@@@^^^'
               />
             </MentionsInput>
             {errorsComment.addComment && (

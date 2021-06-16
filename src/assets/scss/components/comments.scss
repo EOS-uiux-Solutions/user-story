@@ -30,7 +30,64 @@
 .comment-form {
   margin: 16px 0px;
 
-  textarea {
+  .textarea {
+    background-color: #ffffff;
     resize: none;
+    width: 20em;
   }
+}
+
+.mentions {
+  margin: 1em 0;
+  z-index: 10;
+}
+
+.mentions--singleLine .mentions__control {
+  display: inline-block;
+}
+
+.mentions--singleLine .mentions__higlighter {
+  border: 2px inset transparent;
+  padding: 1px;
+}
+
+.mentions--singleLine .mentions__input {
+  border: 2px inset;
+  padding: 5px;
+}
+
+.mentions--multiLine .mentions__control {
+  border: 1px solid silver;
+  font-family: monospace;
+  font-size: 11pt;
+}
+
+.mentions--multiLine .mentions__highlighter {
+  padding: 9px;
+}
+
+.mentions--multiLine .mentions__input {
+  border: 0;
+  min-height: 63px;
+  outline: 0;
+  padding: 9px;
+}
+
+.mentions__suggestions__list {
+  background-color: white;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  font-size: $font-size-general;
+}
+
+.mentions__suggestions__item {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  padding: 5px 15px;
+}
+
+.mentions__suggestions__item--focused {
+  background-color: #cee4e5;
+}
+
+.mentions__mention {
+  background-color: #cee4e5;
 }
