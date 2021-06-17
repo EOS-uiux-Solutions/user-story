@@ -40,3 +40,23 @@
     }
   }
 }
+
+.roadmap-one {
+  .btn-tabs {
+
+    .eos-icons {
+      margin-right: 12px;
+      vertical-align: sub;
+    }
+
+    &-selected,
+    &:hover,
+    &:focus {
+      border: 2px solid $light-gray;
+    }
+
+    &:focus {
+      outline: transparent 0px;
+    }
+  }
+}
