@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { Link, useLocation } from '@reach/router'
+import { navigate } from '@reach/router'
 import { useTranslation } from 'react-i18next'
 import { Helmet } from 'react-helmet'
 
@@ -14,31 +14,38 @@ import AuthWrapper, {
   AuthRightContainer
 } from '../components/AuthWrapper'
 
+import Login from './Login'
+
 const ChangePassword = () => {
   const { t } = useTranslation()
 
-  const { state } = useContext(Context)
+  const { state, dispatch } = useContext(Context)
 
-  const { resetPassword } = useAuth()
+  const { changePassword, logout } = useAuth()
 
   const { register, handleSubmit, errors } = useForm()
-
-  const location = useLocation()
 
   const [response, setResponse] = useState('')
 
   const onSubmit = async (data) => {
     try {
-      const reply = await resetPassword({
-        code: location.search.slice(6),
-        password: data.password,
-        passwordConfirmation: data.passwordConfirmation
+      const reply = await changePassword({
+        ...data,
+        id: localStorage.getItem('id')
       })
       setResponse(reply)
     } catch (e) {}
   }
 
-  return (
+  const handleNavigateToLogin = async () => {
+    await logout()
+    dispatch({
+      type: 'DEAUTHENTICATE'
+    })
+    navigate('/login')
+  }
+
+  return state.auth ? (
     <>
       <Helmet>
         <title>Change your password | EOS User story</title>
@@ -50,14 +57,15 @@ const ChangePassword = () => {
           <div>
             {response ? (
               <>
-                <div className='header'>
-                  {t('authentication:forgot-password')}
-                </div>
+                <div className='header'>{t('authentication:success')}</div>
                 <p>Your password has been reset.</p>
                 <div className='flex flex-row flex-space-between'>
-                  <Link className='link link-default' to='/login'>
+                  <span
+                    className='link link-default'
+                    onClick={handleNavigateToLogin}
+                  >
                     {t('authentication:reset-password-done')}
-                  </Link>
+                  </span>
                 </div>
               </>
             ) : (
@@ -122,6 +130,8 @@ const ChangePassword = () => {
         </AuthRightContainer>
       </AuthWrapper>
     </>
+  ) : (
+    <Login message='Please login to access your profile' />
   )
 }
 
