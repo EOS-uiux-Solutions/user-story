@@ -3,6 +3,7 @@ import axios from 'axios'
 import { apiURL } from '../config.json'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 import { Helmet } from 'react-helmet'
+import { navigate } from '@reach/router'
 
 import LoadingIndicator from '../modules/LoadingIndicator'
 import StoriesList from '../components/StoriesList'
@@ -167,6 +168,11 @@ const Profile = (props) => {
     }
     trackPromise(updateStories())
   }, [sort, stories, setStories])
+
+  if (user === null) {
+    navigate('/404', { replace: true })
+    return null
+  }
 
   return (
     <>
