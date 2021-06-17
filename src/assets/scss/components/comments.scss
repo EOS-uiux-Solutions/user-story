@@ -1,3 +1,5 @@
+//sass-lint:disable class-name-format
+
 .comments-wrapper {
   border-top: 1px solid $eos-gray-100;
   margin-top: 32px;
@@ -58,8 +60,8 @@
 
 .mentions--multiLine .mentions__control {
   border: 1px solid silver;
-  font-family: monospace;
-  font-size: 11pt;
+  font-family: $font-family;
+  font-size: $font-size-general;
 }
 
 .mentions--multiLine .mentions__highlighter {
