@@ -41,17 +41,19 @@ describe('Test User Story', () => {
 
     cy.get('[name="product"]').select('User Story')
 
-    cy.get('[name="category"]').select('Development')
+    cy.get('[name="category"]').select('Performance')
+
+    cy.get('[name="priority"]').select('Low')
 
     cy.get('.ck-editor__main > .ck').type('Testing User Story')
 
-    cy.get('.btn').click()
+    cy.get('.btn').contains('Submit').click()
 
     cy.url({ timeout: 10000 }).should('equal', 'http://localhost:3000/')
   })
 
   it('Home page', () => {
-    cy.get(':nth-child(1) > .stories-content > h4', {
+    cy.get(':nth-child(1) > .stories-content > h3', {
       timeout: 10000
     }).contains('This is a test story')
 
@@ -69,7 +71,7 @@ describe('Test User Story', () => {
       'Add main test comment'
     )
 
-    cy.get('.reply-action > .btn', { timeout: 10000 }).click()
+    cy.get('.reply-action > .btn', { timeout: 10000 }).contains('Reply').click()
 
     cy.get('.comment-content > .comment-form > .field > textarea').type(
       'Add thread test comment'
