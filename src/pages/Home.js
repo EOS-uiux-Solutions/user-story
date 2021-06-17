@@ -111,6 +111,10 @@ const Home = () => {
               author {
                 id
                 username
+                profilePicture {
+                  id
+                  url
+                }
               }
               followers {
                 id
