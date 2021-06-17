@@ -38,12 +38,12 @@ const MyProfile = () => {
             id: "${userId}"
           }
           data: {
-            Name: "${user.Name}"
-            Profession: "${user.Profession}"
-            Company: "${user.Company}"
-            LinkedIn: "${user.LinkedIn}"
-            Twitter: "${user.Twitter}"
-            Bio: "${user.Bio}"
+            Name: "${user.Name ?? user.username}"
+            Profession: "${user.Profession ?? ''}"
+            Company: "${user.Company ?? ''}"
+            LinkedIn: "${user.LinkedIn ?? ''}"
+            Twitter: "${user.Twitter ?? ''}"
+            Bio: "${user.Bio ?? ''}"
           }
         }) {
           user {
