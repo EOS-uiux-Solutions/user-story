@@ -64,7 +64,7 @@ const UsersSuggestionDropdown = ({
         },
         { cancelToken: cancelToken.current.token }
       )
-      setUsersToSuggest(response.data.data.users)
+      setUsersToSuggest(response.data.data?.users ?? [])
     }
     if (userTerm.length > 0) {
       trackPromise(fetchUsers(), 'user-suggest-dropdown')
