@@ -25,6 +25,8 @@ const NewStory = () => {
 
   const [descriptionError, setDescriptionError] = useState(false)
 
+  const [templateText, setTemplateText] = useState('')
+
   const [categories, setCategories] = useState([])
 
   const [priorities, setPriorities] = useState([])
@@ -69,6 +71,10 @@ const NewStory = () => {
           products {
             id
             Name
+            user_story_template {
+              Name
+              Template
+            }
           }
         }`
         },
@@ -131,6 +137,11 @@ const NewStory = () => {
   }
   feature coming in next PR
   */
+  const updateDescription = (event) => {
+    const id = event.target.value
+    const selectedProduct = products.find((product) => product.id === id)
+    setTemplateText(selectedProduct.user_story_template?.Template ?? '')
+  }
 
   const onSubmit = async (data) => {
     if (data.description === undefined || data.description.length === 0) {
@@ -208,6 +219,7 @@ const NewStory = () => {
                   <select
                     className='select-default'
                     name='product'
+                    onChange={updateDescription}
                     ref={register({ required: true })}
                   >
                     <option defaultValue={true} value=''>
@@ -282,6 +294,7 @@ const NewStory = () => {
                         'numberedList'
                       ]
                     }}
+                    data={templateText}
                     onChange={(event, editor) => {
                       setValue('description', editor.getData())
                       setDescriptionError(false)
