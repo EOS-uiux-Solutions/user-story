@@ -4,6 +4,16 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import axios from 'axios'
 import { apiURL } from '../config.json'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
+import {
+  FacebookShareButton,
+  TwitterShareButton,
+  LinkedinShareButton,
+  WhatsappShareButton,
+  FacebookIcon,
+  TwitterIcon,
+  LinkedinIcon,
+  WhatsappIcon
+} from 'react-share'
 
 import { Helmet } from 'react-helmet'
 
@@ -14,6 +24,7 @@ import LoadingIndicator from '../modules/LoadingIndicator'
 import Navigation from '../components/Navigation'
 import { Link, navigate } from '@reach/router'
 import Vote from '../components/Vote'
+import Modal from '../components/Modal'
 
 const Story = (props) => {
   const { storyId } = props
@@ -29,6 +40,12 @@ const Story = (props) => {
   const [editor, setEditor] = useState(false)
 
   const { promiseInProgress } = usePromiseTracker()
+
+  const [isOpen, setIsOpen] = useState(false)
+
+  const togglePopup = () => {
+    setIsOpen(!isOpen)
+  }
 
   useEffect(() => {
     const fetchStory = async () => {
@@ -114,6 +131,17 @@ const Story = (props) => {
     return null
   }
 
+  const copy = () => {
+    const dummy = document.createElement('input')
+    const text = window.location.href
+
+    document.body.appendChild(dummy)
+    dummy.value = text
+    dummy.select()
+    document.execCommand('copy')
+    document.body.removeChild(dummy)
+  }
+
   return (
     <>
       <Helmet>
@@ -184,12 +212,22 @@ const Story = (props) => {
               )}
               <div className='story-buttons-container'>
                 {editMode && !editor ? (
-                  <Button
-                    className='btn btn-default'
-                    onClick={() => setEditor(true)}
-                  >
-                    Edit
-                  </Button>
+                  <>
+                    <Button
+                      className='btn btn-default'
+                      onClick={() => setEditor(true)}
+                    >
+                      Edit
+                    </Button>{' '}
+                    &nbsp; &nbsp;
+                    <object className='share-story' onClick={togglePopup}>
+                      <i className='eos-icons share-story'> share </i>
+                    </object>{' '}
+                    &nbsp; &nbsp;
+                    <object className='share-story' onClick={copy}>
+                      <i className='eos-icons'>content_copy</i>
+                    </object>
+                  </>
                 ) : (
                   ''
                 )}
@@ -209,6 +247,41 @@ const Story = (props) => {
                   </Button>
                 ) : (
                   ''
+                )}
+                {isOpen && (
+                  <Modal
+                    content={
+                      <>
+                        <h1>Share</h1>
+                        <FacebookShareButton
+                          url={window.location}
+                          className='share-button'
+                        >
+                          <FacebookIcon />
+                        </FacebookShareButton>
+                        <TwitterShareButton
+                          url={window.location}
+                          className='share-button'
+                        >
+                          <TwitterIcon />
+                        </TwitterShareButton>
+                        <LinkedinShareButton
+                          url={window.location}
+                          className='share-button'
+                        >
+                          <LinkedinIcon />
+                        </LinkedinShareButton>
+                        <WhatsappShareButton
+                          url={window.location}
+                          className='share-button'
+                        >
+                          <WhatsappIcon />
+                        </WhatsappShareButton>
+                      </>
+                    }
+                    handleClose={togglePopup}
+                    active={isOpen}
+                  />
                 )}
               </div>
               <Comments storyId={storyId} />
