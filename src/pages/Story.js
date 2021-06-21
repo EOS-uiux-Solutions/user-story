@@ -142,6 +142,11 @@ const Story = (props) => {
     document.body.removeChild(dummy)
   }
 
+  const hashtagsArray = ['EOS', 'userstory']
+  const title = 'EOS User Story - POST Stories. GET Features.'
+  const summary =
+    "Share with us how you use our products, relate to other users' stories, vote them up, and we'll make sure we deliver cohesive solutions that enhance your experience."
+
   return (
     <>
       <Helmet>
@@ -256,24 +261,37 @@ const Story = (props) => {
                         <FacebookShareButton
                           url={window.location}
                           className='share-button'
+                          quote={title}
+                          hashtag={'#EOS'}
+                          onShareWindowClose={togglePopup}
                         >
                           <FacebookIcon />
                         </FacebookShareButton>
                         <TwitterShareButton
                           url={window.location}
                           className='share-button'
+                          title={title}
+                          hashtags={hashtagsArray}
+                          onShareWindowClose={togglePopup}
                         >
                           <TwitterIcon />
                         </TwitterShareButton>
                         <LinkedinShareButton
                           url={window.location}
                           className='share-button'
+                          title={title}
+                          summary={summary}
+                          source={'https://userstory.eosdesignsystem.com/'}
+                          onShareWindowClose={togglePopup}
                         >
                           <LinkedinIcon />
                         </LinkedinShareButton>
                         <WhatsappShareButton
                           url={window.location}
                           className='share-button'
+                          title={title}
+                          separator='  '
+                          onShareWindowClose={togglePopup}
                         >
                           <WhatsappIcon />
                         </WhatsappShareButton>
