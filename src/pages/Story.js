@@ -12,7 +12,7 @@ import Timeline from '../components/Timeline'
 import Button from '../components/Button'
 import LoadingIndicator from '../modules/LoadingIndicator'
 import Navigation from '../components/Navigation'
-import { Link } from '@reach/router'
+import { Link, navigate } from '@reach/router'
 import Vote from '../components/Vote'
 
 const Story = (props) => {
@@ -107,6 +107,11 @@ const Story = (props) => {
       ...story,
       Description: `${story.Description + editDescription}`
     })
+  }
+
+  if (story === null) {
+    navigate('/404', { replace: true })
+    return null
   }
 
   return (

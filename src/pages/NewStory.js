@@ -137,6 +137,7 @@ const NewStory = () => {
       setDescriptionError(true)
       return
     }
+    data.description = data.description.replace(/"/g, '\\"') // Replace all occurences of " with \"
     await axios.post(
       `${apiURL}/graphql`,
       {

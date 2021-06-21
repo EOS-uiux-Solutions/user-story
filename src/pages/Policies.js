@@ -4,9 +4,13 @@ import { apiURL } from '../config.json'
 import Navigation from '../components/Navigation'
 import ReactMarkdown from 'react-markdown'
 import { Helmet } from 'react-helmet'
+import { usePromiseTracker, trackPromise } from 'react-promise-tracker'
+import LoadingIndicator from '../modules/LoadingIndicator'
 
 const Policies = () => {
   const [policies, setPolicies] = useState('')
+
+  const { promiseInProgress } = usePromiseTracker()
 
   useEffect(() => {
     const fetchPolicies = async () => {
@@ -23,9 +27,9 @@ const Policies = () => {
           withCredentials: true
         }
       )
-      setPolicies(response.data.data.userStoryPolicies[0].Description)
+      setPolicies(response.data.data.userStoryPolicies?.[0].Description)
     }
-    fetchPolicies()
+    trackPromise(fetchPolicies())
   }, [])
 
   return (
@@ -37,7 +41,13 @@ const Policies = () => {
       <Navigation />
       <div className='body-content'>
         <div className='body-wrapper'>
-          <ReactMarkdown>{policies && `${policies}`}</ReactMarkdown>
+          {promiseInProgress ? (
+            <LoadingIndicator />
+          ) : policies ? (
+            <ReactMarkdown>{policies && `${policies}`}</ReactMarkdown>
+          ) : (
+            <h3>No policies</h3>
+          )}
         </div>
       </div>
     </>

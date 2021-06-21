@@ -12,11 +12,19 @@ $subheader-font-size: 18px;
   }
 }
 
+.search-bar {
+  align-items: center;
+  background-color: $eos-white;
+  border-radius: 10px;
+  justify-content: space-between;
+  margin: 16px 0px 16px 0px;
+  padding: 8px 20px;
+}
+
 .options-bar {
   align-items: center;
   background-color: $eos-white;
   border-radius: 10px;
-  margin: 16px 0px 16px 0px;
   padding: 8px 20px;
 }
 

@@ -38,12 +38,12 @@ const MyProfile = () => {
             id: "${userId}"
           }
           data: {
-            Name: "${user.Name}"
-            Profession: "${user.Profession}"
-            Company: "${user.Company}"
-            LinkedIn: "${user.LinkedIn}"
-            Twitter: "${user.Twitter}"
-            Bio: "${user.Bio}"
+            Name: "${user.Name ?? user.username}"
+            Profession: "${user.Profession ?? ''}"
+            Company: "${user.Company ?? ''}"
+            LinkedIn: "${user.LinkedIn ?? ''}"
+            Twitter: "${user.Twitter ?? ''}"
+            Bio: "${user.Bio ?? ''}"
           }
         }) {
           user {
@@ -69,6 +69,7 @@ const MyProfile = () => {
           query: `query {
           user(id: "${userId}") {
             profilePicture {
+              id
               url
             }
             Name
@@ -109,7 +110,7 @@ const MyProfile = () => {
             <div className='flex flex-row'>
               <div className='flex flex-column'>
                 <UserProfile
-                  user={user}
+                  user={Object.assign(user, { id: userId })}
                   handleInputChange={handleInputChange}
                   updateProfile={updateProfile}
                   allowEditing

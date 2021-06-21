@@ -39,6 +39,7 @@ export const EditableLabel = ({
             defaultValue={value}
             onKeyPress={handleInputChange}
             name={name}
+            {...props}
           />
         )
       }
