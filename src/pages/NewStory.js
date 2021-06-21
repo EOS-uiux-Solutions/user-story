@@ -147,7 +147,7 @@ const NewStory = () => {
                 Description: "${data.description}"
                 Title: "${data.title}"
                 Category: ${data.category}
-                user_story_status: "5f0f33205f5695666b0d2e7e"
+                user_story_status: "605ef6fed9e8ff3f5c2ee489"
                 product: "${data.product}"
                 Priority: ${data.priority}
               }

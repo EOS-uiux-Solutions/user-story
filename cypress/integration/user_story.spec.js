@@ -1,96 +1,88 @@
 /// <reference types="cypress" />
 
-describe('Test User Story', () => {
-  before('Login', () => {
+describe('Test new User Registration Workflow', () => {
+  before('Register a new user', () => {
     cy.visit('/')
 
     cy.contains('Sign In').click()
 
     cy.url().should('equal', 'http://localhost:3000/login')
 
-    cy.get('[type="text"]').type(Cypress.env('testEmail'))
+    cy.contains('Create an account').click()
 
-    cy.get('[type="password"]').type(Cypress.env('testPassword'))
+    cy.url().should('equal', 'http://localhost:3000/register')
+
+    cy.get('[name=username]').should('have.attr', 'type', 'text').type('user5')
+
+    cy.get('[name=email]').should('have.attr', 'type', 'text').type('test5@gmail.com')
+
+    cy.get('[name=password]').should('have.attr', 'type', 'password').type('password')
+
+    cy.get('[name=tc]').should('have.attr', 'type', 'checkbox').click()
 
     cy.get('.form-default > .btn').click()
 
-    cy.url({ timeout: 10000 }).should('equal', 'http://localhost:3000/')
-
-    cy.getCookie('token').should('exist')
-
-    cy.get('[href="/newStory"]').should('exist')
-
-    cy.get('nav > :nth-child(2)').should('exist')
-
-    cy.get('nav > :nth-child(3)').should('exist')
-
+    cy.url().should('equal', 'http://localhost:3000/')
+  
     cy.saveLocalStorage()
   })
 
   beforeEach(() => {
     Cypress.Cookies.preserveOnce('token')
+    cy.restoreLocalStorage()
+  })
+
+  afterEach(() => {
     cy.saveLocalStorage()
   })
 
-  it('Create new story', () => {
+  it('Allows user to create new story', () => {
     cy.get('[href="/newStory"]').click()
 
     cy.url().should('equal', 'http://localhost:3000/newStory')
 
-    cy.get('.input-default', { timeout: 10000 }).type('This is a test story')
+    cy.get('.input-default').type('This is a test story')
 
-    cy.get('[name="product"]').select('User Story')
+    cy.get('[name="product"]').select('EOS User Story')
 
-    cy.get('[name="category"]').select('Development')
+    cy.get('[name="category"]').select('Documentation')
+
+    cy.get('[name=priority]').select('High')
 
     cy.get('.ck-editor__main > .ck').type('Testing User Story')
 
-    cy.get('.btn').click()
+    cy.contains('Submit').click()
 
-    cy.url({ timeout: 10000 }).should('equal', 'http://localhost:3000/')
+    cy.url().should('equal', 'http://localhost:3000/')
   })
 
-  it('Home page', () => {
-    cy.get(':nth-child(1) > .stories-content > h4', {
-      timeout: 10000
-    }).contains('This is a test story')
+  it('Displays story in home page, once created', () => {
+    cy.get('.stories-content').contains('This is a test story').click()
 
-    cy.get(':nth-child(1) > .stories-content').click()
+    cy.url().should('contain', 'story')
   })
 
-  it('Story page', () => {
-    cy.url({ timeout: 10000 }).should('contain', 'story')
-
-    cy.get('textarea', { timeout: 10000 }).type('Add main test comment')
-
-    cy.get('.comment-form > .btn').click()
-
-    cy.get('.comment-content > p', { timeout: 15000 }).contains(
-      'Add main test comment'
-    )
-
-    cy.get('.reply-action > .btn', { timeout: 10000 }).click()
-
-    cy.get('.comment-content > .comment-form > .field > textarea').type(
-      'Add thread test comment'
-    )
-
-    cy.get('.comment-content > .comment-form > .btn').click()
-
-    cy.get('.reply-action > :nth-child(2)', { timeout: 20000 })
-      .contains('(1)')
-      .click()
-
-    cy.get(':nth-child(2) > .comment > .comment-content > p').contains(
-      'Add thread test comment'
-    )
-
+  it('Allows user to edit the story created by them', () => {
     cy.contains('Edit').click()
 
-    cy.get('.ck-blurred').type('Editing User Story')
+    cy.get('.ck-editor__main > .ck').type('Edited story description')
 
-    cy.contains('Save').click()
+    cy.get('.story-buttons-container').contains('Save').click()
 
-    cy.contains('Editing User Story', { timeout: 10000 })
+    cy.get('.story-description').contains('Edited story description')
+  })
+
+  it('Allows user to comment on a story', () => {
+    cy.get('[href="/"]').click()
+
+    cy.get('.stories-content').contains('Testing my story').click()
+
+    cy.get('[name="addComment"]').type('Testing comments')
+
+    cy.get('.btn').contains('Add Comment').click()
+
+    cy.get('.comment-content > .link').contains('user5')
+
+    cy.get('.comment-content > p').contains('Testing comments')
   })
 })
