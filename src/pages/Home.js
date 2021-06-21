@@ -18,6 +18,7 @@ import Navigation from '../components/Navigation'
 import Pagination from '../components/Pagination'
 import Dropdown from '../components/Dropdown'
 import Modal from '../components/Modal'
+import UsersSuggestionDropdown from '../components/UsersSuggestionDropdown'
 
 import Lists from '../utils/Lists'
 import useAuth from '../hooks/useAuth'
@@ -58,11 +59,25 @@ const Home = () => {
 
   const [categories, setCategories] = useState([])
 
+  const [searchTerm, setSearchTerm] = useState('')
+
   const { promiseInProgress } = usePromiseTracker()
 
   const [productQuery, setProductQuery] = useState(``)
 
   const [categoryQuery, setCategoryQuery] = useState(``)
+
+  const [searchQuery, setSearchQuery] = useState('')
+
+  const fieldToSearchDropdownContainer = useRef()
+
+  const [fieldToSearch, setFieldToSearch] = useState('Title')
+
+  const [usersSuggestionOpen, setUsersSuggestionOpen] = useState(false)
+
+  const [userTerm, setUserTerm] = useState('')
+
+  const [userQuery, setUserQuery] = useState('')
 
   const getPage = useCallback((page) => {
     setPage(page)
@@ -79,7 +94,13 @@ const Home = () => {
     } else {
       setCategoryQuery(``)
     }
-  }, [product, category])
+    if (searchTerm === '') {
+      setSearchQuery('')
+    }
+    if (userTerm === '') {
+      setUserQuery('')
+    }
+  }, [product, category, searchTerm, userTerm])
 
   useEffect(() => {
     const fetchStories = async () => {
@@ -93,8 +114,12 @@ const Home = () => {
                 user_story_status : {
                   Status: "${currentStateSelected}"
                 },
+                author: {
+                  username_contains: "${userQuery}"
+                }
                 ${categoryQuery}
                 ${productQuery}
+                ${searchQuery}
             }) {
               id
               Title
@@ -132,7 +157,14 @@ const Home = () => {
       setStories(response.data.data.userStories)
     }
     trackPromise(fetchStories())
-  }, [categoryQuery, currentStateSelected, page, productQuery])
+  }, [
+    categoryQuery,
+    currentStateSelected,
+    page,
+    productQuery,
+    searchQuery,
+    userQuery
+  ])
 
   useEffect(() => {
     const fetchStoryCount = async () => {
@@ -141,8 +173,16 @@ const Home = () => {
         {
           query: `
           query {
-            userStoriesConnection(where: { user_story_status: { Status: "${currentStateSelected}" },
-            ${productQuery} }) {
+            userStoriesConnection(where: {
+              user_story_status: {
+                Status: "${currentStateSelected}"
+              },
+              author: {
+                username_contains: "${userQuery}"
+              }
+              ${productQuery},
+              ${searchQuery}
+            }) {
               aggregate {
                 count
               }
@@ -156,7 +196,7 @@ const Home = () => {
       setStoryCount(response.data.data.userStoriesConnection.aggregate.count)
     }
     fetchStoryCount()
-  }, [currentStateSelected, product, productQuery])
+  }, [currentStateSelected, product, productQuery, searchQuery, userQuery])
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -362,28 +402,114 @@ const Home = () => {
                 )
               })}
           </div>
-          <div className='flex flex-row options-bar'>
-            <Dropdown
-              title='Product'
-              reference={productDropdownContainer}
-              curr={product}
-              setCurr={setProduct}
-              itemList={products}
-            />
-            <Dropdown
-              title='Categories'
-              reference={categoryDropdownContainer}
-              curr={category}
-              setCurr={setCategory}
-              itemList={categories}
-            />
-            <Dropdown
-              title='Sort By'
-              reference={sortDropdownContainer}
-              curr={sort}
-              setCurr={setSort}
-              itemList={Lists.sortByList}
-            />
+
+          <div className='flex flex-row search-bar'>
+            <div className='flex flex-row search-controls'>
+              <div className='flex flex-row search-input'>
+                <span>
+                  <i className='eos-icons'>search</i>
+                </span>
+                {
+                  <UsersSuggestionDropdown
+                    isOpen={usersSuggestionOpen}
+                    userTerm={userTerm}
+                    setUserTerm={setUserTerm}
+                    setUserQuery={setUserQuery}
+                    setUsersSuggestionOpen={setUsersSuggestionOpen}
+                  />
+                }
+                <input
+                  type='text'
+                  name='search'
+                  placeholder='Search'
+                  autoComplete='off'
+                  value={fieldToSearch === 'Title' ? searchTerm : userTerm}
+                  onChange={(event) => {
+                    if (fieldToSearch === 'Title') {
+                      setSearchTerm(event.target.value)
+                    } else {
+                      setUserTerm(event.target.value)
+                      setUsersSuggestionOpen(true)
+                    }
+                  }}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter') {
+                      if (fieldToSearch === 'Title' && searchTerm.length > 0) {
+                        setSearchQuery(`Title_contains: "${searchTerm}"`)
+                      } else if (userTerm.length > 0) {
+                        setUserQuery(userTerm)
+                        setUsersSuggestionOpen(false)
+                      }
+                    }
+                  }}
+                  onFocus={() => {
+                    if (fieldToSearch === 'Author' && userTerm.length > 0) {
+                      setUsersSuggestionOpen(true)
+                    }
+                  }}
+                />
+                <div className='close-btn-div'>
+                  <span
+                    className='close-btn'
+                    onClick={() => {
+                      if (fieldToSearch === 'Title' && searchTerm.length > 0) {
+                        setSearchTerm('')
+                      } else if (userTerm.length > 0) {
+                        setUserTerm('')
+                      }
+                    }}
+                  >
+                    {((fieldToSearch === 'Title' && searchTerm.length > 0) ||
+                      (fieldToSearch === 'Author' && userTerm.length > 0)) && (
+                      <i className='eos-icons'>close</i>
+                    )}
+                  </span>
+                </div>
+                <Dropdown
+                  title=''
+                  reference={fieldToSearchDropdownContainer}
+                  curr={fieldToSearch}
+                  setCurr={setFieldToSearch}
+                  itemList={['Title', 'Author']}
+                />
+              </div>
+              <Button
+                type='submit'
+                className='btn btn-default'
+                onClick={() => {
+                  if (fieldToSearch === 'Title' && searchTerm.length > 0) {
+                    setSearchQuery(`Title_contains: "${searchTerm}"`)
+                  } else if (userTerm.length > 0) {
+                    setUserQuery(userTerm)
+                  }
+                }}
+              >
+                Search
+              </Button>
+            </div>
+            <div className='flex flex-row options-bar'>
+              <Dropdown
+                title='Product'
+                reference={productDropdownContainer}
+                curr={product}
+                setCurr={setProduct}
+                itemList={products}
+              />
+              <Dropdown
+                title='Categories'
+                reference={categoryDropdownContainer}
+                curr={category}
+                setCurr={setCategory}
+                itemList={categories}
+              />
+              <Dropdown
+                title='Sort By'
+                reference={sortDropdownContainer}
+                curr={sort}
+                setCurr={setSort}
+                itemList={Lists.sortByList}
+              />
+            </div>
           </div>
           {promiseInProgress ? (
             <LoadingIndicator />
