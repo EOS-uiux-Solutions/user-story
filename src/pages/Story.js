@@ -144,8 +144,6 @@ const Story = (props) => {
 
   const hashtagsArray = ['EOS', 'userstory']
   const title = 'EOS User Story - POST Stories. GET Features.'
-  const summary =
-    "Share with us how you use our products, relate to other users' stories, vote them up, and we'll make sure we deliver cohesive solutions that enhance your experience."
 
   return (
     <>
@@ -279,9 +277,6 @@ const Story = (props) => {
                         <LinkedinShareButton
                           url={window.location}
                           className='share-button'
-                          title={title}
-                          summary={summary}
-                          source={'https://userstory.eosdesignsystem.com/'}
                           onShareWindowClose={togglePopup}
                         >
                           <LinkedinIcon />
@@ -290,7 +285,7 @@ const Story = (props) => {
                           url={window.location}
                           className='share-button'
                           title={title}
-                          separator='  '
+                          separator=' '
                           onShareWindowClose={togglePopup}
                         >
                           <WhatsappIcon />
