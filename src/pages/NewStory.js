@@ -1,9 +1,8 @@
 import React, { useLayoutEffect, useState, useEffect, useContext } from 'react'
 import { useForm } from 'react-hook-form'
 
-import MarkdownIt from 'markdown-it'
-import MdEditor from 'react-markdown-editor-lite'
-import 'react-markdown-editor-lite/lib/index.css'
+import MarkdownEditor from '../components/MarkdownEditor'
+import { filterDescriptionText } from '../utils/filterText'
 import axios from 'axios'
 import { apiURL } from '../config.json'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
@@ -19,16 +18,8 @@ import { navigate } from '@reach/router'
 import Context from '../modules/Context'
 import Login from './Login'
 
-const mdParser = new MarkdownIt().set({ html: true })
-
 const initialDescriptionInputsValue = {
   None: ''
-}
-
-const filterDescriptionText = (text) => {
-  text = text.replace(/"/g, '\\"') // Replace all occurences of " with \"
-  text = text.replace(/[\r\n]/g, '') // Remove the line endings
-  return text
 }
 
 const NewStory = () => {
@@ -306,23 +297,12 @@ const NewStory = () => {
                 </div>
                 <div className='form-element'>
                   <label htmlFor='description'>Description</label>
-                  <MdEditor
-                    plugins={[
-                      'header',
-                      'font-bold',
-                      'font-italic',
-                      'list-unordered',
-                      'list-ordered',
-                      'link',
-                      'mode-toggle'
-                    ]}
-                    style={{ height: '350px' }}
-                    renderHTML={(text) => mdParser.render(text)}
-                    onChange={({ html, text }) => {
-                      setDescription(html)
-                      setDescriptionError(false)
+                  <MarkdownEditor
+                    callback={(html, text) => {
                       const result = {}
                       result[currentProductSelected] = text
+                      setDescription(html)
+                      setDescriptionError(false)
                       setDescriptionInputs({
                         ...descriptionInputs,
                         ...result

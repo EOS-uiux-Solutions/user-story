@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import CKEditor from '@ckeditor/ckeditor5-react'
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import axios from 'axios'
 import { apiURL } from '../config.json'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 
 import { Helmet } from 'react-helmet'
 
+import MarkdownEditor from '../components/MarkdownEditor'
+import { filterDescriptionText } from '../utils/filterText'
 import Comments from '../components/Comments'
 import Timeline from '../components/Timeline'
 import Button from '../components/Button'
@@ -82,15 +82,18 @@ const Story = (props) => {
   }, [storyId, userId])
 
   const save = async (event) => {
+    if (editDescription.length <= 0) {
+      return
+    }
     event.preventDefault()
+    const combinedDescription = story.Description + editDescription
+    const filteredDescription = filterDescriptionText(combinedDescription)
     await axios.post(
       `${apiURL}/graphql`,
       {
         query: `mutation {
           updateUserStory(
-            input: { where: { id: "${storyId}" }, data: { Description: "${
-          story.Description + editDescription
-        }" } }
+            input: { where: { id: "${storyId}" }, data: { Description: "${filteredDescription}" } }
           ) {
             userStory {
               updatedAt
@@ -105,7 +108,7 @@ const Story = (props) => {
     setEditor(false)
     setStory({
       ...story,
-      Description: `${story.Description + editDescription}`
+      Description: `${combinedDescription}`
     })
   }
 
@@ -156,23 +159,9 @@ const Story = (props) => {
 
               {editor ? (
                 <>
-                  <CKEditor
-                    editor={ClassicEditor}
-                    config={{
-                      toolbar: [
-                        'heading',
-                        '|',
-                        'bold',
-                        'italic',
-                        '|',
-                        'link',
-                        'bulletedList',
-                        'numberedList'
-                      ]
-                    }}
-                    onChange={(event, editor) => {
-                      const response = editor.getData()
-                      setDescription(response)
+                  <MarkdownEditor
+                    callback={(html) => {
+                      setDescription(html)
                     }}
                   />
                 </>
