@@ -35,6 +35,8 @@ const NewStory = () => {
     initialDescriptionInputsValue
   )
 
+  const [underConsiderationId, setUnderConsiderationId] = useState('')
+
   const [description, setDescription] = useState('')
 
   const [categories, setCategories] = useState([])
@@ -127,6 +129,21 @@ const NewStory = () => {
 
     trackPromise(fetchPriorities())
 
+    const fetchUserStoryStatuses = async () => {
+      const response = await axios.post(`${apiURL}/graphql`, {
+        query: `query {
+          userStoryStatuses (where: {
+            Status: "Under consideration"
+          }) {
+            id
+          }
+        }`
+      })
+      setUnderConsiderationId(response.data.data.userStoryStatuses[0]?.id ?? '')
+    }
+
+    trackPromise(fetchUserStoryStatuses())
+
     const fetchStoriesData = async () => {
       const response = await axios.post(
         `${apiURL}/graphql`,
@@ -164,7 +181,7 @@ const NewStory = () => {
   }
 
   const onSubmit = async (data) => {
-    if (description === undefined || description.length <= 0) {
+    if (!description?.length) {
       setDescriptionError(true)
       return
     }
@@ -179,7 +196,7 @@ const NewStory = () => {
                 Description: "${data.description}"
                 Title: "${data.title}"
                 Category: ${data.category}
-                user_story_status: "60b5cef600971013c4f269c2"
+                user_story_status: "${underConsiderationId}"
                 product: "${data.product}"
                 Priority: ${data.priority}
               }
