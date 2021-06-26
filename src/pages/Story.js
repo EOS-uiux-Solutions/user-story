@@ -221,15 +221,13 @@ const Story = (props) => {
                       onClick={() => setEditor(true)}
                     >
                       Edit
-                    </Button>{' '}
-                    &nbsp; &nbsp;
-                    <object className='share-story' onClick={togglePopup}>
-                      <i className='eos-icons share-story'> share </i>
-                    </object>{' '}
-                    &nbsp; &nbsp;
-                    <object className='share-story' onClick={copy}>
+                    </Button>
+                    <Button className='share-story' onClick={togglePopup}>
+                      <i className='eos-icons'> share </i>
+                    </Button>
+                    <Button className='share-story' onClick={copy}>
                       <i className='eos-icons'>content_copy</i>
-                    </object>
+                    </Button>
                   </>
                 ) : (
                   ''
