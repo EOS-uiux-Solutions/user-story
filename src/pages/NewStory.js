@@ -35,8 +35,6 @@ const NewStory = () => {
     initialDescriptionInputsValue
   )
 
-  const [underConsiderationId, setUnderConsiderationId] = useState('')
-
   const [description, setDescription] = useState('')
 
   const [categories, setCategories] = useState([])
@@ -83,10 +81,7 @@ const NewStory = () => {
           products {
             id
             Name
-            user_story_template {
-              Name
-              Template
-            }
+            user_story_template
           }
         }`
         },
@@ -98,8 +93,7 @@ const NewStory = () => {
       setProducts(products)
       const productToTemplateTextMap = {}
       products.forEach((product) => {
-        productToTemplateTextMap[product.id] =
-          product.user_story_template?.Template ?? ''
+        productToTemplateTextMap[product.id] = product.user_story_template ?? ''
       })
       setDescriptionInputs({
         ...initialDescriptionInputsValue,
@@ -128,21 +122,6 @@ const NewStory = () => {
     }
 
     trackPromise(fetchPriorities())
-
-    const fetchUserStoryStatuses = async () => {
-      const response = await axios.post(`${apiURL}/graphql`, {
-        query: `query {
-          userStoryStatuses (where: {
-            Status: "Under consideration"
-          }) {
-            id
-          }
-        }`
-      })
-      setUnderConsiderationId(response.data.data.userStoryStatuses[0]?.id ?? '')
-    }
-
-    trackPromise(fetchUserStoryStatuses())
 
     const fetchStoriesData = async () => {
       const response = await axios.post(
@@ -196,7 +175,6 @@ const NewStory = () => {
                 Description: "${data.description}"
                 Title: "${data.title}"
                 Category: ${data.category}
-                user_story_status: "${underConsiderationId}"
                 product: "${data.product}"
                 Priority: ${data.priority}
               }
