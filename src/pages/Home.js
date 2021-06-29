@@ -6,7 +6,8 @@ import React, {
   useContext
 } from 'react'
 import axios from 'axios'
-import { Link } from '@reach/router'
+import { Link, useLocation } from '@reach/router'
+import { parse } from 'query-string'
 import { apiURL } from '../config.json'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 import { Helmet } from 'react-helmet'
@@ -25,6 +26,10 @@ import useAuth from '../hooks/useAuth'
 import Context from '../modules/Context'
 
 const Home = () => {
+  const location = useLocation()
+
+  const searchParams = useRef(parse(location.search))
+
   const { logout } = useAuth()
 
   const userId = localStorage.getItem('id')
@@ -214,14 +219,21 @@ const Home = () => {
         }
       )
 
-      return response.data.data.product !== null
-        ? setProducts([
-            'All',
-            ...response.data.data.products?.map((ele) => {
-              return ele.Name
-            })
-          ])
-        : setProducts(['All'])
+      const productsList =
+        response.data.data.products !== null
+          ? [
+              'All',
+              ...response.data.data.products?.map((ele) => {
+                return ele.Name
+              })
+            ]
+          : ['All']
+
+      setProducts(productsList)
+
+      if (productsList.indexOf(searchParams.current.product) !== -1) {
+        setProduct(searchParams.current.product)
+      }
     }
     fetchProducts()
   }, [])
@@ -231,12 +243,18 @@ const Home = () => {
       const response = await axios.post(`${apiURL}/graphql`, {
         query: '{ __type(name: "ENUM_USERSTORY_CATEGORY") {enumValues {name}}}'
       })
-      setCategories([
+
+      const categoriesList = [
         'All',
         ...response.data.data.__type.enumValues.map((ele) => {
           return ele.name
         })
-      ])
+      ]
+      setCategories(categoriesList)
+
+      if (categoriesList.indexOf(searchParams.current.category) !== -1) {
+        setCategory(searchParams.current.category)
+      }
     }
     fetchCategories()
   }, [])
@@ -494,6 +512,8 @@ const Home = () => {
                 curr={product}
                 setCurr={setProduct}
                 itemList={products}
+                searchFilters={searchParams.current}
+                objKey='product'
               />
               <Dropdown
                 title='Categories'
@@ -501,6 +521,8 @@ const Home = () => {
                 curr={category}
                 setCurr={setCategory}
                 itemList={categories}
+                searchFilters={searchParams.current}
+                objKey='category'
               />
               <Dropdown
                 title='Sort By'

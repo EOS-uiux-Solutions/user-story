@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from 'react'
+import { navigate } from '@reach/router'
+import { stringify } from 'query-string'
 
 import Button from './Button'
 
 const Dropdown = (props) => {
-  const { title, reference, curr, setCurr, itemList } = props
+  const {
+    title,
+    reference,
+    curr,
+    setCurr,
+    itemList,
+    searchFilters,
+    objKey
+  } = props
 
   const [dropdownState, setDropdownState] = useState(false)
 
@@ -14,6 +24,18 @@ const Dropdown = (props) => {
   const handleSelection = (value) => {
     setCurr(value)
     setDropdownState(false)
+    if (searchFilters) {
+      searchFilters[objKey] = value
+      if (searchFilters[objKey] === 'All') {
+        delete searchFilters[objKey]
+      }
+      const queryString = stringify(searchFilters)
+      if (queryString.length > 0) {
+        navigate(`/?${stringify(searchFilters)}`)
+      } else {
+        navigate('/')
+      }
+    }
   }
 
   useEffect(() => {
