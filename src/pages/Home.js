@@ -22,6 +22,7 @@ import Modal from '../components/Modal'
 import UsersSuggestionDropdown from '../components/UsersSuggestionDropdown'
 
 import Lists from '../utils/Lists'
+import SortParams from '../utils/SortParams'
 import useAuth from '../hooks/useAuth'
 import Context from '../modules/Context'
 
@@ -29,6 +30,13 @@ const Home = () => {
   const location = useLocation()
 
   const searchParams = useRef(parse(location.search))
+  if (
+    SortParams.map((param) => param.name).indexOf(
+      searchParams.current.sortBy
+    ) === -1
+  ) {
+    delete searchParams.current.sortBy
+  }
 
   const { logout } = useAuth()
 
@@ -56,7 +64,7 @@ const Home = () => {
 
   const [product, setProduct] = useState('All')
 
-  const [sort, setSort] = useState('Most Voted')
+  const [sort, setSort] = useState(searchParams.current.sortBy ?? 'Most Voted')
 
   const [category, setCategory] = useState('All')
 
@@ -260,22 +268,12 @@ const Home = () => {
   }, [])
 
   useEffect(() => {
-    const comparatorVotes = (a, b) => {
-      return a.followers.length > b.followers.length ? -1 : 1
-    }
-    const comparatorComments = (a, b) => {
-      return a.user_story_comments.length > b.user_story_comments.length
-        ? -1
-        : 1
-    }
-
     const updateStories = async () => {
-      if (sort === 'Most Voted') {
-        setStories(stories.sort(comparatorVotes))
-      }
-      if (sort === 'Most Discussed') {
-        setStories(stories.sort(comparatorComments))
-      }
+      SortParams.forEach((param) => {
+        if (sort === param.name) {
+          setStories(stories.sort(param.comparator))
+        }
+      })
     }
     trackPromise(updateStories())
   }, [sort, stories, setStories])
@@ -530,6 +528,8 @@ const Home = () => {
                 curr={sort}
                 setCurr={setSort}
                 itemList={Lists.sortByList}
+                searchFilters={searchParams.current}
+                objKey='sortBy'
               />
             </div>
           </div>
@@ -549,6 +549,7 @@ const Home = () => {
             storyCount={storyCount}
             status={currentStateSelected}
             product={product}
+            searchFilters={searchParams.current}
           />
         </div>
       </div>

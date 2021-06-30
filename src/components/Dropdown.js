@@ -31,7 +31,7 @@ const Dropdown = (props) => {
       }
       const queryString = stringify(searchFilters)
       if (queryString.length > 0) {
-        navigate(`/?${stringify(searchFilters)}`)
+        navigate(`/?${queryString}`)
       } else {
         navigate('/')
       }
