@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react'
+import { stringify } from 'query-string'
 
 import { Link } from '@reach/router'
 
 const Pagination = (props) => {
-  const { getPage, storyCount, status, product } = props
+  const { getPage, storyCount, status, product, searchFilters } = props
+
+  const queryString = stringify(searchFilters)
+
+  const finalRoute = queryString.length > 0 ? `/?${queryString}` : '/'
 
   const [currNumber, setCurrNumber] = useState(1)
 
@@ -38,7 +43,7 @@ const Pagination = (props) => {
             getPage(currNumber - 1)
           }
         }}
-        to='/'
+        to={finalRoute}
       >
         <i className='eos-icons eos-18'>keyboard_arrow_left</i>
         {`Prev`}
@@ -53,7 +58,7 @@ const Pagination = (props) => {
                     setCurrNumber(ele)
                     getPage(ele)
                   }}
-                  to='/'
+                  to={finalRoute}
                   key={key}
                 >
                   {ele}
@@ -70,7 +75,7 @@ const Pagination = (props) => {
             getPage(currNumber + 1)
           }
         }}
-        to='/'
+        to={finalRoute}
       >
         {`Next`}
         <i className='eos-icons eos-18'>keyboard_arrow_right</i>

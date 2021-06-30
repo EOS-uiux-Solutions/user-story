@@ -14,6 +14,7 @@
     "i18next": "^19.4.5",
     "markdown-it": "^12.0.6",
     "node-sass": "^4.13.1",
+    "query-string": "^7.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-dropzone": "^11.0.1",

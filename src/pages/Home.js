@@ -6,7 +6,8 @@ import React, {
   useContext
 } from 'react'
 import axios from 'axios'
-import { Link } from '@reach/router'
+import { Link, useLocation } from '@reach/router'
+import { parse } from 'query-string'
 import { apiURL } from '../config.json'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 import { Helmet } from 'react-helmet'
@@ -18,13 +19,25 @@ import Navigation from '../components/Navigation'
 import Pagination from '../components/Pagination'
 import Dropdown from '../components/Dropdown'
 import Modal from '../components/Modal'
-import UsersSuggestionDropdown from '../components/UsersSuggestionDropdown'
+import SearchInput from '../components/SearchInput'
 
 import Lists from '../utils/Lists'
+import SortParams from '../utils/SortParams'
 import useAuth from '../hooks/useAuth'
 import Context from '../modules/Context'
 
 const Home = () => {
+  const location = useLocation()
+
+  const searchParams = useRef(parse(location.search))
+  if (
+    SortParams.map((param) => param.name).indexOf(
+      searchParams.current.sortBy
+    ) === -1
+  ) {
+    delete searchParams.current.sortBy
+  }
+
   const { logout } = useAuth()
 
   const userId = localStorage.getItem('id')
@@ -51,7 +64,7 @@ const Home = () => {
 
   const [product, setProduct] = useState('All')
 
-  const [sort, setSort] = useState('Most Voted')
+  const [sort, setSort] = useState(searchParams.current.sortBy ?? 'Most Voted')
 
   const [category, setCategory] = useState('All')
 
@@ -68,12 +81,6 @@ const Home = () => {
   const [categoryQuery, setCategoryQuery] = useState(``)
 
   const [searchQuery, setSearchQuery] = useState('')
-
-  const fieldToSearchDropdownContainer = useRef()
-
-  const [fieldToSearch, setFieldToSearch] = useState('Title')
-
-  const [usersSuggestionOpen, setUsersSuggestionOpen] = useState(false)
 
   const [userTerm, setUserTerm] = useState('')
 
@@ -214,14 +221,21 @@ const Home = () => {
         }
       )
 
-      return response.data.data.product !== null
-        ? setProducts([
-            'All',
-            ...response.data.data.products?.map((ele) => {
-              return ele.Name
-            })
-          ])
-        : setProducts(['All'])
+      const productsList =
+        response.data.data.products !== null
+          ? [
+              'All',
+              ...response.data.data.products?.map((ele) => {
+                return ele.Name
+              })
+            ]
+          : ['All']
+
+      setProducts(productsList)
+
+      if (productsList.indexOf(searchParams.current.product) !== -1) {
+        setProduct(searchParams.current.product)
+      }
     }
     fetchProducts()
   }, [])
@@ -231,33 +245,29 @@ const Home = () => {
       const response = await axios.post(`${apiURL}/graphql`, {
         query: '{ __type(name: "ENUM_USERSTORY_CATEGORY") {enumValues {name}}}'
       })
-      setCategories([
+
+      const categoriesList = [
         'All',
         ...response.data.data.__type.enumValues.map((ele) => {
           return ele.name
         })
-      ])
+      ]
+      setCategories(categoriesList)
+
+      if (categoriesList.indexOf(searchParams.current.category) !== -1) {
+        setCategory(searchParams.current.category)
+      }
     }
     fetchCategories()
   }, [])
 
   useEffect(() => {
-    const comparatorVotes = (a, b) => {
-      return a.followers.length > b.followers.length ? -1 : 1
-    }
-    const comparatorComments = (a, b) => {
-      return a.user_story_comments.length > b.user_story_comments.length
-        ? -1
-        : 1
-    }
-
     const updateStories = async () => {
-      if (sort === 'Most Voted') {
-        setStories(stories.sort(comparatorVotes))
-      }
-      if (sort === 'Most Discussed') {
-        setStories(stories.sort(comparatorComments))
-      }
+      SortParams.forEach((param) => {
+        if (sort === param.name) {
+          setStories(stories.sort(param.comparator))
+        }
+      })
     }
     trackPromise(updateStories())
   }, [sort, stories, setStories])
@@ -404,89 +414,14 @@ const Home = () => {
           </div>
 
           <div className='flex flex-row search-bar'>
-            <div className='flex flex-row search-controls'>
-              <div className='flex flex-row search-input'>
-                <span>
-                  <i className='eos-icons'>search</i>
-                </span>
-                {
-                  <UsersSuggestionDropdown
-                    isOpen={usersSuggestionOpen}
-                    userTerm={userTerm}
-                    setUserTerm={setUserTerm}
-                    setUserQuery={setUserQuery}
-                    setUsersSuggestionOpen={setUsersSuggestionOpen}
-                  />
-                }
-                <input
-                  type='text'
-                  name='search'
-                  placeholder='Search'
-                  autoComplete='off'
-                  value={fieldToSearch === 'Title' ? searchTerm : userTerm}
-                  onChange={(event) => {
-                    if (fieldToSearch === 'Title') {
-                      setSearchTerm(event.target.value)
-                    } else {
-                      setUserTerm(event.target.value)
-                      setUsersSuggestionOpen(true)
-                    }
-                  }}
-                  onKeyDown={(event) => {
-                    if (event.key === 'Enter') {
-                      if (fieldToSearch === 'Title' && searchTerm.length > 0) {
-                        setSearchQuery(`Title_contains: "${searchTerm}"`)
-                      } else if (userTerm.length > 0) {
-                        setUserQuery(userTerm)
-                        setUsersSuggestionOpen(false)
-                      }
-                    }
-                  }}
-                  onFocus={() => {
-                    if (fieldToSearch === 'Author' && userTerm.length > 0) {
-                      setUsersSuggestionOpen(true)
-                    }
-                  }}
-                />
-                <div className='close-btn-div'>
-                  <span
-                    className='close-btn'
-                    onClick={() => {
-                      if (fieldToSearch === 'Title' && searchTerm.length > 0) {
-                        setSearchTerm('')
-                      } else if (userTerm.length > 0) {
-                        setUserTerm('')
-                      }
-                    }}
-                  >
-                    {((fieldToSearch === 'Title' && searchTerm.length > 0) ||
-                      (fieldToSearch === 'Author' && userTerm.length > 0)) && (
-                      <i className='eos-icons'>close</i>
-                    )}
-                  </span>
-                </div>
-                <Dropdown
-                  title=''
-                  reference={fieldToSearchDropdownContainer}
-                  curr={fieldToSearch}
-                  setCurr={setFieldToSearch}
-                  itemList={['Title', 'Author']}
-                />
-              </div>
-              <Button
-                type='submit'
-                className='btn btn-default'
-                onClick={() => {
-                  if (fieldToSearch === 'Title' && searchTerm.length > 0) {
-                    setSearchQuery(`Title_contains: "${searchTerm}"`)
-                  } else if (userTerm.length > 0) {
-                    setUserQuery(userTerm)
-                  }
-                }}
-              >
-                Search
-              </Button>
-            </div>
+            <SearchInput
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              userTerm={userTerm}
+              setUserTerm={setUserTerm}
+              setSearchQuery={setSearchQuery}
+              setUserQuery={setUserQuery}
+            />
             <div className='flex flex-row options-bar'>
               <Dropdown
                 title='Product'
@@ -494,6 +429,8 @@ const Home = () => {
                 curr={product}
                 setCurr={setProduct}
                 itemList={products}
+                searchFilters={searchParams.current}
+                objKey='product'
               />
               <Dropdown
                 title='Categories'
@@ -501,6 +438,8 @@ const Home = () => {
                 curr={category}
                 setCurr={setCategory}
                 itemList={categories}
+                searchFilters={searchParams.current}
+                objKey='category'
               />
               <Dropdown
                 title='Sort By'
@@ -508,6 +447,8 @@ const Home = () => {
                 curr={sort}
                 setCurr={setSort}
                 itemList={Lists.sortByList}
+                searchFilters={searchParams.current}
+                objKey='sortBy'
               />
             </div>
           </div>
@@ -527,6 +468,7 @@ const Home = () => {
             storyCount={storyCount}
             status={currentStateSelected}
             product={product}
+            searchFilters={searchParams.current}
           />
         </div>
       </div>
