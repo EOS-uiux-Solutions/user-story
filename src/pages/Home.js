@@ -19,7 +19,7 @@ import Navigation from '../components/Navigation'
 import Pagination from '../components/Pagination'
 import Dropdown from '../components/Dropdown'
 import Modal from '../components/Modal'
-import UsersSuggestionDropdown from '../components/UsersSuggestionDropdown'
+import SearchInput from '../components/SearchInput'
 
 import Lists from '../utils/Lists'
 import SortParams from '../utils/SortParams'
@@ -81,12 +81,6 @@ const Home = () => {
   const [categoryQuery, setCategoryQuery] = useState(``)
 
   const [searchQuery, setSearchQuery] = useState('')
-
-  const fieldToSearchDropdownContainer = useRef()
-
-  const [fieldToSearch, setFieldToSearch] = useState('Title')
-
-  const [usersSuggestionOpen, setUsersSuggestionOpen] = useState(false)
 
   const [userTerm, setUserTerm] = useState('')
 
@@ -420,89 +414,14 @@ const Home = () => {
           </div>
 
           <div className='flex flex-row search-bar'>
-            <div className='flex flex-row search-controls'>
-              <div className='flex flex-row search-input'>
-                <span>
-                  <i className='eos-icons'>search</i>
-                </span>
-                {
-                  <UsersSuggestionDropdown
-                    isOpen={usersSuggestionOpen}
-                    userTerm={userTerm}
-                    setUserTerm={setUserTerm}
-                    setUserQuery={setUserQuery}
-                    setUsersSuggestionOpen={setUsersSuggestionOpen}
-                  />
-                }
-                <input
-                  type='text'
-                  name='search'
-                  placeholder='Search'
-                  autoComplete='off'
-                  value={fieldToSearch === 'Title' ? searchTerm : userTerm}
-                  onChange={(event) => {
-                    if (fieldToSearch === 'Title') {
-                      setSearchTerm(event.target.value)
-                    } else {
-                      setUserTerm(event.target.value)
-                      setUsersSuggestionOpen(true)
-                    }
-                  }}
-                  onKeyDown={(event) => {
-                    if (event.key === 'Enter') {
-                      if (fieldToSearch === 'Title' && searchTerm.length > 0) {
-                        setSearchQuery(`Title_contains: "${searchTerm}"`)
-                      } else if (userTerm.length > 0) {
-                        setUserQuery(userTerm)
-                        setUsersSuggestionOpen(false)
-                      }
-                    }
-                  }}
-                  onFocus={() => {
-                    if (fieldToSearch === 'Author' && userTerm.length > 0) {
-                      setUsersSuggestionOpen(true)
-                    }
-                  }}
-                />
-                <div className='close-btn-div'>
-                  <span
-                    className='close-btn'
-                    onClick={() => {
-                      if (fieldToSearch === 'Title' && searchTerm.length > 0) {
-                        setSearchTerm('')
-                      } else if (userTerm.length > 0) {
-                        setUserTerm('')
-                      }
-                    }}
-                  >
-                    {((fieldToSearch === 'Title' && searchTerm.length > 0) ||
-                      (fieldToSearch === 'Author' && userTerm.length > 0)) && (
-                      <i className='eos-icons'>close</i>
-                    )}
-                  </span>
-                </div>
-                <Dropdown
-                  title=''
-                  reference={fieldToSearchDropdownContainer}
-                  curr={fieldToSearch}
-                  setCurr={setFieldToSearch}
-                  itemList={['Title', 'Author']}
-                />
-              </div>
-              <Button
-                type='submit'
-                className='btn btn-default'
-                onClick={() => {
-                  if (fieldToSearch === 'Title' && searchTerm.length > 0) {
-                    setSearchQuery(`Title_contains: "${searchTerm}"`)
-                  } else if (userTerm.length > 0) {
-                    setUserQuery(userTerm)
-                  }
-                }}
-              >
-                Search
-              </Button>
-            </div>
+            <SearchInput
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              userTerm={userTerm}
+              setUserTerm={setUserTerm}
+              setSearchQuery={setSearchQuery}
+              setUserQuery={setUserQuery}
+            />
             <div className='flex flex-row options-bar'>
               <Dropdown
                 title='Product'
