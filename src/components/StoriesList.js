@@ -15,7 +15,7 @@ const StoriesList = (props) => {
   }
 
   return (
-    <div className='flex flex-column'>
+    <div className='flex flex-column' data-cy='stories'>
       {stories && stories.length ? (
         stories.map((story, key) => {
           return story.user_story_status?.Status === state &&

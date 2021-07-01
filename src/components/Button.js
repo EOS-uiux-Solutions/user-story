@@ -1,6 +1,14 @@
 import React from 'react'
 
-const Button = ({ children, className, action, type, onClick, disabled }) => {
+const Button = ({
+  children,
+  className,
+  action,
+  type,
+  onClick,
+  disabled,
+  dataCy
+}) => {
   return (
     <button
       className={className}
@@ -8,6 +16,7 @@ const Button = ({ children, className, action, type, onClick, disabled }) => {
       type={type}
       onClick={onClick}
       disabled={disabled}
+      data-cy={dataCy}
     >
       {children}
     </button>

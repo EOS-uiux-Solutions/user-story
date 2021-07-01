@@ -290,7 +290,7 @@ const NewStory = () => {
                   </select>
                   {errors.priority && <FormError type={errors.priority.type} />}
                 </div>
-                <div className='form-element'>
+                <div className='form-element' data-cy='description-editor'>
                   <label htmlFor='description'>Description</label>
                   <MarkdownEditor
                     callback={(html, text) => {

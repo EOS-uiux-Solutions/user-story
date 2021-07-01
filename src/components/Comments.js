@@ -165,7 +165,7 @@ const Comments = (props) => {
                   alt='Default User Avatar'
                 ></img>
               </div>
-              <div className='comment-content'>
+              <div className='comment-content' data-cy='comment-content'>
                 <Link
                   className='link link-default'
                   to={`/profile/${data.user.id}`}
@@ -302,7 +302,9 @@ const Comments = (props) => {
               <FormError message='Comment cannot be empty' />
             )}
           </div>
-          <Button className='btn btn-default'>Add Comment</Button>
+          <Button className='btn btn-default' dataCy='btn-comment'>
+            Add Comment
+          </Button>
         </form>
       )}
     </div>
