@@ -81,7 +81,7 @@ const NewStory = () => {
           products {
             id
             Name
-            user_story_template
+            product_template
           }
         }`
         },
@@ -93,7 +93,7 @@ const NewStory = () => {
       setProducts(products)
       const productToTemplateTextMap = {}
       products.forEach((product) => {
-        productToTemplateTextMap[product.id] = product.user_story_template ?? ''
+        productToTemplateTextMap[product.id] = product.product_template ?? ''
       })
       setDescriptionInputs({
         ...initialDescriptionInputsValue,
