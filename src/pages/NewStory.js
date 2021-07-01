@@ -1,8 +1,8 @@
 import React, { useLayoutEffect, useState, useEffect, useContext } from 'react'
 import { useForm } from 'react-hook-form'
 
-import CKEditor from '@ckeditor/ckeditor5-react'
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import MarkdownEditor from '../components/MarkdownEditor'
+import { filterDescriptionText } from '../utils/filterText'
 import axios from 'axios'
 import { apiURL } from '../config.json'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
@@ -18,12 +18,24 @@ import { navigate } from '@reach/router'
 import Context from '../modules/Context'
 import Login from './Login'
 
+const initialDescriptionInputsValue = {
+  None: ''
+}
+
 const NewStory = () => {
   const { state } = useContext(Context)
 
-  const { register, handleSubmit, errors, setValue, watch } = useForm()
+  const { register, handleSubmit, errors, watch } = useForm()
+
+  const [currentProductSelected, setCurrentProductSelected] = useState('None')
 
   const [descriptionError, setDescriptionError] = useState(false)
+
+  const [descriptionInputs, setDescriptionInputs] = useState(
+    initialDescriptionInputsValue
+  )
+
+  const [description, setDescription] = useState('')
 
   const [categories, setCategories] = useState([])
 
@@ -69,6 +81,7 @@ const NewStory = () => {
           products {
             id
             Name
+            user_story_template
           }
         }`
         },
@@ -76,7 +89,16 @@ const NewStory = () => {
           withCredentials: true
         }
       )
-      setProducts(response.data.data.products)
+      const { products } = response.data.data
+      setProducts(products)
+      const productToTemplateTextMap = {}
+      products.forEach((product) => {
+        productToTemplateTextMap[product.id] = product.user_story_template ?? ''
+      })
+      setDescriptionInputs({
+        ...initialDescriptionInputsValue,
+        ...productToTemplateTextMap
+      })
     }
 
     trackPromise(fetchProducts())
@@ -131,13 +153,18 @@ const NewStory = () => {
   }
   feature coming in next PR
   */
+  const handleProductSelectChange = (event) => {
+    const id = event.target.value
+    const selectedProduct = products.find((product) => product.id === id)
+    setCurrentProductSelected(selectedProduct?.id ?? 'None')
+  }
 
   const onSubmit = async (data) => {
-    if (data.description === undefined || data.description.length === 0) {
+    if (!description?.length) {
       setDescriptionError(true)
       return
     }
-    data.description = data.description.replace(/"/g, '\\"') // Replace all occurences of " with \"
+    data.description = filterDescriptionText(description)
     await axios.post(
       `${apiURL}/graphql`,
       {
@@ -148,7 +175,6 @@ const NewStory = () => {
                 Description: "${data.description}"
                 Title: "${data.title}"
                 Category: ${data.category}
-                user_story_status: "605ef6fed9e8ff3f5c2ee489"
                 product: "${data.product}"
                 Priority: ${data.priority}
               }
@@ -165,9 +191,6 @@ const NewStory = () => {
     )
     navigate('/')
   }
-  useEffect(() => {
-    register('description')
-  })
 
   return state.auth ? (
     <>
@@ -208,6 +231,7 @@ const NewStory = () => {
                   <select
                     className='select-default'
                     name='product'
+                    onChange={handleProductSelectChange}
                     ref={register({ required: true })}
                   >
                     <option defaultValue={true} value=''>
@@ -268,25 +292,18 @@ const NewStory = () => {
                 </div>
                 <div className='form-element'>
                   <label htmlFor='description'>Description</label>
-                  <CKEditor
-                    editor={ClassicEditor}
-                    config={{
-                      toolbar: [
-                        'heading',
-                        '|',
-                        'bold',
-                        'italic',
-                        '|',
-                        'link',
-                        'bulletedList',
-                        'numberedList'
-                      ]
-                    }}
-                    onChange={(event, editor) => {
-                      setValue('description', editor.getData())
+                  <MarkdownEditor
+                    callback={(html, text) => {
+                      const result = {}
+                      result[currentProductSelected] = text
+                      setDescription(html)
                       setDescriptionError(false)
+                      setDescriptionInputs({
+                        ...descriptionInputs,
+                        ...result
+                      })
                     }}
-                    ref={register}
+                    value={descriptionInputs[currentProductSelected]}
                   />
                   {descriptionError && <FormError type='emptyDescription' />}
                 </div>

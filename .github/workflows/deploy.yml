@@ -2,39 +2,39 @@ name: Deploy site
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository code
-      uses: actions/checkout@v2
+      - name: Checkout repository code
+        uses: actions/checkout@v2
 
-    - name: Cache node_modules
-      id: cache-node-modules
-      uses: actions/cache@v2
-      with:
-        path: node_modules
-        key: node_modules-deploy-${{ hashFiles('package-lock.json') }}
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: node_modules-deploy-${{ hashFiles('package-lock.json') }}
 
-    - name: Install node modules
-      if: steps.cache-node-modules.outputs.cache-hit != 'true'
-      run: npm install
+      - name: Install node modules
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: npm install
 
-    - name: Build the site
-      run: |
-        echo "$CONFIG_JSON" > src/config.json
-        npm run build
-        cp build/index.html build/404.html
-      env:
-        CONFIG_JSON: ${{ secrets.CONFIG_JSON }}
+      - name: Build the site
+        run: |
+          echo "$CONFIG_JSON" > src/config.json
+          npm run build
+          cp build/index.html build/404.html
+        env:
+          CONFIG_JSON: ${{ secrets.CONFIG_JSON }}
 
-    - name: Deploy
-      uses: s0/git-publish-subdir-action@develop
-      env:
-        REPO: self
-        BRANCH: gh-pages
-        FOLDER: build
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploy
+        uses: s0/git-publish-subdir-action@develop
+        env:
+          REPO: self
+          BRANCH: gh-pages
+          FOLDER: build
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
