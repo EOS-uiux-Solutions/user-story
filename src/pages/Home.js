@@ -5,9 +5,7 @@ import React, {
   useCallback,
   useContext
 } from 'react'
-import axios from 'axios'
 import { Link } from '@reach/router'
-import { apiURL } from '../config.json'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 import { Helmet } from 'react-helmet'
 
@@ -23,6 +21,7 @@ import UsersSuggestionDropdown from '../components/UsersSuggestionDropdown'
 import Lists from '../utils/Lists'
 import useAuth from '../hooks/useAuth'
 import Context from '../modules/Context'
+import userStory from '../services/user_story'
 
 const Home = () => {
   const { logout } = useAuth()
@@ -104,55 +103,13 @@ const Home = () => {
 
   useEffect(() => {
     const fetchStories = async () => {
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `query {
-            userStories(sort: "createdAt:desc", limit: 5, start: ${
-              (page - 1) * 5
-            }, where: {
-                user_story_status : {
-                  Status: "${currentStateSelected}"
-                },
-                author: {
-                  username_contains: "${userQuery}"
-                }
-                ${categoryQuery}
-                ${productQuery}
-                ${searchQuery}
-            }) {
-              id
-              Title
-              Description
-              user_story_status {
-                Status
-              }
-              user_story_comments {
-                Comments
-              }
-              product {
-                Name
-              }
-              author {
-                id
-                username
-                profilePicture {
-                  id
-                  url
-                }
-              }
-              followers {
-                id
-                username
-              }
-              Category
-            }
-          }
-          `
-        },
-        {
-          withCredentials: true
-        }
+      const response = await userStory.getStories(
+        page,
+        currentStateSelected,
+        userQuery,
+        categoryQuery,
+        productQuery,
+        searchQuery
       )
       setStories(response.data.data.userStories)
     }
@@ -168,30 +125,11 @@ const Home = () => {
 
   useEffect(() => {
     const fetchStoryCount = async () => {
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `
-          query {
-            userStoriesConnection(where: {
-              user_story_status: {
-                Status: "${currentStateSelected}"
-              },
-              author: {
-                username_contains: "${userQuery}"
-              }
-              ${productQuery},
-              ${searchQuery}
-            }) {
-              aggregate {
-                count
-              }
-            }
-          }`
-        },
-        {
-          withCredentials: true
-        }
+      const response = await userStory.getStoryCount(
+        currentStateSelected,
+        userQuery,
+        productQuery,
+        searchQuery
       )
       setStoryCount(response.data.data.userStoriesConnection.aggregate.count)
     }
@@ -200,20 +138,7 @@ const Home = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `query {
-            products {
-              Name
-            }
-          }`
-        },
-        {
-          withCredentials: true
-        }
-      )
-
+      const response = await userStory.getProducts()
       return response.data.data.product !== null
         ? setProducts([
             'All',
@@ -228,9 +153,7 @@ const Home = () => {
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const response = await axios.post(`${apiURL}/graphql`, {
-        query: '{ __type(name: "ENUM_USERSTORY_CATEGORY") {enumValues {name}}}'
-      })
+      const response = await userStory.getCategories()
       setCategories([
         'All',
         ...response.data.data.__type.enumValues.map((ele) => {
@@ -264,29 +187,7 @@ const Home = () => {
 
   useEffect(() => {
     const fetchPolicyNotifications = async () => {
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `
-        query {
-          userStoryNotifications(where: {message: "User story privacy policy has been updated"}) {
-            message
-            id
-            users {
-              id
-            }
-            seenBy {
-              id
-            }
-            date
-            link
-          }
-        }`
-        },
-        {
-          withCredentials: true
-        }
-      )
+      const response = await userStory.getPolicyNotifications()
       if (response.data.data.userStoryNotifications) {
         const seenBy = response.data.data.userStoryNotifications[0]?.seenBy.map(
           (seen) => seen.id
@@ -308,31 +209,7 @@ const Home = () => {
   const acceptUpdatedPolicy = async () => {
     const seenBy = policyUpdate.seenBy.map((seen) => seen.id)
     seenBy.push(userId)
-    await axios.post(
-      `${apiURL}/graphql`,
-      {
-        query: `mutation updateNotifications($seenBy: [ID]){
-          updateUserStoryNotification(input: {
-            where: {
-              id: "${policyUpdate.id}"
-            }
-            data: {
-              seenBy: $seenBy
-            }
-          }) {
-            userStoryNotification {
-              id
-            }
-          }
-        }`,
-        variables: {
-          seenBy: seenBy
-        }
-      },
-      {
-        withCredentials: true
-      }
-    )
+    await userStory.updateNotifications(policyUpdate.id, seenBy)
     setModal(false)
   }
 
