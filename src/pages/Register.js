@@ -67,6 +67,7 @@ export const Register = () => {
                   className='input-default'
                   type='text'
                   name='username'
+                  data-cy='username'
                   ref={register({ required: true })}
                 />
                 {errors.username && <FormError type={errors.username.type} />}
@@ -77,6 +78,7 @@ export const Register = () => {
                   className='input-default'
                   type='text'
                   name='email'
+                  data-cy='email'
                   ref={register({ required: true })}
                 />
                 {errors.email && <FormError type={errors.email.type} />}
@@ -89,6 +91,7 @@ export const Register = () => {
                   className='input-default'
                   type='password'
                   name='password'
+                  data-cy='password'
                   ref={register({
                     required: 'This is required',
                     minLength: {
@@ -106,6 +109,7 @@ export const Register = () => {
                   <input
                     type='checkbox'
                     name='tc'
+                    data-cy='tc'
                     ref={register({
                       required: 'You must accept our Terms and Conditions'
                     })}

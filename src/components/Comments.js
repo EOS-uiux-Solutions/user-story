@@ -168,6 +168,7 @@ const Comments = (props) => {
               <div className='comment-content' data-cy='comment-content'>
                 <Link
                   className='link link-default'
+                  data-cy='comment-username'
                   to={`/profile/${data.user.id}`}
                 >
                   {data.user.username}
@@ -293,6 +294,7 @@ const Comments = (props) => {
             <textarea
               rows='4'
               name='addComment'
+              data-cy='comment-input'
               cols='16'
               ref={registerComment({ required: true })}
               value={comment}

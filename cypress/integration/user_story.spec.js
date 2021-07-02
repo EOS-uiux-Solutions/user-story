@@ -10,21 +10,29 @@ describe('Test new User Registration Workflow', () => {
   before('Register a new user', () => {
     cy.visit('/')
 
-    cy.get('[href="/login"]').contains('Sign In').click()
+    cy
+      .get('[data-cy=btn-signin]')
+      .should('have.attr', 'href', '/login')
+      .contains('Sign In')
+      .click()
 
     cy.url().should('equal', 'http://localhost:3000/login')
 
-    cy.get('[href="/register"]').contains('Create an account').click()
+    cy
+      .get('[data-cy=link-create-account]')
+      .should('have.attr', 'href', '/register')
+      .contains('Create an account')
+      .click()
 
     cy.url().should('equal', 'http://localhost:3000/register')
 
-    cy.get('[name=username]').should('have.attr', 'type', 'text').type(testUser.username)
+    cy.get('[data-cy=username]').should('have.attr', 'type', 'text').type(testUser.username)
 
-    cy.get('[name=email]').should('have.attr', 'type', 'text').type(testUser.email)
+    cy.get('[data-cy=email]').should('have.attr', 'type', 'text').type(testUser.email)
 
-    cy.get('[name=password]').should('have.attr', 'type', 'password').type(testUser.password)
+    cy.get('[data-cy=password]').should('have.attr', 'type', 'password').type(testUser.password)
 
-    cy.get('[name=tc]').should('have.attr', 'type', 'checkbox').click()
+    cy.get('[data-cy=tc]').should('have.attr', 'type', 'checkbox').click()
 
     cy.get('[data-cy=btn-register]').contains('Register').click()
 
@@ -43,17 +51,21 @@ describe('Test new User Registration Workflow', () => {
   })
 
   it('Allows user to create new story', () => {
-    cy.get('[href="/newStory"]').contains('+ New Story').click()
+    cy
+      .get('[data-cy=btn-new-story]')
+      .should('have.attr', 'href', '/newStory')
+      .contains('+ New Story')
+      .click()
 
     cy.url().should('equal', 'http://localhost:3000/newStory')
 
-    cy.get('[name=title]').type('This is a test story')
+    cy.get('[data-cy=title]').type('This is a test story')
 
-    cy.get('[name=product]').select('EOS Icons')
+    cy.get('[data-cy=product]').select('EOS Icons')
 
-    cy.get('[name=category]').select('Documentation')
+    cy.get('[data-cy=category]').select('Documentation')
 
-    cy.get('[name=priority]').select('High')
+    cy.get('[data-cy=priority]').select('High')
 
     cy
       .get('[data-cy=description-editor]')
@@ -85,16 +97,18 @@ describe('Test new User Registration Workflow', () => {
   })
 
   it('Allows user to comment on a story', () => {
-    cy.get('[href="/"]').click()
+    cy.get('[data-cy=nav-eos-logo]').should('have.attr', 'href', '/').click()
 
     cy.get('[data-cy=stories]').contains('Testing my story').click()
 
-    cy.get('[name="addComment"]').type('Testing comments')
+    cy.get('[data-cy=comment-input]').type('Testing comments')
 
     cy.get('[data-cy=btn-comment]').contains('Add Comment').click()
 
-    cy.get('[data-cy=comment-content] > a').contains(testUser.username)
-
     cy.get('[data-cy=comment-content]').contains('Testing comments')
+
+    cy.get('[data-cy=comment-username]').contains(testUser.username).click()
+
+    cy.url().should('contain', 'profile')
   })
 })

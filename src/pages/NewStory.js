@@ -213,6 +213,7 @@ const NewStory = () => {
                     className='input-default'
                     type='text'
                     name='title'
+                    data-cy='title'
                     autoComplete='off'
                     ref={register({ required: true })}
                   />
@@ -231,6 +232,7 @@ const NewStory = () => {
                   <select
                     className='select-default'
                     name='product'
+                    data-cy='product'
                     onChange={handleProductSelectChange}
                     ref={register({ required: true })}
                   >
@@ -253,6 +255,7 @@ const NewStory = () => {
                   <select
                     className='select-default'
                     name='category'
+                    data-cy='category'
                     ref={register({ required: true })}
                   >
                     <option defaultValue={true} value=''>
@@ -274,6 +277,7 @@ const NewStory = () => {
                   <select
                     className='select-default'
                     name='priority'
+                    data-cy='priority'
                     ref={register({ required: true })}
                   >
                     <option defaultValue={true} value=''>
