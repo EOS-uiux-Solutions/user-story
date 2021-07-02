@@ -208,6 +208,7 @@ const Story = (props) => {
                   <>
                     <Button
                       className='btn btn-default'
+                      data-cy='btn-edit'
                       onClick={() => setEditor(true)}
                     >
                       Edit

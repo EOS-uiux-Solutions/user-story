@@ -119,7 +119,11 @@ export const Register = () => {
                   </label>
                 </div>
               </div>
-              <Button type='submit' className='btn btn-default'>
+              <Button
+                type='submit'
+                className='btn btn-default'
+                data-cy='btn-register'
+              >
                 {t('authentication:register-label')}
               </Button>
             </form>

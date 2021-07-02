@@ -309,7 +309,11 @@ const NewStory = () => {
                 </div>
                 <Dragdrop />
                 <div className='flex flex-row flex-center'>
-                  <Button type='submit' className='btn btn-default'>
+                  <Button
+                    type='submit'
+                    data-cy='btn-submit'
+                    className='btn btn-default'
+                  >
                     Submit
                   </Button>
                 </div>

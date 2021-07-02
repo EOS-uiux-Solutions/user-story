@@ -10,11 +10,11 @@ describe('Test new User Registration Workflow', () => {
   before('Register a new user', () => {
     cy.visit('/')
 
-    cy.contains('Sign In').click()
+    cy.get('[href="/login"]').contains('Sign In').click()
 
     cy.url().should('equal', 'http://localhost:3000/login')
 
-    cy.contains('Create an account').click()
+    cy.get('[href="/register"]').contains('Create an account').click()
 
     cy.url().should('equal', 'http://localhost:3000/register')
 
@@ -26,7 +26,7 @@ describe('Test new User Registration Workflow', () => {
 
     cy.get('[name=tc]').should('have.attr', 'type', 'checkbox').click()
 
-    cy.contains('Register').click()
+    cy.get('[data-cy=btn-register]').contains('Register').click()
 
     cy.url().should('equal', 'http://localhost:3000/')
   
@@ -43,7 +43,7 @@ describe('Test new User Registration Workflow', () => {
   })
 
   it('Allows user to create new story', () => {
-    cy.get('[href="/newStory"]').click()
+    cy.get('[href="/newStory"]').contains('+ New Story').click()
 
     cy.url().should('equal', 'http://localhost:3000/newStory')
 
@@ -59,7 +59,7 @@ describe('Test new User Registration Workflow', () => {
       .get('[data-cy=description-editor]')
       .type('{enter}Testing User Story')
 
-    cy.contains('Submit').click()
+    cy.get('[data-cy=btn-submit]').contains('Submit').click()
 
     cy.url().should('equal', 'http://localhost:3000/')
   })
@@ -75,7 +75,7 @@ describe('Test new User Registration Workflow', () => {
   })
 
   it('Allows user to edit the story created by them', () => {
-    cy.contains('Edit').click()
+    cy.get('[data-cy=btn-edit]').contains('Edit').click()
 
     cy.get('[data-cy=edit-description]').type('Edited story description')
 
@@ -93,8 +93,8 @@ describe('Test new User Registration Workflow', () => {
 
     cy.get('[data-cy=btn-comment]').contains('Add Comment').click()
 
-    cy.get('[data-cy=comment-content] > .link').contains(testUser.username)
+    cy.get('[data-cy=comment-content] > a').contains(testUser.username)
 
-    cy.get('[data-cy=comment-content] > p').contains('Testing comments')
+    cy.get('[data-cy=comment-content]').contains('Testing comments')
   })
 })

@@ -7,7 +7,7 @@ const Button = ({
   type,
   onClick,
   disabled,
-  dataCy
+  ...rest
 }) => {
   return (
     <button
@@ -16,7 +16,7 @@ const Button = ({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      data-cy={dataCy}
+      {...rest}
     >
       {children}
     </button>

@@ -302,7 +302,7 @@ const Comments = (props) => {
               <FormError message='Comment cannot be empty' />
             )}
           </div>
-          <Button className='btn btn-default' dataCy='btn-comment'>
+          <Button className='btn btn-default' data-cy='btn-comment'>
             Add Comment
           </Button>
         </form>
