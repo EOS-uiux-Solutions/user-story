@@ -1,6 +1,51 @@
 import apiCall from './api'
 
+const BASIC_STORY_INFO_FRAGMENT = `fragment BasicStoryInfo on UserStory {
+  id
+  Title
+  Description
+  followers {
+    id
+    username
+  }
+}`
+
 const userStory = {
+  createStory: ({ description, title, category, product, priority }) => {
+    const createQuery = {
+      query: `mutation {
+        createUserStory(
+          input: {
+            data: {
+              Description: "${description}"
+              Title: "${title}"
+              Category: ${category}
+              product: "${product}"
+              Priority: ${priority}
+            }
+          }
+        ) {
+          userStory {
+            createdAt
+          }
+        }
+      }
+      `
+    }
+    return apiCall('/graphql', createQuery)
+  },
+  getAllStories: () => {
+    const query = {
+      query: `query {
+        userStories(sort: "votes:desc,createdAt:desc") {
+          ...BasicStoryInfo
+        }
+      }
+      ${BASIC_STORY_INFO_FRAGMENT}
+      `
+    }
+    return apiCall('/graphql', query)
+  },
   getStories: (
     page,
     currentStateSelected,
@@ -24,9 +69,7 @@ const userStory = {
                   ${productQuery}
                   ${searchQuery}
               }) {
-                id
-                Title
-                Description
+                ...BasicStoryInfo
                 user_story_status {
                   Status
                 }
@@ -44,13 +87,10 @@ const userStory = {
                     url
                   }
                 }
-                followers {
-                  id
-                  username
-                }
                 Category
               }
             }
+            ${BASIC_STORY_INFO_FRAGMENT}
             `
     }
     return apiCall('/graphql', storiesQuery)
@@ -91,11 +131,29 @@ const userStory = {
     }
     return apiCall('/graphql', productQuery)
   },
+  getProductsWithTemplates: () => {
+    const productQuery = {
+      query: `query {
+              products {
+                id
+                Name
+                product_template
+              }
+            }`
+    }
+    return apiCall('/graphql', productQuery)
+  },
   getCategories: () => {
     const categoryQuery = {
       query: '{ __type(name: "ENUM_USERSTORY_CATEGORY") {enumValues {name}}}'
     }
     return apiCall('/graphql', categoryQuery)
+  },
+  getPriorities: () => {
+    const priorityQuery = {
+      query: `query { __type(name: "ENUM_USERSTORY_PRIORITY") {enumValues {name}}}`
+    }
+    return apiCall('/graphql', priorityQuery)
   },
   getPolicyNotifications: () => {
     const policyQuery = {

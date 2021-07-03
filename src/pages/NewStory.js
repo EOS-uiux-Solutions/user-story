@@ -3,8 +3,6 @@ import { useForm } from 'react-hook-form'
 
 import MarkdownEditor from '../components/MarkdownEditor'
 import { filterDescriptionText } from '../utils/filterText'
-import axios from 'axios'
-import { apiURL } from '../config.json'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 import { Helmet } from 'react-helmet'
 
@@ -17,6 +15,8 @@ import Dragdrop from '../components/Dragdrop'
 import { navigate } from '@reach/router'
 import Context from '../modules/Context'
 import Login from './Login'
+
+import userStory from '../services/user_story'
 
 const initialDescriptionInputsValue = {
   None: ''
@@ -60,9 +60,7 @@ const NewStory = () => {
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const response = await axios.post(`${apiURL}/graphql`, {
-        query: '{ __type(name: "ENUM_USERSTORY_CATEGORY") {enumValues {name}}}'
-      })
+      const response = await userStory.getCategories()
 
       setCategories(
         response.data.data.__type.enumValues.map((ele) => {
@@ -74,21 +72,7 @@ const NewStory = () => {
     trackPromise(fetchCategories())
 
     const fetchProducts = async () => {
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `query {
-          products {
-            id
-            Name
-            product_template
-          }
-        }`
-        },
-        {
-          withCredentials: true
-        }
-      )
+      const response = await userStory.getProductsWithTemplates()
       const { products } = response.data.data
       setProducts(products)
       const productToTemplateTextMap = {}
@@ -104,15 +88,7 @@ const NewStory = () => {
     trackPromise(fetchProducts())
 
     const fetchPriorities = async () => {
-      const response = await axios.post(`${apiURL}/graphql`, {
-        query: `query {
-          __type(name: "ENUM_USERSTORY_PRIORITY") {
-            enumValues {
-              name
-            }
-          }
-        }`
-      })
+      const response = await userStory.getPriorities()
 
       setPriorities(
         response.data.data.__type.enumValues.map((ele) => {
@@ -124,24 +100,7 @@ const NewStory = () => {
     trackPromise(fetchPriorities())
 
     const fetchStoriesData = async () => {
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `query {
-            userStories(sort: "votes:desc,createdAt:desc") {
-              id
-              Title
-              Description
-              followers {
-                username
-              }
-            }
-          }`
-        },
-        {
-          withCredentials: true
-        }
-      )
+      const response = await userStory.getAllStories()
       setStoriesData(response.data.data.userStories)
     }
     fetchStoriesData()
@@ -165,30 +124,7 @@ const NewStory = () => {
       return
     }
     data.description = filterDescriptionText(description)
-    await axios.post(
-      `${apiURL}/graphql`,
-      {
-        query: `mutation {
-          createUserStory(
-            input: {
-              data: {
-                Description: "${data.description}"
-                Title: "${data.title}"
-                Category: ${data.category}
-                product: "${data.product}"
-                Priority: ${data.priority}
-              }
-            }
-          ) {
-            userStory {
-              createdAt
-            }
-          }
-        }
-        `
-      },
-      { withCredentials: true }
-    )
+    await userStory.createStory(data)
     navigate('/')
   }
 
