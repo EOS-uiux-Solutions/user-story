@@ -46,25 +46,49 @@ const userStory = {
     }
     return apiCall('/graphql', query)
   },
-  getStories: (
-    page,
-    currentStateSelected,
-    userQuery,
-    categoryQuery,
-    productQuery,
-    searchQuery
-  ) => {
+  getStories: ({
+    sortBy = 'createdAt:desc',
+    limit = null,
+    page = null,
+    currentStateSelected = '',
+    authorId = '',
+    authorQuery = '',
+    categoryQuery = '',
+    productQuery = '',
+    searchQuery = '',
+    followers = ''
+  }) => {
+    page = !page || !limit ? '' : `start: ${(page - 1) * limit}`
+
+    limit = !limit ? '' : `limit: ${limit}`
+
+    currentStateSelected =
+      currentStateSelected === ''
+        ? ''
+        : `user_story_status : {
+            Status: "${currentStateSelected}"
+          }`
+
+    authorId = authorId === '' ? '' : `id: "${authorId}"`
+
+    authorQuery =
+      authorQuery === '' ? '' : `username_contains: "${authorQuery}"`
+
+    followers = followers === '' ? '' : `followers: "${followers}"`
+
     const storiesQuery = {
       query: `query {
-              userStories(sort: "createdAt:desc", limit: 5, start: ${
-                (page - 1) * 5
-              }, where: {
-                  user_story_status : {
-                    Status: "${currentStateSelected}"
-                  },
+              userStories(
+                sort: "${sortBy}"
+                ${limit}
+                ${page}
+                where: {
                   author: {
-                    username_contains: "${userQuery}"
+                    ${authorId}
+                    ${authorQuery}
                   }
+                  ${followers}
+                  ${currentStateSelected}
                   ${categoryQuery}
                   ${productQuery}
                   ${searchQuery}
@@ -97,7 +121,8 @@ const userStory = {
   },
   getStoryCount: (
     currentStateSelected,
-    userQuery,
+    authorQuery,
+    categoryQuery,
     productQuery,
     searchQuery
   ) => {
@@ -108,9 +133,10 @@ const userStory = {
                   Status: "${currentStateSelected}"
                 },
                 author: {
-                  username_contains: "${userQuery}"
+                  username_contains: "${authorQuery}"
                 }
-                ${productQuery},
+                ${categoryQuery}
+                ${productQuery}
                 ${searchQuery}
               }) {
                 aggregate {
@@ -120,28 +146,6 @@ const userStory = {
             }`
     }
     return apiCall('/graphql', storyCountQuery)
-  },
-  getProducts: () => {
-    const productQuery = {
-      query: `query {
-              products {
-                Name
-              }
-            }`
-    }
-    return apiCall('/graphql', productQuery)
-  },
-  getProductsWithTemplates: () => {
-    const productQuery = {
-      query: `query {
-              products {
-                id
-                Name
-                product_template
-              }
-            }`
-    }
-    return apiCall('/graphql', productQuery)
   },
   getCategories: () => {
     const categoryQuery = {

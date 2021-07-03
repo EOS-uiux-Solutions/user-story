@@ -22,6 +22,7 @@ import Lists from '../utils/Lists'
 import useAuth from '../hooks/useAuth'
 import Context from '../modules/Context'
 import userStory from '../services/user_story'
+import productService from '../services/product'
 
 const Home = () => {
   const { logout } = useAuth()
@@ -76,7 +77,7 @@ const Home = () => {
 
   const [userTerm, setUserTerm] = useState('')
 
-  const [userQuery, setUserQuery] = useState('')
+  const [authorQuery, setAuthorQuery] = useState('')
 
   const getPage = useCallback((page) => {
     setPage(page)
@@ -97,20 +98,21 @@ const Home = () => {
       setSearchQuery('')
     }
     if (userTerm === '') {
-      setUserQuery('')
+      setAuthorQuery('')
     }
   }, [product, category, searchTerm, userTerm])
 
   useEffect(() => {
     const fetchStories = async () => {
-      const response = await userStory.getStories(
+      const response = await userStory.getStories({
+        limit: 5,
         page,
         currentStateSelected,
-        userQuery,
+        authorQuery,
         categoryQuery,
         productQuery,
         searchQuery
-      )
+      })
       setStories(response.data.data.userStories)
     }
     trackPromise(fetchStories())
@@ -120,25 +122,33 @@ const Home = () => {
     page,
     productQuery,
     searchQuery,
-    userQuery
+    authorQuery
   ])
 
   useEffect(() => {
     const fetchStoryCount = async () => {
       const response = await userStory.getStoryCount(
         currentStateSelected,
-        userQuery,
+        authorQuery,
+        categoryQuery,
         productQuery,
         searchQuery
       )
       setStoryCount(response.data.data.userStoriesConnection.aggregate.count)
     }
     fetchStoryCount()
-  }, [currentStateSelected, product, productQuery, searchQuery, userQuery])
+  }, [
+    currentStateSelected,
+    product,
+    categoryQuery,
+    productQuery,
+    searchQuery,
+    authorQuery
+  ])
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const response = await userStory.getProducts()
+      const response = await productService.getProducts()
       return response.data.data.product !== null
         ? setProducts([
             'All',
@@ -223,6 +233,15 @@ const Home = () => {
     setModal(false)
   }
 
+  const handleSearchSubmit = () => {
+    if (fieldToSearch === 'Title' && searchTerm.length > 0) {
+      setSearchQuery(`Title_contains: "${searchTerm}"`)
+    } else if (userTerm.length > 0) {
+      setAuthorQuery(userTerm)
+      setUsersSuggestionOpen(false)
+    }
+  }
+
   return (
     <>
       <Helmet>
@@ -291,7 +310,7 @@ const Home = () => {
                     isOpen={usersSuggestionOpen}
                     userTerm={userTerm}
                     setUserTerm={setUserTerm}
-                    setUserQuery={setUserQuery}
+                    setAuthorQuery={setAuthorQuery}
                     setUsersSuggestionOpen={setUsersSuggestionOpen}
                   />
                 }
@@ -311,12 +330,7 @@ const Home = () => {
                   }}
                   onKeyDown={(event) => {
                     if (event.key === 'Enter') {
-                      if (fieldToSearch === 'Title' && searchTerm.length > 0) {
-                        setSearchQuery(`Title_contains: "${searchTerm}"`)
-                      } else if (userTerm.length > 0) {
-                        setUserQuery(userTerm)
-                        setUsersSuggestionOpen(false)
-                      }
+                      handleSearchSubmit()
                     }
                   }}
                   onFocus={() => {
@@ -353,13 +367,7 @@ const Home = () => {
               <Button
                 type='submit'
                 className='btn btn-default'
-                onClick={() => {
-                  if (fieldToSearch === 'Title' && searchTerm.length > 0) {
-                    setSearchQuery(`Title_contains: "${searchTerm}"`)
-                  } else if (userTerm.length > 0) {
-                    setUserQuery(userTerm)
-                  }
-                }}
+                onClick={handleSearchSubmit}
               >
                 Search
               </Button>

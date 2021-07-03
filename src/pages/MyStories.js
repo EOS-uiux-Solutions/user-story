@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useRef, useContext } from 'react'
-import { apiURL } from '../config.json'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 import { Helmet } from 'react-helmet'
-
-import axios from 'axios'
 
 import LoadingIndicator from '../modules/LoadingIndicator'
 import Button from '../components/Button'
@@ -14,6 +11,9 @@ import Dropdown from '../components/Dropdown'
 import Lists from '../utils/Lists'
 import Context from '../modules/Context'
 import Login from './Login'
+
+import userStory from '../services/user_story'
+import productService from '../services/product'
 
 const MyStories = () => {
   const { state } = useContext(Context)
@@ -63,73 +63,15 @@ const MyStories = () => {
 
   useEffect(() => {
     const fetchMyStories = async () => {
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `query {
-            userStories(where: { author: "${id}" }) {
-              id
-              Title
-              Description
-              followers {
-                id
-                username
-              }
-              user_story_comments {
-                Comments
-              }
-              product {
-                Name
-              }
-              author {
-                id
-                username
-              }
-              user_story_status {
-                Status
-              }
-              Category
-            }
-          }`
-        },
-        {
-          withCredentials: true
-        }
-      )
+      const response = await userStory.getStories({
+        authorId: id
+      })
       setStories(response.data.data.userStories)
     }
     const fetchFollowingStories = async () => {
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `query {
-            userStories(where: { followers: "${id}" }) {
-              id
-              Title
-              Description
-              followers {
-                id
-              }
-              user_story_comments {
-                Comments
-              }
-              product {
-                Name
-              }
-              author {
-                id
-                username
-              }
-              user_story_status {
-                Status
-              }
-            }
-          }`
-        },
-        {
-          withCredentials: true
-        }
-      )
+      const response = await userStory.getStories({
+        followers: id
+      })
       setStories(response.data.data.userStories)
     }
     if (currentStateSelected === 'My Submissions')
@@ -139,19 +81,7 @@ const MyStories = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `query {
-          products {
-            Name
-          }
-        }`
-        },
-        {
-          withCredentials: true
-        }
-      )
+      const response = await productService.getProducts()
       setProducts(
         response.data.data.products.map((ele) => {
           return ele.Name
@@ -164,9 +94,7 @@ const MyStories = () => {
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const response = await axios.post(`${apiURL}/graphql`, {
-        query: '{ __type(name: "ENUM_USERSTORY_CATEGORY") {enumValues {name}}}'
-      })
+      const response = await userStory.getCategories()
 
       setCategories(
         response.data.data.__type.enumValues.map((ele) => {

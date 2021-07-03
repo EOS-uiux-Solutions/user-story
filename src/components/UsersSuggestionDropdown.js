@@ -8,7 +8,7 @@ const UsersSuggestionDropdown = ({
   isOpen,
   userTerm,
   setUserTerm,
-  setUserQuery,
+  setAuthorQuery,
   setUsersSuggestionOpen
 }) => {
   const [usersToSuggest, setUsersToSuggest] = useState([])
@@ -90,7 +90,7 @@ const UsersSuggestionDropdown = ({
               key={user.id}
               onClick={() => {
                 setUserTerm(user.username)
-                setUserQuery(user.username)
+                setAuthorQuery(user.username)
                 setUsersSuggestionOpen(false)
               }}
               className='user-data'
