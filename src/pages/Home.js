@@ -22,7 +22,6 @@ import Lists from '../utils/Lists'
 import useAuth from '../hooks/useAuth'
 import Context from '../modules/Context'
 import userStory from '../services/user_story'
-import productService from '../services/product'
 
 const Home = () => {
   const { logout } = useAuth()
@@ -148,7 +147,7 @@ const Home = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const response = await productService.getProducts()
+      const response = await userStory.getProducts()
       return response.data.data.product !== null
         ? setProducts([
             'All',

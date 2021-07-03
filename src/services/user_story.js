@@ -159,6 +159,28 @@ const userStory = {
     }
     return apiCall('/graphql', priorityQuery)
   },
+  getProducts: () => {
+    const productQuery = {
+      query: `query {
+              products {
+                Name
+              }
+            }`
+    }
+    return apiCall('/graphql', productQuery)
+  },
+  getProductsWithTemplates: () => {
+    const productQuery = {
+      query: `query {
+              products {
+                id
+                Name
+                product_template
+              }
+            }`
+    }
+    return apiCall('/graphql', productQuery)
+  },
   getPolicyNotifications: () => {
     const policyQuery = {
       query: `query {

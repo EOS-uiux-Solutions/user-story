@@ -13,7 +13,6 @@ import Context from '../modules/Context'
 import Login from './Login'
 
 import userStory from '../services/user_story'
-import productService from '../services/product'
 
 const MyStories = () => {
   const { state } = useContext(Context)
@@ -81,7 +80,7 @@ const MyStories = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const response = await productService.getProducts()
+      const response = await userStory.getProducts()
       setProducts(
         response.data.data.products.map((ele) => {
           return ele.Name

@@ -17,7 +17,6 @@ import Context from '../modules/Context'
 import Login from './Login'
 
 import userStory from '../services/user_story'
-import productService from '../services/product'
 
 const initialDescriptionInputsValue = {
   None: ''
@@ -73,7 +72,7 @@ const NewStory = () => {
     trackPromise(fetchCategories())
 
     const fetchProducts = async () => {
-      const response = await productService.getProductsWithTemplates()
+      const response = await userStory.getProductsWithTemplates()
       const { products } = response.data.data
       setProducts(products)
       const productToTemplateTextMap = {}
