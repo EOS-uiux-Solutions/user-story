@@ -1,5 +1,5 @@
 import apiCall from './api'
-import { BASIC_STORY_INFO_FRAGMENT } from './gql_fragments'
+import { BASIC_STORY_INFO_FRAGMENT } from './utils/gql_fragments'
 
 const User = {
   updateUser: (user) => {
