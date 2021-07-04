@@ -1,4 +1,5 @@
 import apiCall from './api'
+import { BASIC_STORY_INFO_FRAGMENT } from './gql_fragments'
 
 const User = {
   updateUser: (user) => {
@@ -25,10 +26,10 @@ const User = {
     }
     return apiCall('/graphql', updateQuery)
   },
-  getInfo: (id) => {
+  getInfo: (userId) => {
     const userQuery = {
       query: `query {
-        user(id: "${id}") {
+        user(id: "${userId}") {
           profilePicture {
             id
             url
@@ -43,6 +44,34 @@ const User = {
           Twitter
         }
       }
+      `
+    }
+    return apiCall('/graphql', userQuery)
+  },
+  getUserStoriesByUser: (userId) => {
+    const userQuery = {
+      query: `query {
+        user(id: "${userId}") {
+          user_stories {
+            ...BasicStoryInfo
+            user_story_status {
+              Status
+            }
+            product {
+              Name
+            }
+            author {
+              id
+              username
+            }
+            user_story_comments {
+              Comments
+            }
+            Category
+          }
+        }
+      }
+      ${BASIC_STORY_INFO_FRAGMENT}
       `
     }
     return apiCall('/graphql', userQuery)

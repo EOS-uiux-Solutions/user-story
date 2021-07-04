@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react'
-import axios from 'axios'
-import { apiURL } from '../config.json'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 import { Helmet } from 'react-helmet'
 import { navigate } from '@reach/router'
@@ -12,6 +10,9 @@ import Button from '../components/Button'
 import Dropdown from '../components/Dropdown'
 import UserProfile from '../components/UserProfile'
 import Lists from '../utils/Lists'
+
+import userStory from '../services/user_story'
+import User from '../services/user'
 
 const Profile = (props) => {
   const { profileId } = props
@@ -35,19 +36,7 @@ const Profile = (props) => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `query {
-          products {
-            Name
-          }
-        }`
-        },
-        {
-          withCredentials: true
-        }
-      )
+      const response = await userStory.getProducts()
       setProducts(
         response.data.data.products.map((ele) => {
           return ele.Name
@@ -60,9 +49,7 @@ const Profile = (props) => {
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const response = await axios.post(`${apiURL}/graphql`, {
-        query: '{ __type(name: "ENUM_USERSTORY_CATEGORY") {enumValues {name}}}'
-      })
+      const response = await userStory.getCategories()
 
       setCategories(
         response.data.data.__type.enumValues.map((ele) => {
@@ -76,30 +63,7 @@ const Profile = (props) => {
 
   useEffect(() => {
     const fetchUserInfo = async () => {
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `query {
-          user(id: "${profileId}") {
-            profilePicture {
-              url
-            }
-            Name
-            Bio
-            username
-            Company
-            Profession
-            email
-            LinkedIn
-            Twitter
-          }
-        }
-        `
-        },
-        {
-          withCredentials: true
-        }
-      )
+      const response = await User.getInfo(profileId)
       setUser(response.data.data.user)
     }
     if (profileId) {
@@ -109,40 +73,7 @@ const Profile = (props) => {
 
   useEffect(() => {
     const fetchMyStories = async () => {
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `query {
-            user(id: "${profileId}") {
-              user_stories {
-                id
-                Title
-                Description
-                user_story_status {
-                  Status
-                }
-                followers {
-                  username
-                }
-                product {
-                  Name
-                }
-                author {
-                  id
-                  username
-                }
-                user_story_comments {
-                  Comments
-                }
-                Category
-              }
-            }
-          }`
-        },
-        {
-          withCredentials: true
-        }
-      )
+      const response = await User.getUserStoriesByUser(profileId)
       setStories(response.data.data.user.user_stories)
     }
     trackPromise(fetchMyStories())
