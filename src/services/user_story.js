@@ -28,6 +28,12 @@ const userStory = {
     }
     return apiCall('/graphql', createQuery)
   },
+  checkAuthor: (userId, storyId) => {
+    return apiCall('/checkAuthor', {
+      id: userId,
+      storyId: storyId
+    })
+  },
   getAllStories: () => {
     const query = {
       query: `query {
@@ -113,6 +119,25 @@ const userStory = {
     }
     return apiCall('/graphql', storiesQuery)
   },
+  getStory: (storyId) => {
+    const storyQuery = {
+      query: `query {
+        userStory(id: "${storyId}") {
+          ...BasicStoryInfo
+          user_story_status {
+            Status
+          }
+          author {
+            id
+            username
+          }
+        }
+      }
+      ${BASIC_STORY_INFO_FRAGMENT}
+      `
+    }
+    return apiCall('/graphql', storyQuery)
+  },
   getStoryCount: (
     currentStateSelected,
     authorQuery,
@@ -140,6 +165,20 @@ const userStory = {
             }`
     }
     return apiCall('/graphql', storyCountQuery)
+  },
+  updateUserStoryDescription: (storyId, description) => {
+    const updateQuery = {
+      query: `mutation {
+        updateUserStory(
+          input: { where: { id: "${storyId}" }, data: { Description: "${description}" } }
+        ) {
+          userStory {
+            updatedAt
+          }
+        }
+      }`
+    }
+    return apiCall('/graphql', updateQuery)
   },
   getCategories: () => {
     const categoryQuery = {
