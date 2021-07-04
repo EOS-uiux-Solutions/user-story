@@ -147,6 +147,16 @@ const userStory = {
     }
     return apiCall('/graphql', categoryQuery)
   },
+  getPolicies: () => {
+    const policyQuery = {
+      query: `query {
+        userStoryPolicies {
+          Description
+        }
+      }`
+    }
+    return apiCall('/graphql', policyQuery)
+  },
   getPriorities: () => {
     const priorityQuery = {
       query: `query { __type(name: "ENUM_USERSTORY_PRIORITY") {enumValues {name}}}`
