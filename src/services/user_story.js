@@ -1,14 +1,8 @@
 import apiCall from './api'
-
-const BASIC_STORY_INFO_FRAGMENT = `fragment BasicStoryInfo on UserStory {
-  id
-  Title
-  Description
-  followers {
-    id
-    username
-  }
-}`
+import {
+  BASIC_STORY_INFO_FRAGMENT,
+  NOTIFICATION_DATA_FRAGMENT
+} from './gql_fragments'
 
 const userStory = {
   createStory: ({ description, title, category, product, priority }) => {
@@ -181,22 +175,31 @@ const userStory = {
     }
     return apiCall('/graphql', productQuery)
   },
+  getNotifications: (userId) => {
+    const notificationQuery = {
+      query: `query {
+        userStoryNotifications (where: {
+          users: {
+            id: "${userId}"
+          }
+        }){
+          ...NotificationData
+        }
+      }
+      ${NOTIFICATION_DATA_FRAGMENT}
+      `
+    }
+    return apiCall('/graphql', notificationQuery)
+  },
   getPolicyNotifications: () => {
     const policyQuery = {
       query: `query {
             userStoryNotifications(where: {message: "User story privacy policy has been updated"}) {
-              message
-              id
-              users {
-                id
-              }
-              seenBy {
-                id
-              }
-              date
-              link
+              ...NotificationData
             }
-          }`
+          }
+          ${NOTIFICATION_DATA_FRAGMENT}
+          `
     }
     return apiCall('/graphql', policyQuery)
   },
