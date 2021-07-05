@@ -1,4 +1,4 @@
 {
-    "apiURL": "http://localhost:1337",
-    "APP_ENV": "dev"
+  "apiURL": "http://localhost:1337",
+  "APP_ENV": "dev"
 }
