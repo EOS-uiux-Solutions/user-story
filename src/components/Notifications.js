@@ -61,7 +61,7 @@ const Notifications = () => {
         const seenBy = notification.seenBy.map((seen) => seen.id)
         if (!seenBy.includes(userId)) {
           seenBy.push(userId)
-          await userStory.markNotificationAsRead(notification.id)
+          await userStory.markNotificationAsRead(notification.id, seenBy)
           setNotifications([])
           setNotificationCount(0)
           setNotificationsSeen(false)
