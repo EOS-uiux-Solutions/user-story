@@ -13,6 +13,8 @@ import Dropdown from '../components/Dropdown'
 import UserProfile from '../components/UserProfile'
 import Lists from '../utils/Lists'
 
+import userStory from '../services/user_story'
+
 const Profile = (props) => {
   const { profileId } = props
   const [stories, setStories] = useState([])
@@ -35,19 +37,7 @@ const Profile = (props) => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `query {
-          products {
-            Name
-          }
-        }`
-        },
-        {
-          withCredentials: true
-        }
-      )
+      const response = await userStory.getProducts()
       setProducts(
         response.data.data.products.map((ele) => {
           return ele.Name
@@ -60,9 +50,7 @@ const Profile = (props) => {
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const response = await axios.post(`${apiURL}/graphql`, {
-        query: '{ __type(name: "ENUM_USERSTORY_CATEGORY") {enumValues {name}}}'
-      })
+      const response = await userStory.getCategories()
 
       setCategories(
         response.data.data.__type.enumValues.map((ele) => {
@@ -76,30 +64,7 @@ const Profile = (props) => {
 
   useEffect(() => {
     const fetchUserInfo = async () => {
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `query {
-          user(id: "${profileId}") {
-            profilePicture {
-              url
-            }
-            Name
-            Bio
-            username
-            Company
-            Profession
-            email
-            LinkedIn
-            Twitter
-          }
-        }
-        `
-        },
-        {
-          withCredentials: true
-        }
-      )
+      const response = await userStory.getUserDetails(profileId)
       setUser(response.data.data.user)
     }
     if (profileId) {
