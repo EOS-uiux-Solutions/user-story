@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Link } from '@reach/router'
 import Button from './Button'
-import axios from 'axios'
-import { apiURL } from '../config.json'
 import { useForm } from 'react-hook-form'
 
 import Context from '../modules/Context'
 import FormError from '../components/FormError'
+import userStory from '../services/user_story'
 
 const Comments = (props) => {
   const { storyId } = props
@@ -43,80 +42,14 @@ const Comments = (props) => {
 
   useEffect(() => {
     const fetchComments = async () => {
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `
-        query {
-          userStory(id: "${storyId}") {
-            user_story_comments {
-              id
-              Comments
-              user {
-                id
-                username
-              }
-              createdAt
-              user_story_comment_replies {
-                createdAt
-                Comments
-                user {
-                  id
-                  username
-                }
-              }
-            }
-          }
-        }
-        `
-        },
-        {
-          withCredentials: true
-        }
-      )
+      const response = await userStory.getComments(storyId)
       setComments(response.data.data.userStory.user_story_comments)
     }
     fetchComments()
   }, [storyId, fetchComments])
 
   const addComment = async (data) => {
-    const response = await axios.post(
-      `${apiURL}/graphql`,
-      {
-        query: `
-      mutation {
-        createUserStoryComment(input: {
-          data: {
-            Comments: "${data.addComment}"
-            user_story: "${storyId}"
-            user: "${id}"
-          }
-        }) {
-          userStoryComment {
-            id
-            user {
-              id
-              username
-            }
-            Comments
-            createdAt
-            user_story_comment_replies {
-              createdAt
-              Comments
-              user {
-                id
-                username
-              }
-            }
-          }
-        }
-      }
-      `
-      },
-      {
-        withCredentials: true
-      }
-    )
+    const response = await userStory.postComment(data.addComment, storyId, id)
     setComments([
       ...comments,
       response.data.data.createUserStoryComment.userStoryComment
@@ -125,27 +58,7 @@ const Comments = (props) => {
   }
 
   const addCommentReply = async (data) => {
-    await axios.post(
-      `${apiURL}/graphql`,
-      {
-        query: `
-      mutation {
-        createUserStoryCommentThread (input: {
-          data: {
-            Comments: "${data.addReply}"
-            user_story_comment: "${commentId}"
-            user: "${id}"
-          }
-        }){
-          userStoryCommentThread {
-            createdAt
-          }
-        }
-      }
-      `
-      },
-      { withCredentials: true }
-    )
+    await userStory.postCommentReply(data.addReply, commentId, id)
     setCommentReply('')
     setFetchComments((fetchComments) => !fetchComments)
     setRepliesToggled(null)

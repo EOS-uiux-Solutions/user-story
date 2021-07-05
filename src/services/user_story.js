@@ -137,6 +137,88 @@ const userStory = {
       }
     }
     return apiCall('/graphql', notificationQuery)
+  },
+  getComments: (storyId) => {
+    const commentsQuery = {
+      query: `
+      query {
+        userStory(id: "${storyId}") {
+          user_story_comments {
+            id
+            Comments
+            user {
+              id
+              username
+            }
+            createdAt
+            user_story_comment_replies {
+              createdAt
+              Comments
+              user {
+                id
+                username
+              }
+            }
+          }
+        }
+      }
+      `
+    }
+    return apiCall('/graphql', commentsQuery)
+  },
+  postComment: (addComment, storyId, id) => {
+    const postCommentQuery = {
+      query: `
+      mutation {
+        createUserStoryComment(input: {
+          data: {
+            Comments: "${addComment}"
+            user_story: "${storyId}"
+            user: "${id}"
+          }
+        }) {
+          userStoryComment {
+            id
+            user {
+              id
+              username
+            }
+            Comments
+            createdAt
+            user_story_comment_replies {
+              createdAt
+              Comments
+              user {
+                id
+                username
+              }
+            }
+          }
+        }
+      }
+      `
+    }
+    return apiCall('/graphql', postCommentQuery)
+  },
+  postCommentReply: (addReply, commentId, id) => {
+    const postCommentReplyQuery = {
+      query: `
+      mutation {
+        createUserStoryCommentThread (input: {
+          data: {
+            Comments: "${addReply}"
+            user_story_comment: "${commentId}"
+            user: "${id}"
+          }
+        }){
+          userStoryCommentThread {
+            createdAt
+          }
+        }
+      }
+      `
+    }
+    return apiCall('/graphql', postCommentReplyQuery)
   }
 }
 

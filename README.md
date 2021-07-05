@@ -1,8 +1,10 @@
 [![Open Source Love svg2](https://badges.frapsoft.com/os/v2/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](https://choosealicense.com/licenses/mit/)
+
 # User Story
 
 ![](./static/user_story.png)
+
 # Introduction
 
 The goal of **User Story** is to design and present a scalable backend infrastructure that delivers a web interface allowing users to request new features and give feedback in an easy and intuitive way. Users can attach files with their story to explain what they want. The admins can then resolve, close and update the status of these stories. Users can interact with other stories via comments and votes. This can also serve as an efficient feedback and response mechanism which is critical for any organization to improve and make progress. Simply, its a **product management tool**.
@@ -12,6 +14,7 @@ The goal of **User Story** is to design and present a scalable backend infrastru
 ![](./static/user_story_workflow.png)
 
 # Guidelines for development
+
 ### Setting up the project
 
 After cloning this repository you will need to install all the dependencies: `npm i`
