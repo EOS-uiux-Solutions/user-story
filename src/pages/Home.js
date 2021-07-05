@@ -103,15 +103,14 @@ const Home = () => {
 
   useEffect(() => {
     const fetchStories = async () => {
-      const response = await userStory.getStories({
-        limit: 5,
+      const response = await userStory.getStories(
         page,
         currentStateSelected,
         authorQuery,
         categoryQuery,
         productQuery,
         searchQuery
-      })
+      )
       setStories(response.data.data.userStories)
     }
     trackPromise(fetchStories())

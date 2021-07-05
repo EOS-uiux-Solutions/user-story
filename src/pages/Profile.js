@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
+import axios from 'axios'
+import { apiURL } from '../config.json'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 import { Helmet } from 'react-helmet'
 import { navigate } from '@reach/router'
@@ -12,7 +14,6 @@ import UserProfile from '../components/UserProfile'
 import Lists from '../utils/Lists'
 
 import userStory from '../services/user_story'
-import User from '../services/user'
 
 const Profile = (props) => {
   const { profileId } = props
@@ -63,7 +64,7 @@ const Profile = (props) => {
 
   useEffect(() => {
     const fetchUserInfo = async () => {
-      const response = await User.getInfo(profileId)
+      const response = await userStory.getUserDetails(profileId)
       setUser(response.data.data.user)
     }
     if (profileId) {
@@ -73,7 +74,40 @@ const Profile = (props) => {
 
   useEffect(() => {
     const fetchMyStories = async () => {
-      const response = await User.getUserStoriesByUser(profileId)
+      const response = await axios.post(
+        `${apiURL}/graphql`,
+        {
+          query: `query {
+            user(id: "${profileId}") {
+              user_stories {
+                id
+                Title
+                Description
+                user_story_status {
+                  Status
+                }
+                followers {
+                  username
+                }
+                product {
+                  Name
+                }
+                author {
+                  id
+                  username
+                }
+                user_story_comments {
+                  Comments
+                }
+                Category
+              }
+            }
+          }`
+        },
+        {
+          withCredentials: true
+        }
+      )
       setStories(response.data.data.user.user_stories)
     }
     trackPromise(fetchMyStories())

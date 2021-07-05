@@ -1,9 +1,8 @@
 import apiCall from './api'
-import { getUserStoryQuery } from './utils/getUserStoryQuery'
 import {
   BASIC_STORY_INFO_FRAGMENT,
   NOTIFICATION_DATA_FRAGMENT
-} from './utils/gql_fragments'
+} from './gql_fragments'
 
 const userStory = {
   createStory: ({ description, title, category, product, priority }) => {
@@ -47,9 +46,57 @@ const userStory = {
     }
     return apiCall('/graphql', query)
   },
-  getStories: (filters) => {
+  getStories: (
+    page,
+    currentStateSelected,
+    authorQuery,
+    categoryQuery,
+    productQuery,
+    searchQuery
+  ) => {
     const storiesQuery = {
-      query: getUserStoryQuery(filters)
+      query: `query {
+              userStories(sort: "createdAt:desc", limit: 5, start: ${
+                (page - 1) * 5
+              }, where: {
+                  user_story_status : {
+                    Status: "${currentStateSelected}"
+                  },
+                  author: {
+                    username_contains: "${authorQuery}"
+                  }
+                  ${categoryQuery}
+                  ${productQuery}
+                  ${searchQuery}
+              }) {
+                id
+                Title
+                Description
+                user_story_status {
+                  Status
+                }
+                user_story_comments {
+                  Comments
+                }
+                product {
+                  Name
+                }
+                author {
+                  id
+                  username
+                  profilePicture {
+                    id
+                    url
+                  }
+                }
+                followers {
+                  id
+                  username
+                }
+                Category
+              }
+            }
+            `
     }
     return apiCall('/graphql', storiesQuery)
   },
@@ -207,6 +254,52 @@ const userStory = {
       }
     }
     return apiCall('/graphql', notificationQuery)
+  },
+  getUserDetails: (userId) => {
+    const userQuery = {
+      query: `query {
+        user(id: "${userId}") {
+          profilePicture {
+            id
+            url
+          }
+          Name
+          Bio
+          username
+          Company
+          Profession
+          email
+          LinkedIn
+          Twitter
+        }
+      }
+      `
+    }
+    return apiCall('/graphql', userQuery)
+  },
+  updateUser: (user) => {
+    const updateQuery = {
+      query: `mutation {
+        updateUser(input: {
+          where: {
+            id: "${user.id}"
+          }
+          data: {
+            Name: "${user.Name ?? user.username}"
+            Profession: "${user.Profession ?? ''}"
+            Company: "${user.Company ?? ''}"
+            LinkedIn: "${user.LinkedIn ?? ''}"
+            Twitter: "${user.Twitter ?? ''}"
+            Bio: "${user.Bio ?? ''}"
+          }
+        }) {
+          user {
+            username
+          }
+        }
+      }`
+    }
+    return apiCall('/graphql', updateQuery)
   }
 }
 

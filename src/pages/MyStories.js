@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef, useContext } from 'react'
+import { apiURL } from '../config.json'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 import { Helmet } from 'react-helmet'
+
+import axios from 'axios'
 
 import LoadingIndicator from '../modules/LoadingIndicator'
 import Button from '../components/Button'
@@ -62,15 +65,73 @@ const MyStories = () => {
 
   useEffect(() => {
     const fetchMyStories = async () => {
-      const response = await userStory.getStories({
-        authorId: id
-      })
+      const response = await axios.post(
+        `${apiURL}/graphql`,
+        {
+          query: `query {
+            userStories(where: { author: "${id}" }) {
+              id
+              Title
+              Description
+              followers {
+                id
+                username
+              }
+              user_story_comments {
+                Comments
+              }
+              product {
+                Name
+              }
+              author {
+                id
+                username
+              }
+              user_story_status {
+                Status
+              }
+              Category
+            }
+          }`
+        },
+        {
+          withCredentials: true
+        }
+      )
       setStories(response.data.data.userStories)
     }
     const fetchFollowingStories = async () => {
-      const response = await userStory.getStories({
-        followers: id
-      })
+      const response = await axios.post(
+        `${apiURL}/graphql`,
+        {
+          query: `query {
+            userStories(where: { followers: "${id}" }) {
+              id
+              Title
+              Description
+              followers {
+                id
+              }
+              user_story_comments {
+                Comments
+              }
+              product {
+                Name
+              }
+              author {
+                id
+                username
+              }
+              user_story_status {
+                Status
+              }
+            }
+          }`
+        },
+        {
+          withCredentials: true
+        }
+      )
       setStories(response.data.data.userStories)
     }
     if (currentStateSelected === 'My Submissions')

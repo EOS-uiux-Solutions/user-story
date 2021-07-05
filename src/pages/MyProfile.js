@@ -7,7 +7,7 @@ import Navigation from '../components/Navigation'
 import Context from '../modules/Context'
 import Login from './Login'
 import UserProfile from '../components/UserProfile'
-import User from '../services/user'
+import userStory from '../services/user_story'
 
 const MyProfile = () => {
   const userId = localStorage.getItem('id')
@@ -28,7 +28,7 @@ const MyProfile = () => {
   }
 
   const updateProfile = async () => {
-    const response = await User.updateUser({ id: userId, ...user })
+    const response = await userStory.updateUser({ id: userId, ...user })
     if (response) {
       setUpdated(true)
     }
@@ -36,7 +36,7 @@ const MyProfile = () => {
 
   useEffect(() => {
     const fetchUserInfo = async () => {
-      const response = await User.getInfo(userId)
+      const response = await userStory.getUserDetails(userId)
       setUser(response.data.data.user)
     }
     if (userId) {
