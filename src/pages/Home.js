@@ -76,7 +76,7 @@ const Home = () => {
 
   const [userTerm, setUserTerm] = useState('')
 
-  const [userQuery, setUserQuery] = useState('')
+  const [authorQuery, setAuthorQuery] = useState('')
 
   const getPage = useCallback((page) => {
     setPage(page)
@@ -97,7 +97,7 @@ const Home = () => {
       setSearchQuery('')
     }
     if (userTerm === '') {
-      setUserQuery('')
+      setAuthorQuery('')
     }
   }, [product, category, searchTerm, userTerm])
 
@@ -106,7 +106,7 @@ const Home = () => {
       const response = await userStory.getStories(
         page,
         currentStateSelected,
-        userQuery,
+        authorQuery,
         categoryQuery,
         productQuery,
         searchQuery
@@ -120,21 +120,29 @@ const Home = () => {
     page,
     productQuery,
     searchQuery,
-    userQuery
+    authorQuery
   ])
 
   useEffect(() => {
     const fetchStoryCount = async () => {
       const response = await userStory.getStoryCount(
         currentStateSelected,
-        userQuery,
+        authorQuery,
+        categoryQuery,
         productQuery,
         searchQuery
       )
       setStoryCount(response.data.data.userStoriesConnection.aggregate.count)
     }
     fetchStoryCount()
-  }, [currentStateSelected, product, productQuery, searchQuery, userQuery])
+  }, [
+    currentStateSelected,
+    product,
+    categoryQuery,
+    productQuery,
+    searchQuery,
+    authorQuery
+  ])
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -223,6 +231,15 @@ const Home = () => {
     setModal(false)
   }
 
+  const handleSearchSubmit = () => {
+    if (fieldToSearch === 'Title' && searchTerm.length > 0) {
+      setSearchQuery(`Title_contains: "${searchTerm}"`)
+    } else if (userTerm.length > 0) {
+      setAuthorQuery(userTerm)
+      setUsersSuggestionOpen(false)
+    }
+  }
+
   return (
     <>
       <Helmet>
@@ -291,7 +308,7 @@ const Home = () => {
                     isOpen={usersSuggestionOpen}
                     userTerm={userTerm}
                     setUserTerm={setUserTerm}
-                    setUserQuery={setUserQuery}
+                    setAuthorQuery={setAuthorQuery}
                     setUsersSuggestionOpen={setUsersSuggestionOpen}
                   />
                 }
@@ -311,12 +328,7 @@ const Home = () => {
                   }}
                   onKeyDown={(event) => {
                     if (event.key === 'Enter') {
-                      if (fieldToSearch === 'Title' && searchTerm.length > 0) {
-                        setSearchQuery(`Title_contains: "${searchTerm}"`)
-                      } else if (userTerm.length > 0) {
-                        setUserQuery(userTerm)
-                        setUsersSuggestionOpen(false)
-                      }
+                      handleSearchSubmit()
                     }
                   }}
                   onFocus={() => {
@@ -353,13 +365,7 @@ const Home = () => {
               <Button
                 type='submit'
                 className='btn btn-default'
-                onClick={() => {
-                  if (fieldToSearch === 'Title' && searchTerm.length > 0) {
-                    setSearchQuery(`Title_contains: "${searchTerm}"`)
-                  } else if (userTerm.length > 0) {
-                    setUserQuery(userTerm)
-                  }
-                }}
+                onClick={handleSearchSubmit}
               >
                 Search
               </Button>

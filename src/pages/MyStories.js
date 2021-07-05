@@ -15,6 +15,8 @@ import Lists from '../utils/Lists'
 import Context from '../modules/Context'
 import Login from './Login'
 
+import userStory from '../services/user_story'
+
 const MyStories = () => {
   const { state } = useContext(Context)
 
@@ -139,19 +141,7 @@ const MyStories = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `query {
-          products {
-            Name
-          }
-        }`
-        },
-        {
-          withCredentials: true
-        }
-      )
+      const response = await userStory.getProducts()
       setProducts(
         response.data.data.products.map((ele) => {
           return ele.Name
@@ -164,9 +154,7 @@ const MyStories = () => {
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const response = await axios.post(`${apiURL}/graphql`, {
-        query: '{ __type(name: "ENUM_USERSTORY_CATEGORY") {enumValues {name}}}'
-      })
+      const response = await userStory.getCategories()
 
       setCategories(
         response.data.data.__type.enumValues.map((ele) => {

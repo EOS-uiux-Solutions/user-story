@@ -1,10 +1,55 @@
 import apiCall from './api'
+import {
+  BASIC_STORY_INFO_FRAGMENT,
+  NOTIFICATION_DATA_FRAGMENT
+} from './gql_fragments'
 
 const userStory = {
+  createStory: ({ description, title, category, product, priority }) => {
+    const createQuery = {
+      query: `mutation {
+        createUserStory(
+          input: {
+            data: {
+              Description: "${description}"
+              Title: "${title}"
+              Category: ${category}
+              product: "${product}"
+              Priority: ${priority}
+            }
+          }
+        ) {
+          userStory {
+            createdAt
+          }
+        }
+      }
+      `
+    }
+    return apiCall('/graphql', createQuery)
+  },
+  checkAuthor: (userId, storyId) => {
+    return apiCall('/checkAuthor', {
+      id: userId,
+      storyId: storyId
+    })
+  },
+  getAllStories: () => {
+    const query = {
+      query: `query {
+        userStories(sort: "votes:desc,createdAt:desc") {
+          ...BasicStoryInfo
+        }
+      }
+      ${BASIC_STORY_INFO_FRAGMENT}
+      `
+    }
+    return apiCall('/graphql', query)
+  },
   getStories: (
     page,
     currentStateSelected,
-    userQuery,
+    authorQuery,
     categoryQuery,
     productQuery,
     searchQuery
@@ -18,7 +63,7 @@ const userStory = {
                     Status: "${currentStateSelected}"
                   },
                   author: {
-                    username_contains: "${userQuery}"
+                    username_contains: "${authorQuery}"
                   }
                   ${categoryQuery}
                   ${productQuery}
@@ -55,9 +100,29 @@ const userStory = {
     }
     return apiCall('/graphql', storiesQuery)
   },
+  getStory: (storyId) => {
+    const storyQuery = {
+      query: `query {
+        userStory(id: "${storyId}") {
+          ...BasicStoryInfo
+          user_story_status {
+            Status
+          }
+          author {
+            id
+            username
+          }
+        }
+      }
+      ${BASIC_STORY_INFO_FRAGMENT}
+      `
+    }
+    return apiCall('/graphql', storyQuery)
+  },
   getStoryCount: (
     currentStateSelected,
-    userQuery,
+    authorQuery,
+    categoryQuery,
     productQuery,
     searchQuery
   ) => {
@@ -68,9 +133,10 @@ const userStory = {
                   Status: "${currentStateSelected}"
                 },
                 author: {
-                  username_contains: "${userQuery}"
+                  username_contains: "${authorQuery}"
                 }
-                ${productQuery},
+                ${categoryQuery}
+                ${productQuery}
                 ${searchQuery}
               }) {
                 aggregate {
@@ -80,6 +146,42 @@ const userStory = {
             }`
     }
     return apiCall('/graphql', storyCountQuery)
+  },
+  updateUserStoryDescription: (storyId, description) => {
+    const updateQuery = {
+      query: `mutation {
+        updateUserStory(
+          input: { where: { id: "${storyId}" }, data: { Description: "${description}" } }
+        ) {
+          userStory {
+            updatedAt
+          }
+        }
+      }`
+    }
+    return apiCall('/graphql', updateQuery)
+  },
+  getCategories: () => {
+    const categoryQuery = {
+      query: '{ __type(name: "ENUM_USERSTORY_CATEGORY") {enumValues {name}}}'
+    }
+    return apiCall('/graphql', categoryQuery)
+  },
+  getPolicies: () => {
+    const policyQuery = {
+      query: `query {
+        userStoryPolicies {
+          Description
+        }
+      }`
+    }
+    return apiCall('/graphql', policyQuery)
+  },
+  getPriorities: () => {
+    const priorityQuery = {
+      query: `query { __type(name: "ENUM_USERSTORY_PRIORITY") {enumValues {name}}}`
+    }
+    return apiCall('/graphql', priorityQuery)
   },
   getProducts: () => {
     const productQuery = {
@@ -91,28 +193,43 @@ const userStory = {
     }
     return apiCall('/graphql', productQuery)
   },
-  getCategories: () => {
-    const categoryQuery = {
-      query: '{ __type(name: "ENUM_USERSTORY_CATEGORY") {enumValues {name}}}'
+  getProductsWithTemplates: () => {
+    const productQuery = {
+      query: `query {
+              products {
+                id
+                Name
+                product_template
+              }
+            }`
     }
-    return apiCall('/graphql', categoryQuery)
+    return apiCall('/graphql', productQuery)
+  },
+  getNotifications: (userId) => {
+    const notificationQuery = {
+      query: `query {
+        userStoryNotifications (where: {
+          users: {
+            id: "${userId}"
+          }
+        }){
+          ...NotificationData
+        }
+      }
+      ${NOTIFICATION_DATA_FRAGMENT}
+      `
+    }
+    return apiCall('/graphql', notificationQuery)
   },
   getPolicyNotifications: () => {
     const policyQuery = {
       query: `query {
             userStoryNotifications(where: {message: "User story privacy policy has been updated"}) {
-              message
-              id
-              users {
-                id
-              }
-              seenBy {
-                id
-              }
-              date
-              link
+              ...NotificationData
             }
-          }`
+          }
+          ${NOTIFICATION_DATA_FRAGMENT}
+          `
     }
     return apiCall('/graphql', policyQuery)
   },
@@ -138,6 +255,52 @@ const userStory = {
     }
     return apiCall('/graphql', notificationQuery)
   },
+  getUserDetails: (userId) => {
+    const userQuery = {
+      query: `query {
+        user(id: "${userId}") {
+          profilePicture {
+            id
+            url
+          }
+          Name
+          Bio
+          username
+          Company
+          Profession
+          email
+          LinkedIn
+          Twitter
+        }
+      }
+      `
+    }
+    return apiCall('/graphql', userQuery)
+  },
+  updateUser: (user) => {
+    const updateQuery = {
+      query: `mutation {
+        updateUser(input: {
+          where: {
+            id: "${user.id}"
+          }
+          data: {
+            Name: "${user.Name ?? user.username}"
+            Profession: "${user.Profession ?? ''}"
+            Company: "${user.Company ?? ''}"
+            LinkedIn: "${user.LinkedIn ?? ''}"
+            Twitter: "${user.Twitter ?? ''}"
+            Bio: "${user.Bio ?? ''}"
+          }
+        }) {
+          user {
+            username
+          }
+        }
+      }`
+    }
+    return apiCall('/graphql', updateQuery)
+  },
   getComments: (storyId) => {
     const commentsQuery = {
       query: `
@@ -161,8 +324,7 @@ const userStory = {
             }
           }
         }
-      }
-      `
+       }`
     }
     return apiCall('/graphql', commentsQuery)
   },
