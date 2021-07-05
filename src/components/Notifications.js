@@ -38,7 +38,7 @@ const Notifications = () => {
 
   useEffect(() => {
     const fetchNotifications = async () => {
-      const response = await userStory.getNotificationsComponent(userId)
+      const response = await userStory.getNotificationsByUserId(userId)
       let unseenNotifications = []
       if (response.data.data.userStoryNotifications) {
         unseenNotifications = response.data.data.userStoryNotifications
@@ -61,7 +61,7 @@ const Notifications = () => {
         const seenBy = notification.seenBy.map((seen) => seen.id)
         if (!seenBy.includes(userId)) {
           seenBy.push(userId)
-          await userStory.markAsReadAllNotifications(notification.id)
+          await userStory.markNotificationAsRead(notification.id)
           setNotifications([])
           setNotificationCount(0)
           setNotificationsSeen(false)

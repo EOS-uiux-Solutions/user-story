@@ -382,8 +382,8 @@ const userStory = {
     }
     return apiCall('/graphql', postCommentReplyQuery)
   },
-  getNotificationsComponent: (userId) => {
-    const getNotificationsQuery = {
+  getNotificationsByUserId: (userId) => {
+    const getNotificationsByUserIdQuery = {
       query: `query {
       userStoryNotifications (where: {
         users: {
@@ -403,10 +403,10 @@ const userStory = {
       }
     }`
     }
-    return apiCall('/graphql', getNotificationsQuery)
+    return apiCall('/graphql', getNotificationsByUserIdQuery)
   },
-  markAsReadAllNotifications: (notificationId) => {
-    const markAsReadAllNotificationsQuery = {
+  markNotificationAsRead: (notificationId) => {
+    const markNotificationAsReadQuery = {
       query: `mutation updateNotifications($seenBy: [ID]){
         updateUserStoryNotification(input: {
           where: {
@@ -422,7 +422,7 @@ const userStory = {
         }
       }`
     }
-    return apiCall('/graphql', markAsReadAllNotificationsQuery)
+    return apiCall('/graphql', markNotificationAsReadQuery)
   }
 }
 
