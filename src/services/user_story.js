@@ -381,6 +381,48 @@ const userStory = {
       `
     }
     return apiCall('/graphql', postCommentReplyQuery)
+  },
+  getNotificationsComponent: (userId) => {
+    const getNotificationsQuery = {
+      query: `query {
+      userStoryNotifications (where: {
+        users: {
+          id: "${userId}"
+        }
+      }){
+        message
+        id
+        users {
+          id
+        }
+        seenBy {
+          id
+        }
+        date
+        link
+      }
+    }`
+    }
+    return apiCall('/graphql', getNotificationsQuery)
+  },
+  markAsReadAllNotifications: (notificationId) => {
+    const markAsReadAllNotificationsQuery = {
+      query: `mutation updateNotifications($seenBy: [ID]){
+        updateUserStoryNotification(input: {
+          where: {
+            id: "${notificationId}"
+          }
+          data: {
+            seenBy: $seenBy
+          }
+        }) {
+          userStoryNotification {
+            id
+          }
+        }
+      }`
+    }
+    return apiCall('/graphql', markAsReadAllNotificationsQuery)
   }
 }
 
