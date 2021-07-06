@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
-import { apiURL } from '../config.json'
 import Modal from './Modal'
 import { Link } from '@reach/router'
+import userStory from '../services/user_story'
 
 const Vote = (props) => {
   const { story } = props
@@ -40,25 +39,7 @@ const Vote = (props) => {
       let updatedFollowerIds = followers.filter(
         (id) => id !== JSON.stringify(userId)
       )
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `
-        mutation {
-          updateUserStory(input: {where: {id: "${story.id}"} data: {followers: [${updatedFollowerIds}]}}){
-            userStory{
-              followers {
-                id
-              }
-            }
-          }
-        }
-        `
-        },
-        {
-          withCredentials: true
-        }
-      )
+      const response = await userStory.updateVotes(story.id, updatedFollowerIds)
       updatedFollowerIds = response.data.data.updateUserStory.userStory.followers.map(
         (follower) => JSON.stringify(follower.id)
       )
@@ -66,24 +47,10 @@ const Vote = (props) => {
       setVoted(false)
       setVotes((votes) => votes - 1)
     } else {
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `
-        mutation {
-          updateUserStory(input: {where: {id: "${story.id}"} data: {followers: [${followers}, "${userId}"]}}){
-            userStory{
-              followers {
-                id
-              }
-            }
-          }
-        }
-        `
-        },
-        {
-          withCredentials: true
-        }
+      const response = await userStory.updateStoryVote(
+        story.id,
+        followers,
+        userId
       )
       const updatedFollowerIds = response.data.data.updateUserStory.userStory.followers.map(
         (follower) => JSON.stringify(follower.id)

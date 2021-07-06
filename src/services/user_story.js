@@ -426,6 +426,38 @@ const userStory = {
       }
     }
     return apiCall('/graphql', markNotificationAsReadQuery)
+  },
+  updateVotes: (storyId, updatedFollowerIds) => {
+    const updateVotesQuery = {
+      query: `
+      mutation {
+        updateUserStory(input: {where: {id: "${storyId}"} data: {followers: [${updatedFollowerIds}]}}){
+          userStory{
+            followers {
+              id
+            }
+          }
+        }
+      }
+      `
+    }
+    return apiCall('/graphql', updateVotesQuery)
+  },
+  updateStoryVote: (storyId, followers, userId) => {
+    const updateStoryVoteQuery = {
+      query: `
+        mutation {
+          updateUserStory(input: {where: {id: "${storyId}"} data: {followers: [${followers}, "${userId}"]}}){
+            userStory{
+              followers {
+                id
+              }
+            }
+          }
+        }
+        `
+    }
+    return apiCall('/graphql', updateStoryVoteQuery)
   }
 }
 
