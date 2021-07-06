@@ -233,6 +233,11 @@ const Story = (props) => {
                   />
                 )}
               </div>
+              <div>
+                {story.Attachment?.map((obj) => (
+                  <img src={obj.url} alt='attachment' />
+                ))}
+              </div>
               <Comments storyId={storyId} />
             </div>
           </div>
