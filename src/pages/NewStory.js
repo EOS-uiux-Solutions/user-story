@@ -48,7 +48,7 @@ const NewStory = () => {
 
   const [screenSize, setScreenSize] = useState(0)
 
-  const [attachments, setAttachments] = useState()
+  const [attachments, setAttachments] = useState([])
 
   useLayoutEffect(() => {
     function updateScreenSize() {
@@ -127,9 +127,11 @@ const NewStory = () => {
     data.Description = filterDescriptionText(description)
     const formData = new FormData()
     formData.append('data', JSON.stringify(data))
-    attachments.forEach((file) => {
-      formData.append('files.Attachment', file)
-    })
+    if (attachments.length) {
+      attachments.forEach((file) => {
+        formData.append('files.Attachment', file)
+      })
+    }
     await userStory.createStory(formData)
     navigate('/')
   }
