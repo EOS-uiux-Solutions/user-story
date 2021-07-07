@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 
-const Dragdrop = () => {
+const Dragdrop = ({ setAttachments }) => {
   const [files, setFiles] = useState([])
 
   const { getRootProps, getInputProps } = useDropzone({
     multiple: true,
     onDrop: (acceptedFiles) => {
+      setAttachments(acceptedFiles)
       setFiles((files) => [
         ...files,
         ...acceptedFiles.map((file) =>

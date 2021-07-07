@@ -1,6 +1,5 @@
 import React, { useLayoutEffect, useState, useEffect, useContext } from 'react'
 import { useForm } from 'react-hook-form'
-
 import MarkdownEditor from '../components/MarkdownEditor'
 import { filterDescriptionText } from '../utils/filterText'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
@@ -48,6 +47,8 @@ const NewStory = () => {
   const { promiseInProgress } = usePromiseTracker()
 
   const [screenSize, setScreenSize] = useState(0)
+
+  const [attachments, setAttachments] = useState([])
 
   useLayoutEffect(() => {
     function updateScreenSize() {
@@ -123,8 +124,15 @@ const NewStory = () => {
       setDescriptionError(true)
       return
     }
-    data.description = filterDescriptionText(description)
-    await userStory.createStory(data)
+    data.Description = filterDescriptionText(description)
+    const formData = new FormData()
+    formData.append('data', JSON.stringify(data))
+    if (attachments.length) {
+      attachments.forEach((file) => {
+        formData.append('files.Attachment', file)
+      })
+    }
+    await userStory.createStory(formData)
     navigate('/')
   }
 
@@ -148,7 +156,7 @@ const NewStory = () => {
                   <input
                     className='input-default'
                     type='text'
-                    name='title'
+                    name='Title'
                     data-cy='title'
                     autoComplete='off'
                     ref={register({ required: true })}
@@ -190,7 +198,7 @@ const NewStory = () => {
                   <label htmlFor='category'>Category</label>
                   <select
                     className='select-default'
-                    name='category'
+                    name='Category'
                     data-cy='category'
                     ref={register({ required: true })}
                   >
@@ -212,7 +220,7 @@ const NewStory = () => {
                   <label htmlFor='priority'>Priority</label>
                   <select
                     className='select-default'
-                    name='priority'
+                    name='Priority'
                     data-cy='priority'
                     ref={register({ required: true })}
                   >
@@ -247,7 +255,7 @@ const NewStory = () => {
                   />
                   {descriptionError && <FormError type='emptyDescription' />}
                 </div>
-                <Dragdrop />
+                <Dragdrop setAttachments={setAttachments} />
                 <div className='flex flex-row flex-center'>
                   <Button
                     type='submit'
