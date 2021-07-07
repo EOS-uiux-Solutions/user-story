@@ -1,3 +1,15 @@
 {
-  "baseUrl": "http://localhost:3000"
+  "baseUrl": "http://localhost:3000",
+  "env": {
+    "testUsername": "user1",
+    "testUserEmail": "test1@gmail.com",
+    "testUserPassword": "password",
+    "testStoryTitle": "This is a test story",
+    "testStoryProduct": "EOS Icons",
+    "testCategory": "Documentation"
+  },
+  "testFiles": [
+    "user_story.spec.js",
+    "test_filters.spec.js"
+  ]
 }

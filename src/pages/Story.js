@@ -138,24 +138,26 @@ const Story = (props) => {
               </div>
 
               {editor ? (
-                <>
+                <div data-cy='edit-description'>
                   <MarkdownEditor
                     callback={(html) => {
                       setDescription(html)
                     }}
                   />
-                </>
+                </div>
               ) : (
                 <div
                   className='story-description'
                   dangerouslySetInnerHTML={{ __html: story.Description }}
+                  data-cy='story-description'
                 />
               )}
-              <div className='story-buttons-container'>
+              <div className='story-buttons-container' data-cy='story-buttons'>
                 {editMode && !editor ? (
                   <>
                     <Button
                       className='btn btn-default'
+                      data-cy='btn-edit'
                       onClick={() => setEditor(true)}
                     >
                       Edit

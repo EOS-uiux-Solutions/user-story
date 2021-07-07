@@ -2,7 +2,7 @@ version: '3'
 
 services:
   eosstrapi:
-    image: ghcr.io/eos-uiux-solutions/strapi:latest
+    image: ghcr.io/eos-uiux-solutions/strapi-test:latest
     environment:
       DATABASE_CLIENT: mongo
       DATABASE_NAME: strapi
@@ -11,7 +11,6 @@ services:
       DATABASE_USERNAME: strapi
       DATABASE_PASSWORD: password
       EOS_CORS_DOMAINS: 'http://localhost:3000, http://localhost:4999'
-      WITH_DOCKER: 'true'
     restart: unless-stopped
     networks:
       - eos-strapi
@@ -27,7 +26,6 @@ services:
     networks:
       - eos-strapi
     volumes:
-      - ~/mongo/data:/data/db
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     ports:
       - '27017:27017'

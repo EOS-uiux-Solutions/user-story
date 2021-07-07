@@ -157,6 +157,7 @@ const NewStory = () => {
                     className='input-default'
                     type='text'
                     name='Title'
+                    data-cy='title'
                     autoComplete='off'
                     ref={register({ required: true })}
                   />
@@ -175,6 +176,7 @@ const NewStory = () => {
                   <select
                     className='select-default'
                     name='product'
+                    data-cy='product'
                     onChange={handleProductSelectChange}
                     ref={register({ required: true })}
                   >
@@ -197,6 +199,7 @@ const NewStory = () => {
                   <select
                     className='select-default'
                     name='Category'
+                    data-cy='category'
                     ref={register({ required: true })}
                   >
                     <option defaultValue={true} value=''>
@@ -218,6 +221,7 @@ const NewStory = () => {
                   <select
                     className='select-default'
                     name='Priority'
+                    data-cy='priority'
                     ref={register({ required: true })}
                   >
                     <option defaultValue={true} value=''>
@@ -234,7 +238,7 @@ const NewStory = () => {
                   </select>
                   {errors.priority && <FormError type={errors.priority.type} />}
                 </div>
-                <div className='form-element'>
+                <div className='form-element' data-cy='description-editor'>
                   <label htmlFor='description'>Description</label>
                   <MarkdownEditor
                     callback={(html, text) => {
@@ -253,7 +257,11 @@ const NewStory = () => {
                 </div>
                 <Dragdrop setAttachments={setAttachments} />
                 <div className='flex flex-row flex-center'>
-                  <Button type='submit' className='btn btn-default'>
+                  <Button
+                    type='submit'
+                    data-cy='btn-submit'
+                    className='btn btn-default'
+                  >
                     Submit
                   </Button>
                 </div>

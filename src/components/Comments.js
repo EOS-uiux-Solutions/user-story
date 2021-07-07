@@ -78,9 +78,10 @@ const Comments = (props) => {
                   alt='Default User Avatar'
                 ></img>
               </div>
-              <div className='comment-content'>
+              <div className='comment-content' data-cy='comment-content'>
                 <Link
                   className='link link-default'
+                  data-cy='comment-username'
                   to={`/profile/${data.user.id}`}
                 >
                   {data.user.username}
@@ -206,6 +207,7 @@ const Comments = (props) => {
             <textarea
               rows='4'
               name='addComment'
+              data-cy='comment-input'
               cols='16'
               ref={registerComment({ required: true })}
               value={comment}
@@ -215,7 +217,9 @@ const Comments = (props) => {
               <FormError message='Comment cannot be empty' />
             )}
           </div>
-          <Button className='btn btn-default'>Add Comment</Button>
+          <Button className='btn btn-default' data-cy='btn-comment'>
+            Add Comment
+          </Button>
         </form>
       )}
     </div>

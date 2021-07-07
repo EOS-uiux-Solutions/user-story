@@ -44,17 +44,21 @@ const Navigation = (props) => {
 
   return (
     <header className='nav-header'>
-      <Link className='link' to='/'>
+      <Link className='link' data-cy='nav-eos-logo' to='/'>
         <img className='logo' src={eosIcon} alt='' />
       </Link>
       <nav className='navbar-content'>
         {state.auth && (
-          <Link className='btn btn-default' to='/newStory'>
+          <Link
+            className='btn btn-default'
+            data-cy='btn-new-story'
+            to='/newStory'
+          >
             + New Story
           </Link>
         )}
         {!state.auth && (
-          <Link className='btn btn-default' to='/login'>
+          <Link className='btn btn-default' data-cy='btn-signin' to='/login'>
             Sign In
           </Link>
         )}

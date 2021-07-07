@@ -109,7 +109,11 @@ export const Login = (props) => {
               <Link className='link link-default' to='/forgotPassword'>
                 {t('authentication:forgot-password')}
               </Link>
-              <Link className='link link-default' to='/register'>
+              <Link
+                className='link link-default'
+                data-cy='link-create-account'
+                to='/register'
+              >
                 {t('authentication:create-account')}
               </Link>
             </div>
