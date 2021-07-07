@@ -5,28 +5,8 @@ import {
 } from './gql_fragments'
 
 const userStory = {
-  createStory: ({ description, title, category, product, priority }) => {
-    const createQuery = {
-      query: `mutation {
-        createUserStory(
-          input: {
-            data: {
-              Description: "${description}"
-              Title: "${title}"
-              Category: ${category}
-              product: "${product}"
-              Priority: ${priority}
-            }
-          }
-        ) {
-          userStory {
-            createdAt
-          }
-        }
-      }
-      `
-    }
-    return apiCall('/graphql', createQuery)
+  createStory: (data) => {
+    return apiCall('/user-stories', data)
   },
   checkAuthor: (userId, storyId) => {
     return apiCall('/checkAuthor', {
@@ -111,6 +91,9 @@ const userStory = {
           author {
             id
             username
+          }
+          Attachment {
+            url
           }
         }
       }
