@@ -98,7 +98,7 @@ describe('Test new User Registration Workflow', () => {
   })
 
   it('Allows user to edit the story created by them', () => {
-    cy.get('[data-cy=btn-edit]').contains('Edit').click()
+    cy.get('[data-cy=btn-edit]', { timeout: 1000 }).contains('Edit').click()
 
     cy.get('[data-cy=edit-description]').type(editedDescription)
 
