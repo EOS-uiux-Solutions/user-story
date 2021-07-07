@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
-import { apiURL } from '../config.json'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 import {
   FacebookShareButton,
@@ -25,6 +23,7 @@ import Navigation from '../components/Navigation'
 import { Link, navigate } from '@reach/router'
 import Vote from '../components/Vote'
 import Modal from '../components/Modal'
+import userStory from '../services/user_story'
 
 const Story = (props) => {
   const { storyId } = props
@@ -49,46 +48,12 @@ const Story = (props) => {
 
   useEffect(() => {
     const fetchStory = async () => {
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `query {
-            userStory(id: "${storyId}") {
-              id
-              Title
-              Description
-              user_story_status {
-                Status
-              }
-              author {
-                id
-                username
-              }
-              followers {
-                id
-                username
-              }
-            }
-          }`
-        },
-        {
-          withCredentials: true
-        }
-      )
+      const response = await userStory.getStory(storyId)
       setStory(response.data.data.userStory)
     }
     trackPromise(fetchStory())
     const editStory = async () => {
-      const check = await axios.post(
-        `${apiURL}/checkAuthor`,
-        {
-          id: userId,
-          storyId: storyId
-        },
-        {
-          withCredentials: true
-        }
-      )
+      const check = await userStory.checkAuthor(userId, storyId)
       if (check.data) {
         setEditMode(true)
       }
@@ -105,23 +70,7 @@ const Story = (props) => {
     event.preventDefault()
     const combinedDescription = story.Description + editDescription
     const filteredDescription = filterDescriptionText(combinedDescription)
-    await axios.post(
-      `${apiURL}/graphql`,
-      {
-        query: `mutation {
-          updateUserStory(
-            input: { where: { id: "${storyId}" }, data: { Description: "${filteredDescription}" } }
-          ) {
-            userStory {
-              updatedAt
-            }
-          }
-        }`
-      },
-      {
-        withCredentials: true
-      }
-    )
+    await userStory.updateUserStoryDescription(storyId, filteredDescription)
     setEditor(false)
     setStory({
       ...story,

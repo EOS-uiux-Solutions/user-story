@@ -16,4 +16,3 @@ rules:
   prefer-template: 'error'
   prefer-destructuring: ['error', { 'object': true, 'array': false }]
   object-curly-spacing: [2, 'always']
-  no-console: 'error'

@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useContext, useRef } from 'react'
-import axios from 'axios'
 import { Link, navigate } from '@reach/router'
-import { apiURL } from '../config.json'
 import Context from '../modules/Context'
+import userStory from '../services/user_story'
 
 const Notifications = () => {
   const userId = localStorage.getItem('id')
@@ -39,32 +38,7 @@ const Notifications = () => {
 
   useEffect(() => {
     const fetchNotifications = async () => {
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `query {
-              userStoryNotifications (where: {
-                users: {
-                  id: "${userId}"
-                }
-              }){
-                message
-                id
-                users {
-                  id
-                }
-                seenBy {
-                  id
-                }
-                date
-                link
-              }
-            }`
-        },
-        {
-          withCredentials: true
-        }
-      )
+      const response = await userStory.getNotificationsByUserId(userId)
       let unseenNotifications = []
       if (response.data.data.userStoryNotifications) {
         unseenNotifications = response.data.data.userStoryNotifications
@@ -87,31 +61,7 @@ const Notifications = () => {
         const seenBy = notification.seenBy.map((seen) => seen.id)
         if (!seenBy.includes(userId)) {
           seenBy.push(userId)
-          await axios.post(
-            `${apiURL}/graphql`,
-            {
-              query: `mutation updateNotifications($seenBy: [ID]){
-                updateUserStoryNotification(input: {
-                  where: {
-                    id: "${notification.id}"
-                  }
-                  data: {
-                    seenBy: $seenBy
-                  }
-                }) {
-                  userStoryNotification {
-                    id
-                  }
-                }
-              }`,
-              variables: {
-                seenBy: seenBy
-              }
-            },
-            {
-              withCredentials: true
-            }
-          )
+          await userStory.markNotificationAsRead(notification.id, seenBy)
           setNotifications([])
           setNotificationCount(0)
           setNotificationsSeen(false)
