@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import Button from './Button'
 
 const Dropdown = (props) => {
-  const { title, reference, curr, setCurr, itemList } = props
+  const { title, reference, curr, setCurr, itemList, ...rest } = props
 
   const [dropdownState, setDropdownState] = useState(false)
 
@@ -32,7 +32,7 @@ const Dropdown = (props) => {
   return (
     <>
       <div className='filter-title'>{title}</div>
-      <div className='dropdown-container' ref={reference}>
+      <div className='dropdown-container' ref={reference} {...rest}>
         <Button
           type='button'
           className='btn btn-transparent'

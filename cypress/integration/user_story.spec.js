@@ -2,15 +2,15 @@
 
 describe('Test new User Registration Workflow', () => {
   const testUser = {
-    username: 'user5',
-    email: 'test5@gmail.com',
-    password: 'password',
+    username: Cypress.env('testUsername'),
+    email: Cypress.env('testUserEmail'),
+    password: Cypress.env('testUserPassword'),
   }
 
   const testStory = {
-    title: 'This is a test story',
-    product: 'EOS Icons',
-    category: 'Documentation',
+    title: Cypress.env('testStoryTitle'),
+    product: Cypress.env('testStoryProduct'),
+    category: Cypress.env('testCategory'),
     priority: 'High',
     description: '{enter}Testing User Story',
   }

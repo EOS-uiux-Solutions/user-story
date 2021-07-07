@@ -299,7 +299,10 @@ const Home = () => {
 
           <div className='flex flex-row search-bar'>
             <div className='flex flex-row search-controls'>
-              <div className='flex flex-row search-input'>
+              <div
+                className='flex flex-row search-input'
+                data-cy='search-input-div'
+              >
                 <span>
                   <i className='eos-icons'>search</i>
                 </span>
@@ -317,6 +320,7 @@ const Home = () => {
                   name='search'
                   placeholder='Search'
                   autoComplete='off'
+                  data-cy='search-input'
                   value={fieldToSearch === 'Title' ? searchTerm : userTerm}
                   onChange={(event) => {
                     if (fieldToSearch === 'Title') {
@@ -340,6 +344,7 @@ const Home = () => {
                 <div className='close-btn-div'>
                   <span
                     className='close-btn'
+                    data-cy='btn-clear'
                     onClick={() => {
                       if (fieldToSearch === 'Title' && searchTerm.length > 0) {
                         setSearchTerm('')
@@ -360,11 +365,13 @@ const Home = () => {
                   curr={fieldToSearch}
                   setCurr={setFieldToSearch}
                   itemList={['Title', 'Author']}
+                  data-cy='toggle-title-dropdown'
                 />
               </div>
               <Button
                 type='submit'
                 className='btn btn-default'
+                data-cy='btn-search'
                 onClick={handleSearchSubmit}
               >
                 Search
@@ -377,6 +384,7 @@ const Home = () => {
                 curr={product}
                 setCurr={setProduct}
                 itemList={products}
+                data-cy='product-dropdown'
               />
               <Dropdown
                 title='Categories'
@@ -384,6 +392,7 @@ const Home = () => {
                 curr={category}
                 setCurr={setCategory}
                 itemList={categories}
+                data-cy='category-dropdown'
               />
               <Dropdown
                 title='Sort By'
