@@ -45,24 +45,30 @@ const CommentInput = (props) => {
       className='comment-form'
       onSubmit={handleSubmitReply(addCommentReply)}
     >
-      <div className='field'>
+      <div className='comment-input'>
         <textarea
-          rows='4'
-          cols='16'
+          rows='5'
+          cols='25'
           name='Comments'
           ref={registerReply({ required: true })}
           value={commentReply}
           onChange={(e) => setCommentReply(e.target.value)}
         ></textarea>
-        <input
-          type='file'
-          name='File'
-          multiple={true}
-          onChange={handleFileChange}
-        />
-        <div className='preview-container'>{mediaPreview}</div>
-        {errorsReply.addReply && <FormError message='Reply cannot be empty' />}
+        <div className='file-input'>
+          <input
+            type='file'
+            id='file'
+            className='file'
+            multiple={true}
+            onChange={handleFileChange}
+          />
+          <label htmlFor='file' className='file-button-label'>
+            <i className='eos-icons'>attachment</i>
+          </label>
+        </div>
       </div>
+      <div className='preview-container'>{mediaPreview}</div>
+      {errorsReply.addReply && <FormError message='Reply cannot be empty' />}
       <Button className='btn btn-default'>Add Reply</Button>
     </form>
   )

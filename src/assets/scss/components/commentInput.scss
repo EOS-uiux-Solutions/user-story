@@ -1,0 +1,46 @@
+.comment {
+  &-form {
+    margin: 16px 0px;
+  }
+
+  &-input {
+    align-items: flex-end;
+    border: 1px solid $light-gray;
+    display: flex;
+    margin-bottom: 5px;
+    width: fit-content;
+
+    textarea {
+      border: 0;
+      box-shadow: 0 0 2px 0 $dark-color inset;
+      resize: none;
+    }
+  }
+}
+
+.file {
+  height: 0.1px;
+  opacity: 0;
+  position: absolute;
+  width: 0.1px;
+
+  &-input {
+    background: $eos-white;
+    display: flex;
+    flex-direction: column-reverse;
+    height: 84px;
+  }
+
+  &-button-label {
+    border-top: 0.2px solid $light-gray;
+    display: block;
+    height: 24px;
+    position: relative;
+    text-align: center;
+    width: 35px;
+  }
+
+  &-button-label:hover {
+    cursor: pointer;
+  }
+}
