@@ -19,8 +19,18 @@ const CommentInput = (props) => {
     handleSubmit: handleSubmitReply
   } = useForm()
 
+  const removeFile = (name) => {
+    setAttachments(attachments.filter((attachment) => attachment.name !== name))
+  }
+
   const mediaPreview = attachments.map((file) => (
     <div className='preview-root' key={file.name}>
+      <button
+        className='preview-remove-button'
+        onClick={() => removeFile(file.name)}
+      >
+        x
+      </button>
       <div className='preview-inner'>
         <img src={file.preview} className='preview-image' alt='preview' />
       </div>
@@ -67,8 +77,8 @@ const CommentInput = (props) => {
           </label>
         </div>
       </div>
+      {errorsReply.Comments && <FormError message='Reply cannot be empty' />}
       <div className='preview-container'>{mediaPreview}</div>
-      {errorsReply.addReply && <FormError message='Reply cannot be empty' />}
       <Button className='btn btn-default'>Add Reply</Button>
     </form>
   )
