@@ -8,7 +8,8 @@ describe('Test the filters and search for stories', () => {
   }
 
   const setDropdown = (dropdown, value) => {
-    cy.get('[data-cy=search-input-div]')
+    cy
+      .get('[data-cy=search-input-div]')
       .get(`[data-cy=${dropdown}-dropdown]`)
       .click()
     cy.contains(value).click({ force: true })
@@ -74,7 +75,8 @@ describe('Test the filters and search for stories', () => {
     clearSearchInput()
 
     typeOnSearch('us')
-    cy.get('[data-cy=search-input-div]')
+    cy
+      .get('[data-cy=search-input-div]')
       .contains('user1')
       .click({ force: true })
 

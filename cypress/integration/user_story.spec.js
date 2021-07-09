@@ -21,29 +21,34 @@ describe('Test new User Registration Workflow', () => {
   before('Register a new user', () => {
     cy.visit('/')
 
-    cy.get('[data-cy=btn-signin]')
+    cy
+      .get('[data-cy=btn-signin]')
       .should('have.attr', 'href', '/login')
       .contains('Sign In')
       .click()
 
     cy.url().should('equal', 'http://localhost:3000/login')
 
-    cy.get('[data-cy=link-create-account]')
+    cy
+      .get('[data-cy=link-create-account]')
       .should('have.attr', 'href', '/register')
       .contains('Create an account')
       .click()
 
     cy.url().should('equal', 'http://localhost:3000/register')
 
-    cy.get('[data-cy=username]')
+    cy
+      .get('[data-cy=username]')
       .should('have.attr', 'type', 'text')
       .type(testUser.username)
 
-    cy.get('[data-cy=email]')
+    cy
+      .get('[data-cy=email]')
       .should('have.attr', 'type', 'text')
       .type(testUser.email)
 
-    cy.get('[data-cy=password]')
+    cy
+      .get('[data-cy=password]')
       .should('have.attr', 'type', 'password')
       .type(testUser.password)
 
@@ -66,7 +71,8 @@ describe('Test new User Registration Workflow', () => {
   })
 
   it('Allows user to create new story', () => {
-    cy.get('[data-cy=btn-new-story]')
+    cy
+      .get('[data-cy=btn-new-story]')
       .should('have.attr', 'href', '/newStory')
       .contains('+ New Story')
       .click()
