@@ -40,6 +40,8 @@ const Comments = (props) => {
 
   const [viewRepliesToggled, setViewRepliesToggled] = useState([])
 
+  const [attachments, setAttachments] = useState([])
+
   useEffect(() => {
     const fetchComments = async () => {
       const response = await userStory.getComments(storyId)
@@ -49,12 +51,22 @@ const Comments = (props) => {
   }, [storyId, fetchComments])
 
   const addComment = async (data) => {
-    const response = await userStory.postComment(data.addComment, storyId, id)
+    const formData = new FormData()
+    data.user = id
+    data.user_story_comment = commentId
+    formData.append('data', JSON.stringify(data))
+    if (attachments.length) {
+      attachments.forEach((file) => {
+        formData.append('files.Attachment', file)
+      })
+    }
+    const response = await userStory.postComment(formData)
     setComments([
       ...comments,
       response.data.data.createUserStoryComment.userStoryComment
     ])
     setComment('')
+    setAttachments([])
   }
 
   const addCommentReply = async (data) => {
@@ -63,6 +75,34 @@ const Comments = (props) => {
     setFetchComments((fetchComments) => !fetchComments)
     setRepliesToggled(null)
   }
+
+  const uploadFile = async (event) => {
+    const newFiles = event.target.files
+    const newFilesArray = []
+    for (let i = 0; i < newFiles.length; i++) {
+      newFilesArray.push(
+        Object.assign(newFiles[i], {
+          preview: URL.createObjectURL(newFiles[i])
+        })
+      )
+    }
+    setAttachments([...attachments, ...newFilesArray])
+  }
+
+  const mediaPreview = attachments.map((file) => (
+    <div className='preview-root' key={file.name}>
+      <div className='preview-inner'>
+        <img src={file.preview} className='preview-image' alt='preview' />
+      </div>
+    </div>
+  ))
+
+  useEffect(
+    () => () => {
+      attachments.forEach((file) => URL.revokeObjectURL(file.preview))
+    },
+    [attachments]
+  )
 
   return (
     <div className='comments-wrapper'>
@@ -95,6 +135,12 @@ const Comments = (props) => {
                   </div>
                 </div>
                 <p>{data.Comments}</p>
+                <div>
+                  {Comments.Attachment &&
+                    Comments.Attachment.map((obj) => (
+                      <img src={obj.url} alt='attachment' key={obj.id} />
+                    ))}
+                </div>
                 <div className='reply-action'>
                   {state.auth && (
                     <Button
@@ -202,6 +248,10 @@ const Comments = (props) => {
         <form
           className='comment-form'
           onSubmit={handleSubmitComment(addComment)}
+          attachments={attachments}
+          setAttachments={setAttachments}
+          addComment={addComment}
+          setComment={setComment}
         >
           <div className='field'>
             <textarea
@@ -213,10 +263,23 @@ const Comments = (props) => {
               value={comment}
               onChange={(e) => setComment(e.target.value)}
             ></textarea>
+            <input
+              type='file'
+              id='imgupload'
+              style={{ display: 'none', cursor: 'pointer' }}
+              onChange={uploadFile}
+              multiple={true}
+            />
+            <label for='imgupload'>
+              <Button className='eos-icons comment-attachment'>
+                attachment
+              </Button>
+            </label>
             {errorsComment.addComment && (
               <FormError message='Comment cannot be empty' />
             )}
           </div>
+          <aside className='preview-container'>{mediaPreview}</aside>
           <Button className='btn btn-default' data-cy='btn-comment'>
             Add Comment
           </Button>

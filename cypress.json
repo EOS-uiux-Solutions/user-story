@@ -8,8 +8,5 @@
     "testStoryProduct": "EOS Icons",
     "testCategory": "Documentation"
   },
-  "testFiles": [
-    "user_story.spec.js",
-    "test_filters.spec.js"
-  ]
+  "testFiles": ["user_story.spec.js", "test_filters.spec.js"]
 }
