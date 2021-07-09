@@ -3,6 +3,7 @@ import { Link } from '@reach/router'
 import Button from './Button'
 import { useForm } from 'react-hook-form'
 
+import CommentInput from './CommentInput'
 import Context from '../modules/Context'
 import FormError from '../components/FormError'
 import userStory from '../services/user_story'
@@ -14,12 +15,6 @@ const Comments = (props) => {
     register: registerComment,
     errors: errorsComment,
     handleSubmit: handleSubmitComment
-  } = useForm()
-
-  const {
-    register: registerReply,
-    errors: errorsReply,
-    handleSubmit: handleSubmitReply
   } = useForm()
 
   const { state } = useContext(Context)
@@ -40,6 +35,8 @@ const Comments = (props) => {
 
   const [viewRepliesToggled, setViewRepliesToggled] = useState([])
 
+  const [attachments, setAttachments] = useState([])
+
   useEffect(() => {
     const fetchComments = async () => {
       const response = await userStory.getComments(storyId)
@@ -47,6 +44,13 @@ const Comments = (props) => {
     }
     fetchComments()
   }, [storyId, fetchComments])
+
+  useEffect(
+    () => () => {
+      attachments.forEach((file) => URL.revokeObjectURL(file.preview))
+    },
+    [attachments]
+  )
 
   const addComment = async (data) => {
     const response = await userStory.postComment(data.addComment, storyId, id)
@@ -58,8 +62,21 @@ const Comments = (props) => {
   }
 
   const addCommentReply = async (data) => {
-    await userStory.postCommentReply(data.addReply, commentId, id)
+    const formData = new FormData()
+
+    data.user = id
+    data.user_story_comment = commentId
+    formData.append('data', JSON.stringify(data))
+
+    if (attachments.length) {
+      attachments.forEach((file) => {
+        formData.append('files.attachment', file)
+      })
+    }
+
+    await userStory.postCommentReply(formData)
     setCommentReply('')
+    setAttachments([])
     setFetchComments((fetchComments) => !fetchComments)
     setRepliesToggled(null)
   }
@@ -167,29 +184,21 @@ const Comments = (props) => {
                           }
                         </div>
                         <p>{reply.Comments}</p>
+                        {reply.attachment &&
+                          reply.attachment.map((a) => (
+                            <img src={a.url} key={a.id} alt='' width='100' />
+                          ))}
                       </div>
                     </div>
                   ))}
                 {repliesToggled === key + 1 && state.auth && (
-                  <form
-                    className='comment-form'
-                    onSubmit={handleSubmitReply(addCommentReply)}
-                  >
-                    <div className='field'>
-                      <textarea
-                        rows='4'
-                        cols='16'
-                        name='addReply'
-                        ref={registerReply({ required: true })}
-                        value={commentReply}
-                        onChange={(e) => setCommentReply(e.target.value)}
-                      ></textarea>
-                      {errorsReply.addReply && (
-                        <FormError message='Reply cannot be empty' />
-                      )}
-                    </div>
-                    <Button className='btn btn-default'>Add Reply</Button>
-                  </form>
+                  <CommentInput
+                    attachments={attachments}
+                    setAttachments={setAttachments}
+                    addCommentReply={addCommentReply}
+                    commentReply={commentReply}
+                    setCommentReply={setCommentReply}
+                  />
                 )}
               </div>
             </div>
