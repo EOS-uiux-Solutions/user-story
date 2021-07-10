@@ -255,7 +255,10 @@ const NewStory = () => {
                   />
                   {descriptionError && <FormError type='emptyDescription' />}
                 </div>
-                <Dragdrop setAttachments={setAttachments} />
+                <Dragdrop
+                  attachments={attachments}
+                  setAttachments={setAttachments}
+                />
                 <div className='flex flex-row flex-center'>
                   <Button
                     type='submit'

@@ -3,7 +3,7 @@ import { Link } from '@reach/router'
 import Button from './Button'
 import { useForm } from 'react-hook-form'
 
-import CommentInput from './CommentInput'
+import CommentForm from './CommentF'
 import Context from '../modules/Context'
 import userStory from '../services/user_story'
 
@@ -14,7 +14,7 @@ const Comments = (props) => {
 
   const { handleSubmit: handleSubmitReply } = useForm()
 
-  const [commentInput, setCommentInput] = useState(false)
+  const [commentForm, setCommentForm] = useState(false)
 
   const { state } = useContext(Context)
 
@@ -207,16 +207,17 @@ const Comments = (props) => {
                     className='comment-form'
                     onSubmit={handleSubmitReply(addCommentReply)}
                   >
-                    <CommentInput
+                    <CommentForm
                       attachments={attachments}
                       setAttachments={setAttachments}
                       addCommentReply={addCommentReply}
                       commentReply={commentReply}
                       setCommentReply={setCommentReply}
-                      isCommentReply={commentInput}
+                      isCommentReply={commentForm}
                     />
+                    <h1>Commented</h1>
                     <Button
-                      onClick={() => setCommentInput(true)}
+                      onClick={() => setCommentForm(true)}
                       className='btn btn-default'
                     >
                       Add Reply
@@ -235,16 +236,16 @@ const Comments = (props) => {
           className='comment-form'
           onSubmit={handleSubmitComment(addComment)}
         >
-          <CommentInput
+          <CommentForm
             attachments={attachments}
             setAttachments={setAttachments}
             addComment={addComment}
             setComment={setComment}
-            isComment={commentInput}
+            isComment={commentForm}
             comment={comment}
           />
           <Button
-            onClick={() => setCommentInput(true)}
+            onClick={() => setCommentForm(true)}
             className='btn btn-default'
             data-cy='btn-comment'
           >

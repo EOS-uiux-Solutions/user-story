@@ -2,9 +2,10 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 
 import Button from './Button'
-import FormError from '../components/FormError'
+import FormError from './FormError'
+import MediaPreview from './MediaPreview'
 
-const CommentInput = (props) => {
+const CommentForm = (props) => {
   const {
     attachments,
     setAttachments,
@@ -19,24 +20,6 @@ const CommentInput = (props) => {
   const { register: registerReply, errors: errorsReply } = useForm()
 
   const { register: registerComment, errors: errorsComment } = useForm()
-
-  const removeFile = (name) => {
-    setAttachments(attachments.filter((attachment) => attachment.name !== name))
-  }
-
-  const mediaPreview = attachments.map((file) => (
-    <div className='preview-root' key={file.name}>
-      <button
-        className='preview-remove-button'
-        onClick={() => removeFile(file.name)}
-      >
-        x
-      </button>
-      <div className='preview-inner'>
-        <img src={file.preview} className='preview-image' alt='preview' />
-      </div>
-    </div>
-  ))
 
   const handleFileChange = async (event) => {
     const newFiles = event.target.files
@@ -60,7 +43,7 @@ const CommentInput = (props) => {
             <textarea
               rows='5'
               cols='25'
-              name='Comments'
+              name='addReply'
               ref={registerReply({ required: true })}
               value={commentReply}
               onChange={(e) => setCommentReply(e.target.value)}
@@ -81,7 +64,10 @@ const CommentInput = (props) => {
           {errorsReply.Comments && (
             <FormError message='Reply cannot be empty' />
           )}
-          <div className='preview-container'>{mediaPreview}</div>
+          <MediaPreview
+            attachments={attachments}
+            setAttachments={setAttachments}
+          />
         </div>
       ) : (
         ''
@@ -114,7 +100,10 @@ const CommentInput = (props) => {
           {errorsComment.addComment && (
             <FormError message='Comment cannot be empty' />
           )}
-          <div className='preview-container'>{mediaPreview}</div>
+          <MediaPreview
+            attachments={attachments}
+            setAttachments={setAttachments}
+          />
         </div>
       ) : (
         ''
@@ -123,4 +112,4 @@ const CommentInput = (props) => {
   )
 }
 
-export default CommentInput
+export default CommentForm
