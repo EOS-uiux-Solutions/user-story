@@ -195,9 +195,9 @@ const Comments = (props) => {
                   <CommentForm
                     attachments={attachments}
                     setAttachments={setAttachments}
-                    addCommentReply={addCommentReply}
-                    commentReply={commentReply}
-                    setCommentReply={setCommentReply}
+                    addComment={addCommentReply}
+                    comment={commentReply}
+                    setComment={setCommentReply}
                   />
                 )}
               </div>

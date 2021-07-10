@@ -6,19 +6,9 @@ import FormError from './FormError'
 import MediaPreview from './MediaPreview'
 
 const CommentForm = (props) => {
-  const {
-    attachments,
-    setAttachments,
-    addCommentReply,
-    commentReply,
-    setCommentReply
-  } = props
+  const { attachments, setAttachments, addComment, comment, setComment } = props
 
-  const {
-    register: registerReply,
-    errors: errorsReply,
-    handleSubmit: handleSubmitReply
-  } = useForm()
+  const { register, errors, handleSubmit } = useForm()
 
   const handleFileChange = async (event) => {
     const newFiles = event.target.files
@@ -34,18 +24,15 @@ const CommentForm = (props) => {
   }
 
   return (
-    <form
-      className='comment-form'
-      onSubmit={handleSubmitReply(addCommentReply)}
-    >
+    <form className='comment-form' onSubmit={handleSubmit(addComment)}>
       <div className='comment-input'>
         <textarea
           rows='5'
           cols='25'
           name='Comments'
-          ref={registerReply({ required: true })}
-          value={commentReply}
-          onChange={(e) => setCommentReply(e.target.value)}
+          value={comment}
+          ref={register({ required: true })}
+          onChange={(e) => setComment(e.target.value)}
         ></textarea>
         <div className='file-input'>
           <input
@@ -60,7 +47,7 @@ const CommentForm = (props) => {
           </label>
         </div>
       </div>
-      {errorsReply.Comments && <FormError message='Reply cannot be empty' />}
+      {errors.Comments && <FormError message='Reply cannot be empty' />}
       <MediaPreview attachments={attachments} setAttachments={setAttachments} />
       <Button className='btn btn-default'>Add Reply</Button>
     </form>
