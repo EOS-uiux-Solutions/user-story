@@ -8,16 +8,17 @@ const CommentInput = (props) => {
   const {
     attachments,
     setAttachments,
-    addCommentReply,
     commentReply,
-    setCommentReply
+    setCommentReply,
+    isCommentReply,
+    isComment,
+    comment,
+    setComment
   } = props
 
-  const {
-    register: registerReply,
-    errors: errorsReply,
-    handleSubmit: handleSubmitReply
-  } = useForm()
+  const { register: registerReply, errors: errorsReply } = useForm()
+
+  const { register: registerComment, errors: errorsComment } = useForm()
 
   const removeFile = (name) => {
     setAttachments(attachments.filter((attachment) => attachment.name !== name))
@@ -51,36 +52,74 @@ const CommentInput = (props) => {
   }
 
   return (
-    <form
-      className='comment-form'
-      onSubmit={handleSubmitReply(addCommentReply)}
-    >
-      <div className='comment-input'>
-        <textarea
-          rows='5'
-          cols='25'
-          name='Comments'
-          ref={registerReply({ required: true })}
-          value={commentReply}
-          onChange={(e) => setCommentReply(e.target.value)}
-        ></textarea>
-        <div className='file-input'>
-          <input
-            type='file'
-            id='file'
-            className='file'
-            multiple={true}
-            onChange={handleFileChange}
-          />
-          <label htmlFor='file' className='file-button-label'>
-            <i className='eos-icons'>attachment</i>
-          </label>
+    <>
+      {' '}
+      {isCommentReply ? (
+        <div>
+          <div className='comment-input'>
+            <textarea
+              rows='5'
+              cols='25'
+              name='Comments'
+              ref={registerReply({ required: true })}
+              value={commentReply}
+              onChange={(e) => setCommentReply(e.target.value)}
+            ></textarea>
+            <div className='file-input'>
+              <input
+                type='file'
+                id='file'
+                className='file'
+                multiple={true}
+                onChange={handleFileChange}
+              />
+              <label htmlFor='file' className='file-button-label'>
+                <i className='eos-icons'>attachment</i>
+              </label>
+            </div>
+          </div>
+          {errorsReply.Comments && (
+            <FormError message='Reply cannot be empty' />
+          )}
+          <div className='preview-container'>{mediaPreview}</div>
         </div>
-      </div>
-      {errorsReply.Comments && <FormError message='Reply cannot be empty' />}
-      <div className='preview-container'>{mediaPreview}</div>
-      <Button className='btn btn-default'>Add Reply</Button>
-    </form>
+      ) : (
+        ''
+      )}
+      {isComment ? (
+        <div>
+          <div className='field'>
+            <textarea
+              rows='4'
+              name='addComment'
+              data-cy='comment-input'
+              cols='16'
+              ref={registerComment({ required: true })}
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+            ></textarea>
+            <input
+              type='file'
+              id='imgupload'
+              style={{ display: 'none', cursor: 'pointer' }}
+              onChange={handleFileChange}
+              multiple={true}
+            />
+            <label for='imgupload'>
+              <Button className='eos-icons comment-attachment'>
+                attachment
+              </Button>
+            </label>
+          </div>
+          {errorsComment.addComment && (
+            <FormError message='Comment cannot be empty' />
+          )}
+          <div className='preview-container'>{mediaPreview}</div>
+        </div>
+      ) : (
+        ''
+      )}
+    </>
   )
 }
 

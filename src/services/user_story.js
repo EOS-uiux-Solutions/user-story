@@ -297,6 +297,10 @@ const userStory = {
               username
             }
             createdAt
+            attachment {
+              url
+              id
+            }
             user_story_comment_replies {
               createdAt
               Comments
@@ -315,39 +319,8 @@ const userStory = {
     }
     return apiCall('/graphql', commentsQuery)
   },
-  postComment: (addComment, storyId, id) => {
-    const postCommentQuery = {
-      query: `
-      mutation {
-        createUserStoryComment(input: {
-          data: {
-            Comments: "${addComment}"
-            user_story: "${storyId}"
-            user: "${id}"
-          }
-        }) {
-          userStoryComment {
-            id
-            user {
-              id
-              username
-            }
-            Comments
-            createdAt
-            user_story_comment_replies {
-              createdAt
-              Comments
-              user {
-                id
-                username
-              }
-            }
-          }
-        }
-      }
-      `
-    }
-    return apiCall('/graphql', postCommentQuery)
+  postComment: (data) => {
+    return apiCall('/user-story-comments', data)
   },
   postCommentReply: (data) => {
     return apiCall('/user-story-comment-threads', data)

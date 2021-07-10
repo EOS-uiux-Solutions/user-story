@@ -5,17 +5,16 @@ import { useForm } from 'react-hook-form'
 
 import CommentInput from './CommentInput'
 import Context from '../modules/Context'
-import FormError from '../components/FormError'
 import userStory from '../services/user_story'
 
 const Comments = (props) => {
   const { storyId } = props
 
-  const {
-    register: registerComment,
-    errors: errorsComment,
-    handleSubmit: handleSubmitComment
-  } = useForm()
+  const { handleSubmit: handleSubmitComment } = useForm()
+
+  const { handleSubmit: handleSubmitReply } = useForm()
+
+  const [commentInput, setCommentInput] = useState(false)
 
   const { state } = useContext(Context)
 
@@ -37,13 +36,10 @@ const Comments = (props) => {
 
   const [attachments, setAttachments] = useState([])
 
-  useEffect(() => {
-    const fetchComments = async () => {
-      const response = await userStory.getComments(storyId)
-      setComments(response.data.data.userStory.user_story_comments)
-    }
-    fetchComments()
-  }, [storyId, fetchComments])
+  const fetchStoryComments = async () => {
+    const response = await userStory.getComments(storyId)
+    setComments(response.data.data.userStory.user_story_comments)
+  }
 
   useEffect(
     () => () => {
@@ -53,13 +49,23 @@ const Comments = (props) => {
   )
 
   const addComment = async (data) => {
-    const response = await userStory.postComment(data.addComment, storyId, id)
-    setComments([
-      ...comments,
-      response.data.data.createUserStoryComment.userStoryComment
-    ])
+    const formData = new FormData()
+    data.user = id
+    data.user_story = storyId
+    formData.append('data', JSON.stringify(data))
+
+    if (attachments.length) {
+      attachments.forEach((file) => {
+        formData.append('files.attachment', file)
+      })
+    }
+
+    await userStory.postComment(formData)
     setComment('')
+    setAttachments([])
   }
+
+  fetchStoryComments(storyId, fetchComments)
 
   const addCommentReply = async (data) => {
     const formData = new FormData()
@@ -112,6 +118,11 @@ const Comments = (props) => {
                   </div>
                 </div>
                 <p>{data.Comments}</p>
+                <div>
+                  {Comments.Attachment?.map((obj) => (
+                    <img src={obj.url} alt='attachment' key={obj.id} />
+                  ))}
+                </div>
                 <div className='reply-action'>
                   {state.auth && (
                     <Button
@@ -192,13 +203,25 @@ const Comments = (props) => {
                     </div>
                   ))}
                 {repliesToggled === key + 1 && state.auth && (
-                  <CommentInput
-                    attachments={attachments}
-                    setAttachments={setAttachments}
-                    addCommentReply={addCommentReply}
-                    commentReply={commentReply}
-                    setCommentReply={setCommentReply}
-                  />
+                  <form
+                    className='comment-form'
+                    onSubmit={handleSubmitReply(addCommentReply)}
+                  >
+                    <CommentInput
+                      attachments={attachments}
+                      setAttachments={setAttachments}
+                      addCommentReply={addCommentReply}
+                      commentReply={commentReply}
+                      setCommentReply={setCommentReply}
+                      isCommentReply={commentInput}
+                    />
+                    <Button
+                      onClick={() => setCommentInput(true)}
+                      className='btn btn-default'
+                    >
+                      Add Reply
+                    </Button>
+                  </form>
                 )}
               </div>
             </div>
@@ -212,21 +235,19 @@ const Comments = (props) => {
           className='comment-form'
           onSubmit={handleSubmitComment(addComment)}
         >
-          <div className='field'>
-            <textarea
-              rows='4'
-              name='addComment'
-              data-cy='comment-input'
-              cols='16'
-              ref={registerComment({ required: true })}
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-            ></textarea>
-            {errorsComment.addComment && (
-              <FormError message='Comment cannot be empty' />
-            )}
-          </div>
-          <Button className='btn btn-default' data-cy='btn-comment'>
+          <CommentInput
+            attachments={attachments}
+            setAttachments={setAttachments}
+            addComment={addComment}
+            setComment={setComment}
+            isComment={commentInput}
+            comment={comment}
+          />
+          <Button
+            onClick={() => setCommentInput(true)}
+            className='btn btn-default'
+            data-cy='btn-comment'
+          >
             Add Comment
           </Button>
         </form>
