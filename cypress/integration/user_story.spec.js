@@ -37,20 +37,11 @@ describe('Test new User Registration Workflow', () => {
 
     cy.url().should('equal', 'http://localhost:3000/register')
 
-    cy
-      .get('[data-cy=username]')
-      .should('have.attr', 'type', 'text')
-      .type(testUser.username)
+    cy.get('[data-cy=username]').should('have.attr', 'type', 'text').type(testUser.username)
 
-    cy
-      .get('[data-cy=email]')
-      .should('have.attr', 'type', 'text')
-      .type(testUser.email)
+    cy.get('[data-cy=email]').should('have.attr', 'type', 'text').type(testUser.email)
 
-    cy
-      .get('[data-cy=password]')
-      .should('have.attr', 'type', 'password')
-      .type(testUser.password)
+    cy.get('[data-cy=password]').should('have.attr', 'type', 'password').type(testUser.password)
 
     cy.get('[data-cy=tc]').should('have.attr', 'type', 'checkbox').click()
 

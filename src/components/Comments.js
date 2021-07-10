@@ -42,32 +42,27 @@ const Comments = (props) => {
 
   const [attachments, setAttachments] = useState([])
 
-  useEffect(() => {
-    const fetchComments = async () => {
-      const response = await userStory.getComments(storyId)
-      setComments(response.data.data.userStory.user_story_comments)
-    }
-    fetchComments()
-  }, [storyId, fetchComments])
+  const fetchStoryComments = async () => {
+    const response = await userStory.getComments(storyId)
+    setComments(response.data.data.userStory.user_story_comments)
+  }
 
   const addComment = async (data) => {
     const formData = new FormData()
     data.user = id
-    data.user_story_comment = commentId
+    data.user_story = storyId
     formData.append('data', JSON.stringify(data))
     if (attachments.length) {
       attachments.forEach((file) => {
         formData.append('files.Attachment', file)
       })
     }
-    const response = await userStory.postComment(formData)
-    setComments([
-      ...comments,
-      response.data.data.createUserStoryComment.userStoryComment
-    ])
+    await userStory.postComment(formData)
     setComment('')
     setAttachments([])
   }
+
+  fetchStoryComments(storyId, fetchComments)
 
   const addCommentReply = async (data) => {
     await userStory.postCommentReply(data.addReply, commentId, id)
@@ -136,10 +131,9 @@ const Comments = (props) => {
                 </div>
                 <p>{data.Comments}</p>
                 <div>
-                  {Comments.Attachment &&
-                    Comments.Attachment.map((obj) => (
-                      <img src={obj.url} alt='attachment' key={obj.id} />
-                    ))}
+                  {Comments.Attachment?.map((obj) => (
+                    <img src={obj.url} alt='attachment' key={obj.id} />
+                  ))}
                 </div>
                 <div className='reply-action'>
                   {state.auth && (
