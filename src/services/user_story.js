@@ -93,6 +93,7 @@ const userStory = {
             username
           }
           Attachment {
+            id
             url
           }
         }

@@ -2,9 +2,10 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 
 import Button from './Button'
-import FormError from '../components/FormError'
+import FormError from './FormError'
+import MediaPreview from './MediaPreview'
 
-const CommentInput = (props) => {
+const CommentForm = (props) => {
   const {
     attachments,
     setAttachments,
@@ -18,24 +19,6 @@ const CommentInput = (props) => {
     errors: errorsReply,
     handleSubmit: handleSubmitReply
   } = useForm()
-
-  const removeFile = (name) => {
-    setAttachments(attachments.filter((attachment) => attachment.name !== name))
-  }
-
-  const mediaPreview = attachments.map((file) => (
-    <div className='preview-root' key={file.name}>
-      <button
-        className='preview-remove-button'
-        onClick={() => removeFile(file.name)}
-      >
-        x
-      </button>
-      <div className='preview-inner'>
-        <img src={file.preview} className='preview-image' alt='preview' />
-      </div>
-    </div>
-  ))
 
   const handleFileChange = async (event) => {
     const newFiles = event.target.files
@@ -78,10 +61,10 @@ const CommentInput = (props) => {
         </div>
       </div>
       {errorsReply.Comments && <FormError message='Reply cannot be empty' />}
-      <div className='preview-container'>{mediaPreview}</div>
+      <MediaPreview attachments={attachments} setAttachments={setAttachments} />
       <Button className='btn btn-default'>Add Reply</Button>
     </form>
   )
 }
 
-export default CommentInput
+export default CommentForm

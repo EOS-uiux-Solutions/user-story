@@ -3,7 +3,7 @@ import { Link } from '@reach/router'
 import Button from './Button'
 import { useForm } from 'react-hook-form'
 
-import CommentInput from './CommentInput'
+import CommentForm from './CommentForm'
 import Context from '../modules/Context'
 import FormError from '../components/FormError'
 import userStory from '../services/user_story'
@@ -192,7 +192,7 @@ const Comments = (props) => {
                     </div>
                   ))}
                 {repliesToggled === key + 1 && state.auth && (
-                  <CommentInput
+                  <CommentForm
                     attachments={attachments}
                     setAttachments={setAttachments}
                     addCommentReply={addCommentReply}
