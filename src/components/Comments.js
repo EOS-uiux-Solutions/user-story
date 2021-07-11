@@ -3,7 +3,7 @@ import { Link } from '@reach/router'
 import Button from './Button'
 import { useForm } from 'react-hook-form'
 
-import CommentForm from './CommentF'
+import CommentForm from './CommentForm'
 import Context from '../modules/Context'
 import userStory from '../services/user_story'
 
