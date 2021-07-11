@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Link } from '@reach/router'
 import Button from './Button'
-import { useForm } from 'react-hook-form'
 
 import CommentForm from './CommentForm'
 import Context from '../modules/Context'
@@ -9,12 +8,6 @@ import userStory from '../services/user_story'
 
 const Comments = (props) => {
   const { storyId } = props
-
-  const { handleSubmit: handleSubmitComment } = useForm()
-
-  const { handleSubmit: handleSubmitReply } = useForm()
-
-  const [commentForm, setCommentForm] = useState(false)
 
   const { state } = useContext(Context)
 
@@ -36,16 +29,28 @@ const Comments = (props) => {
 
   const [attachments, setAttachments] = useState([])
 
-  const fetchStoryComments = async () => {
-    const response = await userStory.getComments(storyId)
-    setComments(response.data.data.userStory.user_story_comments)
-  }
+  const [replyAttachments, setReplyAttachments] = useState([])
+
+  useEffect(() => {
+    const fetchStoryComments = async () => {
+      const response = await userStory.getComments(storyId)
+      setComments(response.data.data.userStory.user_story_comments)
+    }
+    fetchStoryComments()
+  }, [storyId, fetchComments])
 
   useEffect(
     () => () => {
       attachments.forEach((file) => URL.revokeObjectURL(file.preview))
     },
     [attachments]
+  )
+
+  useEffect(
+    () => () => {
+      replyAttachments.forEach((file) => URL.revokeObjectURL(file.preview))
+    },
+    [replyAttachments]
   )
 
   const addComment = async (data) => {
@@ -65,8 +70,6 @@ const Comments = (props) => {
     setAttachments([])
   }
 
-  fetchStoryComments(storyId, fetchComments)
-
   const addCommentReply = async (data) => {
     const formData = new FormData()
 
@@ -74,15 +77,15 @@ const Comments = (props) => {
     data.user_story_comment = commentId
     formData.append('data', JSON.stringify(data))
 
-    if (attachments.length) {
-      attachments.forEach((file) => {
+    if (replyAttachments.length) {
+      replyAttachments.forEach((file) => {
         formData.append('files.attachment', file)
       })
     }
 
     await userStory.postCommentReply(formData)
     setCommentReply('')
-    setAttachments([])
+    setReplyAttachments([])
     setFetchComments((fetchComments) => !fetchComments)
     setRepliesToggled(null)
   }
@@ -199,31 +202,20 @@ const Comments = (props) => {
                           reply.attachment.map((a) => (
                             <img src={a.url} key={a.id} alt='' width='100' />
                           ))}
+
+                        {repliesToggled === key + 1 && state.auth && (
+                          <CommentForm
+                            attachments={replyAttachments}
+                            setAttachments={setReplyAttachments}
+                            addComment={addCommentReply}
+                            comment={commentReply}
+                            setComment={setCommentReply}
+                            submitButtonText={'Add Reply'}
+                          />
+                        )}
                       </div>
                     </div>
                   ))}
-                {repliesToggled === key + 1 && state.auth && (
-                  <form
-                    className='comment-form'
-                    onSubmit={handleSubmitReply(addCommentReply)}
-                  >
-                    <CommentForm
-                      attachments={attachments}
-                      setAttachments={setAttachments}
-                      addCommentReply={addCommentReply}
-                      commentReply={commentReply}
-                      setCommentReply={setCommentReply}
-                      isCommentReply={commentForm}
-                    />
-                    <h1>Commented</h1>
-                    <Button
-                      onClick={() => setCommentForm(true)}
-                      className='btn btn-default'
-                    >
-                      Add Reply
-                    </Button>
-                  </form>
-                )}
               </div>
             </div>
           )
@@ -232,26 +224,16 @@ const Comments = (props) => {
         <h3>No comments yet</h3>
       )}
       {state.auth && (
-        <form
-          className='comment-form'
-          onSubmit={handleSubmitComment(addComment)}
-        >
+        <div>
           <CommentForm
             attachments={attachments}
             setAttachments={setAttachments}
             addComment={addComment}
-            setComment={setComment}
-            isComment={commentForm}
             comment={comment}
+            setComment={setComment}
+            submitButtonText={'Add Comment'}
           />
-          <Button
-            onClick={() => setCommentForm(true)}
-            className='btn btn-default'
-            data-cy='btn-comment'
-          >
-            Add Comment
-          </Button>
-        </form>
+        </div>
       )}
     </div>
   )

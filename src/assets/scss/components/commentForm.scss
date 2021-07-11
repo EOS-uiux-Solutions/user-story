@@ -5,7 +5,6 @@
 
   &-input {
     align-items: flex-end;
-    border: 1px solid $light-gray;
     display: flex;
     margin-bottom: 5px;
     width: fit-content;
@@ -26,9 +25,11 @@
 
   &-input {
     background: $eos-white;
+    border: 1px solid $light-gray;
+    border-left: 0;
     display: flex;
     flex-direction: column-reverse;
-    height: 84px;
+    height: 82px;
   }
 
   &-button-label {
