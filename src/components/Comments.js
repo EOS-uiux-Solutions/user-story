@@ -124,7 +124,12 @@ const Comments = (props) => {
                 <div>
                   {data.attachment &&
                     data.attachment.map((obj) => (
-                      <img src={obj.url} key={obj.id} alt='attachment' height='100' />
+                      <img
+                        src={obj.url}
+                        key={obj.id}
+                        alt='attachment'
+                        height='100'
+                      />
                     ))}
                 </div>
                 <div className='reply-action'>
