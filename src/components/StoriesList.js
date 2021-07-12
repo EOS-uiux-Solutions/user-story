@@ -59,7 +59,7 @@ const StoriesList = (props) => {
               <div className='flex flex-column'>
                 <span className='story-meta'>
                   <i className='eos-icons'>attachment</i>
-                  {story.user_story_comments.length}
+                  {story.Attachment.length}
                 </span>
                 <span className='story-meta'>
                   <i className='eos-icons'>comment</i>
