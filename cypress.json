@@ -8,7 +8,6 @@
     "testStoryProduct": "EOS Icons",
     "testCategory": "Documentation"
   },
-  "defaultCommandTimeout": 15000,
   "testFiles": [
     "user_story.spec.js",
     "test_filters.spec.js"

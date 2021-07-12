@@ -91,6 +91,8 @@ describe('Test new User Registration Workflow', () => {
     cy.get('[data-cy=stories]').contains(testStory.title).click()
 
     cy.url().should('contain', 'story')
+
+    cy.wait(3000)
   })
 
   it('Displays the data from template text', () => {
