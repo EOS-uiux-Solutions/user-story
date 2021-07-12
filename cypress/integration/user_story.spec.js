@@ -98,7 +98,7 @@ describe('Test new User Registration Workflow', () => {
   })
 
   it('Allows user to edit the story created by them', () => {
-    cy.get('[data-cy=btn-edit]', { timeout: 1000 }).contains('Edit').click()
+    cy.get('[data-cy=btn-edit]').contains('Edit').click()
 
     cy.get('[data-cy=edit-description]').type(editedDescription)
 
@@ -110,7 +110,7 @@ describe('Test new User Registration Workflow', () => {
   it('Allows user to comment on a story', () => {
     cy.get('[data-cy=nav-eos-logo]').should('have.attr', 'href', '/').click()
 
-    cy.get('[data-cy=stories]', { timeout: 1000 }).contains(testStory.title).click()
+    cy.get('[data-cy=stories]').contains(testStory.title).click()
 
     cy.get('[data-cy=comment-input]').type(testComment)
 
