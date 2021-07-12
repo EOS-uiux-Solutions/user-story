@@ -1,10 +1,18 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useCallback } from 'react'
 import { Link } from '@reach/router'
 import Button from './Button'
 
 import CommentForm from './CommentForm'
 import Context from '../modules/Context'
 import userStory from '../services/user_story'
+
+const attachFiles = (formData, attachments) => {
+  if (attachments.length) {
+    attachments.forEach((file) => {
+      formData.append('files.attachment', file)
+    })
+  }
+}
 
 const toggleReplyForm = (repliesToggled, setRepliesToggled, key) => {
   repliesToggled === key + 1
@@ -31,8 +39,6 @@ const Comments = (props) => {
 
   const [comment, setComment] = useState('')
 
-  const [fetchComments, setFetchComments] = useState(false)
-
   const [commentId, setCommentId] = useState()
 
   const [commentReply, setCommentReply] = useState('')
@@ -47,26 +53,21 @@ const Comments = (props) => {
 
   const [replyAttachments, setReplyAttachments] = useState([])
 
+  const fetchStoryComments = useCallback(async () => {
+    const response = await userStory.getComments(storyId)
+    setComments(response.data.data.userStory.user_story_comments)
+  }, [storyId])
+
   useEffect(() => {
-    const fetchStoryComments = async () => {
-      const response = await userStory.getComments(storyId)
-      setComments(response.data.data.userStory.user_story_comments)
-    }
     fetchStoryComments()
-  }, [storyId, fetchComments])
+  }, [fetchStoryComments])
 
   useEffect(
     () => () => {
       attachments.forEach((file) => URL.revokeObjectURL(file.preview))
-    },
-    [attachments]
-  )
-
-  useEffect(
-    () => () => {
       replyAttachments.forEach((file) => URL.revokeObjectURL(file.preview))
     },
-    [replyAttachments]
+    [attachments, replyAttachments]
   )
 
   const addComment = async (data) => {
@@ -75,16 +76,13 @@ const Comments = (props) => {
     data.user_story = storyId
     formData.append('data', JSON.stringify(data))
 
-    if (attachments.length) {
-      attachments.forEach((file) => {
-        formData.append('files.attachment', file)
-      })
-    }
+    attachFiles(formData, attachments)
 
     await userStory.postComment(formData)
     setComment('')
     setAttachments([])
-    setFetchComments(!fetchComments)
+
+    fetchStoryComments()
   }
 
   const addCommentReply = async (data) => {
@@ -94,17 +92,14 @@ const Comments = (props) => {
     data.user_story_comment = commentId
     formData.append('data', JSON.stringify(data))
 
-    if (replyAttachments.length) {
-      replyAttachments.forEach((file) => {
-        formData.append('files.attachment', file)
-      })
-    }
+    attachFiles(formData, replyAttachments)
 
     await userStory.postCommentReply(formData)
     setCommentReply('')
     setReplyAttachments([])
-    setFetchComments(!fetchComments)
     setRepliesToggled(null)
+
+    fetchStoryComments()
   }
 
   return (
