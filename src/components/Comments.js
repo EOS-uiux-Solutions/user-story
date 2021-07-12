@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useCallback } from 'react'
 import { Link } from '@reach/router'
 import Button from './Button'
 
@@ -39,8 +39,6 @@ const Comments = (props) => {
 
   const [comment, setComment] = useState('')
 
-  const [fetchComments, setFetchComments] = useState(false)
-
   const [commentId, setCommentId] = useState()
 
   const [commentReply, setCommentReply] = useState('')
@@ -55,13 +53,14 @@ const Comments = (props) => {
 
   const [replyAttachments, setReplyAttachments] = useState([])
 
+  const fetchStoryComments = useCallback(async () => {
+    const response = await userStory.getComments(storyId)
+    setComments(response.data.data.userStory.user_story_comments)
+  }, [storyId])
+
   useEffect(() => {
-    const fetchStoryComments = async () => {
-      const response = await userStory.getComments(storyId)
-      setComments(response.data.data.userStory.user_story_comments)
-    }
     fetchStoryComments()
-  }, [storyId, fetchComments])
+  }, [fetchStoryComments])
 
   useEffect(
     () => () => {
@@ -82,7 +81,8 @@ const Comments = (props) => {
     await userStory.postComment(formData)
     setComment('')
     setAttachments([])
-    setFetchComments(!fetchComments)
+
+    fetchStoryComments()
   }
 
   const addCommentReply = async (data) => {
@@ -97,8 +97,9 @@ const Comments = (props) => {
     await userStory.postCommentReply(formData)
     setCommentReply('')
     setReplyAttachments([])
-    setFetchComments(!fetchComments)
     setRepliesToggled(null)
+
+    fetchStoryComments()
   }
 
   return (
