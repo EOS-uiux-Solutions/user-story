@@ -6,6 +6,22 @@ import CommentForm from './CommentForm'
 import Context from '../modules/Context'
 import userStory from '../services/user_story'
 
+const toggleReplyForm = (repliesToggled, setRepliesToggled, key) => {
+  repliesToggled === key + 1
+    ? setRepliesToggled(null)
+    : setRepliesToggled(key + 1)
+}
+
+const toggleViewReplies = (viewRepliesToggled, setViewRepliesToggled, key) => {
+  viewRepliesToggled.find((item) => item === key + 1)
+    ? setViewRepliesToggled((viewRepliesToggled) =>
+        viewRepliesToggled.filter((item) => item !== key + 1)
+      )
+    : setViewRepliesToggled((viewRepliesToggled) =>
+        viewRepliesToggled.concat(key + 1)
+      )
+}
+
 const Comments = (props) => {
   const { storyId } = props
 
@@ -68,6 +84,7 @@ const Comments = (props) => {
     await userStory.postComment(formData)
     setComment('')
     setAttachments([])
+    setFetchComments(!fetchComments)
   }
 
   const addCommentReply = async (data) => {
@@ -86,7 +103,7 @@ const Comments = (props) => {
     await userStory.postCommentReply(formData)
     setCommentReply('')
     setReplyAttachments([])
-    setFetchComments((fetchComments) => !fetchComments)
+    setFetchComments(!fetchComments)
     setRepliesToggled(null)
   }
 
@@ -138,18 +155,12 @@ const Comments = (props) => {
                       className='btn btn-default'
                       onClick={() => {
                         setCommentId(data.id)
-                        repliesToggled === key + 1
-                          ? setRepliesToggled(null)
-                          : setRepliesToggled(key + 1)
-                        viewRepliesToggled.find((item) => item === key + 1)
-                          ? setViewRepliesToggled((viewRepliesToggled) =>
-                              viewRepliesToggled.filter(
-                                (item) => item !== key + 1
-                              )
-                            )
-                          : setViewRepliesToggled((viewRepliesToggled) =>
-                              viewRepliesToggled.concat(key + 1)
-                            )
+                        toggleReplyForm(repliesToggled, setRepliesToggled, key)
+                        toggleViewReplies(
+                          viewRepliesToggled,
+                          setViewRepliesToggled,
+                          key
+                        )
                       }}
                     >
                       Reply
@@ -159,15 +170,11 @@ const Comments = (props) => {
                     <Button
                       className='btn btn-default'
                       onClick={() => {
-                        viewRepliesToggled.find((item) => item === key + 1)
-                          ? setViewRepliesToggled((viewRepliesToggled) =>
-                              viewRepliesToggled.filter(
-                                (item) => item !== key + 1
-                              )
-                            )
-                          : setViewRepliesToggled((viewRepliesToggled) =>
-                              viewRepliesToggled.concat(key + 1)
-                            )
+                        toggleViewReplies(
+                          viewRepliesToggled,
+                          setViewRepliesToggled,
+                          key
+                        )
                       }}
                     >
                       View Replies ({data.user_story_comment_replies.length})
@@ -208,20 +215,20 @@ const Comments = (props) => {
                           reply.attachment.map((a) => (
                             <img src={a.url} key={a.id} alt='' width='100' />
                           ))}
-
-                        {repliesToggled === key + 1 && state.auth && (
-                          <CommentForm
-                            attachments={replyAttachments}
-                            setAttachments={setReplyAttachments}
-                            addComment={addCommentReply}
-                            comment={commentReply}
-                            setComment={setCommentReply}
-                            submitButtonText={'Add Reply'}
-                          />
-                        )}
                       </div>
                     </div>
                   ))}
+                {repliesToggled === key + 1 && state.auth && (
+                  <CommentForm
+                    id={1}
+                    attachments={replyAttachments}
+                    setAttachments={setReplyAttachments}
+                    addComment={addCommentReply}
+                    comment={commentReply}
+                    setComment={setCommentReply}
+                    submitButtonText={'Add Reply'}
+                  />
+                )}
               </div>
             </div>
           )
@@ -232,6 +239,7 @@ const Comments = (props) => {
       {state.auth && (
         <div>
           <CommentForm
+            id={2}
             attachments={attachments}
             setAttachments={setAttachments}
             addComment={addComment}

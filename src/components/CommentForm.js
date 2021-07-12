@@ -7,6 +7,7 @@ import MediaPreview from './MediaPreview'
 
 const CommentForm = (props) => {
   const {
+    id,
     attachments,
     setAttachments,
     addComment,
@@ -44,12 +45,12 @@ const CommentForm = (props) => {
         <div className='file-input'>
           <input
             type='file'
-            id='file'
+            id={`file-${id}`}
             className='file'
             multiple={true}
             onChange={handleFileChange}
           />
-          <label htmlFor='file' className='file-button-label'>
+          <label htmlFor={`file-${id}`} className='file-button-label'>
             <i className='eos-icons'>attachment</i>
           </label>
         </div>
