@@ -13,7 +13,7 @@ const CommentForm = (props) => {
     addComment,
     comment,
     setComment,
-    submitButtonText
+    cta
   } = props
 
   const { register, errors, handleSubmit } = useForm()
@@ -57,7 +57,7 @@ const CommentForm = (props) => {
       </div>
       {errors.Comments && <FormError message='Reply cannot be empty' />}
       <MediaPreview attachments={attachments} setAttachments={setAttachments} />
-      <Button className='btn btn-default'>{submitButtonText}</Button>
+      <Button className='btn btn-default'>{cta}</Button>
     </form>
   )
 }

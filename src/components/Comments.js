@@ -226,7 +226,7 @@ const Comments = (props) => {
                     addComment={addCommentReply}
                     comment={commentReply}
                     setComment={setCommentReply}
-                    submitButtonText={'Add Reply'}
+                    cta={'Add Reply'}
                   />
                 )}
               </div>
@@ -245,7 +245,7 @@ const Comments = (props) => {
             addComment={addComment}
             comment={comment}
             setComment={setComment}
-            submitButtonText={'Add Comment'}
+            cta={'Add Comment'}
           />
         </div>
       )}
