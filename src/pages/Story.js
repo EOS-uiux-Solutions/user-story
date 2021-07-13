@@ -162,6 +162,12 @@ const Story = (props) => {
                     >
                       Edit
                     </Button>
+                  </>
+                ) : (
+                  ''
+                )}
+                {!editor ? (
+                  <>
                     <Button className='share-story' onClick={togglePopup}>
                       <i className='eos-icons'> share </i>
                     </Button>
