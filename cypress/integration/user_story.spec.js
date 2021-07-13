@@ -91,8 +91,6 @@ describe('Test new User Registration Workflow', () => {
     cy.get('[data-cy=stories]').contains(testStory.title).click()
 
     cy.url().should('contain', 'story')
-
-    cy.wait(3000)
   })
 
   it('Displays the data from template text', () => {
@@ -100,7 +98,7 @@ describe('Test new User Registration Workflow', () => {
   })
 
   it('Allows user to edit the story created by them', () => {
-    cy.get('[data-cy=btn-edit]', { timeout: 1000 }).contains('Edit').click()
+    cy.get('[data-cy=btn-edit]', { timeout: 1000}).contains('Edit').click()
 
     cy.get('[data-cy=edit-description]').type(editedDescription)
 
