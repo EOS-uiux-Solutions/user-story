@@ -162,6 +162,12 @@ const Story = (props) => {
                     >
                       Edit
                     </Button>
+                  </>
+                ) : (
+                  ''
+                )}
+                {!editor ? (
+                  <>
                     <Button className='share-story' onClick={togglePopup}>
                       <i className='eos-icons'> share </i>
                     </Button>
@@ -236,9 +242,15 @@ const Story = (props) => {
                 )}
               </div>
               <div>
-                {story.Attachment?.map((obj) => (
-                  <img src={obj.url} alt='attachment' />
-                ))}
+                {story.Attachment &&
+                  story.Attachment.map((obj) => (
+                    <img
+                      key={obj.id}
+                      src={obj.url}
+                      alt='attachment'
+                      height='100'
+                    />
+                  ))}
               </div>
               <Comments storyId={storyId} />
             </div>
