@@ -100,7 +100,7 @@ describe('Test new User Registration Workflow', () => {
   })
 
   it('Allows user to edit the story created by them', () => {
-    cy.get('[data-cy=btn-edit]').contains('Edit').click()
+    cy.get('[data-cy=btn-edit]', { timeout: 1000 }).contains('Edit').click()
 
     cy.get('[data-cy=edit-description]').type(editedDescription)
 
@@ -114,9 +114,9 @@ describe('Test new User Registration Workflow', () => {
 
     cy.get('[data-cy=stories]').contains(testStory.title).click()
 
-    cy.get('[data-cy=comment-input]').type(testComment)
+    cy.get('[data-cy=comment-input-2]').type(testComment)
 
-    cy.get('[data-cy=btn-comment]').contains('Add Comment').click()
+    cy.get('[data-cy=btn-comment-2]').contains('Add Comment').click()
 
     cy.get('[data-cy=comment-content]').contains(testComment)
 

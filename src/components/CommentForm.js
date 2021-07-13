@@ -39,6 +39,7 @@ const CommentForm = (props) => {
           cols='25'
           name='Comments'
           value={comment}
+          data-cy={`comment-input-${id}`}
           ref={register({ required: true })}
           onChange={(e) => setComment(e.target.value)}
         ></textarea>
@@ -57,7 +58,9 @@ const CommentForm = (props) => {
       </div>
       {errors.Comments && <FormError message='Reply cannot be empty' />}
       <MediaPreview attachments={attachments} setAttachments={setAttachments} />
-      <Button className='btn btn-default'>{cta}</Button>
+      <Button className='btn btn-default' data-cy={`btn-comment-${id}`}>
+        {cta}
+      </Button>
     </form>
   )
 }
