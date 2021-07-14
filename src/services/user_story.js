@@ -5,28 +5,8 @@ import {
 } from './gql_fragments'
 
 const userStory = {
-  createStory: ({ description, title, category, product, priority }) => {
-    const createQuery = {
-      query: `mutation {
-        createUserStory(
-          input: {
-            data: {
-              Description: "${description}"
-              Title: "${title}"
-              Category: ${category}
-              product: "${product}"
-              Priority: ${priority}
-            }
-          }
-        ) {
-          userStory {
-            createdAt
-          }
-        }
-      }
-      `
-    }
-    return apiCall('/graphql', createQuery)
+  createStory: (data) => {
+    return apiCall('/user-stories', data)
   },
   checkAuthor: (userId, storyId) => {
     return apiCall('/checkAuthor', {
@@ -81,6 +61,10 @@ const userStory = {
                 product {
                   Name
                 }
+                Attachment {
+                  id
+                  url
+                }
                 author {
                   id
                   username
@@ -111,6 +95,10 @@ const userStory = {
           author {
             id
             username
+          }
+          Attachment {
+            id
+            url
           }
         }
       }
@@ -314,12 +302,20 @@ const userStory = {
               username
             }
             createdAt
+            attachment {
+              url
+              id
+            }
             user_story_comment_replies {
               createdAt
               Comments
               user {
                 id
                 username
+              }
+              attachment {
+                id
+                url
               }
             }
           }
@@ -328,59 +324,11 @@ const userStory = {
     }
     return apiCall('/graphql', commentsQuery)
   },
-  postComment: (addComment, storyId, id) => {
-    const postCommentQuery = {
-      query: `
-      mutation {
-        createUserStoryComment(input: {
-          data: {
-            Comments: "${addComment}"
-            user_story: "${storyId}"
-            user: "${id}"
-          }
-        }) {
-          userStoryComment {
-            id
-            user {
-              id
-              username
-            }
-            Comments
-            createdAt
-            user_story_comment_replies {
-              createdAt
-              Comments
-              user {
-                id
-                username
-              }
-            }
-          }
-        }
-      }
-      `
-    }
-    return apiCall('/graphql', postCommentQuery)
+  postComment: (data) => {
+    return apiCall('/user-story-comments', data)
   },
-  postCommentReply: (addReply, commentId, id) => {
-    const postCommentReplyQuery = {
-      query: `
-      mutation {
-        createUserStoryCommentThread (input: {
-          data: {
-            Comments: "${addReply}"
-            user_story_comment: "${commentId}"
-            user: "${id}"
-          }
-        }){
-          userStoryCommentThread {
-            createdAt
-          }
-        }
-      }
-      `
-    }
-    return apiCall('/graphql', postCommentReplyQuery)
+  postCommentReply: (data) => {
+    return apiCall('/user-story-comment-threads', data)
   },
   getNotificationsByUserId: (userId) => {
     const getNotificationsByUserIdQuery = {

@@ -138,17 +138,18 @@ const Story = (props) => {
               </div>
 
               {editor ? (
-                <>
+                <div data-cy='edit-description'>
                   <MarkdownEditor
                     callback={(html) => {
                       setDescription(html)
                     }}
                   />
-                </>
+                </div>
               ) : (
                 <div
                   className='story-description'
                   dangerouslySetInnerHTML={{ __html: story.Description }}
+                  data-cy='story-description'
                 />
               )}
               <div className='story-buttons-container'>
@@ -156,10 +157,17 @@ const Story = (props) => {
                   <>
                     <Button
                       className='btn btn-default'
+                      data-cy='btn-edit'
                       onClick={() => setEditor(true)}
                     >
                       Edit
                     </Button>
+                  </>
+                ) : (
+                  ''
+                )}
+                {!editor ? (
+                  <>
                     <Button className='share-story' onClick={togglePopup}>
                       <i className='eos-icons'> share </i>
                     </Button>
@@ -171,7 +179,11 @@ const Story = (props) => {
                   ''
                 )}
                 {editor ? (
-                  <Button className='btn btn-default' onClick={save}>
+                  <Button
+                    className='btn btn-default'
+                    onClick={save}
+                    data-cy='btn-save'
+                  >
                     Save
                   </Button>
                 ) : (
@@ -232,6 +244,17 @@ const Story = (props) => {
                     active={isOpen}
                   />
                 )}
+              </div>
+              <div>
+                {story.Attachment &&
+                  story.Attachment.map((obj) => (
+                    <img
+                      key={obj.id}
+                      src={obj.url}
+                      alt='attachment'
+                      height='100'
+                    />
+                  ))}
               </div>
               <Comments storyId={storyId} />
             </div>

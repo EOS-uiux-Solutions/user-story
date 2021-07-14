@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useDropzone } from 'react-dropzone'
+import MediaPreview from './MediaPreview'
 
-const Dragdrop = () => {
-  const [files, setFiles] = useState([])
-
+const Dragdrop = ({ attachments, setAttachments }) => {
   const { getRootProps, getInputProps } = useDropzone({
     multiple: true,
     onDrop: (acceptedFiles) => {
-      setFiles((files) => [
-        ...files,
+      setAttachments((attachments) => [
+        ...attachments,
         ...acceptedFiles.map((file) =>
           Object.assign(file, {
             preview: URL.createObjectURL(file)
@@ -18,19 +17,13 @@ const Dragdrop = () => {
     }
   })
 
-  const mediaPreview = files.map((file) => (
-    <div className='preview-root' key={file.name}>
-      <div className='preview-inner'>
-        <img src={file.preview} className='preview-image' alt='preview' />
-      </div>
-    </div>
-  ))
-
   useEffect(
     () => () => {
-      files.forEach((file) => URL.revokeObjectURL(file.preview))
+      attachments.forEach((attachment) =>
+        URL.revokeObjectURL(attachment.preview)
+      )
     },
-    [files]
+    [attachments]
   )
 
   return (
@@ -39,7 +32,7 @@ const Dragdrop = () => {
         <input {...getInputProps()} />
         <p>Drag 'n' drop some files here, or click to select files</p>
       </div>
-      <aside className='preview-container'>{mediaPreview}</aside>
+      <MediaPreview attachments={attachments} setAttachments={setAttachments} />
     </section>
   )
 }

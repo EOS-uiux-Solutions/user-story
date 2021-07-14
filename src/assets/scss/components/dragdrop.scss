@@ -20,34 +20,3 @@
 .dropzone:focus {
   border-color: $primary;
 }
-
-.preview-root {
-  border: 1px solid #eaeaea;
-  border-radius: 2px;
-  box-sizing: border-box;
-  display: inline-flex;
-  height: 150px;
-  margin-bottom: 8px;
-  margin-right: 8px;
-  padding: 4px;
-  width: 150px;
-}
-
-.preview-inner {
-  display: flex;
-  min-width: 0px;
-  overflow: hidden;
-}
-
-.preview-image {
-  display: block;
-  height: 100%;
-  width: auto;
-}
-
-.preview-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  margin-top: 16px;
-}
