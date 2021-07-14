@@ -101,21 +101,21 @@ const Comments = (props) => {
   }, [storyId, fetchComments])
 
   const addComment = async (data) => {
-    // I used this saveComments function to parse markdown and replace regex with HTML string.
-    // const saveComment = async () => {
-    // let newComment = data.addComment
+    const saveComment = () => {
+      let newComment = data.addComment
 
-    // First regex expression
+      newComment = newComment.split('@@@__').join('<a href=\\"/profile/')
 
-    // newComment.replace(/\[(.*?)\]\((.*?)\)/gim, "<a href='$2'>$1</a>")
-    // console.log(newComment)
+      newComment = newComment.split('^^^__').join('\\">')
 
-    // Second regex expression
+      newComment = newComment.split('@@@^^^').join('</a>')
 
-    // newComment.replace(/\[(.+)\]\((\/.+)\)/g, '<a href="\2">\1</a>')
-    // console.log(newComment)
-    // }
-
+      if (newComment !== '') {
+        newComment = newComment.trim()
+      }
+      return newComment
+    }
+    const newComment = saveComment()
     const response = await axios.post(
       `${apiURL}/graphql`,
       {
@@ -123,7 +123,7 @@ const Comments = (props) => {
       mutation {
         createUserStoryComment(input: {
           data: {
-            Comments: "${data.addComment}"
+            Comments: "${newComment}"
             user_story: "${storyId}"
             user: "${id}"
           }
@@ -153,37 +153,11 @@ const Comments = (props) => {
         withCredentials: true
       }
     )
-    // This is the split and join I used in saveComment function used with markup="@@@____id__^^^____display__@@@^^^"
-
-    // const saveComment = () => {
-    // e.preventDefault();
-
-    // console.log("save comment working!!!")
-
-    // let newComment = data.addComment
-
-    // console.log(newComment)
-
-    // newComment = newComment.split("@@@__").join('<a href="/profile/');
-    // console.log("split one working = " + newComment)
-
-    // newComment = newComment.split("^^^__").join('">');
-    // console.log("split 2 working = " + newComment)
-
-    // newComment = newComment.split("@@@^^^").join('</a>');
-    // console.log("split 3 also working = " + newComment)
-
-    // if(newComment !== "") {
-    //   newComment = newComment.trim();
-    //   console.log("if working now")
-    // }
-    // }
     setComments([
       ...comments,
       response.data.data.createUserStoryComment.userStoryComment
     ])
     setComment('')
-    // saveComment()
   }
 
   const addCommentReply = async (data) => {
@@ -213,26 +187,15 @@ const Comments = (props) => {
     setRepliesToggled(null)
   }
 
-  // This is the saveComment function which is using split and join with markup="@@@____id__^^^____display__@@@^^^"
-  // This is just for testing. I have also made the above function above inside addComment.
+  const displayTransform = (id, display) => {
+    return `@${display}`
+  }
 
-  // const saveComment = async (data) => {
-  // e.preventDefault();
-  // console.log("save comment working!!!")
-  // let newComment = data.addComment
-  // console.log(newComment)
-  // newComment = newComment.split("@@@__").join('<a href="/profile/');
-  // newComment = newComment.split("^^^__").join(`">@`);
-  // newComment = newComment.split("@@@^^^").join("</a>");
-  // console.log(newComment)
-  // if(newComment !== "") {
-  // newComment = newComment.trim();
-  // }
-  // }
-
-  // DisplayTransform function is used for changing display from username to @username
-  // const displayTransform = (id, display) => {
-  //   return '@' + display
+  // const onAdd = (id, display, startPos, endPos) => {
+  // display = '@' + display
+  // display = `<a href="/profile/${id}">@${display}</a>`
+  // display = display.replace(display, `<a href="/profile/${id}">@${display}</a>`)
+  // console.log(display)
   // }
 
   // This Render suggestion function is used to render list of usernames as links.
@@ -273,7 +236,10 @@ const Comments = (props) => {
                     )}`}
                   </div>
                 </div>
-                <p>{data.Comments}</p>
+                <div
+                  className='story-description'
+                  dangerouslySetInnerHTML={{ __html: data.Comments }}
+                />
                 <div className='reply-action'>
                   {state.auth && (
                     <Button
@@ -400,15 +366,10 @@ const Comments = (props) => {
               <Mention
                 trigger='@'
                 data={users}
-                // displayTransform={displayTransform}
-                // This markup is used for length of string. It is used with split and join in saveComment function above.
-                // markup='@@@____id__^^^____display__@@@^^^'
-
-                // This markup is for links. It is used with regex in saveComment above.
-                markup='[__display__](https://localhost:3000/profile/__id__)'
-                // this regex is just for matching markup links
+                displayTransform={displayTransform}
+                markup='@@@____id__^^^____display__@@@^^^'
                 regex='/^\[([\w\s\d]+)\]\((https?:\/\/[\w\d./?=#]+)\)$/'
-
+                // onAdd={onAdd}
                 // renderSuggestion={renderSuggestion}
               />
             </MentionsInput>
