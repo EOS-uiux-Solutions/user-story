@@ -83,6 +83,10 @@ const MyStories = () => {
               product {
                 Name
               }
+              Attachment {
+                id
+                url
+              }
               author {
                 id
                 username
@@ -117,6 +121,10 @@ const MyStories = () => {
               }
               product {
                 Name
+              }
+              Attachment {
+                id
+                url
               }
               author {
                 id
