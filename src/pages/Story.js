@@ -162,7 +162,7 @@ const Story = (props) => {
                 ) : (
                   ''
                 )}
-                {!editor ? (
+                {
                   <>
                     <Button className='share-story' onClick={togglePopup}>
                       <i className='eos-icons'> share </i>
@@ -171,9 +171,7 @@ const Story = (props) => {
                       <i className='eos-icons'>content_copy</i>
                     </Button>
                   </>
-                ) : (
-                  ''
-                )}
+                }
                 {editor ? (
                   <Button className='btn btn-default' onClick={save}>
                     Save
