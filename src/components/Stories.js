@@ -11,7 +11,7 @@ import SearchInput from '../modules/SearchInput'
 import Lists from '../utils/Lists'
 import userStory from '../services/user_story'
 
-const Stories = () => {
+const Stories = ({ profileId }) => {
   const [currentStateSelected, selectState] = useState('Under consideration')
 
   const [page, setPage] = useState(1)
@@ -28,7 +28,7 @@ const Stories = () => {
 
   const [searchTerm, setSearchTerm] = useState('')
 
-  const { promiseInProgress } = usePromiseTracker()
+  const { promiseInProgress } = usePromiseTracker({ area: 'stories-div' })
 
   const [storyCount, setStoryCount] = useState()
 
@@ -50,6 +50,8 @@ const Stories = () => {
 
   const [authorQuery, setAuthorQuery] = useState('')
 
+  const authorId = useRef(profileId)
+
   const getPage = useCallback((page) => {
     setPage(page)
   }, [])
@@ -58,6 +60,7 @@ const Stories = () => {
     const fetchStoryCount = async () => {
       const response = await userStory.getStoryCount(
         currentStateSelected,
+        authorId.current,
         authorQuery,
         categoryQuery,
         productQuery,
@@ -72,6 +75,7 @@ const Stories = () => {
     categoryQuery,
     productQuery,
     searchQuery,
+    authorId,
     authorQuery
   ])
 
@@ -99,6 +103,7 @@ const Stories = () => {
       const response = await userStory.getStories(
         page,
         currentStateSelected,
+        authorId.current,
         authorQuery,
         categoryQuery,
         productQuery,
@@ -106,13 +111,14 @@ const Stories = () => {
       )
       setStories(response.data.data.userStories)
     }
-    trackPromise(fetchStories())
+    trackPromise(fetchStories(), 'stories-div')
   }, [
     categoryQuery,
     currentStateSelected,
     page,
     productQuery,
     searchQuery,
+    authorId,
     authorQuery
   ])
 
@@ -162,7 +168,7 @@ const Stories = () => {
         setStories(stories.sort(comparatorComments))
       }
     }
-    trackPromise(updateStories())
+    trackPromise(updateStories(), 'stories-div')
   }, [sort, stories, setStories])
 
   return (
@@ -226,13 +232,13 @@ const Stories = () => {
       {promiseInProgress ? (
         <LoadingIndicator />
       ) : (
-        <>
+        <div className='stories-div'>
           <StoriesList
             stories={stories}
             state={currentStateSelected}
             product={product}
           />
-        </>
+        </div>
       )}
       <Pagination
         getPage={getPage}

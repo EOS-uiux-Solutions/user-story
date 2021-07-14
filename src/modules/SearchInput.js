@@ -30,7 +30,7 @@ function SearchInput(props) {
 
   return (
     <div className='flex flex-row search-controls'>
-      <div className='flex flex-row search-input'>
+      <div className='flex flex-row search-input' data-cy='search-input-div'>
         <span>
           <i className='eos-icons'>search</i>
         </span>

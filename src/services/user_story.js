@@ -29,11 +29,13 @@ const userStory = {
   getStories: (
     page,
     currentStateSelected,
+    authorId,
     authorQuery,
     categoryQuery,
     productQuery,
     searchQuery
   ) => {
+    authorId = !authorId ? '' : `id: "${authorId}"`
     const storiesQuery = {
       query: `query {
               userStories(sort: "createdAt:desc", limit: 5, start: ${
@@ -43,6 +45,7 @@ const userStory = {
                     Status: "${currentStateSelected}"
                   },
                   author: {
+                    ${authorId},
                     username_contains: "${authorQuery}"
                   }
                   ${categoryQuery}
@@ -109,11 +112,13 @@ const userStory = {
   },
   getStoryCount: (
     currentStateSelected,
+    authorId,
     authorQuery,
     categoryQuery,
     productQuery,
     searchQuery
   ) => {
+    authorId = !authorId ? '' : `id: "${authorId}"`
     const storyCountQuery = {
       query: `query {
               userStoriesConnection(where: {
@@ -121,6 +126,7 @@ const userStory = {
                   Status: "${currentStateSelected}"
                 },
                 author: {
+                  ${authorId}
                   username_contains: "${authorQuery}"
                 }
                 ${categoryQuery}
