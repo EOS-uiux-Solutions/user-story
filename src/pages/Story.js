@@ -152,7 +152,7 @@ const Story = (props) => {
                   data-cy='story-description'
                 />
               )}
-              <div className='story-buttons-container' data-cy='story-buttons'>
+              <div className='story-buttons-container'>
                 {editMode && !editor ? (
                   <>
                     <Button
@@ -179,7 +179,11 @@ const Story = (props) => {
                   ''
                 )}
                 {editor ? (
-                  <Button className='btn btn-default' onClick={save}>
+                  <Button
+                    className='btn btn-default'
+                    onClick={save}
+                    data-cy='btn-save'
+                  >
                     Save
                   </Button>
                 ) : (
