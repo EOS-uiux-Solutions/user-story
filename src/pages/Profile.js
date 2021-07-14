@@ -92,6 +92,10 @@ const Profile = (props) => {
                 product {
                   Name
                 }
+                Attachment {
+                  id
+                  url
+                }
                 author {
                   id
                   username
