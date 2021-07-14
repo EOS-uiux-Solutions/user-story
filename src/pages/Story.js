@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 import {
-  FacebookShareButton,
   TwitterShareButton,
   LinkedinShareButton,
-  WhatsappShareButton,
-  FacebookIcon,
   TwitterIcon,
-  LinkedinIcon,
-  WhatsappIcon
+  LinkedinIcon
 } from 'react-share'
 
 import { Helmet } from 'react-helmet'
@@ -200,15 +196,6 @@ const Story = (props) => {
                     content={
                       <>
                         <h1>Share</h1>
-                        <FacebookShareButton
-                          url={window.location}
-                          className='share-button'
-                          quote={title}
-                          hashtag={'#EOS'}
-                          onShareWindowClose={togglePopup}
-                        >
-                          <FacebookIcon />
-                        </FacebookShareButton>
                         <TwitterShareButton
                           url={window.location}
                           className='share-button'
@@ -225,15 +212,6 @@ const Story = (props) => {
                         >
                           <LinkedinIcon />
                         </LinkedinShareButton>
-                        <WhatsappShareButton
-                          url={window.location}
-                          className='share-button'
-                          title={title}
-                          separator=' '
-                          onShareWindowClose={togglePopup}
-                        >
-                          <WhatsappIcon />
-                        </WhatsappShareButton>
                       </>
                     }
                     handleClose={togglePopup}
