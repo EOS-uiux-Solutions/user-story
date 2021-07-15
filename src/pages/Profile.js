@@ -52,7 +52,7 @@ const Profile = (props) => {
           )}
           <div className='flex flex-column'>
             <h3>Stories by this user</h3>
-            <Stories profileId={profileId} />
+            <Stories authorId={profileId} />
           </div>
         </div>
       </div>

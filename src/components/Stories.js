@@ -11,7 +11,7 @@ import SearchInput from '../modules/SearchInput'
 import Lists from '../utils/Lists'
 import userStory from '../services/user_story'
 
-const Stories = ({ profileId }) => {
+const Stories = ({ authorId, followerId }) => {
   const [currentStateSelected, selectState] = useState('Under consideration')
 
   const [page, setPage] = useState(1)
@@ -50,8 +50,6 @@ const Stories = ({ profileId }) => {
 
   const [authorQuery, setAuthorQuery] = useState('')
 
-  const authorId = useRef(profileId)
-
   const getPage = useCallback((page) => {
     setPage(page)
   }, [])
@@ -60,11 +58,12 @@ const Stories = ({ profileId }) => {
     const fetchStoryCount = async () => {
       const response = await userStory.getStoryCount(
         currentStateSelected,
-        authorId.current,
+        authorId,
         authorQuery,
         categoryQuery,
         productQuery,
-        searchQuery
+        searchQuery,
+        followerId
       )
       setStoryCount(response.data.data.userStoriesConnection.aggregate.count)
     }
@@ -75,8 +74,9 @@ const Stories = ({ profileId }) => {
     categoryQuery,
     productQuery,
     searchQuery,
+    authorQuery,
     authorId,
-    authorQuery
+    followerId
   ])
 
   useEffect(() => {
@@ -103,11 +103,12 @@ const Stories = ({ profileId }) => {
       const response = await userStory.getStories(
         page,
         currentStateSelected,
-        authorId.current,
+        authorId,
         authorQuery,
         categoryQuery,
         productQuery,
-        searchQuery
+        searchQuery,
+        followerId
       )
       setStories(response.data.data.userStories)
     }
@@ -118,8 +119,9 @@ const Stories = ({ profileId }) => {
     page,
     productQuery,
     searchQuery,
+    authorQuery,
     authorId,
-    authorQuery
+    followerId
   ])
 
   useEffect(() => {
@@ -212,6 +214,7 @@ const Stories = ({ profileId }) => {
             curr={product}
             setCurr={setProduct}
             itemList={products}
+            data-cy='product-dropdown'
           />
           <Dropdown
             title='Categories'
@@ -219,6 +222,7 @@ const Stories = ({ profileId }) => {
             curr={category}
             setCurr={setCategory}
             itemList={categories}
+            data-cy='category-dropdown'
           />
           <Dropdown
             title='Sort By'

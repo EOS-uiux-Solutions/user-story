@@ -48,6 +48,7 @@ function SearchInput(props) {
           name='search'
           placeholder='Search'
           autoComplete='off'
+          data-cy='search-input'
           value={fieldToSearch === 'Title' ? searchTerm : userTerm}
           onChange={(event) => {
             if (fieldToSearch === 'Title') {
@@ -91,6 +92,7 @@ function SearchInput(props) {
           curr={fieldToSearch}
           setCurr={setFieldToSearch}
           itemList={['Title', 'Author']}
+          data-cy='toggle-title-dropdown'
         />
       </div>
       <Button
