@@ -159,9 +159,9 @@ const NewStory = () => {
                     name='Title'
                     data-cy='title'
                     autoComplete='off'
-                    ref={register({ required: true })}
+                    ref={register({ required: 'Title cannot be empty' })}
                   />
-                  {errors.title && <FormError type={errors.title.type} />}
+                  {errors.Title && <FormError message={errors.Title.message} />}
                 </div>
                 {screenSize <= 1120 ? (
                   <Search
@@ -178,7 +178,7 @@ const NewStory = () => {
                     name='product'
                     data-cy='product'
                     onChange={handleProductSelectChange}
-                    ref={register({ required: true })}
+                    ref={register({ required: 'Product must be set' })}
                   >
                     <option defaultValue={true} value=''>
                       Select a product
@@ -192,7 +192,9 @@ const NewStory = () => {
                         )
                       })}
                   </select>
-                  {errors.product && <FormError type={errors.product.type} />}
+                  {errors.product && (
+                    <FormError message={errors.product.message} />
+                  )}
                 </div>
                 <div className='form-element'>
                   <label htmlFor='category'>Category</label>
@@ -200,7 +202,7 @@ const NewStory = () => {
                     className='select-default'
                     name='Category'
                     data-cy='category'
-                    ref={register({ required: true })}
+                    ref={register({ required: 'Category must be set' })}
                   >
                     <option defaultValue={true} value=''>
                       Select a category
@@ -214,7 +216,9 @@ const NewStory = () => {
                         )
                       })}
                   </select>
-                  {errors.category && <FormError type={errors.category.type} />}
+                  {errors.Category && (
+                    <FormError message={errors.Category.message} />
+                  )}
                 </div>
                 <div className='form-element'>
                   <label htmlFor='priority'>Priority</label>
@@ -222,7 +226,7 @@ const NewStory = () => {
                     className='select-default'
                     name='Priority'
                     data-cy='priority'
-                    ref={register({ required: true })}
+                    ref={register({ required: 'Priority must be set' })}
                   >
                     <option defaultValue={true} value=''>
                       Select priority
@@ -236,7 +240,9 @@ const NewStory = () => {
                         )
                       })}
                   </select>
-                  {errors.priority && <FormError type={errors.priority.type} />}
+                  {errors.Priority && (
+                    <FormError message={errors.Priority.message} />
+                  )}
                 </div>
                 <div className='form-element' data-cy='description-editor'>
                   <label htmlFor='description'>Description</label>
