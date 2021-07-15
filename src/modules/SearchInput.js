@@ -72,6 +72,7 @@ function SearchInput(props) {
         <div className='close-btn-div'>
           <span
             className='close-btn'
+            data-cy='btn-clear'
             onClick={() => {
               if (fieldToSearch === 'Title' && searchTerm.length > 0) {
                 setSearchTerm('')
@@ -98,6 +99,7 @@ function SearchInput(props) {
       <Button
         type='submit'
         className='btn btn-default'
+        data-cy='btn-search'
         onClick={handleSearchSubmit}
       >
         Search
