@@ -18,7 +18,7 @@ describe('Test new User Registration Workflow', () => {
   const editedDescription = 'Edited story description'
   const testComment = 'Testing comments'
 
-  before('Register a new user', () => {
+  before('Register a new user in Register.js', () => {
     cy.visit('/')
 
     cy
@@ -57,65 +57,67 @@ describe('Test new User Registration Workflow', () => {
     cy.saveLocalStorage()
   })
 
-  it('Allows user to create new story', () => {
-    cy
-      .get('[data-cy=btn-new-story]')
-      .click()
+  describe('In NewStory.js', () => {
+    it('Allows user to create new story', () => {
+      cy
+        .get('[data-cy=btn-new-story]')
+        .click()
 
-    cy.url().should('equal', `${Cypress.config().baseUrl}/newStory`)
+      cy.url().should('equal', `${Cypress.config().baseUrl}/newStory`)
 
-    cy.get('[data-cy=title]').type(testStory.title)
+      cy.get('[data-cy=title]').type(testStory.title)
 
-    cy.get('[data-cy=product]').select(testStory.product)
+      cy.get('[data-cy=product]').select(testStory.product)
 
-    cy.get('[data-cy=category]').select(testStory.category)
+      cy.get('[data-cy=category]').select(testStory.category)
 
-    cy.get('[data-cy=priority]').select(testStory.priority)
+      cy.get('[data-cy=priority]').select(testStory.priority)
 
-    cy
-      .get('[data-cy=description-editor]')
-      .type(testStory.description)
+      cy
+        .get('[data-cy=description-editor]')
+        .type(testStory.description)
 
-    cy.get('[data-cy=btn-submit]').click()
+      cy.get('[data-cy=btn-submit]').click()
 
-    cy.url().should('equal', `${Cypress.config().baseUrl}/`)
+      cy.url().should('equal', `${Cypress.config().baseUrl}/`)
+    })
   })
 
-  it('Displays story in home page, once created', () => {
-    cy.get('[data-cy=stories]').contains(testStory.title).click()
+  describe('In Home.js', () => {
+    it('Displays story in home page, once created', () => {
+      cy.get('[data-cy=stories]').contains(testStory.title).click()
 
-    cy.url().should('contain', 'story')
+      cy.url().should('contain', 'story')
+    })
   })
 
-  it('Displays the data from template text', () => {
-    cy.contains('What is the issue?')  // Data from the template text
-  })
+  describe('In Story.js', () => {
+    it('Displays the data from template text', () => {
+      cy.contains('What is the issue?')  // Data from the template text
+    })
 
-  it('Allows user to edit the story created by them', () => {
-    cy.wait(1500)
+    it('Allows user to edit the story created by them', () => {
+      cy.wait(1500)
 
-    cy.get('[data-cy=btn-edit]').click()
+      cy.get('[data-cy=btn-edit]').click()
 
-    cy.get('[data-cy=edit-description]').type(editedDescription)
+      cy.get('[data-cy=edit-description]').type(editedDescription)
 
-    cy.get('[data-cy=btn-save]').click()
+      cy.get('[data-cy=btn-save]').click()
 
-    cy.get('[data-cy=story-description]').contains(editedDescription)
-  })
+      cy.get('[data-cy=story-description]').contains(editedDescription)
+    })
 
-  it('Allows user to comment on a story', () => {
-    cy.get('[data-cy=nav-eos-logo]').click()
+    it('Allows user to comment on a story', () => {
+      cy.get('[data-cy=comment-input-2]').type(testComment)
 
-    cy.get('[data-cy=stories]').contains(testStory.title).click()
+      cy.get('[data-cy=btn-comment-2]').click()
 
-    cy.get('[data-cy=comment-input-2]').type(testComment)
+      cy.get('[data-cy=comment-content]').contains(testComment)
 
-    cy.get('[data-cy=btn-comment-2]').click()
+      cy.get('[data-cy=comment-username]').contains(testUser.username).click()
 
-    cy.get('[data-cy=comment-content]').contains(testComment)
-
-    cy.get('[data-cy=comment-username]').contains(testUser.username).click()
-
-    cy.url().should('contain', 'profile')
+      cy.url().should('contain', 'profile')
+    })
   })
 })

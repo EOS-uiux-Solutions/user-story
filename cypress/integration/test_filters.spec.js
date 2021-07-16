@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-describe('Test the filters and search for stories', () => {
+describe('Test the filters and search for stories in Home.js', () => {
   const testStory = {
     title: Cypress.env('testStoryTitle'),
     product: Cypress.env('testStoryProduct'),
