@@ -30,12 +30,13 @@ apiClient.interceptors.response.use(
   }
 )
 
-function apiCall(url, data) {
+function apiCall(url, data, cancelToken = null) {
   return apiClient.request({
     url,
     method: 'post',
     data,
-    ...config
+    ...config,
+    cancelToken
   })
 }
 

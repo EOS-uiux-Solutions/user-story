@@ -1,4 +1,10 @@
-import React, { useLayoutEffect, useState, useEffect, useContext } from 'react'
+import React, {
+  useLayoutEffect,
+  useState,
+  useEffect,
+  useContext,
+  useCallback
+} from 'react'
 import { useForm } from 'react-hook-form'
 import MarkdownEditor from '../components/MarkdownEditor'
 import { filterDescriptionText } from '../utils/filterText'
@@ -16,6 +22,7 @@ import Context from '../modules/Context'
 import Login from './Login'
 
 import userStory from '../services/user_story'
+import { debounce } from 'lodash'
 
 const initialDescriptionInputsValue = {
   None: ''
@@ -24,7 +31,7 @@ const initialDescriptionInputsValue = {
 const NewStory = () => {
   const { state } = useContext(Context)
 
-  const { register, handleSubmit, errors, watch } = useForm()
+  const { register, handleSubmit, errors, getValues } = useForm()
 
   const [currentProductSelected, setCurrentProductSelected] = useState('None')
 
@@ -34,6 +41,8 @@ const NewStory = () => {
     initialDescriptionInputsValue
   )
 
+  const [title, setTitle] = useState('')
+
   const [description, setDescription] = useState('')
 
   const [categories, setCategories] = useState([])
@@ -42,13 +51,18 @@ const NewStory = () => {
 
   const [products, setProducts] = useState([])
 
-  const [storiesData, setStoriesData] = useState([])
-
   const { promiseInProgress } = usePromiseTracker()
 
   const [screenSize, setScreenSize] = useState(0)
 
   const [attachments, setAttachments] = useState([])
+
+  const handleTitleChange = useCallback(
+    debounce(() => {
+      setTitle(getValues('Title'))
+    }, 500),
+    []
+  )
 
   useLayoutEffect(() => {
     function updateScreenSize() {
@@ -99,20 +113,8 @@ const NewStory = () => {
     }
 
     trackPromise(fetchPriorities())
-
-    const fetchStoriesData = async () => {
-      const response = await userStory.getAllStories()
-      setStoriesData(response.data.data.userStories)
-    }
-    fetchStoriesData()
   }, [])
 
-  /*
-  const handleFileUpload = (event) => {
-    setData({ ...data, mediaCollection: event.target.files })
-  }
-  feature coming in next PR
-  */
   const handleProductSelectChange = (event) => {
     const id = event.target.value
     const selectedProduct = products.find((product) => product.id === id)
@@ -160,17 +162,11 @@ const NewStory = () => {
                     data-cy='title'
                     autoComplete='off'
                     ref={register({ required: true })}
+                    onChange={handleTitleChange}
                   />
                   {errors.title && <FormError type={errors.title.type} />}
                 </div>
-                {screenSize <= 1120 ? (
-                  <Search
-                    listToBeSearched={storiesData}
-                    title={watch('title') || ''}
-                  />
-                ) : (
-                  ''
-                )}
+                {screenSize <= 1120 ? <Search title={title} /> : ''}
                 <div className='form-element'>
                   <label htmlFor='product'>Product</label>
                   <select
@@ -270,14 +266,7 @@ const NewStory = () => {
                 </div>
               </form>
             </div>
-            {screenSize > 1120 ? (
-              <Search
-                listToBeSearched={storiesData}
-                title={watch('title') || ''}
-              />
-            ) : (
-              ''
-            )}
+            {screenSize > 1120 ? <Search title={title} /> : ''}
           </div>
         </div>
       )}

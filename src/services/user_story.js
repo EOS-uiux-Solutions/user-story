@@ -14,17 +14,19 @@ const userStory = {
       storyId: storyId
     })
   },
-  getAllStories: () => {
+  getStoriesByTitle: (title, cancelToken = null) => {
     const query = {
       query: `query {
-        userStories(sort: "votes:desc,createdAt:desc") {
+        userStories(sort: "votes:desc,createdAt:desc", where: {
+          Title_contains: "${title}"
+        }) {
           ...BasicStoryInfo
         }
       }
       ${BASIC_STORY_INFO_FRAGMENT}
       `
     }
-    return apiCall('/graphql', query)
+    return apiCall('/graphql', query, cancelToken)
   },
   getStories: (
     page,
