@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 import {
-  FacebookShareButton,
   TwitterShareButton,
   LinkedinShareButton,
-  WhatsappShareButton,
-  FacebookIcon,
   TwitterIcon,
-  LinkedinIcon,
-  WhatsappIcon
+  LinkedinIcon
 } from 'react-share'
 
 import { Helmet } from 'react-helmet'
@@ -100,8 +96,11 @@ const Story = (props) => {
   return (
     <>
       <Helmet>
-        <title>{`${story.Title} | EOS User story`}</title>
-        <meta name='description' content={`${story.Description}`} />
+        <title>EOS User story</title>
+        <meta
+          name='description'
+          content="Share with us how you use our products, relate to other users stories, vote them up, and we'll make sure we deliver cohesive solutions that enhance your experience."
+        />
         <meta name='keywords' content='user story, issue tracker' />
       </Helmet>
       <Navigation />
@@ -166,7 +165,7 @@ const Story = (props) => {
                 ) : (
                   ''
                 )}
-                {!editor ? (
+                {
                   <>
                     <Button className='share-story' onClick={togglePopup}>
                       <i className='eos-icons'> share </i>
@@ -175,9 +174,7 @@ const Story = (props) => {
                       <i className='eos-icons'>content_copy</i>
                     </Button>
                   </>
-                ) : (
-                  ''
-                )}
+                }
                 {editor ? (
                   <Button
                     className='btn btn-default'
@@ -204,15 +201,6 @@ const Story = (props) => {
                     content={
                       <>
                         <h1>Share</h1>
-                        <FacebookShareButton
-                          url={window.location}
-                          className='share-button'
-                          quote={title}
-                          hashtag={'#EOS'}
-                          onShareWindowClose={togglePopup}
-                        >
-                          <FacebookIcon />
-                        </FacebookShareButton>
                         <TwitterShareButton
                           url={window.location}
                           className='share-button'
@@ -229,15 +217,6 @@ const Story = (props) => {
                         >
                           <LinkedinIcon />
                         </LinkedinShareButton>
-                        <WhatsappShareButton
-                          url={window.location}
-                          className='share-button'
-                          title={title}
-                          separator=' '
-                          onShareWindowClose={togglePopup}
-                        >
-                          <WhatsappIcon />
-                        </WhatsappShareButton>
                       </>
                     }
                     handleClose={togglePopup}
