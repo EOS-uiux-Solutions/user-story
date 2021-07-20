@@ -1,15 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { debounce } from 'lodash'
 import userStory from '../services/user_story'
+import { strip } from '../utils/filterText'
 
 const Search = (props) => {
   const { title } = props
 
   const [searchResults, setSearchResults] = useState([])
-
-  const strip = (html) => {
-    return html.replace(/<\s*[^>]*>/gi, '')
-  }
 
   const handleTitleChange = useCallback(
     debounce(async (title) => {
@@ -20,6 +17,9 @@ const Search = (props) => {
   )
 
   useEffect(() => {
+    if (!title) {
+      return
+    }
     handleTitleChange(title)
   }, [title, handleTitleChange])
 
@@ -42,8 +42,7 @@ const Search = (props) => {
             key={key}
           >
             <div className='stories-content title-search-result'>
-              <h4>{result.Title}</h4>
-              {strip(result.Description)}
+              <h4>{strip(result.Title, 80)}</h4>
             </div>
             <div className='icon-display'>
               {result.followers.length}

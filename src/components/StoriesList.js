@@ -2,17 +2,10 @@ import React from 'react'
 import { navigate, Link } from '@reach/router'
 
 import Vote from './Vote'
+import { strip } from '../utils/filterText'
 
 const StoriesList = (props) => {
   const { stories, state, product } = props
-
-  const strip = (html) => {
-    html = html.replace(/<\s*[^>]*>/gi, '')
-    if (html.length > 80) {
-      html = `${html.substring(0, 80)}...`
-    }
-    return html
-  }
 
   return (
     <div className='flex flex-column' data-cy='stories'>
@@ -28,8 +21,8 @@ const StoriesList = (props) => {
                   navigate(`/story/${story.id}`)
                 }}
               >
-                <h3>{story.Title}</h3>
-                <p>{strip(story.Description)}</p>
+                <h3>{strip(story.Title, 80)}</h3>
+                <p>{strip(story.Description, 80)}</p>
               </div>
               <div className='story-author story-subcontent'>
                 <div className='user-avatar'>
