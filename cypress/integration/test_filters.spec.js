@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-describe('Test the filters and search for stories in Home.js', () => {
+describe('Test the filters and search for stories in Home page', () => {
   const testStory = {
     title: Cypress.env('testStoryTitle'),
     product: Cypress.env('testStoryProduct'),
@@ -8,8 +8,7 @@ describe('Test the filters and search for stories in Home.js', () => {
   }
 
   const setDropdown = (dropdown, value) => {
-    cy
-      .get('[data-cy=search-input-div]')
+    cy.get('[data-cy=search-input-div]')
       .get(`[data-cy=${dropdown}-dropdown]`)
       .click()
     cy.contains(value).click({ force: true })
@@ -54,7 +53,7 @@ describe('Test the filters and search for stories in Home.js', () => {
 
   it('Searches stories based on title', () => {
     searchByTitle('random')
-    
+
     cy.contains('No stories')
 
     clearSearchInput()
@@ -75,8 +74,7 @@ describe('Test the filters and search for stories in Home.js', () => {
     clearSearchInput()
 
     typeOnSearch('us')
-    cy
-      .get('[data-cy=search-input-div]')
+    cy.get('[data-cy=search-input-div]')
       .contains('user1')
       .click({ force: true })
 
