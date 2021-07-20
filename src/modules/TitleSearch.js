@@ -1,40 +1,38 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
+import { debounce } from 'lodash'
+import userStory from '../services/user_story'
 
 const Search = (props) => {
-  const { listToBeSearched, title } = props
+  const { title } = props
+
   const [searchResults, setSearchResults] = useState([])
 
   const strip = (html) => {
     return html.replace(/<\s*[^>]*>/gi, '')
   }
 
-  useEffect(() => {
-    const updateSearchResults = () => {
-      const toBeAppended = []
-      if (title === '') {
-        setSearchResults(toBeAppended)
-        return
-      }
-      for (let i = 0; i < listToBeSearched.length; i++) {
-        const txtVal = listToBeSearched[i].Title
-        if (txtVal.toUpperCase().indexOf(title.toUpperCase()) > -1)
-          toBeAppended.push({
-            id: listToBeSearched[i].id,
-            Title: txtVal,
-            Description: listToBeSearched[i].Description,
-            followers: listToBeSearched[i].followers
-          })
-      }
-      setSearchResults(toBeAppended)
-    }
-    updateSearchResults()
-  }, [title, listToBeSearched])
+  const handleTitleChange = useCallback(
+    debounce(async (title) => {
+      const response = await userStory.getStoriesByTitle(title)
+      setSearchResults(response.data.data.userStories)
+    }, 600),
+    []
+  )
 
-  return searchResults.length > 0 ? (
+  useEffect(() => {
+    handleTitleChange(title)
+  }, [title, handleTitleChange])
+
+  if (!title) {
+    return ''
+  }
+  return (
     <div className='flex flex-column title-search'>
       <h4>
-        <i className='eos-icons'>arrow_forward</i> We found some matching
-        results
+        <i className='eos-icons'>arrow_forward</i>
+        {searchResults.length > 0
+          ? ' We found some matching results'
+          : ' No matching stories found. Go ahead and create one.'}
       </h4>
       {searchResults.map((result, key) => {
         return (
@@ -55,8 +53,6 @@ const Search = (props) => {
         )
       })}
     </div>
-  ) : (
-    ''
   )
 }
 

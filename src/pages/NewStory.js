@@ -42,8 +42,6 @@ const NewStory = () => {
 
   const [products, setProducts] = useState([])
 
-  const [storiesData, setStoriesData] = useState([])
-
   const { promiseInProgress } = usePromiseTracker()
 
   const [screenSize, setScreenSize] = useState(0)
@@ -99,20 +97,8 @@ const NewStory = () => {
     }
 
     trackPromise(fetchPriorities())
-
-    const fetchStoriesData = async () => {
-      const response = await userStory.getAllStories()
-      setStoriesData(response.data.data.userStories)
-    }
-    fetchStoriesData()
   }, [])
 
-  /*
-  const handleFileUpload = (event) => {
-    setData({ ...data, mediaCollection: event.target.files })
-  }
-  feature coming in next PR
-  */
   const handleProductSelectChange = (event) => {
     const id = event.target.value
     const selectedProduct = products.find((product) => product.id === id)
@@ -163,14 +149,7 @@ const NewStory = () => {
                   />
                   {errors.Title && <FormError message={errors.Title.message} />}
                 </div>
-                {screenSize <= 1120 ? (
-                  <Search
-                    listToBeSearched={storiesData}
-                    title={watch('title') || ''}
-                  />
-                ) : (
-                  ''
-                )}
+                {screenSize <= 1120 ? <Search title={watch('Title')} /> : ''}
                 <div className='form-element'>
                   <label htmlFor='product'>Product</label>
                   <select
@@ -276,14 +255,7 @@ const NewStory = () => {
                 </div>
               </form>
             </div>
-            {screenSize > 1120 ? (
-              <Search
-                listToBeSearched={storiesData}
-                title={watch('title') || ''}
-              />
-            ) : (
-              ''
-            )}
+            {screenSize > 1120 ? <Search title={watch('Title')} /> : ''}
           </div>
         </div>
       )}

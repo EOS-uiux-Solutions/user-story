@@ -14,10 +14,12 @@ const userStory = {
       storyId: storyId
     })
   },
-  getAllStories: () => {
+  getStoriesByTitle: (title) => {
     const query = {
       query: `query {
-        userStories(sort: "votes:desc,createdAt:desc") {
+        userStories(sort: "votes:desc,createdAt:desc", where: {
+          Title_contains: "${title}"
+        }) {
           ...BasicStoryInfo
         }
       }
