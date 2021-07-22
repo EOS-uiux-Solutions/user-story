@@ -94,18 +94,13 @@ const Story = (props) => {
   const hashtagsArray = ['EOS', 'userstory']
   const title = 'EOS User Story - POST Stories. GET Features.'
 
-  const displayImages = () => {
-    const images = []
-    for (let i = 0; i < 3; i++) {
-      images.push({
-        original: story.Attachment[`${i}`].url,
-        thumbnail: story.Attachment[`${i}`].url
-      })
-    }
-    return images
-  }
-
-  const images = [].concat(displayImages())
+  const images =
+    story.Attachment?.map((attachment) => {
+      return {
+        original: attachment.url,
+        thumbnail: attachment.url
+      }
+    }) ?? []
 
   return (
     <>
@@ -238,13 +233,8 @@ const Story = (props) => {
                   />
                 )}
               </div>
-              <div>
-                <ImageGallery
-                  items={images}
-                  showBullets={true}
-                  originalClass={'galleryoriginal'}
-                  thumbnailClass={'galleryThumbnail'}
-                />
+              <div className='gallery-container'>
+                <ImageGallery items={images} showBullets={true} />
               </div>
               <Comments storyId={storyId} />
             </div>
