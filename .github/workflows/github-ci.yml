@@ -3,26 +3,7 @@ name: Run Tests
 on: [pull_request]
 
 jobs:
-  cache_node_modules:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository code
-        uses: actions/checkout@v2
-
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@v2
-        with:
-          path: node_modules
-          key: node_modules-${{ hashFiles('package-lock.json') }}
-
-      - name: Install dependencies
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: npm install
-
   test_lints:
-    needs: cache_node_modules
     runs-on: ubuntu-latest
 
     steps:
@@ -47,7 +28,6 @@ jobs:
         run: npm run test:js
 
   test_cypress:
-    needs: cache_node_modules
     runs-on: ubuntu-latest
 
     steps:
@@ -56,17 +36,6 @@ jobs:
 
       - name: Run backend container
         run: docker-compose -f "docker-compose.test.yml" up -d --build
-
-      - name: Load node_modules
-        id: cache-node-modules
-        uses: actions/cache@v2
-        with:
-          path: node_modules
-          key: node_modules-${{ hashFiles('package-lock.json') }}
-
-      - name: Install node_modules
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: npm install
 
       - name: Create config.json
         run: echo $TEST_CONFIG_JSON > src/config.json
@@ -77,3 +46,4 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           start: npm start
+          wait-on: 'http://localhost:3000'
