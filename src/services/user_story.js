@@ -376,6 +376,22 @@ const userStory = {
       }
     }
     return apiCall('/graphql', markNotificationAsReadQuery)
+  },
+  updateVotes: (storyId, updatedFollowerIds) => {
+    const updateVotesQuery = {
+      query: `
+      mutation {
+        updateUserStory(input: {where: {id: "${storyId}"} data: {followers: [${updatedFollowerIds}]}}){
+          userStory{
+            followers {
+              id
+            }
+          }
+        }
+      }
+      `
+    }
+    return apiCall('/graphql', updateVotesQuery)
   }
 }
 
