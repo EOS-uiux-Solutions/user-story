@@ -119,11 +119,13 @@ const NewStory = () => {
     setCurrentProductSelected(selectedProduct?.id ?? 'None')
   }
 
-  const onSubmit = async (data) => {
+  const descError = () => {
     if (!description?.length) {
       setDescriptionError(true)
-      return
     }
+  }
+
+  const onSubmit = async (data) => {
     data.Description = filterDescriptionText(description)
     const formData = new FormData()
     formData.append('data', JSON.stringify(data))
@@ -270,6 +272,7 @@ const NewStory = () => {
                     type='submit'
                     data-cy='btn-submit'
                     className='btn btn-default'
+                    onClick={descError}
                   >
                     Submit
                   </Button>
