@@ -21,6 +21,7 @@
     "react-helmet": "^6.1.0",
     "react-hook-form": "^6.3.2",
     "react-i18next": "^11.5.0",
+    "react-image-gallery": "^1.2.5",
     "react-markdown": "^5.0.2",
     "react-markdown-editor-lite": "^1.2.4",
     "react-promise-tracker": "^2.1.0",
