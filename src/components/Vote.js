@@ -47,12 +47,10 @@ const Vote = (props) => {
       setVoted(false)
       setVotes((votes) => votes - 1)
     } else {
-      const response = await userStory.updateStoryVote(
-        story.id,
-        followers,
-        userId
-      )
-      const updatedFollowerIds = response.data.data.updateUserStory.userStory.followers.map(
+      followers.push(JSON.stringify(userId))
+      let updatedFollowerIds = followers
+      const response = await userStory.updateVotes(story.id, updatedFollowerIds)
+      updatedFollowerIds = response.data.data.updateUserStory.userStory.followers.map(
         (follower) => JSON.stringify(follower.id)
       )
       setFollowers(updatedFollowerIds)
