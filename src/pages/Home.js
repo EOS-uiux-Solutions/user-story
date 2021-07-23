@@ -274,29 +274,30 @@ const Home = () => {
               />
             </div>
           </div>
-          <div className='roadmap'>
-            {Lists.stateList &&
-              Lists.stateList.map((state, key) => {
-                return (
-                  <Button
-                    className={
-                      currentStateSelected === state.status
-                        ? 'btn btn-tabs btn-tabs-selected'
-                        : 'btn btn-tabs'
-                    }
-                    key={key}
-                    onClick={() => {
-                      selectState(state.status)
-                      setPage(1)
-                    }}
-                  >
-                    <i className='eos-icons'>{state.icon}</i>
-                    {state.status}
-                  </Button>
-                )
-              })}
+          <div className='roadmap-container'>
+            <div className='roadmap'>
+              {Lists.stateList &&
+                Lists.stateList.map((state, key) => {
+                  return (
+                    <Button
+                      className={
+                        currentStateSelected === state.status
+                          ? 'btn btn-tabs btn-tabs-selected'
+                          : 'btn btn-tabs'
+                      }
+                      key={key}
+                      onClick={() => {
+                        selectState(state.status)
+                        setPage(1)
+                      }}
+                    >
+                      <i className='eos-icons'>{state.icon}</i>
+                      {state.status}
+                    </Button>
+                  )
+                })}
+            </div>
           </div>
-
           <div className='flex flex-row search-bar'>
             <div className='flex flex-row search-controls'>
               <div
@@ -370,7 +371,7 @@ const Home = () => {
               </div>
               <Button
                 type='submit'
-                className='btn btn-default'
+                className='btn btn-default search'
                 data-cy='btn-search'
                 onClick={handleSearchSubmit}
               >
