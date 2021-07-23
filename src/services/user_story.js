@@ -225,20 +225,23 @@ const userStory = {
   },
   markNotificationAsRead: (notificationId, seenBy) => {
     const markNotificationAsReadQuery = {
-      query: `mutation updateNotifications {
+      query: `mutation updateNotifications($seenBy: [ID]) {
         updateUserStoryNotification(input: {
           where: {
             id: "${notificationId}"
           }
           data: {
-            seenBy: "${seenBy}"
+            seenBy: $seenBy
           }
         }) {
           userStoryNotification {
             id
           }
         }
-      }`
+      }`,
+      variables: {
+        seenBy: seenBy
+      }
     }
     return apiCall('/graphql', markNotificationAsReadQuery)
   },

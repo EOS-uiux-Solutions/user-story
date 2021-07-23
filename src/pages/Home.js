@@ -217,7 +217,7 @@ const Home = () => {
   const acceptUpdatedPolicy = async () => {
     const seenBy = policyUpdate.seenBy.map((seen) => seen.id)
     seenBy.push(userId)
-    await userStory.updateNotifications(policyUpdate.id, seenBy)
+    await userStory.markNotificationAsRead(policyUpdate.id, seenBy)
     setModal(false)
   }
 

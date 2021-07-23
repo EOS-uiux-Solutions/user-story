@@ -55,7 +55,7 @@ const Notifications = () => {
     }
   }, [userId, notificationsSeen])
 
-  const markNotificationRead = async (notification) => {
+  const markNotificationAsRead = async (notification) => {
     const seenBy = notification.seenBy.map((seen) => seen.id)
     if (!seenBy.includes(userId)) {
       seenBy.push(userId)
@@ -66,7 +66,7 @@ const Notifications = () => {
   const markAllNotificationsAsRead = () => {
     if (notifications) {
       notifications.forEach(async (notification) => {
-        await markNotificationRead(notification)
+        await markNotificationAsRead(notification)
         setNotifications([])
         setNotificationCount(0)
         setNotificationsSeen(false)
@@ -74,8 +74,8 @@ const Notifications = () => {
     }
   }
 
-  const markNotificationAsRead = async (notification) => {
-    await markNotificationRead(notification)
+  const onNotificationClick = async (notification) => {
+    await markNotificationAsRead(notification)
     navigate(`/${notification.link}`)
   }
 
@@ -112,7 +112,7 @@ const Notifications = () => {
               ? notifications.map((notification, key) => (
                   <li
                     className='dropdown-element'
-                    onClick={() => markNotificationAsRead(notification)}
+                    onClick={() => onNotificationClick(notification)}
                     key={key}
                   >
                     {notification.message}
