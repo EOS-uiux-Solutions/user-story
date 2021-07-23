@@ -6,7 +6,7 @@ import {
   TwitterIcon,
   LinkedinIcon
 } from 'react-share'
-import ImageGallery from 'react-image-gallery'
+import Gallery from '../components/ImageGallery'
 
 import { Helmet } from 'react-helmet'
 
@@ -93,14 +93,6 @@ const Story = (props) => {
 
   const hashtagsArray = ['EOS', 'userstory']
   const title = 'EOS User Story - POST Stories. GET Features.'
-
-  const images =
-    story.Attachment?.map((attachment) => {
-      return {
-        original: attachment.url,
-        thumbnail: attachment.url
-      }
-    }) ?? []
 
   return (
     <>
@@ -233,9 +225,13 @@ const Story = (props) => {
                   />
                 )}
               </div>
-              <div className='gallery-container'>
-                <ImageGallery items={images} showBullets={true} />
-              </div>
+              {story.Attachment.length !== 0 ? (
+                <div className='gallery-container'>
+                  <Gallery imageArray={story.Attachment} />
+                </div>
+              ) : (
+                ''
+              )}
               <Comments storyId={storyId} />
             </div>
           </div>
