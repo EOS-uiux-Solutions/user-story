@@ -187,7 +187,7 @@ const Profile = (props) => {
                     itemList={Lists.sortByList}
                   />
                 </div>
-                <div className='flex flex-row flex-space-between'>
+                <div className='flex flex-row flex-space-between rdmap'>
                   {Lists.stateList &&
                     Lists.stateList.map((state, key) => {
                       return (

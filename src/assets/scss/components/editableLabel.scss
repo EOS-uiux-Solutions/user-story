@@ -1,6 +1,7 @@
 .editable-label {
   align-items: center;
   display: flex;
+  justify-content: center;
 
   button {
     background-color: transparent;
@@ -17,5 +18,27 @@
       cursor: pointer;
       visibility: visible;
     }
+  }
+
+  @media only screen and (max-width: 768px) {
+    h2 {
+      margin: 0.5rem 0;
+    }
+
+    p {
+      margin: 0.5rem 0;
+    }
+
+    button.editable-label-edit-btn {
+      display: none;
+    }
+  
+    &:hover {
+      button {
+        cursor: pointer;
+        display: block;
+      }
+    }
+
   }
 }

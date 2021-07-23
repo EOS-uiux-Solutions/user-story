@@ -41,6 +41,10 @@
   }
 }
 
+.rdmap {
+  margin: 10px 0;
+}
+
 .roadmap-one {
   .btn-tabs {
 
@@ -88,5 +92,27 @@
     .btn-tabs {
       margin: 0.8rem 0;
     }
+  }
+
+  // .roadmap-one {
+  //   flex-direction: column;
+
+  .btn-tabs {
+    margin: 0.5rem;
+    width: 200px;
+  }
+
+  // }
+}
+
+@media (max-width: 600px) {
+  .roadmap-one {
+    flex-direction: column;
+  }
+
+  .btn-tabs {
+    margin: 0.3rem 0;
+    text-align: left;
+    width: 100%;
   }
 }

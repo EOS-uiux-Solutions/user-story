@@ -1,3 +1,8 @@
+.user-profile-wrapper {
+  align-items: center;
+  justify-content: center;
+}
+
 .user-profile {
   align-items: center;
   display: flex;
@@ -70,9 +75,9 @@
     }
 
     &-details {
-      align-items: center;
       display: flex;
       flex-direction: column;
+      padding: 0;
       width: auto;
     }
   }
@@ -93,8 +98,7 @@
       font-weight: bold;
       list-style: none;
       padding: $eos-m;
-
-
+      
       &:first-child {
         padding-left: 0;
       }
@@ -125,7 +129,6 @@
 
 .user-profile-settings {
   @extend .user-profile-extra;
-
   ul {
     flex-direction: column;
     width: 25%;
@@ -136,6 +139,13 @@
       &:first-child {
         padding-left: 0;
       }
+    }
+  }
+
+  @media only screen and (max-width: 768px) {
+    ul {
+      padding: 1rem;
+      width: 100%;
     }
   }
 }
