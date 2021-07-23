@@ -328,6 +328,22 @@ const userStory = {
   },
   postCommentReply: (data) => {
     return apiCall('/user-story-comment-threads', data)
+  },
+  updateVotes: (storyId, updatedFollowerIds) => {
+    const updateVotesQuery = {
+      query: `
+      mutation {
+        updateUserStory(input: {where: {id: "${storyId}"} data: {followers: [${updatedFollowerIds}]}}){
+          userStory{
+            followers {
+              id
+            }
+          }
+        }
+      }
+      `
+    }
+    return apiCall('/graphql', updateVotesQuery)
   }
 }
 
