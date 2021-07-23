@@ -31,7 +31,7 @@
   }
 }
 
-.search{
+.search {
   margin: 0.5rem;
 }
 
@@ -79,10 +79,10 @@
   .search-input {
     input {
       border: 0px;
+      max-width: 4rem;
+      min-width: 2rem;
       outline: none;
       padding: 0.3rem;
-      min-width: 2rem;
-      max-width: 4rem;
       // width: 147px;
     }
   }
