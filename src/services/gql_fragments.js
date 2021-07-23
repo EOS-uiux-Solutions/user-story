@@ -12,10 +12,10 @@ export const NOTIFICATION_DATA_FRAGMENT = `fragment NotificationData on UserStor
   message
   id
   users {
-  id
+    id
   }
   seenBy {
-  id
+    id
   }
   date
   link
