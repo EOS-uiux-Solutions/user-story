@@ -1,10 +1,13 @@
-.notifications-dropdown {
-  max-height: 512px;
-  width: 256px;
-}
+.notifications {
+  &-dropdown {
+    max-height: 512px;
+    overflow-y: scroll;
+    width: 256px;
+  }
 
-.notifications-options {
-  padding: 4px 8px;
+  &-options {
+    padding: 4px 8px;
+  }
 }
 
 @media only screen and (max-width: 768px) {
