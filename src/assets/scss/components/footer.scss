@@ -7,3 +7,19 @@
     padding: 10px 25px;
   }
 }
+
+@media only screen and (max-width: 600px) {
+  .footer-main {
+    flex-direction: column;
+
+    p{
+      padding: 0.3rem 0;
+      margin: 0;
+      margin-bottom: 1rem;
+    }
+
+    a {
+      padding: 0.3rem;
+    }
+  }
+}

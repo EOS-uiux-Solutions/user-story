@@ -21,7 +21,7 @@
 .vote-button {
   color: $eos-white;
   font-weight: bold;
-  margin: 4px 4px;
+  margin: 4px 8px;
 
   &-clickable {
     cursor: pointer;
@@ -29,5 +29,13 @@
 
   .eos-icons {
     margin: 0px 4px 0px 4px;
+  }
+}
+
+@media (max-width: 900px) {
+  .vote-wrapper {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
   }
 }

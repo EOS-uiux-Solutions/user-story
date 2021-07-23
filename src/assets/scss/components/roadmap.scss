@@ -60,3 +60,33 @@
     }
   }
 }
+
+@media (max-width: 900px) {
+  .roadmap-container{
+    display: flex;
+    // justify-content: center;
+  }
+
+  .roadmap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    // margin-bottom: 32px;
+    position: relative;
+
+    &::before {
+      border-left: 1px solid gray;
+      border-top: none;
+      content: '';
+      position: absolute;
+      left: 23px;
+      width: 100%;
+      height: 80%;
+      z-index: 1;
+    }
+
+    .btn-tabs {
+      margin: 0.8rem 0;
+    }
+  }
+}
