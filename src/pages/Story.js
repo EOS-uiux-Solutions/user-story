@@ -6,6 +6,7 @@ import {
   TwitterIcon,
   LinkedinIcon
 } from 'react-share'
+import Gallery from '../components/ImageGallery'
 
 import { Helmet } from 'react-helmet'
 
@@ -224,17 +225,13 @@ const Story = (props) => {
                   />
                 )}
               </div>
-              <div>
-                {story.Attachment &&
-                  story.Attachment.map((obj) => (
-                    <img
-                      key={obj.id}
-                      src={obj.url}
-                      alt='attachment'
-                      height='100'
-                    />
-                  ))}
-              </div>
+              {story.Attachment.length !== 0 ? (
+                <div className='gallery-container'>
+                  <Gallery imageArray={story.Attachment} />
+                </div>
+              ) : (
+                ''
+              )}
               <Comments storyId={storyId} />
             </div>
           </div>
