@@ -33,6 +33,9 @@
       font-size: $font-size-bio;
     }
 
+    & > * {
+      width: 100%;
+    }
   }
 
   &-avatar {

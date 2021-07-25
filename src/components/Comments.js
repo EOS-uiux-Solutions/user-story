@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react'
 import { Link } from '@reach/router'
 import Button from './Button'
+import Gallery from './ImageGallery'
 
 import CommentForm from './CommentForm'
 import Context from '../modules/Context'
@@ -133,17 +134,13 @@ const Comments = (props) => {
                   </div>
                 </div>
                 <p>{data.Comments}</p>
-                <div>
-                  {data.attachment &&
-                    data.attachment.map((obj) => (
-                      <img
-                        src={obj.url}
-                        key={obj.id}
-                        alt='attachment'
-                        height='100'
-                      />
-                    ))}
-                </div>
+                {data.attachment.length !== 0 ? (
+                  <div className='comment-gallery-container'>
+                    <Gallery imageArray={data.attachment} />
+                  </div>
+                ) : (
+                  ''
+                )}
                 <div className='reply-action'>
                   {state.auth && (
                     <Button
@@ -206,10 +203,13 @@ const Comments = (props) => {
                           }
                         </div>
                         <p>{reply.Comments}</p>
-                        {reply.attachment &&
-                          reply.attachment.map((a) => (
-                            <img src={a.url} key={a.id} alt='' width='100' />
-                          ))}
+                        {reply.attachment.length !== 0 ? (
+                          <div className='comment-gallery-container'>
+                            <Gallery imageArray={reply.attachment} />
+                          </div>
+                        ) : (
+                          ''
+                        )}
                       </div>
                     </div>
                   ))}

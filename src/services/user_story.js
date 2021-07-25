@@ -31,11 +31,15 @@ const userStory = {
   getStories: (
     page,
     currentStateSelected,
+    authorId,
     authorQuery,
     categoryQuery,
     productQuery,
-    searchQuery
+    searchQuery,
+    followerId
   ) => {
+    authorId = !authorId ? '' : `id: "${authorId}"`
+    followerId = !followerId ? '' : `followers: "${followerId}"`
     const storiesQuery = {
       query: `query {
               userStories(sort: "createdAt:desc", limit: 5, start: ${
@@ -45,11 +49,13 @@ const userStory = {
                     Status: "${currentStateSelected}"
                   },
                   author: {
+                    ${authorId}
                     username_contains: "${authorQuery}"
                   }
                   ${categoryQuery}
                   ${productQuery}
                   ${searchQuery}
+                  ${followerId}
               }) {
                 id
                 Title
@@ -111,11 +117,15 @@ const userStory = {
   },
   getStoryCount: (
     currentStateSelected,
+    authorId,
     authorQuery,
     categoryQuery,
     productQuery,
-    searchQuery
+    searchQuery,
+    followerId
   ) => {
+    authorId = !authorId ? '' : `id: "${authorId}"`
+    followerId = !followerId ? '' : `followers: "${followerId}"`
     const storyCountQuery = {
       query: `query {
               userStoriesConnection(where: {
@@ -123,11 +133,13 @@ const userStory = {
                   Status: "${currentStateSelected}"
                 },
                 author: {
+                  ${authorId}
                   username_contains: "${authorQuery}"
                 }
                 ${categoryQuery}
                 ${productQuery}
                 ${searchQuery}
+                ${followerId}
               }) {
                 aggregate {
                   count
@@ -195,7 +207,7 @@ const userStory = {
     }
     return apiCall('/graphql', productQuery)
   },
-  getNotifications: (userId) => {
+  getNotificationsByUserId: (userId) => {
     const notificationQuery = {
       query: `query {
         userStoryNotifications (where: {
@@ -223,27 +235,27 @@ const userStory = {
     }
     return apiCall('/graphql', policyQuery)
   },
-  updateNotifications: (policyId, seenBy) => {
-    const notificationQuery = {
-      query: `mutation updateNotifications($seenBy: [ID]){
-              updateUserStoryNotification(input: {
-                where: {
-                  id: "${policyId}"
-                }
-                data: {
-                  seenBy: $seenBy
-                }
-              }) {
-                userStoryNotification {
-                  id
-                }
-              }
-            }`,
+  markNotificationAsRead: (notificationId, seenBy) => {
+    const markNotificationAsReadQuery = {
+      query: `mutation updateNotifications($seenBy: [ID]) {
+        updateUserStoryNotification(input: {
+          where: {
+            id: "${notificationId}"
+          }
+          data: {
+            seenBy: $seenBy
+          }
+        }) {
+          userStoryNotification {
+            id
+          }
+        }
+      }`,
       variables: {
         seenBy: seenBy
       }
     }
-    return apiCall('/graphql', notificationQuery)
+    return apiCall('/graphql', markNotificationAsReadQuery)
   },
   getUserDetails: (userId) => {
     const userQuery = {
@@ -332,50 +344,21 @@ const userStory = {
   postCommentReply: (data) => {
     return apiCall('/user-story-comment-threads', data)
   },
-  getNotificationsByUserId: (userId) => {
-    const getNotificationsByUserIdQuery = {
-      query: `query {
-      userStoryNotifications (where: {
-        users: {
-          id: "${userId}"
+  updateVotes: (storyId, updatedFollowerIds) => {
+    const updateVotesQuery = {
+      query: `
+      mutation {
+        updateUserStory(input: {where: {id: "${storyId}"} data: {followers: [${updatedFollowerIds}]}}){
+          userStory{
+            followers {
+              id
+            }
+          }
         }
-      }){
-        message
-        id
-        users {
-          id
-        }
-        seenBy {
-          id
-        }
-        date
-        link
       }
-    }`
+      `
     }
-    return apiCall('/graphql', getNotificationsByUserIdQuery)
-  },
-  markNotificationAsRead: (notificationId, seenBy) => {
-    const markNotificationAsReadQuery = {
-      query: `mutation updateNotifications($seenBy: [ID]){
-        updateUserStoryNotification(input: {
-          where: {
-            id: "${notificationId}"
-          }
-          data: {
-            seenBy: $seenBy
-          }
-        }) {
-          userStoryNotification {
-            id
-          }
-        }
-      }`,
-      variables: {
-        seenBy: seenBy
-      }
-    }
-    return apiCall('/graphql', markNotificationAsReadQuery)
+    return apiCall('/graphql', updateVotesQuery)
   }
 }
 

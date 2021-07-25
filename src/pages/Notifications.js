@@ -16,7 +16,7 @@ const Notifications = () => {
 
   useEffect(() => {
     const fetchNotifications = async () => {
-      const response = await userStory.getNotifications(userId)
+      const response = await userStory.getNotificationsByUserId(userId)
       setNotifications(response.data.data.userStoryNotifications)
     }
     trackPromise(fetchNotifications())

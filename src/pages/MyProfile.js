@@ -1,6 +1,4 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
-import LoadingIndicator from '../modules/LoadingIndicator'
 import { Helmet } from 'react-helmet'
 
 import Navigation from '../components/Navigation'
@@ -17,8 +15,6 @@ const MyProfile = () => {
   const [user, setUser] = useState('')
 
   const [, setUpdated] = useState(false)
-
-  const { promiseInProgress } = usePromiseTracker()
 
   const handleInputChange = (event) => {
     setUser({
@@ -40,7 +36,7 @@ const MyProfile = () => {
       setUser(response.data.data.user)
     }
     if (userId) {
-      trackPromise(fetchUserInfo())
+      fetchUserInfo()
     }
   }, [userId])
 
@@ -51,26 +47,20 @@ const MyProfile = () => {
         <meta name='robots' content='noindex' />
       </Helmet>
       <Navigation />
-      {promiseInProgress ? (
-        <LoadingIndicator />
-      ) : (
-        <div className='body-content'>
-          <div className='body-wrapper'>
-            <div className='flex flex-row user-profile-wrapper'>
-              <div className='flex flex-column'>
-                <UserProfile
-                  user={Object.assign(user, { id: userId })}
-                  handleInputChange={handleInputChange}
-                  updateProfile={updateProfile}
-                  allowEditing
-                >
-                  <h1>Hello world</h1>
-                </UserProfile>
-              </div>
+      <div className='body-content'>
+        <div className='body-wrapper'>
+          <div className='flex flex-row user-profile-wrapper'>
+            <div className='flex flex-column'>
+              <UserProfile
+                user={user === '' ? '' : Object.assign(user, { id: userId })}
+                handleInputChange={handleInputChange}
+                updateProfile={updateProfile}
+                allowEditing
+              />
             </div>
           </div>
         </div>
-      )}
+      </div>
     </>
   ) : (
     <Login message='Please login to access your profile' />
