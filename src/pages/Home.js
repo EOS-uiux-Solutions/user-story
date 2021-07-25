@@ -42,11 +42,17 @@ const Home = () => {
 
   const [stories, setStories] = useState([])
 
+  const statusDropdownContainer = useRef()
+
   const productDropdownContainer = useRef()
 
   const sortDropdownContainer = useRef()
 
   const categoryDropdownContainer = useRef()
+
+  const statusOptions = []
+
+  const [status, setStatus] = useState('Under consideration')
 
   const [product, setProduct] = useState('All')
 
@@ -81,6 +87,12 @@ const Home = () => {
   const getPage = useCallback((page) => {
     setPage(page)
   }, [])
+
+  useEffect(() => {
+    for (let i = 0; i < Lists.stateList.length; i++) {
+      statusOptions.push(Lists.stateList[i].status)
+    }
+  }, [statusOptions])
 
   useEffect(() => {
     if (product !== 'All') {
@@ -297,6 +309,18 @@ const Home = () => {
                   )
                 })}
             </div>
+          </div>
+          <div className='roadmap-dropdown'>
+            <Dropdown
+              title='Status'
+              reference={statusDropdownContainer}
+              curr={status}
+              setCurr={setStatus}
+              itemList={statusOptions}
+              data-cy='status-dropdown'
+              selectstate={selectState}
+              setpage={setPage}
+            />
           </div>
           <div className='flex flex-row search-bar'>
             <div className='flex flex-row search-controls'>

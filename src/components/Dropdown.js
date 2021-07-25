@@ -3,7 +3,16 @@ import React, { useState, useEffect } from 'react'
 import Button from './Button'
 
 const Dropdown = (props) => {
-  const { title, reference, curr, setCurr, itemList, ...rest } = props
+  const {
+    title,
+    reference,
+    curr,
+    setCurr,
+    itemList,
+    selectstate,
+    setpage,
+    ...rest
+  } = props
 
   const [dropdownState, setDropdownState] = useState(false)
 
@@ -14,6 +23,10 @@ const Dropdown = (props) => {
   const handleSelection = (value) => {
     setCurr(value)
     setDropdownState(false)
+    if (title === 'Status') {
+      selectstate(value)
+      setpage(1)
+    }
   }
 
   useEffect(() => {
