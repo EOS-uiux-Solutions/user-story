@@ -187,27 +187,29 @@ const Stories = ({ authorId, followerId }) => {
 
   return (
     <div>
-      <div className='roadmap'>
-        {Lists.stateList &&
-          Lists.stateList.map((state, key) => {
-            return (
-              <Button
-                className={
-                  currentStateSelected === state.status
-                    ? 'btn btn-tabs btn-tabs-selected'
-                    : 'btn btn-tabs'
-                }
-                key={key}
-                onClick={() => {
-                  selectState(state.status)
-                  setPage(1)
-                }}
-              >
-                <i className='eos-icons'>{state.icon}</i>
-                {state.status}
-              </Button>
-            )
-          })}
+      <div className='roadmap-container'>
+        <div className='roadmap'>
+          {Lists.stateList &&
+            Lists.stateList.map((state, key) => {
+              return (
+                <Button
+                  className={
+                    currentStateSelected === state.status
+                      ? 'btn btn-tabs btn-tabs-selected'
+                      : 'btn btn-tabs'
+                  }
+                  key={key}
+                  onClick={() => {
+                    selectState(state.status)
+                    setPage(1)
+                  }}
+                >
+                  <i className='eos-icons'>{state.icon}</i>
+                  {state.status}
+                </Button>
+              )
+            })}
+        </div>
       </div>
 
       <div className='roadmap-dropdown'>
@@ -280,5 +282,3 @@ const Stories = ({ authorId, followerId }) => {
 }
 
 export default Stories
-
-// flex flex-row flex-space-between rdmap
