@@ -32,11 +32,6 @@
     display: flex;
   }
 
-  // &-subcontent {
-  //   margin: 0 16px;
-  //   // min-width: 105px;
-  // }
-
   .category-text {
     color: $hyper-link-color;
     font-weight: bold;
@@ -89,13 +84,6 @@
     width: 100%;
   }
 }
-
-// @media only screen and (max-width: 768px) {
-//   .stories-content {
-//     max-width: 60%;
-//     width: 60%;
-//   }
-// }
 
 @media only screen and (max-width: 450px) {
   .story-small-details {

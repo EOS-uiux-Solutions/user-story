@@ -41,10 +41,6 @@
   }
 }
 
-.rdmap {
-  margin: 10px 0;
-}
-
 .roadmap-one {
   .btn-tabs {
 
@@ -73,8 +69,6 @@
 
 @media (max-width: 900px) {
   .roadmap-container {
-    // display: flex;
-    // justify-content: center;
     display: none;
   }
 
@@ -86,7 +80,6 @@
     align-items: flex-start;
     display: flex;
     flex-direction: column;
-    // margin-bottom: 32px;
     position: relative;
 
     &::before {
@@ -105,15 +98,11 @@
     }
   }
 
-  // .roadmap-one {
-  //   flex-direction: column;
-
   .btn-tabs {
     margin: 0.5rem;
     width: 200px;
   }
 
-  // }
 }
 
 @media (max-width: 600px) {
