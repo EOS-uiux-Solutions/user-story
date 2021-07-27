@@ -3,9 +3,55 @@ import { navigate, Link } from '@reach/router'
 
 import Vote from './Vote'
 import { strip } from '../utils/filterText'
+import Skeleton from 'react-loading-skeleton'
+
+const StorySkeleton = () => (
+  <div className='story'>
+    <div className='vote-wrapper-loading'>
+      <Skeleton height={80} />
+    </div>
+    <div className='stories-content'>
+      <h3>
+        <Skeleton height={20} />
+      </h3>
+      <p>
+        <Skeleton />
+      </p>
+    </div>
+    <div className='story-author story-subcontent'>
+      <div className='user-avatar'>
+        <Skeleton circle width={58} height={58} />
+      </div>
+      <div className='flex flex-column'>
+        <Skeleton width={52} />
+      </div>
+    </div>
+    <div className='flex flex-column story-subcontent'>
+      <Skeleton width={52} />
+    </div>
+    <div className='flex flex-column'>
+      <span className='story-meta'>
+        <Skeleton width={52} />
+      </span>
+      <span className='story-meta'>
+        <Skeleton width={52} />
+      </span>
+    </div>
+  </div>
+)
 
 const StoriesList = (props) => {
-  const { stories, state, product } = props
+  const { stories, state, product, isLoading } = props
+
+  if (isLoading) {
+    return (
+      <div className='flex flex-column'>
+        {[1, 2, 3, 4, 5].map((i) => (
+          <StorySkeleton key={i} />
+        ))}
+      </div>
+    )
+  }
 
   return (
     <div className='flex flex-column' data-cy='stories'>

@@ -3,6 +3,13 @@
   border-radius: 10px;
   padding: 4px 4px;
 
+  &-loading {
+    background-color: unset;
+    max-width: 68px;
+    min-width: 50px;
+    width: 10%;
+  }
+
   &-voted {
     background-color: $light-blue;
   }
