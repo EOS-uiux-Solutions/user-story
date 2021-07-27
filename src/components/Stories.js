@@ -15,6 +15,10 @@ const Stories = ({ authorId, followerId }) => {
 
   const [page, setPage] = useState(1)
 
+  const statusOptions = []
+
+  const [status, setStatus] = useState('Under consideration')
+
   const [product, setProduct] = useState('All')
 
   const [sort, setSort] = useState('Most Voted')
@@ -32,6 +36,8 @@ const Stories = ({ authorId, followerId }) => {
   const [storyCount, setStoryCount] = useState()
 
   const [stories, setStories] = useState([])
+
+  const statusDropdownContainer = useRef()
 
   const productDropdownContainer = useRef()
 
@@ -52,6 +58,12 @@ const Stories = ({ authorId, followerId }) => {
   const getPage = useCallback((page) => {
     setPage(page)
   }, [])
+
+  useEffect(() => {
+    for (let i = 0; i < Lists.stateList.length; i++) {
+      statusOptions.push(Lists.stateList[i].status)
+    }
+  }, [statusOptions])
 
   useEffect(() => {
     const fetchStoryCount = async () => {
@@ -174,27 +186,42 @@ const Stories = ({ authorId, followerId }) => {
 
   return (
     <div>
-      <div className='roadmap'>
-        {Lists.stateList &&
-          Lists.stateList.map((state, key) => {
-            return (
-              <Button
-                className={
-                  currentStateSelected === state.status
-                    ? 'btn btn-tabs btn-tabs-selected'
-                    : 'btn btn-tabs'
-                }
-                key={key}
-                onClick={() => {
-                  selectState(state.status)
-                  setPage(1)
-                }}
-              >
-                <i className='eos-icons'>{state.icon}</i>
-                {state.status}
-              </Button>
-            )
-          })}
+      <div className='roadmap-container'>
+        <div className='roadmap'>
+          {Lists.stateList &&
+            Lists.stateList.map((state, key) => {
+              return (
+                <Button
+                  className={
+                    currentStateSelected === state.status
+                      ? 'btn btn-tabs btn-tabs-selected'
+                      : 'btn btn-tabs'
+                  }
+                  key={key}
+                  onClick={() => {
+                    selectState(state.status)
+                    setPage(1)
+                  }}
+                >
+                  <i className='eos-icons'>{state.icon}</i>
+                  {state.status}
+                </Button>
+              )
+            })}
+        </div>
+      </div>
+
+      <div className='roadmap-dropdown'>
+        <Dropdown
+          title='Status'
+          reference={statusDropdownContainer}
+          curr={status}
+          setCurr={setStatus}
+          itemList={statusOptions}
+          data-cy='status-dropdown'
+          selectstate={selectState}
+          setpage={setPage}
+        />
       </div>
 
       <div className='flex flex-row search-bar'>
