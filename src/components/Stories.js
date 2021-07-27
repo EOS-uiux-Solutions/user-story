@@ -5,7 +5,6 @@ import Button from './Button'
 import StoriesList from './StoriesList'
 import Pagination from './Pagination'
 import Dropdown from './Dropdown'
-import LoadingIndicator from '../modules/LoadingIndicator'
 import SearchInput from '../modules/SearchInput'
 
 import Lists from '../utils/Lists'
@@ -233,17 +232,14 @@ const Stories = ({ authorId, followerId }) => {
           />
         </div>
       </div>
-      {promiseInProgress ? (
-        <LoadingIndicator />
-      ) : (
-        <div className='stories-div'>
-          <StoriesList
-            stories={stories}
-            state={currentStateSelected}
-            product={product}
-          />
-        </div>
-      )}
+      <div className='stories-div'>
+        <StoriesList
+          stories={stories}
+          state={currentStateSelected}
+          product={product}
+          isLoading={promiseInProgress}
+        />
+      </div>
       <Pagination
         getPage={getPage}
         storyCount={storyCount}
