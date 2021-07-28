@@ -1,0 +1,63 @@
+.product-select-container {
+  text-align: center;
+
+  .product-select {
+    margin-bottom: 10px;
+    width: 100%;
+  }
+}
+
+.product-card {
+  border-radius: 5px;
+  box-shadow: 0px 2px 15px $shadow-color;
+  margin: 8px 15px;
+  padding: 10px;
+  text-transform: uppercase;
+  transition: 0.2s;
+  width: 260px;
+
+  .circle-container {
+    width: 100%;
+
+    .circle {
+      border: 1px solid $primary;
+      border-radius: 50%;
+      height: 10px;
+      margin: auto;
+      margin-top: 10px;
+      width: 10px;
+    }
+  }
+
+  .product-title {
+    padding-left: 10px;
+    width: 160px;
+
+    h2 {
+      margin: 0;
+    }
+  }
+
+  .product-logo {
+    width: 90px;
+
+    img {
+      width: 90px;
+    }
+  }
+
+  &-selected {
+    background-color: $primary;
+    color: $eos-white;
+    transform: scale(1.03);
+
+    .circle {
+      background-color: $eos-white;
+    }
+  }
+
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.03);
+  }
+}

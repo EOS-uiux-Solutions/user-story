@@ -190,6 +190,9 @@ const userStory = {
       query: `query {
               products {
                 Name
+                logo {
+                  url
+                }
               }
             }`
     }

@@ -9,6 +9,7 @@ import SearchInput from '../modules/SearchInput'
 
 import Lists from '../utils/Lists'
 import userStory from '../services/user_story'
+import ProductSelect from './ProductSelect'
 
 const Stories = ({ authorId, followerId }) => {
   const [currentStateSelected, selectState] = useState('Under consideration')
@@ -25,7 +26,7 @@ const Stories = ({ authorId, followerId }) => {
 
   const [category, setCategory] = useState('All')
 
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState(null)
 
   const [categories, setCategories] = useState([])
 
@@ -38,8 +39,6 @@ const Stories = ({ authorId, followerId }) => {
   const [stories, setStories] = useState([])
 
   const statusDropdownContainer = useRef()
-
-  const productDropdownContainer = useRef()
 
   const sortDropdownContainer = useRef()
 
@@ -139,13 +138,8 @@ const Stories = ({ authorId, followerId }) => {
     const fetchProducts = async () => {
       const response = await userStory.getProducts()
       return response.data.data.product !== null
-        ? setProducts([
-            'All',
-            ...response.data.data.products?.map((ele) => {
-              return ele.Name
-            })
-          ])
-        : setProducts(['All'])
+        ? setProducts([...response.data.data.products])
+        : setProducts([])
     }
     fetchProducts()
   }, [])
@@ -186,6 +180,11 @@ const Stories = ({ authorId, followerId }) => {
 
   return (
     <div>
+      <ProductSelect
+        product={product}
+        products={products}
+        setProduct={setProduct}
+      />
       <div className='roadmap-container'>
         <div className='roadmap'>
           {Lists.stateList &&
@@ -234,14 +233,6 @@ const Stories = ({ authorId, followerId }) => {
           setAuthorQuery={setAuthorQuery}
         />
         <div className='flex flex-row options-bar'>
-          <Dropdown
-            title='Product'
-            reference={productDropdownContainer}
-            curr={product}
-            setCurr={setProduct}
-            itemList={products}
-            data-cy='product-dropdown'
-          />
           <Dropdown
             title='Categories'
             reference={categoryDropdownContainer}
