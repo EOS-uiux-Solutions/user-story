@@ -6,10 +6,7 @@ const ProductSkeleton = () => {
     <div className='flex flex-row flex-center product-card'>
       <div className='flex flex-center'>
         <div className='product-logo'>
-          <Skeleton height={62} />
-        </div>
-        <div className='product-title'>
-          <Skeleton count={2} height={30} />
+          <Skeleton height={56} />
         </div>
       </div>
       <div className='circle-container'>
@@ -34,11 +31,8 @@ const ProductCard = ({ product, selected, setProduct }) => {
       }}
     >
       <div className='flex flex-center'>
-        <div className='flex flex-align-center product-logo'>
-          <img src={product.logo.url} alt={`${product.Name} logo`} />
-        </div>
-        <div className='product-title'>
-          <h2>{product.Name}</h2>
+        <div className='flex flex-center product-logo'>
+          <img src={product.logo?.url} alt={`${product.Name} logo`} />
         </div>
       </div>
       <div className='circle-container'>
