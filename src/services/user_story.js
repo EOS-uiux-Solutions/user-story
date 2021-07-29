@@ -100,6 +100,9 @@ const userStory = {
           user_story_status {
             Status
           }
+          user_story_comments {
+            Comments
+          }
           author {
             id
             username

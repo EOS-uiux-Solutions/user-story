@@ -10,35 +10,26 @@
     width: fit-content;
 
     textarea {
-      border: 0;
-      box-shadow: 0 0 2px 0 $dark-color inset;
+      border: 5em;
+      outline: none;
       resize: none;
     }
   }
 }
 
 .file {
-  height: 0.1px;
-  opacity: 0;
-  position: absolute;
-  width: 0.1px;
+  cursor: pointer;
+  display: none;
 
   &-input {
-    background: $eos-white;
-    border: 1px solid $light-gray;
-    border-left: 0;
-    display: flex;
-    flex-direction: column-reverse;
-    height: 82px;
+    height: 86px;
   }
 
-  &-button-label {
-    border-top: 0.2px solid $light-gray;
-    display: block;
-    height: 24px;
-    position: relative;
-    text-align: center;
-    width: 35px;
+  &-btn-attachment {
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+    position: absolute;
   }
 
   &-button-label:hover {

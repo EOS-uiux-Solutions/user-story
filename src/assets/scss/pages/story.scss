@@ -1,6 +1,8 @@
 .author-information {
   display: flex;
   flex-direction: row;
+  margin-left: 3em;
+  margin-top: 0.5em;
 
   .user-avatar {
     margin: 0px 0px 0px 16px;
@@ -9,6 +11,27 @@
   .avatar-vote {
     float: left;
     padding-right: 6em;
+  }
+}
+
+.story {
+  &-title-pattern {
+    margin-top: 1em;
+  }
+
+  &-description {
+    padding: 0 2em 0 2em;
+    width: 35%;
+  }
+
+  &-page {
+    height: 100vh;
+    position: relative;
+  }
+
+  &-page-second {
+    height: 100%;
+    position: relative;
   }
 }
 
@@ -24,6 +47,12 @@
 }
 
 .gallery-container {
-  height: 34%;
-  width: 34%;
+  height: 33%;
+  width: 36%;
+}
+
+.right-nav {
+  position: absolute;
+  right: 0;
+  top: 4em;
 }

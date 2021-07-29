@@ -42,4 +42,15 @@
     background-color: transparent;
     border: 1px solid #1a2a3a;
   }
+
+  &-comment {
+    border: 2px solid #1a2a3a;
+    font-weight: bold;
+    margin-left: 2em;
+  }
+
+  &-reply {
+    float: left;
+    font-weight: bold;
+  }
 }
