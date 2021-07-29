@@ -22,6 +22,7 @@ const ProductCard = ({ product, selected, setProduct }) => {
       className={`flex flex-center flex-align-center product-card ${
         selected ? 'product-card-selected' : ''
       }`}
+      data-cy={`${product.Name.split(' ').join('-')}-card`}
       onClick={() => {
         if (!selected) {
           setProduct(product.Name)
