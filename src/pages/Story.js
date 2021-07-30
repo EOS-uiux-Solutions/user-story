@@ -8,6 +8,7 @@ import {
 } from 'react-share'
 import Gallery from '../components/ImageGallery'
 import StoryPageTimeline from '../components/StoryPageTimeline'
+import ShowMore from '../components/ShowMore'
 
 import { Helmet } from 'react-helmet'
 
@@ -172,10 +173,10 @@ const Story = (props) => {
                     ) : (
                       ''
                     )}
-                    <div
-                      className='story-description flex-column'
-                      dangerouslySetInnerHTML={{ __html: story.Description }}
-                      data-cy='story-description'
+                    <ShowMore
+                      maxCharacterLimit={350}
+                      txt={story.Description}
+                      textLength={story.Description.length}
                     />
                     <div className='right-nav'>
                       <StoryPageTimeline
