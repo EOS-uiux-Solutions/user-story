@@ -1,11 +1,15 @@
+.search-controls {
+  .btn-search {
+    padding: 4px 14px;
+
+    .eos-icons {
+      margin: 0px;
+    }
+  }
+}
+
 .search-input {
-  border: 0;
   border-bottom: 2px solid $dark-color;
-  border-radius: 0;
-  justify-content: space-between;
-  outline: none;
-  padding: 0px 10px;
-  padding-left: 0px;
   position: relative;
 
   .dropdown-container {
@@ -27,10 +31,6 @@
     outline: none;
     padding: 0.3rem;
   }
-}
-
-.search {
-  margin: 0.5rem;
 }
 
 .user-suggest-dropdown {

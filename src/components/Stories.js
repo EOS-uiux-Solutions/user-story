@@ -9,6 +9,7 @@ import SearchInput from '../modules/SearchInput'
 
 import Lists from '../utils/Lists'
 import userStory from '../services/user_story'
+import ProductList from './ProductList'
 
 const Stories = ({ authorId, followerId }) => {
   const [currentStateSelected, selectState] = useState('Under consideration')
@@ -19,13 +20,9 @@ const Stories = ({ authorId, followerId }) => {
 
   const [status, setStatus] = useState('Under consideration')
 
-  const [product, setProduct] = useState('All')
-
   const [sort, setSort] = useState('Most Voted')
 
   const [category, setCategory] = useState('All')
-
-  const [products, setProducts] = useState([])
 
   const [categories, setCategories] = useState([])
 
@@ -38,8 +35,6 @@ const Stories = ({ authorId, followerId }) => {
   const [stories, setStories] = useState([])
 
   const statusDropdownContainer = useRef()
-
-  const productDropdownContainer = useRef()
 
   const sortDropdownContainer = useRef()
 
@@ -81,7 +76,6 @@ const Stories = ({ authorId, followerId }) => {
     fetchStoryCount()
   }, [
     currentStateSelected,
-    product,
     categoryQuery,
     productQuery,
     searchQuery,
@@ -91,11 +85,6 @@ const Stories = ({ authorId, followerId }) => {
   ])
 
   useEffect(() => {
-    if (product !== 'All') {
-      setProductQuery(`product : {Name: "${product}"}`)
-    } else {
-      setProductQuery(``)
-    }
     if (category !== 'All') {
       setCategoryQuery(`Category : "${category}"`)
     } else {
@@ -107,7 +96,7 @@ const Stories = ({ authorId, followerId }) => {
     if (userTerm === '') {
       setAuthorQuery('')
     }
-  }, [product, category, searchTerm, userTerm])
+  }, [category, searchTerm, userTerm])
 
   useEffect(() => {
     const fetchStories = async () => {
@@ -134,21 +123,6 @@ const Stories = ({ authorId, followerId }) => {
     authorId,
     followerId
   ])
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const response = await userStory.getProducts()
-      return response.data.data.product !== null
-        ? setProducts([
-            'All',
-            ...response.data.data.products?.map((ele) => {
-              return ele.Name
-            })
-          ])
-        : setProducts(['All'])
-    }
-    fetchProducts()
-  }, [])
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -186,6 +160,7 @@ const Stories = ({ authorId, followerId }) => {
 
   return (
     <div>
+      <ProductList setProductQuery={setProductQuery} />
       <div className='roadmap-container'>
         <div className='roadmap'>
           {Lists.stateList &&
@@ -235,14 +210,6 @@ const Stories = ({ authorId, followerId }) => {
         />
         <div className='flex flex-row options-bar'>
           <Dropdown
-            title='Product'
-            reference={productDropdownContainer}
-            curr={product}
-            setCurr={setProduct}
-            itemList={products}
-            data-cy='product-dropdown'
-          />
-          <Dropdown
             title='Categories'
             reference={categoryDropdownContainer}
             curr={category}
@@ -260,18 +227,13 @@ const Stories = ({ authorId, followerId }) => {
         </div>
       </div>
       <div className='stories-div'>
-        <StoriesList
-          stories={stories}
-          state={currentStateSelected}
-          product={product}
-          isLoading={promiseInProgress}
-        />
+        <StoriesList stories={stories} isLoading={promiseInProgress} />
       </div>
       <Pagination
         getPage={getPage}
         storyCount={storyCount}
         status={currentStateSelected}
-        product={product}
+        productQuery={productQuery}
       />
     </div>
   )

@@ -7,6 +7,11 @@ describe('Test the filters and search for stories in Home page', () => {
     category: Cypress.env('testCategory')
   }
 
+  const selectProduct = (productName) => {
+    cy.get(`[data-cy=${productName.split(' ').join('-')}-card]`)
+      .click({ force: true })
+  }
+
   const setDropdown = (dropdown, value) => {
     cy.get('[data-cy=search-input-div]')
       .get(`[data-cy=${dropdown}-dropdown]`)
@@ -32,13 +37,15 @@ describe('Test the filters and search for stories in Home page', () => {
   })
 
   it('Filters stories based on product', () => {
-    setDropdown('product', 'EOS User Story')
+    selectProduct('EOS User Story')
 
     cy.contains('No stories')
 
-    setDropdown('product', testStory.product)
+    selectProduct(testStory.product)
 
     cy.contains(testStory.title)
+
+    selectProduct(testStory.product)
   })
 
   it('Filters stories based on category', () => {

@@ -1,4 +1,4 @@
 {
-  "apiURL": "https://userstory-strapi.herokuapp.com",
+  "apiURL": "http://localhost:1337",
   "APP_ENV": "dev"
 }

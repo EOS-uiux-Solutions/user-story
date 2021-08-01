@@ -41,7 +41,7 @@ const StorySkeleton = () => (
 )
 
 const StoriesList = (props) => {
-  const { stories, state, product, isLoading } = props
+  const { stories, isLoading } = props
 
   if (isLoading) {
     return (
@@ -57,8 +57,7 @@ const StoriesList = (props) => {
     <div className='flex flex-column' data-cy='stories'>
       {stories && stories.length ? (
         stories.map((story, key) => {
-          return story.user_story_status?.Status === state &&
-            (story.product.Name === product || product === 'All') ? (
+          return (
             <div className='story' key={key}>
               <Vote story={story} />
               <div
@@ -108,8 +107,6 @@ const StoriesList = (props) => {
                 </div>
               </div>
             </div>
-          ) : (
-            ''
           )
         })
       ) : (

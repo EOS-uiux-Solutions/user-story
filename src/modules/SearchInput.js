@@ -31,9 +31,6 @@ function SearchInput(props) {
   return (
     <div className='flex flex-row search-controls'>
       <div className='flex flex-row search-input' data-cy='search-input-div'>
-        <span>
-          <i className='eos-icons'>search</i>
-        </span>
         {
           <UsersSuggestionDropdown
             isOpen={usersSuggestionOpen}
@@ -98,11 +95,11 @@ function SearchInput(props) {
       </div>
       <Button
         type='submit'
-        className='btn btn-default'
+        className='btn btn-default btn-search'
         data-cy='btn-search'
         onClick={handleSearchSubmit}
       >
-        Search
+        <i className='eos-icons'>search</i>
       </Button>
     </div>
   )

@@ -190,10 +190,25 @@ const userStory = {
       query: `query {
               products {
                 Name
+                logo {
+                  url
+                }
               }
             }`
     }
     return apiCall('/graphql', productQuery)
+  },
+  getProductCount: () => {
+    const productCountQuery = {
+      query: `query {
+        productsConnection {
+          aggregate {
+            count
+          }
+        }
+      }`
+    }
+    return apiCall('/graphql', productCountQuery)
   },
   getProductsWithTemplates: () => {
     const productQuery = {
