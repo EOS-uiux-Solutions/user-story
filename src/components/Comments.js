@@ -150,7 +150,7 @@ const Comments = (props) => {
                 <p>{data.Comments}</p>
                 <div>
                   {data.attachment.length !== 0 ? (
-                    <div className='gallery-container'>
+                    <div className='gallery-container-comment'>
                       <Gallery imageArray={data.attachment} />
                     </div>
                   ) : (

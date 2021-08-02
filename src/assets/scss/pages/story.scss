@@ -33,6 +33,15 @@
     height: 100%;
     position: relative;
   }
+
+  &-buttons-container-top {
+    margin-left: 3em;
+    margin-top: 1em;
+  }
+
+  &-editor {
+    width: 70%;
+  }
 }
 
 .share-story {
@@ -47,8 +56,13 @@
 }
 
 .gallery-container {
-  height: 33%;
-  width: 36%;
+  height: 30%;
+  width: 30%;
+}
+
+.gallery-container-comment {
+  height: 35%;
+  width: 40%;
 }
 
 .right-nav {

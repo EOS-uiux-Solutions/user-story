@@ -10,26 +10,29 @@
     width: fit-content;
 
     textarea {
-      border: 5em;
+      border: 0;
+      height: 15px;
       outline: none;
+      overflow: hidden;
+      padding: 1em;
       resize: none;
+      width: 40vw;
     }
   }
 }
 
-.file {
+.file-input {
   cursor: pointer;
-  display: none;
+  margin-left: -2.5em;
+}
 
-  &-input {
-    height: 86px;
-  }
+.file {
+  display: none;
 
   &-btn-attachment {
     background-color: transparent;
     border: 0;
     cursor: pointer;
-    position: absolute;
   }
 
   &-button-label:hover {

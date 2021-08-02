@@ -111,7 +111,7 @@ const Story = (props) => {
         <>
           <div
             className={
-              story.user_story_comments.length !== 0
+              story.user_story_comments.length !== 0 || editor
                 ? 'body-content story-page-second'
                 : 'body-content story-page'
             }
@@ -152,12 +152,37 @@ const Story = (props) => {
                       alt='Default User Avatar'
                     ></img>
                   </div>
+                  <div className='story-buttons-container-top'>
+                    {editMode && !editor ? (
+                      <>
+                        <Button
+                          className='btn btn-default'
+                          data-cy='btn-edit'
+                          onClick={() => setEditor(true)}
+                        >
+                          Edit
+                        </Button>
+                      </>
+                    ) : (
+                      ''
+                    )}
+                    {
+                      <>
+                        <Button className='share-story' onClick={togglePopup}>
+                          <i className='eos-icons'> share </i>
+                        </Button>
+                        <Button className='share-story' onClick={copy}>
+                          <i className='eos-icons'>content_copy</i>
+                        </Button>
+                      </>
+                    }
+                  </div>
                 </div>
               </div>
 
               <div className='flex flex-row'>
                 {editor ? (
-                  <div data-cy='edit-description'>
+                  <div data-cy='edit-description' className='story-editor'>
                     <MarkdownEditor
                       callback={(html) => {
                         setDescription(html)
@@ -178,42 +203,19 @@ const Story = (props) => {
                       txt={story.Description}
                       textLength={story.Description.length}
                     />
-                    <div className='right-nav'>
-                      <StoryPageTimeline
-                        story={story}
-                        currentStatus={story.user_story_status.Status}
-                      />
-                    </div>
                   </div>
                 )}
+                <div className='right-nav'>
+                  <StoryPageTimeline
+                    story={story}
+                    currentStatus={story.user_story_status.Status}
+                  />
+                </div>
               </div>
-              <div className='story-buttons-container'>
-                {editMode && !editor ? (
-                  <>
-                    <Button
-                      className='btn btn-default'
-                      data-cy='btn-edit'
-                      onClick={() => setEditor(true)}
-                    >
-                      Edit
-                    </Button>
-                  </>
-                ) : (
-                  ''
-                )}
-                {
-                  <>
-                    <Button className='share-story' onClick={togglePopup}>
-                      <i className='eos-icons'> share </i>
-                    </Button>
-                    <Button className='share-story' onClick={copy}>
-                      <i className='eos-icons'>content_copy</i>
-                    </Button>
-                  </>
-                }
+              <div className='story-buttons-container-bottom'>
                 {editor ? (
                   <Button
-                    className='btn btn-default'
+                    className='btn btn-default btn-bottom'
                     onClick={save}
                     data-cy='btn-save'
                   >
@@ -224,7 +226,7 @@ const Story = (props) => {
                 )}
                 {editor ? (
                   <Button
-                    className='btn btn-default'
+                    className='btn btn-default btn-bottom'
                     onClick={() => setEditor(false)}
                   >
                     Cancel
@@ -232,34 +234,34 @@ const Story = (props) => {
                 ) : (
                   ''
                 )}
-                {isOpen && (
-                  <Modal
-                    content={
-                      <>
-                        <h1>Share</h1>
-                        <TwitterShareButton
-                          url={window.location}
-                          className='share-button'
-                          title={title}
-                          hashtags={hashtagsArray}
-                          onShareWindowClose={togglePopup}
-                        >
-                          <TwitterIcon />
-                        </TwitterShareButton>
-                        <LinkedinShareButton
-                          url={window.location}
-                          className='share-button'
-                          onShareWindowClose={togglePopup}
-                        >
-                          <LinkedinIcon />
-                        </LinkedinShareButton>
-                      </>
-                    }
-                    handleClose={togglePopup}
-                    active={isOpen}
-                  />
-                )}
               </div>
+              {isOpen && (
+                <Modal
+                  content={
+                    <>
+                      <h1>Share</h1>
+                      <TwitterShareButton
+                        url={window.location}
+                        className='share-button'
+                        title={title}
+                        hashtags={hashtagsArray}
+                        onShareWindowClose={togglePopup}
+                      >
+                        <TwitterIcon />
+                      </TwitterShareButton>
+                      <LinkedinShareButton
+                        url={window.location}
+                        className='share-button'
+                        onShareWindowClose={togglePopup}
+                      >
+                        <LinkedinIcon />
+                      </LinkedinShareButton>
+                    </>
+                  }
+                  handleClose={togglePopup}
+                  active={isOpen}
+                />
+              )}
               <Comments storyId={storyId} />
             </div>
           </div>
