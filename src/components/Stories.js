@@ -5,24 +5,24 @@ import Button from './Button'
 import StoriesList from './StoriesList'
 import Pagination from './Pagination'
 import Dropdown from './Dropdown'
-import LoadingIndicator from '../modules/LoadingIndicator'
 import SearchInput from '../modules/SearchInput'
 
 import Lists from '../utils/Lists'
 import userStory from '../services/user_story'
+import ProductList from './ProductList'
 
 const Stories = ({ authorId, followerId }) => {
   const [currentStateSelected, selectState] = useState('Under consideration')
 
   const [page, setPage] = useState(1)
 
-  const [product, setProduct] = useState('All')
+  const statusOptions = []
+
+  const [status, setStatus] = useState('Under consideration')
 
   const [sort, setSort] = useState('Most Voted')
 
   const [category, setCategory] = useState('All')
-
-  const [products, setProducts] = useState([])
 
   const [categories, setCategories] = useState([])
 
@@ -34,7 +34,7 @@ const Stories = ({ authorId, followerId }) => {
 
   const [stories, setStories] = useState([])
 
-  const productDropdownContainer = useRef()
+  const statusDropdownContainer = useRef()
 
   const sortDropdownContainer = useRef()
 
@@ -55,6 +55,12 @@ const Stories = ({ authorId, followerId }) => {
   }, [])
 
   useEffect(() => {
+    for (let i = 0; i < Lists.stateList.length; i++) {
+      statusOptions.push(Lists.stateList[i].status)
+    }
+  }, [statusOptions])
+
+  useEffect(() => {
     const fetchStoryCount = async () => {
       const response = await userStory.getStoryCount(
         currentStateSelected,
@@ -70,7 +76,6 @@ const Stories = ({ authorId, followerId }) => {
     fetchStoryCount()
   }, [
     currentStateSelected,
-    product,
     categoryQuery,
     productQuery,
     searchQuery,
@@ -80,11 +85,6 @@ const Stories = ({ authorId, followerId }) => {
   ])
 
   useEffect(() => {
-    if (product !== 'All') {
-      setProductQuery(`product : {Name: "${product}"}`)
-    } else {
-      setProductQuery(``)
-    }
     if (category !== 'All') {
       setCategoryQuery(`Category : "${category}"`)
     } else {
@@ -96,7 +96,7 @@ const Stories = ({ authorId, followerId }) => {
     if (userTerm === '') {
       setAuthorQuery('')
     }
-  }, [product, category, searchTerm, userTerm])
+  }, [category, searchTerm, userTerm])
 
   useEffect(() => {
     const fetchStories = async () => {
@@ -123,21 +123,6 @@ const Stories = ({ authorId, followerId }) => {
     authorId,
     followerId
   ])
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const response = await userStory.getProducts()
-      return response.data.data.product !== null
-        ? setProducts([
-            'All',
-            ...response.data.data.products?.map((ele) => {
-              return ele.Name
-            })
-          ])
-        : setProducts(['All'])
-    }
-    fetchProducts()
-  }, [])
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -175,27 +160,43 @@ const Stories = ({ authorId, followerId }) => {
 
   return (
     <div>
-      <div className='roadmap'>
-        {Lists.stateList &&
-          Lists.stateList.map((state, key) => {
-            return (
-              <Button
-                className={
-                  currentStateSelected === state.status
-                    ? 'btn btn-tabs btn-tabs-selected'
-                    : 'btn btn-tabs'
-                }
-                key={key}
-                onClick={() => {
-                  selectState(state.status)
-                  setPage(1)
-                }}
-              >
-                <i className='eos-icons'>{state.icon}</i>
-                {state.status}
-              </Button>
-            )
-          })}
+      <ProductList setProductQuery={setProductQuery} />
+      <div className='roadmap-container'>
+        <div className='roadmap'>
+          {Lists.stateList &&
+            Lists.stateList.map((state, key) => {
+              return (
+                <Button
+                  className={
+                    currentStateSelected === state.status
+                      ? 'btn btn-tabs btn-tabs-selected'
+                      : 'btn btn-tabs'
+                  }
+                  key={key}
+                  onClick={() => {
+                    selectState(state.status)
+                    setPage(1)
+                  }}
+                >
+                  <i className='eos-icons'>{state.icon}</i>
+                  {state.status}
+                </Button>
+              )
+            })}
+        </div>
+      </div>
+
+      <div className='roadmap-dropdown'>
+        <Dropdown
+          title='Status'
+          reference={statusDropdownContainer}
+          curr={status}
+          setCurr={setStatus}
+          itemList={statusOptions}
+          data-cy='status-dropdown'
+          selectstate={selectState}
+          setpage={setPage}
+        />
       </div>
 
       <div className='flex flex-row search-bar'>
@@ -208,14 +209,6 @@ const Stories = ({ authorId, followerId }) => {
           setAuthorQuery={setAuthorQuery}
         />
         <div className='flex flex-row options-bar'>
-          <Dropdown
-            title='Product'
-            reference={productDropdownContainer}
-            curr={product}
-            setCurr={setProduct}
-            itemList={products}
-            data-cy='product-dropdown'
-          />
           <Dropdown
             title='Categories'
             reference={categoryDropdownContainer}
@@ -233,22 +226,14 @@ const Stories = ({ authorId, followerId }) => {
           />
         </div>
       </div>
-      {promiseInProgress ? (
-        <LoadingIndicator />
-      ) : (
-        <div className='stories-div'>
-          <StoriesList
-            stories={stories}
-            state={currentStateSelected}
-            product={product}
-          />
-        </div>
-      )}
+      <div className='stories-div'>
+        <StoriesList stories={stories} isLoading={promiseInProgress} />
+      </div>
       <Pagination
         getPage={getPage}
         storyCount={storyCount}
         status={currentStateSelected}
-        product={product}
+        productQuery={productQuery}
       />
     </div>
   )

@@ -1,13 +1,16 @@
+.search-controls {
+  .btn-search {
+    padding: 4px 14px;
+
+    .eos-icons {
+      margin: 0px;
+    }
+  }
+}
+
 .search-input {
-  border: 0;
   border-bottom: 2px solid $dark-color;
-  border-radius: 0;
-  justify-content: space-between;
-  outline: none;
-  padding: 0px 10px;
-  padding-left: 0px;
   position: relative;
-  width: 290px;
 
   .dropdown-container {
     .btn {
@@ -26,8 +29,7 @@
   input {
     border: 0px;
     outline: none;
-    padding: 0px;
-    width: 147px;
+    padding: 0.3rem;
   }
 }
 
@@ -69,4 +71,16 @@
 
 .close-btn {
   cursor: pointer;
+}
+
+@media (max-width: 400px) {
+  .search-input {
+    input {
+      border: 0px;
+      max-width: 4rem;
+      min-width: 2rem;
+      outline: none;
+      padding: 0.3rem;
+    }
+  }
 }
