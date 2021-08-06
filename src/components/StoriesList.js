@@ -92,8 +92,16 @@ const StoriesList = (props) => {
                   </div>
                 </div>
                 <div className='flex flex-column story-subcontent'>
+                  <small>Created At</small>
+                  <small>{story.createdAt}</small>
+                </div>
+                <div className='flex flex-column story-subcontent'>
                   <small>Category</small>
                   <span className='category-text'>{story.Category}</span>
+                </div>
+                <div className='flex flex-column story-subcontent'>
+                  <small>Priority</small>
+                  <span className='category-text'>{story.Priority}</span>
                 </div>
                 <div className='flex flex-column s-metas'>
                   <span className='story-meta'>

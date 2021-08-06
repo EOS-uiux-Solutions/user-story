@@ -86,6 +86,8 @@ const userStory = {
                   username
                 }
                 Category
+                Priority
+                createdAt
               }
             }
             `
