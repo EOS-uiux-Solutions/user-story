@@ -26,6 +26,10 @@ const Stories = ({ authorId, followerId }) => {
 
   const [categories, setCategories] = useState([])
 
+  const [priority, setPriority] = useState('All')
+
+  const [priorities, setPriorities] = useState([])
+
   const [searchTerm, setSearchTerm] = useState('')
 
   const { promiseInProgress } = usePromiseTracker({ area: 'stories-div' })
@@ -40,9 +44,13 @@ const Stories = ({ authorId, followerId }) => {
 
   const categoryDropdownContainer = useRef()
 
+  const priorityDropdownContainer = useRef()
+
   const [productQuery, setProductQuery] = useState(``)
 
   const [categoryQuery, setCategoryQuery] = useState(``)
+
+  const [priorityQuery, setPriorityQuery] = useState(``)
 
   const [searchQuery, setSearchQuery] = useState('')
 
@@ -90,13 +98,18 @@ const Stories = ({ authorId, followerId }) => {
     } else {
       setCategoryQuery(``)
     }
+    if (priority !== 'All') {
+      setPriorityQuery(`Priority : "${priority}"`)
+    } else {
+      setPriorityQuery(``)
+    }
     if (searchTerm === '') {
       setSearchQuery('')
     }
     if (userTerm === '') {
       setAuthorQuery('')
     }
-  }, [category, searchTerm, userTerm])
+  }, [category, priority, searchTerm, userTerm])
 
   useEffect(() => {
     const fetchStories = async () => {
@@ -106,6 +119,7 @@ const Stories = ({ authorId, followerId }) => {
         authorId,
         authorQuery,
         categoryQuery,
+        priorityQuery,
         productQuery,
         searchQuery,
         followerId
@@ -115,6 +129,7 @@ const Stories = ({ authorId, followerId }) => {
     trackPromise(fetchStories(), 'stories-div')
   }, [
     categoryQuery,
+    priorityQuery,
     currentStateSelected,
     page,
     productQuery,
@@ -135,6 +150,19 @@ const Stories = ({ authorId, followerId }) => {
       ])
     }
     fetchCategories()
+  }, [])
+
+  useEffect(() => {
+    const fetchPriorities = async () => {
+      const response = await userStory.getPriorities()
+      setPriorities([
+        'All',
+        ...response.data.data.__type.enumValues.map((ele) => {
+          return ele.name
+        })
+      ])
+    }
+    fetchPriorities()
   }, [])
 
   useEffect(() => {
@@ -209,6 +237,14 @@ const Stories = ({ authorId, followerId }) => {
           setAuthorQuery={setAuthorQuery}
         />
         <div className='flex flex-row options-bar'>
+          <Dropdown
+            title='Priorities'
+            reference={priorityDropdownContainer}
+            curr={priority}
+            setCurr={setPriority}
+            itemList={priorities}
+            data-cy='priority-dropdown'
+          />
           <Dropdown
             title='Categories'
             reference={categoryDropdownContainer}
