@@ -1,4 +1,5 @@
 import apiCall from './api'
+import { parseArrayToQuery } from '../utils/filterText'
 import {
   BASIC_STORY_INFO_FRAGMENT,
   NOTIFICATION_DATA_FRAGMENT
@@ -30,7 +31,7 @@ const userStory = {
   },
   getStories: (
     page,
-    currentStateSelected,
+    selectedStatuses,
     authorId,
     authorQuery,
     categoryQuery,
@@ -46,7 +47,7 @@ const userStory = {
                 (page - 1) * 5
               }, where: {
                   user_story_status : {
-                    Status: "${currentStateSelected}"
+                    ${parseArrayToQuery('Status', selectedStatuses)}
                   },
                   author: {
                     ${authorId}
@@ -57,9 +58,7 @@ const userStory = {
                   ${searchQuery}
                   ${followerId}
               }) {
-                id
-                Title
-                Description
+                ...BasicStoryInfo
                 user_story_status {
                   Status
                 }
@@ -81,13 +80,10 @@ const userStory = {
                     url
                   }
                 }
-                followers {
-                  id
-                  username
-                }
                 Category
               }
             }
+            ${BASIC_STORY_INFO_FRAGMENT}
             `
     }
     return apiCall('/graphql', storiesQuery)
@@ -116,7 +112,7 @@ const userStory = {
     return apiCall('/graphql', storyQuery)
   },
   getStoryCount: (
-    currentStateSelected,
+    selectedStatuses,
     authorId,
     authorQuery,
     categoryQuery,
@@ -130,7 +126,7 @@ const userStory = {
       query: `query {
               userStoriesConnection(where: {
                 user_story_status: {
-                  Status: "${currentStateSelected}"
+                  ${parseArrayToQuery('Status', selectedStatuses)}
                 },
                 author: {
                   ${authorId}

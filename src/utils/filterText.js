@@ -11,3 +11,8 @@ export const strip = (html, len) => {
   }
   return html
 }
+
+export const parseArrayToQuery = (queryParam, items) => {
+  if (items.length === 0) return ''
+  return `${queryParam}: ["${items.join(`", "`)}"]`
+}

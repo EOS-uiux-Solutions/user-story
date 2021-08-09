@@ -16,7 +16,7 @@ const Pagination = (props) => {
   }, [status, productQuery, getPage])
 
   useEffect(() => {
-    if (storyCount) {
+    if (typeof storyCount === typeof 0) {
       if (storyCount >= 5) {
         const n = Math.ceil(storyCount / 5)
         setPages([...Array(n + 1).keys()].slice(1))

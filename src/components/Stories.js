@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 
-import Button from './Button'
 import StoriesList from './StoriesList'
 import Pagination from './Pagination'
 import Dropdown from './Dropdown'
@@ -12,7 +11,7 @@ import userStory from '../services/user_story'
 import ProductList from './ProductList'
 
 const Stories = ({ authorId, followerId }) => {
-  const [currentStateSelected, selectState] = useState('Under consideration')
+  const [selectedStatuses, setSelectedStatuses] = useState([])
 
   const [page, setPage] = useState(1)
 
@@ -63,7 +62,7 @@ const Stories = ({ authorId, followerId }) => {
   useEffect(() => {
     const fetchStoryCount = async () => {
       const response = await userStory.getStoryCount(
-        currentStateSelected,
+        selectedStatuses,
         authorId,
         authorQuery,
         categoryQuery,
@@ -75,7 +74,7 @@ const Stories = ({ authorId, followerId }) => {
     }
     fetchStoryCount()
   }, [
-    currentStateSelected,
+    selectedStatuses,
     categoryQuery,
     productQuery,
     searchQuery,
@@ -102,7 +101,7 @@ const Stories = ({ authorId, followerId }) => {
     const fetchStories = async () => {
       const response = await userStory.getStories(
         page,
-        currentStateSelected,
+        selectedStatuses,
         authorId,
         authorQuery,
         categoryQuery,
@@ -115,7 +114,7 @@ const Stories = ({ authorId, followerId }) => {
     trackPromise(fetchStories(), 'stories-div')
   }, [
     categoryQuery,
-    currentStateSelected,
+    selectedStatuses,
     page,
     productQuery,
     searchQuery,
@@ -163,26 +162,34 @@ const Stories = ({ authorId, followerId }) => {
       <ProductList setProductQuery={setProductQuery} />
       <div className='roadmap-container'>
         <div className='roadmap'>
-          {Lists.stateList &&
-            Lists.stateList.map((state, key) => {
-              return (
-                <Button
-                  className={
-                    currentStateSelected === state.status
-                      ? 'btn btn-tabs btn-tabs-selected'
-                      : 'btn btn-tabs'
-                  }
-                  key={key}
-                  onClick={() => {
-                    selectState(state.status)
+          {Lists.stateList.map((state, key) => {
+            return (
+              <span key={key}>
+                <input
+                  type='checkbox'
+                  onChange={() => {
+                    if (
+                      selectedStatuses.find((status) => status === state.status)
+                    ) {
+                      setSelectedStatuses(
+                        selectedStatuses.filter(
+                          (status) => status !== state.status
+                        )
+                      )
+                    } else {
+                      setSelectedStatuses(selectedStatuses.concat(state.status))
+                    }
                     setPage(1)
                   }}
-                >
-                  <i className='eos-icons'>{state.icon}</i>
-                  {state.status}
-                </Button>
-              )
-            })}
+                  id={state.status}
+                  checked={
+                    !!selectedStatuses.find((status) => status === state.status)
+                  }
+                />
+                <label htmlFor={state.status}>{state.status}</label>
+              </span>
+            )
+          })}
         </div>
       </div>
 
@@ -194,7 +201,7 @@ const Stories = ({ authorId, followerId }) => {
           setCurr={setStatus}
           itemList={statusOptions}
           data-cy='status-dropdown'
-          selectstate={selectState}
+          selectstate={setStatus}
           setpage={setPage}
         />
       </div>
@@ -232,7 +239,7 @@ const Stories = ({ authorId, followerId }) => {
       <Pagination
         getPage={getPage}
         storyCount={storyCount}
-        status={currentStateSelected}
+        status={selectedStatuses}
         productQuery={productQuery}
       />
     </div>
