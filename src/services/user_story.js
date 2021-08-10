@@ -34,7 +34,7 @@ const userStory = {
     selectedStatuses,
     authorId,
     authorQuery,
-    categoryQuery,
+    selectedCategories,
     productQuery,
     searchQuery,
     followerId
@@ -53,7 +53,7 @@ const userStory = {
                     ${authorId}
                     username_contains: "${authorQuery}"
                   }
-                  ${categoryQuery}
+                  ${parseArrayToQuery('Category', selectedCategories)}
                   ${productQuery}
                   ${searchQuery}
                   ${followerId}
@@ -115,7 +115,7 @@ const userStory = {
     selectedStatuses,
     authorId,
     authorQuery,
-    categoryQuery,
+    selectedCategories,
     productQuery,
     searchQuery,
     followerId
@@ -132,7 +132,7 @@ const userStory = {
                   ${authorId}
                   username_contains: "${authorQuery}"
                 }
-                ${categoryQuery}
+                ${parseArrayToQuery('Category', selectedCategories)}
                 ${productQuery}
                 ${searchQuery}
                 ${followerId}
