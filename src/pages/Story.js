@@ -191,12 +191,10 @@ const Story = (props) => {
                   </div>
                 ) : (
                   <div className='flex flex-row'>
-                    {story.Attachment.length !== 0 ? (
+                    {!!story.Attachment.length && (
                       <div className='gallery-container flex-column'>
                         <Gallery imageArray={story.Attachment} />
                       </div>
-                    ) : (
-                      ''
                     )}
                     <ShowMore
                       maxCharacterLimit={350}

@@ -149,12 +149,10 @@ const Comments = (props) => {
                 </div>
                 <p>{data.Comments}</p>
                 <div>
-                  {data.attachment.length !== 0 ? (
+                  {!!data.attachment.length && (
                     <div className='gallery-container-comment'>
                       <Gallery imageArray={data.attachment} />
                     </div>
-                  ) : (
-                    ''
                   )}
                 </div>
                 <div className='reply-action'>
