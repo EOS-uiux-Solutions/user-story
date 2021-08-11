@@ -1,7 +1,13 @@
+.dropdown-main {
+  align-items: center;
+  display: flex;
+  margin: 0 0.5rem;
+}
+
 .filter-title {
   font-weight: bold;
 
   &:not(:first-of-type) {
     margin-left: 48px;
   }
-}
+ }

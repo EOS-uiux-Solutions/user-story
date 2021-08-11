@@ -1,11 +1,11 @@
 .status-wrapper {
-  max-height: 80px;
   overflow: hidden;
   position: relative;
   z-index: 10;
 }
 
 .status-element {
+  width: 150px;
   z-index: 20;
 
   .status {

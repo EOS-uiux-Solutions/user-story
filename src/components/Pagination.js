@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
 const Pagination = (props) => {
-  const { getPage, storyCount, status, product } = props
+  const { getPage, storyCount, status, productQuery } = props
 
   const [currNumber, setCurrNumber] = useState(1)
 
@@ -13,7 +13,7 @@ const Pagination = (props) => {
       getPage(1)
     }
     resetPage()
-  }, [status, product, getPage])
+  }, [status, productQuery, getPage])
 
   useEffect(() => {
     if (storyCount) {
