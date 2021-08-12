@@ -13,10 +13,18 @@ const CommentForm = (props) => {
     addComment,
     comment,
     setComment,
-    cta
+    cta,
+    placeholder
   } = props
 
   const { register, errors, handleSubmit } = useForm()
+
+  const resizeTextbox = (e) => {
+    const textArea = document.querySelector('textarea')
+    textArea.style.height = '15px'
+    const scHeight = e.target.scrollHeight
+    textArea.style.height = `${scHeight}px`
+  }
 
   const handleFileChange = async (event) => {
     const newFiles = event.target.files
@@ -33,34 +41,41 @@ const CommentForm = (props) => {
 
   return (
     <form className='comment-form' onSubmit={handleSubmit(addComment)}>
-      <div className='comment-input'>
-        <textarea
-          rows='5'
-          cols='25'
-          name='Comments'
-          value={comment}
-          data-cy={`comment-input-${id}`}
-          ref={register({ required: true })}
-          onChange={(e) => setComment(e.target.value)}
-        ></textarea>
-        <div className='file-input'>
-          <input
-            type='file'
-            id={`file-${id}`}
-            className='file'
-            multiple={true}
-            onChange={handleFileChange}
-          />
-          <label htmlFor={`file-${id}`} className='file-button-label'>
-            <i className='eos-icons'>attachment</i>
-          </label>
+      <div className='flex flex-row'>
+        <div className='comment-input'>
+          <textarea
+            name='Comments'
+            value={comment}
+            data-cy={`comment-input-${id}`}
+            ref={register({ required: true })}
+            onChange={(e) => setComment(e.target.value)}
+            placeholder={placeholder}
+            onKeyUp={resizeTextbox}
+          ></textarea>
+          <div className='file-input'>
+            <input
+              type='file'
+              id={`file-${id}`}
+              className='file'
+              multiple={true}
+              onChange={handleFileChange}
+            />
+            <label htmlFor={`file-${id}`} className='file-button-label'>
+              <Button className='eos-icons file-btn-attachment'>
+                attachment
+              </Button>
+            </label>
+          </div>
+          <Button
+            className='btn btn-secondary btn-comment'
+            data-cy={`btn-comment-${id}`}
+          >
+            {cta}
+          </Button>
         </div>
       </div>
       {errors.Comments && <FormError message='Reply cannot be empty' />}
       <MediaPreview attachments={attachments} setAttachments={setAttachments} />
-      <Button className='btn btn-default' data-cy={`btn-comment-${id}`}>
-        {cta}
-      </Button>
     </form>
   )
 }

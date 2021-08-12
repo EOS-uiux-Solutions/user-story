@@ -105,6 +105,20 @@ const Comments = (props) => {
 
   return (
     <div className='comments-wrapper'>
+      {state.auth && (
+        <div>
+          <CommentForm
+            id={2}
+            attachments={attachments}
+            setAttachments={setAttachments}
+            addComment={addComment}
+            comment={comment}
+            setComment={setComment}
+            cta={'Leave a Comment'}
+            placeholder={'Adding a Comment'}
+          />
+        </div>
+      )}
       <h3>Comments</h3>
       {comments.length ? (
         comments.map((data, key) => {
@@ -134,17 +148,17 @@ const Comments = (props) => {
                   </div>
                 </div>
                 <p>{data.Comments}</p>
-                {data.attachment.length !== 0 ? (
-                  <div className='comment-gallery-container'>
-                    <Gallery imageArray={data.attachment} />
-                  </div>
-                ) : (
-                  ''
-                )}
+                <div>
+                  {!!data.attachment.length && (
+                    <div className='gallery-container-comment'>
+                      <Gallery imageArray={data.attachment} />
+                    </div>
+                  )}
+                </div>
                 <div className='reply-action'>
                   {state.auth && (
                     <Button
-                      className='btn btn-default'
+                      className='btn btn-transparent btn-reply'
                       onClick={() => {
                         setCommentId(data.id)
                         toggleReplyForm(repliesToggled, setRepliesToggled, key)
@@ -204,7 +218,7 @@ const Comments = (props) => {
                         </div>
                         <p>{reply.Comments}</p>
                         {reply.attachment.length !== 0 ? (
-                          <div className='comment-gallery-container'>
+                          <div className='gallery-container'>
                             <Gallery imageArray={reply.attachment} />
                           </div>
                         ) : (
@@ -222,6 +236,7 @@ const Comments = (props) => {
                     comment={commentReply}
                     setComment={setCommentReply}
                     cta={'Add Reply'}
+                    placeholder={'Adding a Reply'}
                   />
                 )}
               </div>
@@ -230,19 +245,6 @@ const Comments = (props) => {
         })
       ) : (
         <h3>No comments yet</h3>
-      )}
-      {state.auth && (
-        <div>
-          <CommentForm
-            id={2}
-            attachments={attachments}
-            setAttachments={setAttachments}
-            addComment={addComment}
-            comment={comment}
-            setComment={setComment}
-            cta={'Add Comment'}
-          />
-        </div>
       )}
     </div>
   )

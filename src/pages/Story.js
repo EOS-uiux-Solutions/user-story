@@ -7,18 +7,18 @@ import {
   LinkedinIcon
 } from 'react-share'
 import Gallery from '../components/ImageGallery'
+import StoryPageTimeline from '../components/StoryPageTimeline'
+import ShowMore from '../components/ShowMore'
 
 import { Helmet } from 'react-helmet'
 
 import MarkdownEditor from '../components/MarkdownEditor'
 import { filterDescriptionText } from '../utils/filterText'
 import Comments from '../components/Comments'
-import Timeline from '../components/Timeline'
 import Button from '../components/Button'
 import LoadingIndicator from '../modules/LoadingIndicator'
 import Navigation from '../components/Navigation'
 import { Link, navigate } from '@reach/router'
-import Vote from '../components/Vote'
 import Modal from '../components/Modal'
 import userStory from '../services/user_story'
 
@@ -109,76 +109,111 @@ const Story = (props) => {
         <LoadingIndicator />
       ) : story ? (
         <>
-          <div className='body-content'>
+          <div
+            className={
+              story.user_story_comments.length !== 0 || editor
+                ? 'body-content story-page-second'
+                : 'body-content story-page'
+            }
+          >
             <div className='body-wrapper'>
-              <Timeline currentStatus={story.user_story_status.Status} />
-              <div className='story-heading'>
-                <h3>{story.Title}</h3>
-                <div className='flex flex-row flex-space-between'>
-                  <Vote story={story} />
-                  <div className='author-information'>
-                    <h4>
-                      By:{' '}
-                      <Link
-                        className='link link-default'
-                        to={`/profile/${story.author.id}`}
-                      >
-                        {story.author.username}
-                      </Link>
-                    </h4>
-                    <div className='user-avatar'>
-                      <img
-                        className='avatar'
-                        src={`https://avatars.dicebear.com/api/jdenticon/${story.author.username}.svg`}
-                        alt='Default User Avatar'
-                      ></img>
-                    </div>
+              <div className='story-heading flex flex-row'>
+                <svg
+                  className='story-title-pattern'
+                  width='41'
+                  height='41'
+                  viewBox='0 0 41 41'
+                  fill='none'
+                  xmlns='http://www.w3.org/2000/svg'
+                >
+                  <circle
+                    id='Ellipse 1'
+                    cx='20.5'
+                    cy='20.5'
+                    r='12'
+                    fill='#42779B'
+                  />
+                </svg>
+                <h2>{story.Title}</h2>
+                <div className='author-information'>
+                  <h4>
+                    By:{' '}
+                    <Link
+                      className='link link-default'
+                      to={`/profile/${story.author.id}`}
+                    >
+                      {story.author.username}
+                    </Link>
+                  </h4>
+                  <div className='user-avatar'>
+                    <img
+                      className='avatar'
+                      src={`https://avatars.dicebear.com/api/jdenticon/${story.author.username}.svg`}
+                      alt='Default User Avatar'
+                    ></img>
+                  </div>
+                  <div className='story-buttons-container-top'>
+                    {editMode && !editor ? (
+                      <>
+                        <Button
+                          className='btn btn-default'
+                          data-cy='btn-edit'
+                          onClick={() => setEditor(true)}
+                        >
+                          Edit
+                        </Button>
+                      </>
+                    ) : (
+                      ''
+                    )}
+                    {
+                      <>
+                        <Button className='share-story' onClick={togglePopup}>
+                          <i className='eos-icons'> share </i>
+                        </Button>
+                        <Button className='share-story' onClick={copy}>
+                          <i className='eos-icons'>content_copy</i>
+                        </Button>
+                      </>
+                    }
                   </div>
                 </div>
               </div>
 
-              {editor ? (
-                <div data-cy='edit-description'>
-                  <MarkdownEditor
-                    callback={(html) => {
-                      setDescription(html)
-                    }}
+              <div className='flex flex-row'>
+                {editor ? (
+                  <div data-cy='edit-description' className='story-editor'>
+                    <MarkdownEditor
+                      callback={(html) => {
+                        setDescription(html)
+                      }}
+                    />
+                  </div>
+                ) : (
+                  <div className='flex flex-row'>
+                    {!!story.Attachment.length && (
+                      <div className='gallery-container flex-column'>
+                        <Gallery imageArray={story.Attachment} />
+                      </div>
+                    )}
+                    <ShowMore
+                      maxCharacterLimit={350}
+                      txt={story.Description}
+                      textLength={story.Description.length}
+                    />
+                  </div>
+                )}
+                <div className='right-nav'>
+                  <StoryPageTimeline
+                    story={story}
+                    currentStatus={story.user_story_status.Status}
                   />
                 </div>
-              ) : (
-                <div
-                  className='story-description'
-                  dangerouslySetInnerHTML={{ __html: story.Description }}
-                  data-cy='story-description'
-                />
-              )}
-              <div className='story-buttons-container'>
-                {editMode && !editor ? (
-                  <>
-                    <Button
-                      className='btn btn-default'
-                      data-cy='btn-edit'
-                      onClick={() => setEditor(true)}
-                    >
-                      Edit
-                    </Button>
-                  </>
-                ) : (
-                  ''
-                )}
-                {
-                  <>
-                    <Button className='share-story' onClick={togglePopup}>
-                      <i className='eos-icons'> share </i>
-                    </Button>
-                    <Button className='share-story' onClick={copy}>
-                      <i className='eos-icons'>content_copy</i>
-                    </Button>
-                  </>
-                }
+              </div>
+              <div className='story-buttons-container-bottom'>
                 {editor ? (
                   <Button
-                    className='btn btn-default'
+                    className='btn btn-default btn-bottom'
                     onClick={save}
                     data-cy='btn-save'
                   >
@@ -189,7 +224,7 @@ const Story = (props) => {
                 )}
                 {editor ? (
                   <Button
-                    className='btn btn-default'
+                    className='btn btn-default btn-bottom'
                     onClick={() => setEditor(false)}
                   >
                     Cancel
@@ -197,40 +232,33 @@ const Story = (props) => {
                 ) : (
                   ''
                 )}
-                {isOpen && (
-                  <Modal
-                    content={
-                      <>
-                        <h1>Share</h1>
-                        <TwitterShareButton
-                          url={window.location}
-                          className='share-button'
-                          title={title}
-                          hashtags={hashtagsArray}
-                          onShareWindowClose={togglePopup}
-                        >
-                          <TwitterIcon />
-                        </TwitterShareButton>
-                        <LinkedinShareButton
-                          url={window.location}
-                          className='share-button'
-                          onShareWindowClose={togglePopup}
-                        >
-                          <LinkedinIcon />
-                        </LinkedinShareButton>
-                      </>
-                    }
-                    handleClose={togglePopup}
-                    active={isOpen}
-                  />
-                )}
               </div>
-              {story.Attachment.length !== 0 ? (
-                <div className='gallery-container'>
-                  <Gallery imageArray={story.Attachment} />
-                </div>
-              ) : (
-                ''
+              {isOpen && (
+                <Modal
+                  content={
+                    <>
+                      <h1>Share</h1>
+                      <TwitterShareButton
+                        url={window.location}
+                        className='share-button'
+                        title={title}
+                        hashtags={hashtagsArray}
+                        onShareWindowClose={togglePopup}
+                      >
+                        <TwitterIcon />
+                      </TwitterShareButton>
+                      <LinkedinShareButton
+                        url={window.location}
+                        className='share-button'
+                        onShareWindowClose={togglePopup}
+                      >
+                        <LinkedinIcon />
+                      </LinkedinShareButton>
+                    </>
+                  }
+                  handleClose={togglePopup}
+                  active={isOpen}
+                />
               )}
               <Comments storyId={storyId} />
             </div>
