@@ -65,7 +65,7 @@ const SearchBar = (props) => {
 
       {filtersOpened && (
         <div className='search-filters'>
-          <div className='filter-container'>
+          <div className='filter-container filter-container-status'>
             <p>Stages</p>
             <div className='filter-section'>
               {Lists.stateList.map((state, key) => {
@@ -95,7 +95,7 @@ const SearchBar = (props) => {
             </div>
           </div>
 
-          <div className='filter-container'>
+          <div className='filter-container filter-container-category'>
             <p>Categories</p>
             <div className='filter-section'>
               {categories.map((category, key) => (
@@ -116,11 +116,11 @@ const SearchBar = (props) => {
             </div>
           </div>
 
-          <div className='filter-container'>
+          <div className='filter-container filter-container-sort'>
             <p>Sort By</p>
             <div className='filter-section'>
               {Lists.sortByList.map((item, key) => (
-                <span className='checkbox-input' key={key}>
+                <span key={key}>
                   <input
                     type='radio'
                     id={item}
@@ -130,7 +130,7 @@ const SearchBar = (props) => {
                       setSort(item)
                     }}
                   />
-                  <label htmlFor={item}>{item}</label>
+                  <label htmlFor={item}>{` ${item}`}</label>
                 </span>
               ))}
             </div>

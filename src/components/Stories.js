@@ -104,7 +104,7 @@ const Stories = ({ authorId, followerId }) => {
   }, [sort, stories, setStories])
 
   return (
-    <div>
+    <>
       <ProductList setProductQuery={setProductQuery} />
 
       <SearchBar
@@ -128,7 +128,7 @@ const Stories = ({ authorId, followerId }) => {
         status={selectedStatuses}
         productQuery={productQuery}
       />
-    </div>
+    </>
   )
 }
 

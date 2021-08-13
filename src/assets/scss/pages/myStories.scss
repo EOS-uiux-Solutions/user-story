@@ -1,0 +1,32 @@
+.roadmap-one {
+  .btn-tabs {
+    &-selected,
+    &:hover,
+    &:focus {
+      border: 2px solid $light-gray;
+    }
+
+    &:focus {
+      outline: transparent 0px;
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .btn-tabs {
+    margin: 0.5rem;
+    width: 200px;
+  }
+}
+
+@media (max-width: 600px) {
+  .btn-tabs {
+    margin: 0.3rem 0;
+    text-align: left;
+    width: 100%;
+  }
+
+  .roadmap-one {
+    flex-direction: column;
+  }
+}
