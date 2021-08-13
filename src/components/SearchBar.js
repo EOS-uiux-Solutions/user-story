@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
+import { CheckBox, RadioButton } from './InputButtons'
 import SearchInput from '../modules/SearchInput'
 import Lists from '../utils/Lists'
 import userStory from '../services/user_story'
@@ -71,24 +72,20 @@ const SearchBar = (props) => {
               {Lists.stateList.map((state, key) => {
                 return (
                   <span className='checkbox-row' key={key}>
-                    <input
-                      type='checkbox'
+                    <CheckBox
                       onChange={toggleFilters(
                         selectedStatuses,
                         setSelectedStatuses,
                         state.status
                       )}
                       id={state.status}
+                      icon={state.icon}
                       checked={
                         !!selectedStatuses.find(
                           (status) => status === state.status
                         )
                       }
                     />
-                    <label htmlFor={state.status}>
-                      <i className='eos-icons'>{state.icon}</i>
-                      {state.status}
-                    </label>
                   </span>
                 )
               })}
@@ -99,9 +96,8 @@ const SearchBar = (props) => {
             <p>Categories</p>
             <div className='filter-section'>
               {categories.map((category, key) => (
-                <span className='checkbox-row' key={key}>
-                  <input
-                    type='checkbox'
+                <div className='checkbox-row' key={key}>
+                  <CheckBox
                     id={category}
                     checked={!!selectedCategories.find((c) => c === category)}
                     onChange={toggleFilters(
@@ -110,8 +106,7 @@ const SearchBar = (props) => {
                       category
                     )}
                   />
-                  <label htmlFor={category}>{category}</label>
-                </span>
+                </div>
               ))}
             </div>
           </div>
@@ -120,18 +115,15 @@ const SearchBar = (props) => {
             <p>Sort By</p>
             <div className='filter-section'>
               {Lists.sortByList.map((item, key) => (
-                <span key={key}>
-                  <input
-                    type='radio'
+                <div key={key}>
+                  <RadioButton
                     id={item}
-                    name='sortBy'
                     checked={sort === item}
                     onChange={() => {
                       setSort(item)
                     }}
                   />
-                  <label htmlFor={item}>{` ${item}`}</label>
-                </span>
+                </div>
               ))}
             </div>
           </div>
