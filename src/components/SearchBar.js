@@ -51,6 +51,7 @@ const SearchBar = (props) => {
       />
 
       <label
+        data-cy='toggle-filters'
         onClick={() => {
           setFiltersOpened(!filtersOpened)
         }}
