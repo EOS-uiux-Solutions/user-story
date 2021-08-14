@@ -91,6 +91,23 @@ const SearchBar = (props) => {
                 )
               })}
             </div>
+            <label
+              className='link link-default'
+              onClick={() => {
+                if (selectedStatuses.length < Lists.stateList.length) {
+                  setSelectedStatuses(
+                    Lists.stateList.map((state) => state.status)
+                  )
+                } else {
+                  setSelectedStatuses([])
+                }
+              }}
+            >
+              {selectedStatuses.length === Lists.stateList.length
+                ? 'Clear'
+                : 'Select'}{' '}
+              All
+            </label>
           </div>
 
           <div className='filter-container filter-container-category'>
@@ -110,6 +127,21 @@ const SearchBar = (props) => {
                 </div>
               ))}
             </div>
+            <label
+              className='link link-default'
+              onClick={() => {
+                if (selectedCategories.length < categories.length) {
+                  setSelectedCategories(categories)
+                } else {
+                  setSelectedCategories([])
+                }
+              }}
+            >
+              {selectedCategories.length === categories.length
+                ? 'Clear'
+                : 'Select'}{' '}
+              All
+            </label>
           </div>
 
           <div className='filter-container filter-container-sort'>
