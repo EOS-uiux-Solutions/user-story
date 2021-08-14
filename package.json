@@ -11,6 +11,7 @@
     "axios": "^0.19.2",
     "better-docs": "^2.0.1",
     "eos-icons": "^4.0.3",
+    "eos-icons-react": "^2.1.0",
     "i18next": "^19.4.5",
     "lodash": "^4.17.21",
     "markdown-it": "^12.0.6",

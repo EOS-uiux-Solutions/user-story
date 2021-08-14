@@ -7,6 +7,7 @@ import {
   LinkedinIcon
 } from 'react-share'
 import Gallery from '../components/ImageGallery'
+import { EOS_SHARE, EOS_CONTENT_COPY } from 'eos-icons-react'
 
 import { Helmet } from 'react-helmet'
 
@@ -169,10 +170,10 @@ const Story = (props) => {
                 {
                   <>
                     <Button className='share-story' onClick={togglePopup}>
-                      <i className='eos-icons'> share </i>
+                      <EOS_SHARE className='eos-icons' />
                     </Button>
                     <Button className='share-story' onClick={copy}>
-                      <i className='eos-icons'>content_copy</i>
+                      <EOS_CONTENT_COPY className='eos-icons' />
                     </Button>
                   </>
                 }

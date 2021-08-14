@@ -178,7 +178,7 @@ const Stories = ({ authorId, followerId }) => {
                     setPage(1)
                   }}
                 >
-                  <i className='eos-icons'>{state.icon}</i>
+                  {state.icon}
                   {state.status}
                 </Button>
               )
