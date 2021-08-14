@@ -65,7 +65,7 @@ const SearchBar = (props) => {
       </label>
 
       {filtersOpened && (
-        <div className='search-filters'>
+        <div className='search-filters' data-cy='search-filters'>
           <div className='filter-container filter-container-status'>
             <p>Stages</p>
             <div className='filter-section'>
@@ -94,7 +94,7 @@ const SearchBar = (props) => {
 
           <div className='filter-container filter-container-category'>
             <p>Categories</p>
-            <div className='filter-section'>
+            <div className='filter-section' data-cy='filter-section-category'>
               {categories.map((category, key) => (
                 <div className='checkbox-row' key={key}>
                   <CheckBox

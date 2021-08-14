@@ -12,9 +12,9 @@ describe('Test the filters and search for stories in Home page', () => {
       .click({ force: true })
   }
 
-  const setDropdown = (dropdown, value) => {
-    cy.get('[data-cy=search-input-div]')
-      .get(`[data-cy=${dropdown}-dropdown]`)
+  const toggleCheckbox = (filter, value) => {
+    cy.get('[data-cy=search-filters]')
+      .get(`[data-cy=filter-section-${filter}]`)
       .click()
     cy.contains(value).click({ force: true })
   }
@@ -49,11 +49,11 @@ describe('Test the filters and search for stories in Home page', () => {
   })
 
   it('Filters stories based on category', () => {
-    setDropdown('category', 'Bug')
+    toggleCheckbox('category', 'Bug')
 
     cy.contains('No stories')
 
-    setDropdown('category', testStory.category)
+    toggleCheckbox('category', testStory.category)
 
     cy.contains(testStory.title)
   })
