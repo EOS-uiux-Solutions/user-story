@@ -22,8 +22,8 @@ describe('Test the filters and search for stories in Home page', () => {
   const toggleCheckbox = (filter, value) => {
     cy.get('[data-cy=search-filters]')
       .get(`[data-cy=filter-section-${filter}]`)
-      .click()
-    cy.contains(value).click({ force: true })
+      .contains(value)
+      .click({ force: true })
   }
 
   const searchByTitle = (value) => {
@@ -56,7 +56,7 @@ describe('Test the filters and search for stories in Home page', () => {
   })
 
   it('Filters stories based on category', () => {
-    cy.get(['data-cy=toggle-filters']).click()
+    cy.get('[data-cy=toggle-filters]').click()
 
     toggleCheckbox('category', 'Bug')
 
