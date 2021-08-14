@@ -11,34 +11,28 @@
 
     textarea {
       border: 0;
-      box-shadow: 0 0 2px 0 $dark-color inset;
+      height: 15px;
+      outline: none;
+      overflow: hidden;
+      padding: 1em;
       resize: none;
+      width: 40vw;
     }
   }
 }
 
+.file-input {
+  cursor: pointer;
+  margin-left: -2.5em;
+}
+
 .file {
-  height: 0.1px;
-  opacity: 0;
-  position: absolute;
-  width: 0.1px;
+  display: none;
 
-  &-input {
-    background: $eos-white;
-    border: 1px solid $light-gray;
-    border-left: 0;
-    display: flex;
-    flex-direction: column-reverse;
-    height: 82px;
-  }
-
-  &-button-label {
-    border-top: 0.2px solid $light-gray;
-    display: block;
-    height: 24px;
-    position: relative;
-    text-align: center;
-    width: 35px;
+  &-btn-attachment {
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
   }
 
   &-button-label:hover {
