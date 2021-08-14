@@ -62,8 +62,8 @@ const CommentForm = (props) => {
               onChange={handleFileChange}
             />
             <label htmlFor={`file-${id}`} className='file-button-label'>
-            <EOS_ATTACHMENT className='eos-icons' size='l' />
-          </label>
+              <EOS_ATTACHMENT className='eos-icons' size='l' />
+            </label>
           </div>
           <Button
             className='btn btn-secondary btn-comment'

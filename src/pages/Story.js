@@ -10,8 +10,6 @@ import Gallery from '../components/ImageGallery'
 import { EOS_SHARE, EOS_CONTENT_COPY } from 'eos-icons-react'
 import StoryPageTimeline from '../components/StoryPageTimeline'
 import ShowMore from '../components/ShowMore'
-
-
 import { Helmet } from 'react-helmet'
 
 import MarkdownEditor from '../components/MarkdownEditor'
@@ -169,15 +167,15 @@ const Story = (props) => {
                       ''
                     )}
                     {
-                  <>
-                    <Button className='share-story' onClick={togglePopup}>
-                      <EOS_SHARE className='eos-icons' />
-                    </Button>
-                    <Button className='share-story' onClick={copy}>
-                      <EOS_CONTENT_COPY className='eos-icons' />
-                    </Button>
-                  </>
-                }
+                      <>
+                        <Button className='share-story' onClick={togglePopup}>
+                          <EOS_SHARE className='eos-icons' />
+                        </Button>
+                        <Button className='share-story' onClick={copy}>
+                          <EOS_CONTENT_COPY className='eos-icons' />
+                        </Button>
+                      </>
+                    }
                   </div>
                 </div>
               </div>
