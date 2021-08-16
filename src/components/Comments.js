@@ -148,10 +148,7 @@ const Comments = (props) => {
                     )}`}
                   </div>
                 </div>
-                <div
-                  className='story-description'
-                  dangerouslySetInnerHTML={{ __html: data.Comments }}
-                />
+                <div dangerouslySetInnerHTML={{ __html: data.Comments }} />
                 <div>
                   {!!data.attachment.length && (
                     <div className='gallery-container-comment'>
