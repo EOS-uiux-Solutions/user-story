@@ -1,27 +1,37 @@
+import React from 'react'
+import {
+  EOS_SCHEDULE,
+  EOS_CHECK_CIRCLE,
+  EOS_MODE_EDIT,
+  EOS_CODE,
+  EOS_PATCH_FIXES,
+  EOS_DEPLOY
+} from 'eos-icons-react'
+
 const Lists = {
   stateList: [
     {
-      icon: 'watch_later',
+      icon: <EOS_SCHEDULE className='eos-icons' />,
       status: 'Under consideration'
     },
     {
-      icon: 'check_circle',
+      icon: <EOS_CHECK_CIRCLE className='eos-icons' />,
       status: 'Planned'
     },
     {
-      icon: 'create',
+      icon: <EOS_MODE_EDIT className='eos-icons' />,
       status: 'Designing'
     },
     {
-      icon: 'code',
+      icon: <EOS_CODE className='eos-icons' />,
       status: 'Implementing'
     },
     {
-      icon: 'patch_fixes',
+      icon: <EOS_PATCH_FIXES className='eos-icons' />,
       status: 'Testing'
     },
     {
-      icon: 'deploy',
+      icon: <EOS_DEPLOY className='eos-icons' />,
       status: 'Deployed'
     }
   ],

@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useRef, useContext } from 'react'
 import { Link, navigate } from '@reach/router'
+import {
+  EOS_ACCOUNT_CIRCLE,
+  EOS_MESSAGE,
+  EOS_SETTINGS,
+  EOS_EXIT_TO_APP
+} from 'eos-icons-react'
 
 import eosIcon from '../assets/images/user-story-logo.svg'
 import useAuth from '../hooks/useAuth'
@@ -47,7 +53,7 @@ const Navigation = (props) => {
       <Link className='link' data-cy='nav-eos-logo' to='/'>
         <img className='logo' src={eosIcon} alt='' />
       </Link>
-      <nav className='navbar-content'>
+      <nav className='navbar-content flex flex-row'>
         {state.auth && (
           <Link
             className='btn btn-default'
@@ -71,13 +77,11 @@ const Navigation = (props) => {
             }}
             ref={userDropdownContainer}
           >
-            <i
+            <EOS_ACCOUNT_CIRCLE
               className={`eos-icons ${
                 userDropdownState ? 'eos-icons-open' : ''
               }`}
-            >
-              account_circle
-            </i>
+            />
             <div
               className={`dropdown nav-dropdown ${
                 userDropdownState
@@ -85,7 +89,7 @@ const Navigation = (props) => {
                   : 'dropdown-close dropdown-left'
               }`}
             >
-              <ul className='dropdown-list'>
+              <ul className='dropdown-list nav-dropdown-list'>
                 <li className='user-dropdown user-dropdown-name'>{userName}</li>
                 <li className='user-dropdown user-dropdown-email'>
                   {userEmail}
@@ -95,19 +99,19 @@ const Navigation = (props) => {
                   className='dropdown-element'
                   onClick={() => navigate('/myStories')}
                 >
-                  <i className='eos-icons eos-18'>message</i>
+                  <EOS_MESSAGE className='eos-icons eos-18' />
                   My Stories
                 </li>
                 <li
                   className='dropdown-element'
                   onClick={() => navigate('/myProfile')}
                 >
-                  <i className='eos-icons eos-18'>settings</i>
+                  <EOS_SETTINGS className='eos-icons eos-18' />
                   My Account
                 </li>
                 <hr className='dropdown-separator' />
                 <li className='dropdown-element' onClick={handleLogout}>
-                  <i className='eos-icons eos-18'>exit_to_app</i>
+                  <EOS_EXIT_TO_APP className='eos-icons eos-18' />
                   Log Out
                 </li>
               </ul>

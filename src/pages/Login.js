@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { useForm } from 'react-hook-form'
+import { EOS_VISIBILITY, EOS_VISIBILITY_OFF } from 'eos-icons-react'
 
 import { Link, navigate } from '@reach/router'
 import { useTranslation } from 'react-i18next'
@@ -93,9 +94,11 @@ export const Login = (props) => {
                     className='input-group-append'
                     onClick={() => toggleShowPassword(!showPassword)}
                   >
-                    <i className='eos-icons eos-18'>
-                      {showPassword ? 'visibility_off ' : 'visibility'}
-                    </i>
+                    {showPassword ? (
+                      <EOS_VISIBILITY_OFF className='eos-icons eos-18' />
+                    ) : (
+                      <EOS_VISIBILITY className='eos-icons eos-18' />
+                    )}
                   </div>
                 </div>
                 {errors.password && <FormError type={errors.password.type} />}

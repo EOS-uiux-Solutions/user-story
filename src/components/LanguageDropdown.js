@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Button from './Button'
+import { EOS_KEYBOARD_ARROW_UP, EOS_KEYBOARD_ARROW_DOWN } from 'eos-icons-react'
 
 const LanguageDropdown = (props) => {
   const { translator } = props
@@ -26,15 +27,15 @@ const LanguageDropdown = (props) => {
     <div className='dropdown-container' ref={container}>
       <Button
         type='button'
-        className='btn btn-secondary'
+        className='btn btn-secondary flex flex-row'
         onClick={handleButtonClick}
       >
         {dropdownState ? (
-          <i className='eos-icons'>keyboard_arrow_up</i>
+          <EOS_KEYBOARD_ARROW_UP className='eos-icons' />
         ) : (
-          <i className='eos-icons'>keyboard_arrow_down</i>
+          <EOS_KEYBOARD_ARROW_DOWN className='eos-icons' />
         )}
-        &nbsp; Language
+        &nbsp; <div className='curr'> Language </div>
       </Button>
       {dropdownState ? (
         <div className='dropdown'>

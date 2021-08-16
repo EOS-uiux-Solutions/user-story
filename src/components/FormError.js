@@ -1,4 +1,5 @@
 import React from 'react'
+import { EOS_ERROR } from 'eos-icons-react'
 
 export const FormError = (props) => {
   const { type, status, message } = props
@@ -7,7 +8,7 @@ export const FormError = (props) => {
     <div>
       {status ? (
         <div className='form-error alert alert-section alert-danger'>
-          <i className='eos-icons alert-icon'>error</i>
+          <EOS_ERROR className='alert-icon eos-icons' color='red' />
           <div class='alert-body'>
             {status !== null && status}
             {message !== null && message}
@@ -15,7 +16,7 @@ export const FormError = (props) => {
         </div>
       ) : (
         <div className='form-error'>
-          <i className='eos-icons'>error</i>
+          <EOS_ERROR className='eos-icons' color='red' />
           {type === 'required' && 'This is required'}
           {type === 'validate' && 'Passwords do not match'}
           {type === 'emptyDescription' && 'Description cannot be empty'}
