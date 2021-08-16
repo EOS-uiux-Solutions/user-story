@@ -1,7 +1,5 @@
 import React, { useEffect, useReducer } from 'react'
 import { Router } from '@reach/router'
-
-import '../node_modules/eos-icons/dist/css/eos-icons.css'
 import './assets/scss/index.scss'
 
 import Home from './pages/Home'
