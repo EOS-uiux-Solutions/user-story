@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { EOS_SAVE, EOS_MODE_EDIT } from 'eos-icons-react'
 
 export const EditableLabel = ({
   name,
@@ -58,7 +59,7 @@ export const EditableLabel = ({
               className='editable-label-edit-btn'
               onClick={() => setEditMode(!editMode)}
             >
-              <i className='eos-icons'>mode_edit</i>
+              <EOS_MODE_EDIT className='eos-icons' />
             </button>
           )}
         </>
@@ -72,7 +73,7 @@ export const EditableLabel = ({
               updateProfile()
             }}
           >
-            <i className='eos-icons'>save</i>
+            <EOS_SAVE className='eos-icons' />
           </button>
         </>
       )}

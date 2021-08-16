@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { debounce } from 'lodash'
 import userStory from '../services/user_story'
 import { strip } from '../utils/filterText'
+import { EOS_ARROW_FORWARD, EOS_THUMB_UP } from 'eos-icons-react'
 
 const Search = (props) => {
   const { title } = props
@@ -29,7 +30,7 @@ const Search = (props) => {
   return (
     <div className='flex flex-column title-search'>
       <h4>
-        <i className='eos-icons'>arrow_forward</i>
+        <EOS_ARROW_FORWARD className='eos-icons' />
         {searchResults.length > 0
           ? ' We found some matching results'
           : ' No matching stories found. Go ahead and create one.'}
@@ -46,7 +47,7 @@ const Search = (props) => {
             </div>
             <div className='icon-display'>
               {result.followers.length}
-              <i className='eos-icons'>thumb_up</i>
+              <EOS_THUMB_UP className='eos-icons' />
             </div>
           </div>
         )

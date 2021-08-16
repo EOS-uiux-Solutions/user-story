@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext, useRef } from 'react'
 import { Link, navigate } from '@reach/router'
 import Context from '../modules/Context'
 import userStory from '../services/user_story'
+import { EOS_NOTIFICATIONS } from 'eos-icons-react'
 
 const Notifications = () => {
   const userId = localStorage.getItem('id')
@@ -89,13 +90,11 @@ const Notifications = () => {
         }}
         ref={notificationsDropdownContainer}
       >
-        <i
+        <EOS_NOTIFICATIONS
           className={`eos-icons ${
             notificationsDropdownState ? 'eos-icons-open' : ''
           }`}
-        >
-          notifications
-        </i>
+        />
         <span className='notifications-count'>
           {' '}
           {!notificationsSeen && notificationCount > 0 ? notificationCount : ''}

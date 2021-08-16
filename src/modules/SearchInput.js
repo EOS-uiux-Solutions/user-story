@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react'
 import Button from '../components/Button'
 import Dropdown from '../components/Dropdown'
 import UsersSuggestionDropdown from '../components/UsersSuggestionDropdown'
+import { EOS_CLOSE, EOS_SEARCH } from 'eos-icons-react'
 
 function SearchInput(props) {
   const {
@@ -80,7 +81,7 @@ function SearchInput(props) {
           >
             {((fieldToSearch === 'Title' && searchTerm.length > 0) ||
               (fieldToSearch === 'Author' && userTerm.length > 0)) && (
-              <i className='eos-icons'>close</i>
+              <EOS_CLOSE className='eos-icons' />
             )}
           </span>
         </div>
@@ -99,7 +100,7 @@ function SearchInput(props) {
         data-cy='btn-search'
         onClick={handleSearchSubmit}
       >
-        <i className='eos-icons'>search</i>
+        <EOS_SEARCH className='eos-icons' color='white' />
       </Button>
     </div>
   )

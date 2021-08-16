@@ -1,5 +1,6 @@
 import React from 'react'
 import { navigate, Link } from '@reach/router'
+import { EOS_COMMENT, EOS_ATTACHMENT } from 'eos-icons-react'
 
 import Vote from './Vote'
 import { strip } from '../utils/filterText'
@@ -97,11 +98,11 @@ const StoriesList = (props) => {
                 </div>
                 <div className='flex flex-column s-metas'>
                   <span className='story-meta'>
-                    <i className='eos-icons'>attachment</i>
+                    <EOS_ATTACHMENT className='eos-icons' />
                     {story.Attachment.length}
                   </span>
                   <span className='story-meta'>
-                    <i className='eos-icons'>comment</i>
+                    <EOS_COMMENT className='eos-icons' />
                     {story.user_story_comments.length}
                   </span>
                 </div>

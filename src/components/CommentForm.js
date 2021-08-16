@@ -1,5 +1,6 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { EOS_ATTACHMENT } from 'eos-icons-react'
 
 import Button from './Button'
 import FormError from './FormError'
@@ -61,9 +62,7 @@ const CommentForm = (props) => {
               onChange={handleFileChange}
             />
             <label htmlFor={`file-${id}`} className='file-button-label'>
-              <Button className='eos-icons file-btn-attachment'>
-                attachment
-              </Button>
+              <EOS_ATTACHMENT className='eos-icons' size='l' />
             </label>
           </div>
           <Button
