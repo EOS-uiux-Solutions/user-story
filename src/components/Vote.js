@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Modal from './Modal'
 import { Link } from '@reach/router'
 import userStory from '../services/user_story'
+import { EOS_THUMB_UP } from 'eos-icons-react'
 
 const Vote = (props) => {
   const { story } = props
@@ -75,7 +76,7 @@ const Vote = (props) => {
           if (userId && !voteClicked) updateVote(story)
         }}
       >
-        <i className='eos-icons'>thumb_up</i>
+        <EOS_THUMB_UP className='eos-icons' color='white' />
         Vote
       </div>
       {isOpen && (

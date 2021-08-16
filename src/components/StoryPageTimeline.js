@@ -3,6 +3,7 @@ import Modal from './Modal'
 import { Link } from '@reach/router'
 import userStory from '../services/user_story'
 import Lists from '../utils/Lists'
+import { EOS_THUMB_UP } from 'eos-icons-react'
 
 const StoryPageTimeline = (props) => {
   const { story, currentStatus } = props
@@ -91,7 +92,7 @@ const StoryPageTimeline = (props) => {
             if (userId && !voteClicked) updateVote(story)
           }}
         >
-          <i className='eos-icons'>thumb_up</i>
+          <EOS_THUMB_UP className='eos-icons' color='white' size='l' />
         </div>
         <div className='story-votes-count' onClick={togglePopup}>
           {votes} Votes
@@ -139,13 +140,17 @@ const StoryPageTimeline = (props) => {
             <div className='status-element' key={key}>
               {previousStatuses.includes(ele.status) ? (
                 <div className='status-current'>
-                  <i className='eos-icons status-icon'>{ele.icon}</i>
-                  {ele.status}
+                  <div className='status-icon'>
+                    {ele.icon}
+                    {ele.status}
+                  </div>
                 </div>
               ) : (
                 <div className='status-previous'>
-                  <i className='eos-icons status-icon'>{ele.icon}</i>
-                  {ele.status}
+                  <div className='status-icon'>
+                    {ele.icon}
+                    {ele.status}
+                  </div>
                 </div>
               )}
             </div>
