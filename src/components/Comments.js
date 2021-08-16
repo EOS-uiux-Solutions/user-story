@@ -1,36 +1,44 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useCallback } from 'react'
 import { Link } from '@reach/router'
 import Button from './Button'
-import axios from 'axios'
-import { apiURL } from '../config.json'
-import { useForm } from 'react-hook-form'
-import { MentionsInput, Mention } from 'react-mentions'
+import Gallery from './ImageGallery'
 
+import CommentForm from './CommentForm'
 import Context from '../modules/Context'
-import FormError from '../components/FormError'
+import userStory from '../services/user_story'
+
+const attachFiles = (formData, attachments) => {
+  if (attachments.length) {
+    attachments.forEach((file) => {
+      formData.append('files.attachment', file)
+    })
+  }
+}
+
+const toggleReplyForm = (repliesToggled, setRepliesToggled, key) => {
+  repliesToggled === key + 1
+    ? setRepliesToggled(null)
+    : setRepliesToggled(key + 1)
+}
+
+const toggleViewReplies = (viewRepliesToggled, setViewRepliesToggled, key) => {
+  viewRepliesToggled.find((item) => item === key + 1)
+    ? setViewRepliesToggled((viewRepliesToggled) =>
+        viewRepliesToggled.filter((item) => item !== key + 1)
+      )
+    : setViewRepliesToggled((viewRepliesToggled) =>
+        viewRepliesToggled.concat(key + 1)
+      )
+}
 
 const Comments = (props) => {
   const { storyId } = props
-
-  const {
-    register: registerComment,
-    errors: errorsComment,
-    handleSubmit: handleSubmitComment
-  } = useForm()
-
-  const {
-    register: registerReply,
-    errors: errorsReply,
-    handleSubmit: handleSubmitReply
-  } = useForm()
 
   const { state } = useContext(Context)
 
   const id = localStorage.getItem('id')
 
   const [comment, setComment] = useState('')
-
-  const [fetchComments, setFetchComments] = useState(false)
 
   const [commentId, setCommentId] = useState()
 
@@ -42,173 +50,76 @@ const Comments = (props) => {
 
   const [viewRepliesToggled, setViewRepliesToggled] = useState([])
 
-  const [users, setUsers] = useState([])
+  const [attachments, setAttachments] = useState([])
+
+  const [replyAttachments, setReplyAttachments] = useState([])
+
+  const fetchStoryComments = useCallback(async () => {
+    const response = await userStory.getComments(storyId)
+    setComments(response.data.data.userStory.user_story_comments)
+  }, [storyId])
 
   useEffect(() => {
-    const fetchComments = async () => {
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `
-        query {
-          userStory(id: "${storyId}") {
-            user_story_comments {
-              id
-              Comments
-              user {
-                id
-                username
-              }
-              createdAt
-              user_story_comment_replies {
-                createdAt
-                Comments
-                user {
-                  id
-                  username
-                }
-              }
-            }
-          }
-        }
-        `
-        },
-        {
-          withCredentials: true
-        }
-      )
-      setComments(response.data.data.userStory.user_story_comments)
-    }
-    const fetchUsers = async () => {
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `query {
-            users {
-              id
-              display: username
-            }
-          }`
-        },
-        {
-          withCredentials: true
-        }
-      )
-      setUsers(response.data.data.users)
-    }
-    fetchComments()
-    fetchUsers()
-  }, [storyId, fetchComments])
+    fetchStoryComments()
+  }, [fetchStoryComments])
+
+  useEffect(
+    () => () => {
+      attachments.forEach((file) => URL.revokeObjectURL(file.preview))
+      replyAttachments.forEach((file) => URL.revokeObjectURL(file.preview))
+    },
+    [attachments, replyAttachments]
+  )
 
   const addComment = async (data) => {
-    const saveComment = () => {
-      let newComment = data.addComment
+    const formData = new FormData()
+    data.user = id
+    data.user_story = storyId
+    formData.append('data', JSON.stringify(data))
 
-      newComment = newComment.split('@@@__').join('<a href=\\"/profile/')
+    attachFiles(formData, attachments)
 
-      newComment = newComment.split('^^^__').join('\\">')
+    await userStory.postComment(formData)
 
-      newComment = newComment.split('@@@^^^').join('</a>')
-
-      if (newComment !== '') {
-        newComment = newComment.trim()
-      }
-      return newComment
-    }
-    const newComment = saveComment()
-    const response = await axios.post(
-      `${apiURL}/graphql`,
-      {
-        query: `
-      mutation {
-        createUserStoryComment(input: {
-          data: {
-            Comments: "${newComment}"
-            user_story: "${storyId}"
-            user: "${id}"
-          }
-        }) {
-          userStoryComment {
-            id
-            user {
-              id
-              username
-            }
-            Comments
-            createdAt
-            user_story_comment_replies {
-              createdAt
-              Comments
-              user {
-                id
-                username
-              }
-            }
-          }
-        }
-      }
-      `
-      },
-      {
-        withCredentials: true
-      }
-    )
-    setComments([
-      ...comments,
-      response.data.data.createUserStoryComment.userStoryComment
-    ])
     setComment('')
+    setAttachments([])
+
+    fetchStoryComments()
   }
 
   const addCommentReply = async (data) => {
-    await axios.post(
-      `${apiURL}/graphql`,
-      {
-        query: `
-      mutation {
-        createUserStoryCommentThread (input: {
-          data: {
-            Comments: "${data.addReply}"
-            user_story_comment: "${commentId}"
-            user: "${id}"
-          }
-        }){
-          userStoryCommentThread {
-            createdAt
-          }
-        }
-      }
-      `
-      },
-      { withCredentials: true }
-    )
+    const formData = new FormData()
+
+    data.user = id
+    data.user_story_comment = commentId
+    formData.append('data', JSON.stringify(data))
+
+    attachFiles(formData, replyAttachments)
+
+    await userStory.postCommentReply(formData)
     setCommentReply('')
-    setFetchComments((fetchComments) => !fetchComments)
+    setReplyAttachments([])
     setRepliesToggled(null)
+
+    fetchStoryComments()
   }
-
-  const displayTransform = (id, display) => {
-    return `@${display}`
-  }
-
-  // const onAdd = (id, display, startPos, endPos) => {
-  // display = '@' + display
-  // display = `<a href="/profile/${id}">@${display}</a>`
-  // display = display.replace(display, `<a href="/profile/${id}">@${display}</a>`)
-  // console.log(display)
-  // }
-
-  // This Render suggestion function is used to render list of usernames as links.
-  // const renderSuggestion = (entry, search, highlightedDisplay, index, focused) => {
-  //   return (
-  //     <a href="https://github.com">
-  //       {highlightedDisplay}
-  //     </a>
-  //   )
-  // }
 
   return (
     <div className='comments-wrapper'>
+      {state.auth && (
+        <div>
+          <CommentForm
+            id={2}
+            attachments={attachments}
+            setAttachments={setAttachments}
+            addComment={addComment}
+            comment={comment}
+            setComment={setComment}
+            cta={'Leave a Comment'}
+            placeholder={'Adding a Comment'}
+          />
+        </div>
+      )}
       <h3>Comments</h3>
       {comments.length ? (
         comments.map((data, key) => {
@@ -221,9 +132,10 @@ const Comments = (props) => {
                   alt='Default User Avatar'
                 ></img>
               </div>
-              <div className='comment-content'>
+              <div className='comment-content' data-cy='comment-content'>
                 <Link
                   className='link link-default'
+                  data-cy='comment-username'
                   to={`/profile/${data.user.id}`}
                 >
                   {data.user.username}
@@ -240,24 +152,25 @@ const Comments = (props) => {
                   className='story-description'
                   dangerouslySetInnerHTML={{ __html: data.Comments }}
                 />
+                <div>
+                  {!!data.attachment.length && (
+                    <div className='gallery-container-comment'>
+                      <Gallery imageArray={data.attachment} />
+                    </div>
+                  )}
+                </div>
                 <div className='reply-action'>
                   {state.auth && (
                     <Button
-                      className='btn btn-default'
+                      className='btn btn-transparent btn-reply'
                       onClick={() => {
                         setCommentId(data.id)
-                        repliesToggled === key + 1
-                          ? setRepliesToggled(null)
-                          : setRepliesToggled(key + 1)
-                        viewRepliesToggled.find((item) => item === key + 1)
-                          ? setViewRepliesToggled((viewRepliesToggled) =>
-                              viewRepliesToggled.filter(
-                                (item) => item !== key + 1
-                              )
-                            )
-                          : setViewRepliesToggled((viewRepliesToggled) =>
-                              viewRepliesToggled.concat(key + 1)
-                            )
+                        toggleReplyForm(repliesToggled, setRepliesToggled, key)
+                        toggleViewReplies(
+                          viewRepliesToggled,
+                          setViewRepliesToggled,
+                          key
+                        )
                       }}
                     >
                       Reply
@@ -267,15 +180,11 @@ const Comments = (props) => {
                     <Button
                       className='btn btn-default'
                       onClick={() => {
-                        viewRepliesToggled.find((item) => item === key + 1)
-                          ? setViewRepliesToggled((viewRepliesToggled) =>
-                              viewRepliesToggled.filter(
-                                (item) => item !== key + 1
-                              )
-                            )
-                          : setViewRepliesToggled((viewRepliesToggled) =>
-                              viewRepliesToggled.concat(key + 1)
-                            )
+                        toggleViewReplies(
+                          viewRepliesToggled,
+                          setViewRepliesToggled,
+                          key
+                        )
                       }}
                     >
                       View Replies ({data.user_story_comment_replies.length})
@@ -312,35 +221,27 @@ const Comments = (props) => {
                           }
                         </div>
                         <p>{reply.Comments}</p>
+                        {reply.attachment.length !== 0 ? (
+                          <div className='gallery-container'>
+                            <Gallery imageArray={reply.attachment} />
+                          </div>
+                        ) : (
+                          ''
+                        )}
                       </div>
                     </div>
                   ))}
                 {repliesToggled === key + 1 && state.auth && (
-                  <form
-                    className='comment-form'
-                    onSubmit={handleSubmitReply(addCommentReply)}
-                  >
-                    <div className='field textarea'>
-                      <MentionsInput
-                        name='addReply'
-                        inputRef={registerReply({ required: true })}
-                        value={commentReply}
-                        onChange={(e) => setCommentReply(e.target.value)}
-                        allowSuggestionsAboveCursor={true}
-                        className='mentions'
-                      >
-                        <Mention
-                          trigger='@'
-                          data={users}
-                          markup='@@@____id__^^^____display__@@@^^^'
-                        />
-                      </MentionsInput>
-                      {errorsReply.addReply && (
-                        <FormError message='Reply cannot be empty' />
-                      )}
-                    </div>
-                    <Button className='btn btn-default'>Add Reply</Button>
-                  </form>
+                  <CommentForm
+                    id={1}
+                    attachments={replyAttachments}
+                    setAttachments={setReplyAttachments}
+                    addComment={addCommentReply}
+                    comment={commentReply}
+                    setComment={setCommentReply}
+                    cta={'Add Reply'}
+                    placeholder={'Adding a Reply'}
+                  />
                 )}
               </div>
             </div>
@@ -348,37 +249,6 @@ const Comments = (props) => {
         })
       ) : (
         <h3>No comments yet</h3>
-      )}
-      {state.auth && (
-        <form
-          className='comment-form'
-          onSubmit={handleSubmitComment(addComment)}
-        >
-          <div className='field textarea'>
-            <MentionsInput
-              name='addComment'
-              inputRef={registerComment({ required: true })}
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              allowSuggestionsAboveCursor={true}
-              className='mentions'
-            >
-              <Mention
-                trigger='@'
-                data={users}
-                displayTransform={displayTransform}
-                markup='@@@____id__^^^____display__@@@^^^'
-                regex='/^\[([\w\s\d]+)\]\((https?:\/\/[\w\d./?=#]+)\)$/'
-                // onAdd={onAdd}
-                // renderSuggestion={renderSuggestion}
-              />
-            </MentionsInput>
-            {errorsComment.addComment && (
-              <FormError message='Comment cannot be empty' />
-            )}
-          </div>
-          <Button className='btn btn-default'>Add Comment</Button>
-        </form>
       )}
     </div>
   )

@@ -1,3 +1,8 @@
+.user-profile-wrapper {
+  align-items: center;
+  justify-content: center;
+}
+
 .user-profile {
   align-items: center;
   display: flex;
@@ -11,6 +16,7 @@
   &-details {
     display: flex;
     flex-direction: column;
+    min-width: 200px;
     padding: 0 64px;
     width: 85%;
 
@@ -27,12 +33,15 @@
       font-size: $font-size-bio;
     }
 
+    & > * {
+      width: 100%;
+    }
   }
 
   &-avatar {
     width: 25%;
 
-    img {
+    &-img {
       background-color: #fff;
       border: 1px solid #707070;
       border-radius: 50%;
@@ -40,6 +49,25 @@
       padding: 5px;
       width: 150px;
     }
+
+    &:hover {
+      .user-profile-edit-badge {
+        display: flex;
+      }
+    }
+  }
+
+  &-edit-badge {
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 50%;
+    color: $eos-white;
+    display: none;
+    font-size: $font-size-label;
+    height: 162px;
+    justify-content: center;
+    position: absolute;
+    width: 162px;
   }
 
   @media only screen and (max-width: 768px) {
@@ -50,9 +78,9 @@
     }
 
     &-details {
-      align-items: center;
       display: flex;
       flex-direction: column;
+      padding: 0;
       width: auto;
     }
   }
@@ -73,7 +101,6 @@
       font-weight: bold;
       list-style: none;
       padding: $eos-m;
-
 
       &:first-child {
         padding-left: 0;
@@ -116,6 +143,14 @@
       &:first-child {
         padding-left: 0;
       }
+    }
+
+  }
+
+  @media only screen and (max-width: 768px) {
+    ul {
+      padding: 1rem;
+      width: 100%;
     }
   }
 }

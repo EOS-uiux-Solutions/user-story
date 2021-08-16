@@ -27,4 +27,12 @@
     color: $primary;
     font-weight: bold;
   }
+
+  &-disabled {
+    color: $medium-gray;
+
+    &:hover {
+      cursor: not-allowed;
+    }
+  }
 }

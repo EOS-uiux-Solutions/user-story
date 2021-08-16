@@ -1,10 +1,7 @@
 import React, { useLayoutEffect, useState, useEffect, useContext } from 'react'
 import { useForm } from 'react-hook-form'
-
-import CKEditor from '@ckeditor/ckeditor5-react'
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
-import axios from 'axios'
-import { apiURL } from '../config.json'
+import MarkdownEditor from '../components/MarkdownEditor'
+import { filterDescriptionText } from '../utils/filterText'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 import { Helmet } from 'react-helmet'
 
@@ -18,12 +15,26 @@ import { navigate } from '@reach/router'
 import Context from '../modules/Context'
 import Login from './Login'
 
+import userStory from '../services/user_story'
+
+const initialDescriptionInputsValue = {
+  None: ''
+}
+
 const NewStory = () => {
   const { state } = useContext(Context)
 
-  const { register, handleSubmit, errors, setValue, watch } = useForm()
+  const { register, handleSubmit, errors, watch } = useForm()
+
+  const [currentProductSelected, setCurrentProductSelected] = useState('None')
 
   const [descriptionError, setDescriptionError] = useState(false)
+
+  const [descriptionInputs, setDescriptionInputs] = useState(
+    initialDescriptionInputsValue
+  )
+
+  const [description, setDescription] = useState('')
 
   const [categories, setCategories] = useState([])
 
@@ -31,11 +42,11 @@ const NewStory = () => {
 
   const [products, setProducts] = useState([])
 
-  const [storiesData, setStoriesData] = useState([])
-
   const { promiseInProgress } = usePromiseTracker()
 
   const [screenSize, setScreenSize] = useState(0)
+
+  const [attachments, setAttachments] = useState([])
 
   useLayoutEffect(() => {
     function updateScreenSize() {
@@ -48,9 +59,7 @@ const NewStory = () => {
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const response = await axios.post(`${apiURL}/graphql`, {
-        query: '{ __type(name: "ENUM_USERSTORY_CATEGORY") {enumValues {name}}}'
-      })
+      const response = await userStory.getCategories()
 
       setCategories(
         response.data.data.__type.enumValues.map((ele) => {
@@ -62,35 +71,23 @@ const NewStory = () => {
     trackPromise(fetchCategories())
 
     const fetchProducts = async () => {
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `query {
-          products {
-            id
-            Name
-          }
-        }`
-        },
-        {
-          withCredentials: true
-        }
-      )
-      setProducts(response.data.data.products)
+      const response = await userStory.getProductsWithTemplates()
+      const { products } = response.data.data
+      setProducts(products)
+      const productToTemplateTextMap = {}
+      products.forEach((product) => {
+        productToTemplateTextMap[product.id] = product.product_template ?? ''
+      })
+      setDescriptionInputs({
+        ...initialDescriptionInputsValue,
+        ...productToTemplateTextMap
+      })
     }
 
     trackPromise(fetchProducts())
 
     const fetchPriorities = async () => {
-      const response = await axios.post(`${apiURL}/graphql`, {
-        query: `query {
-          __type(name: "ENUM_USERSTORY_PRIORITY") {
-            enumValues {
-              name
-            }
-          }
-        }`
-      })
+      const response = await userStory.getPriorities()
 
       setPriorities(
         response.data.data.__type.enumValues.map((ele) => {
@@ -100,73 +97,32 @@ const NewStory = () => {
     }
 
     trackPromise(fetchPriorities())
-
-    const fetchStoriesData = async () => {
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `query {
-            userStories(sort: "votes:desc,createdAt:desc") {
-              id
-              Title
-              Description
-              followers {
-                username
-              }
-            }
-          }`
-        },
-        {
-          withCredentials: true
-        }
-      )
-      setStoriesData(response.data.data.userStories)
-    }
-    fetchStoriesData()
   }, [])
 
-  /*
-  const handleFileUpload = (event) => {
-    setData({ ...data, mediaCollection: event.target.files })
+  const handleProductSelectChange = (event) => {
+    const id = event.target.value
+    const selectedProduct = products.find((product) => product.id === id)
+    setCurrentProductSelected(selectedProduct?.id ?? 'None')
   }
-  feature coming in next PR
-  */
+
+  const descError = () => {
+    if (!description?.length) {
+      setDescriptionError(true)
+    }
+  }
 
   const onSubmit = async (data) => {
-    if (data.description === undefined || data.description.length === 0) {
-      setDescriptionError(true)
-      return
+    data.Description = filterDescriptionText(description)
+    const formData = new FormData()
+    formData.append('data', JSON.stringify(data))
+    if (attachments.length) {
+      attachments.forEach((file) => {
+        formData.append('files.Attachment', file)
+      })
     }
-    await axios.post(
-      `${apiURL}/graphql`,
-      {
-        query: `mutation {
-          createUserStory(
-            input: {
-              data: {
-                Description: "${data.description}"
-                Title: "${data.title}"
-                Category: ${data.category}
-                user_story_status: "5f0f33205f5695666b0d2e7e"
-                product: "${data.product}"
-                Priority: ${data.priority}
-              }
-            }
-          ) {
-            userStory {
-              createdAt
-            }
-          }
-        }
-        `
-      },
-      { withCredentials: true }
-    )
+    await userStory.createStory(formData)
     navigate('/')
   }
-  useEffect(() => {
-    register('description')
-  })
 
   return state.auth ? (
     <>
@@ -188,26 +144,22 @@ const NewStory = () => {
                   <input
                     className='input-default'
                     type='text'
-                    name='title'
+                    name='Title'
+                    data-cy='title'
                     autoComplete='off'
-                    ref={register({ required: true })}
+                    ref={register({ required: 'Title cannot be empty' })}
                   />
-                  {errors.title && <FormError type={errors.title.type} />}
+                  {errors.Title && <FormError message={errors.Title.message} />}
                 </div>
-                {screenSize <= 1120 ? (
-                  <Search
-                    listToBeSearched={storiesData}
-                    title={watch('title') || ''}
-                  />
-                ) : (
-                  ''
-                )}
+                {screenSize <= 1120 ? <Search title={watch('Title')} /> : ''}
                 <div className='form-element'>
                   <label htmlFor='product'>Product</label>
                   <select
                     className='select-default'
                     name='product'
-                    ref={register({ required: true })}
+                    data-cy='product'
+                    onChange={handleProductSelectChange}
+                    ref={register({ required: 'Product must be set' })}
                   >
                     <option defaultValue={true} value=''>
                       Select a product
@@ -221,14 +173,17 @@ const NewStory = () => {
                         )
                       })}
                   </select>
-                  {errors.product && <FormError type={errors.product.type} />}
+                  {errors.product && (
+                    <FormError message={errors.product.message} />
+                  )}
                 </div>
                 <div className='form-element'>
                   <label htmlFor='category'>Category</label>
                   <select
                     className='select-default'
-                    name='category'
-                    ref={register({ required: true })}
+                    name='Category'
+                    data-cy='category'
+                    ref={register({ required: 'Category must be set' })}
                   >
                     <option defaultValue={true} value=''>
                       Select a category
@@ -242,14 +197,17 @@ const NewStory = () => {
                         )
                       })}
                   </select>
-                  {errors.category && <FormError type={errors.category.type} />}
+                  {errors.Category && (
+                    <FormError message={errors.Category.message} />
+                  )}
                 </div>
                 <div className='form-element'>
                   <label htmlFor='priority'>Priority</label>
                   <select
                     className='select-default'
-                    name='priority'
-                    ref={register({ required: true })}
+                    name='Priority'
+                    data-cy='priority'
+                    ref={register({ required: 'Priority must be set' })}
                   >
                     <option defaultValue={true} value=''>
                       Select priority
@@ -263,48 +221,44 @@ const NewStory = () => {
                         )
                       })}
                   </select>
-                  {errors.priority && <FormError type={errors.priority.type} />}
+                  {errors.Priority && (
+                    <FormError message={errors.Priority.message} />
+                  )}
                 </div>
-                <div className='form-element'>
+                <div className='form-element' data-cy='description-editor'>
                   <label htmlFor='description'>Description</label>
-                  <CKEditor
-                    editor={ClassicEditor}
-                    config={{
-                      toolbar: [
-                        'heading',
-                        '|',
-                        'bold',
-                        'italic',
-                        '|',
-                        'link',
-                        'bulletedList',
-                        'numberedList'
-                      ]
-                    }}
-                    onChange={(event, editor) => {
-                      setValue('description', editor.getData())
+                  <MarkdownEditor
+                    callback={(html, text) => {
+                      const result = {}
+                      result[currentProductSelected] = text
+                      setDescription(html)
                       setDescriptionError(false)
+                      setDescriptionInputs({
+                        ...descriptionInputs,
+                        ...result
+                      })
                     }}
-                    ref={register}
+                    value={descriptionInputs[currentProductSelected]}
                   />
                   {descriptionError && <FormError type='emptyDescription' />}
                 </div>
-                <Dragdrop />
+                <Dragdrop
+                  attachments={attachments}
+                  setAttachments={setAttachments}
+                />
                 <div className='flex flex-row flex-center'>
-                  <Button type='submit' className='btn btn-default'>
+                  <Button
+                    type='submit'
+                    data-cy='btn-submit'
+                    className='btn btn-default'
+                    onClick={descError}
+                  >
                     Submit
                   </Button>
                 </div>
               </form>
             </div>
-            {screenSize > 1120 ? (
-              <Search
-                listToBeSearched={storiesData}
-                title={watch('title') || ''}
-              />
-            ) : (
-              ''
-            )}
+            {screenSize > 1120 ? <Search title={watch('Title')} /> : ''}
           </div>
         </div>
       )}

@@ -3,6 +3,13 @@
   border-radius: 10px;
   padding: 4px 4px;
 
+  &-loading {
+    background-color: unset;
+    max-width: 68px;
+    min-width: 50px;
+    width: 10%;
+  }
+
   &-voted {
     background-color: $light-blue;
   }
@@ -21,7 +28,7 @@
 .vote-button {
   color: $eos-white;
   font-weight: bold;
-  margin: 4px 4px;
+  margin: 4px 8px;
 
   &-clickable {
     cursor: pointer;
@@ -29,5 +36,13 @@
 
   .eos-icons {
     margin: 0px 4px 0px 4px;
+  }
+}
+
+@media (max-width: 900px) {
+  .vote-wrapper {
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
   }
 }

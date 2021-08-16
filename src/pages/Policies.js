@@ -1,31 +1,22 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
-import { apiURL } from '../config.json'
 import Navigation from '../components/Navigation'
 import ReactMarkdown from 'react-markdown'
 import { Helmet } from 'react-helmet'
+import { usePromiseTracker, trackPromise } from 'react-promise-tracker'
+import LoadingIndicator from '../modules/LoadingIndicator'
+import userStory from '../services/user_story'
 
 const Policies = () => {
   const [policies, setPolicies] = useState('')
 
+  const { promiseInProgress } = usePromiseTracker()
+
   useEffect(() => {
     const fetchPolicies = async () => {
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `query {
-                    userStoryPolicies {
-                      Description
-                    }
-                  }`
-        },
-        {
-          withCredentials: true
-        }
-      )
-      setPolicies(response.data.data.userStoryPolicies[0].Description)
+      const response = await userStory.getPolicies()
+      setPolicies(response.data.data.userStoryPolicies?.[0].Description)
     }
-    fetchPolicies()
+    trackPromise(fetchPolicies())
   }, [])
 
   return (
@@ -37,7 +28,13 @@ const Policies = () => {
       <Navigation />
       <div className='body-content'>
         <div className='body-wrapper'>
-          <ReactMarkdown>{policies && `${policies}`}</ReactMarkdown>
+          {promiseInProgress ? (
+            <LoadingIndicator />
+          ) : policies ? (
+            <ReactMarkdown>{policies && `${policies}`}</ReactMarkdown>
+          ) : (
+            <h3>No policies</h3>
+          )}
         </div>
       </div>
     </>

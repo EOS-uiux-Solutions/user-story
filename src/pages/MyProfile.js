@@ -1,14 +1,11 @@
 import React, { useEffect, useState, useContext } from 'react'
-import axios from 'axios'
-import { apiURL } from '../config.json'
-import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
-import LoadingIndicator from '../modules/LoadingIndicator'
 import { Helmet } from 'react-helmet'
 
 import Navigation from '../components/Navigation'
 import Context from '../modules/Context'
 import Login from './Login'
 import UserProfile from '../components/UserProfile'
+import userStory from '../services/user_story'
 
 const MyProfile = () => {
   const userId = localStorage.getItem('id')
@@ -19,8 +16,6 @@ const MyProfile = () => {
 
   const [, setUpdated] = useState(false)
 
-  const { promiseInProgress } = usePromiseTracker()
-
   const handleInputChange = (event) => {
     setUser({
       ...user,
@@ -29,33 +24,7 @@ const MyProfile = () => {
   }
 
   const updateProfile = async () => {
-    const response = await axios.post(
-      `${apiURL}/graphql`,
-      {
-        query: `mutation {
-        updateUser(input: {
-          where: {
-            id: "${userId}"
-          }
-          data: {
-            Name: "${user.Name}"
-            Profession: "${user.Profession}"
-            Company: "${user.Company}"
-            LinkedIn: "${user.LinkedIn}"
-            Twitter: "${user.Twitter}"
-            Bio: "${user.Bio}"
-          }
-        }) {
-          user {
-            username
-          }
-        }
-      }`
-      },
-      {
-        withCredentials: true
-      }
-    )
+    const response = await userStory.updateUser({ id: userId, ...user })
     if (response) {
       setUpdated(true)
     }
@@ -63,34 +32,11 @@ const MyProfile = () => {
 
   useEffect(() => {
     const fetchUserInfo = async () => {
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `query {
-          user(id: "${userId}") {
-            profilePicture {
-              url
-            }
-            Name
-            Bio
-            username
-            Company
-            Profession
-            email
-            LinkedIn
-            Twitter
-          }
-        }
-        `
-        },
-        {
-          withCredentials: true
-        }
-      )
+      const response = await userStory.getUserDetails(userId)
       setUser(response.data.data.user)
     }
     if (userId) {
-      trackPromise(fetchUserInfo())
+      fetchUserInfo()
     }
   }, [userId])
 
@@ -101,26 +47,20 @@ const MyProfile = () => {
         <meta name='robots' content='noindex' />
       </Helmet>
       <Navigation />
-      {promiseInProgress ? (
-        <LoadingIndicator />
-      ) : (
-        <div className='body-content'>
-          <div className='body-wrapper'>
-            <div className='flex flex-row'>
-              <div className='flex flex-column'>
-                <UserProfile
-                  user={user}
-                  handleInputChange={handleInputChange}
-                  updateProfile={updateProfile}
-                  allowEditing
-                >
-                  <h1>Hello world</h1>
-                </UserProfile>
-              </div>
+      <div className='body-content'>
+        <div className='body-wrapper'>
+          <div className='flex flex-row user-profile-wrapper'>
+            <div className='flex flex-column'>
+              <UserProfile
+                user={user === '' ? '' : Object.assign(user, { id: userId })}
+                handleInputChange={handleInputChange}
+                updateProfile={updateProfile}
+                allowEditing
+              />
             </div>
           </div>
         </div>
-      )}
+      </div>
     </>
   ) : (
     <Login message='Please login to access your profile' />

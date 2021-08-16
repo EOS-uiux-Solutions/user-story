@@ -1,0 +1,33 @@
+.comment {
+  &-form {
+    margin: 16px 0px;
+  }
+
+  &-input {
+    align-items: flex-end;
+    display: flex;
+    margin-bottom: 5px;
+    width: fit-content;
+  }
+}
+
+.file-input {
+  cursor: pointer;
+  margin-bottom: 1em;
+  margin-left: -2.5em;
+  z-index: 10;
+}
+
+.file {
+  display: none;
+
+  &-btn-attachment {
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+  }
+
+  &-button-label:hover {
+    cursor: pointer;
+  }
+}

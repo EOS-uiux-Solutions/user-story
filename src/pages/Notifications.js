@@ -4,9 +4,8 @@ import { navigate } from '@reach/router'
 
 import Navigation from '../components/Navigation'
 import LoadingIndicator from '../modules/LoadingIndicator'
-import axios from 'axios'
-import { apiURL } from '../config.json'
 import { Helmet } from 'react-helmet'
+import userStory from '../services/user_story'
 
 const Notifications = () => {
   const userId = localStorage.getItem('id')
@@ -17,32 +16,7 @@ const Notifications = () => {
 
   useEffect(() => {
     const fetchNotifications = async () => {
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `query {
-          userStoryNotifications (where: {
-            users: {
-              id: "${userId}"
-            }
-          }){
-            message
-            id
-            users {
-              id
-            }
-            seenBy {
-              id
-            }
-            date
-            link
-          }
-        }`
-        },
-        {
-          withCredentials: true
-        }
-      )
+      const response = await userStory.getNotificationsByUserId(userId)
       setNotifications(response.data.data.userStoryNotifications)
     }
     trackPromise(fetchNotifications())

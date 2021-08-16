@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react'
 
-import { Link } from '@reach/router'
-
 const Pagination = (props) => {
-  const { getPage, storyCount, status, product } = props
+  const { getPage, storyCount, status, productQuery } = props
 
   const [currNumber, setCurrNumber] = useState(1)
 
-  const [pages, setPages] = useState()
+  const [pages, setPages] = useState(null)
 
   useEffect(() => {
     const resetPage = () => {
@@ -15,7 +13,7 @@ const Pagination = (props) => {
       getPage(1)
     }
     resetPage()
-  }, [status, product, getPage])
+  }, [status, productQuery, getPage])
 
   useEffect(() => {
     if (storyCount) {
@@ -30,51 +28,52 @@ const Pagination = (props) => {
 
   return (
     <div className='pagination'>
-      <Link
-        className='btn btn-pagination'
+      <span
+        className={`btn btn-pagination ${
+          currNumber <= 1 ? 'btn-pagination-disabled' : ''
+        }`}
         onClick={() => {
           if (pages.find((page) => page === currNumber - 1)) {
             setCurrNumber((currNumber) => currNumber - 1)
             getPage(currNumber - 1)
           }
         }}
-        to='/'
       >
         <i className='eos-icons eos-18'>keyboard_arrow_left</i>
         {`Prev`}
-      </Link>
-      <div className='btn-pagination'>
+      </span>
+      <div className='btn btn-pagination'>
         {pages
           ? pages.map((ele, key) => {
               return (
-                <Link
+                <span
                   className={`number ${currNumber === ele ? 'selected' : ''}`}
                   onClick={() => {
                     setCurrNumber(ele)
                     getPage(ele)
                   }}
-                  to='/'
                   key={key}
                 >
                   {ele}
-                </Link>
+                </span>
               )
             })
           : ''}
       </div>
-      <Link
-        className='btn btn-pagination'
+      <span
+        className={`btn btn-pagination ${
+          currNumber >= pages?.length ? 'btn-pagination-disabled' : ''
+        }`}
         onClick={() => {
           if (pages.find((page) => page === currNumber + 1)) {
             setCurrNumber((currNumber) => currNumber + 1)
             getPage(currNumber + 1)
           }
         }}
-        to='/'
       >
         {`Next`}
         <i className='eos-icons eos-18'>keyboard_arrow_right</i>
-      </Link>
+      </span>
     </div>
   )
 }

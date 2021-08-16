@@ -31,48 +31,47 @@
 
 .comment-form {
   margin: 16px 0px;
-
-  .textarea {
-    background-color: #ffffff;
-    resize: none;
-    width: 20em;
-  }
 }
 
 .mentions {
+  background-color: #ffffff;
   margin: 1em 0;
-  z-index: 10;
+  width: 40vw;
 }
 
-.mentions--singleLine .mentions__control {
-  display: inline-block;
+.mentions--singleLine {
+  .mentions__control {
+    display: inline-block;
+  }
+
+  .mentions__higlighter {
+    border: 2px inset transparent;
+    padding: 1px;
+  }
+
+  .mentions__input {
+    border: 2px inset;
+    padding: 5px;
+  }
 }
 
-.mentions--singleLine .mentions__higlighter {
-  border: 2px inset transparent;
-  padding: 1px;
-}
+.mentions--multiLine {
+  .mentions__control {
+    border: 1px solid silver;
+    font-family: $font-family;
+    font-size: $font-size-general;
+  }
 
-.mentions--singleLine .mentions__input {
-  border: 2px inset;
-  padding: 5px;
-}
+  .mentions__highlighter {
+    padding: 9px;
+  }
 
-.mentions--multiLine .mentions__control {
-  border: 1px solid silver;
-  font-family: $font-family;
-  font-size: $font-size-general;
-}
-
-.mentions--multiLine .mentions__highlighter {
-  padding: 9px;
-}
-
-.mentions--multiLine .mentions__input {
-  border: 0;
-  min-height: 63px;
-  outline: 0;
-  padding: 9px;
+  .mentions__input {
+    border: 0;
+    min-height: 63px;
+    outline: 0;
+    padding: 9px;
+  }
 }
 
 .mentions__suggestions__list {

@@ -2,7 +2,7 @@ version: '3'
 
 services:
   eosstrapi:
-    image: registry.gitlab.com/suse-uiux/eos-strapi/development
+    image: ghcr.io/eos-uiux-solutions/strapi:latest
     environment:
       DATABASE_CLIENT: mongo
       DATABASE_NAME: strapi
@@ -11,7 +11,7 @@ services:
       DATABASE_USERNAME: strapi
       DATABASE_PASSWORD: password
       EOS_CORS_DOMAINS: 'http://localhost:3000, http://localhost:4999'
-      WITH_DOCKER: 'yes'
+      WITH_DOCKER: 'true'
     restart: unless-stopped
     networks:
       - eos-strapi

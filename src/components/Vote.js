@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
-import { apiURL } from '../config.json'
 import Modal from './Modal'
 import { Link } from '@reach/router'
+import userStory from '../services/user_story'
 
 const Vote = (props) => {
   const { story } = props
 
   const userId = localStorage.getItem('id')
 
-  const [followers, setFollowers] = useState([])
+  const followerIds = story.followers.map((follower) =>
+    JSON.stringify(follower.id)
+  )
+
+  const [followers, setFollowers] = useState(followerIds)
 
   const [votes, setVotes] = useState(story.followers.length)
 
@@ -32,65 +35,29 @@ const Vote = (props) => {
 
   const updateVote = async (story) => {
     setVoteClicked(true)
-    let followerIds = story.followers.map((follower) =>
-      JSON.stringify(follower.id)
-    )
     if (voted) {
-      followerIds = followerIds.filter((id) => id !== JSON.stringify(userId))
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `
-        mutation {
-          updateUserStory(input: {where: {id: "${story.id}"} data: {followers: [${followerIds}]}}){
-            userStory{
-              followers {
-                id
-              }
-            }
-          }
-        }
-        `
-        },
-        {
-          withCredentials: true
-        }
+      let updatedFollowerIds = followers.filter(
+        (id) => id !== JSON.stringify(userId)
       )
-      setVoteClicked(false)
-      followerIds = response.data.data.updateUserStory.userStory.followers.map(
+      const response = await userStory.updateVotes(story.id, updatedFollowerIds)
+      updatedFollowerIds = response.data.data.updateUserStory.userStory.followers.map(
         (follower) => JSON.stringify(follower.id)
       )
-      setFollowers(followerIds)
+      setFollowers(updatedFollowerIds)
       setVoted(false)
       setVotes((votes) => votes - 1)
     } else {
-      const response = await axios.post(
-        `${apiURL}/graphql`,
-        {
-          query: `
-        mutation {
-          updateUserStory(input: {where: {id: "${story.id}"} data: {followers: [${followers}, "${userId}"]}}){
-            userStory{
-              followers {
-                id
-              }
-            }
-          }
-        }
-        `
-        },
-        {
-          withCredentials: true
-        }
-      )
-      setVoteClicked(false)
-      const followerIds = response.data.data.updateUserStory.userStory.followers.map(
+      followers.push(JSON.stringify(userId))
+      let updatedFollowerIds = followers
+      const response = await userStory.updateVotes(story.id, updatedFollowerIds)
+      updatedFollowerIds = response.data.data.updateUserStory.userStory.followers.map(
         (follower) => JSON.stringify(follower.id)
       )
-      setFollowers(followerIds)
+      setFollowers(updatedFollowerIds)
       setVoted(true)
       setVotes((votes) => votes + 1)
     }
+    setVoteClicked(false)
   }
 
   return (
@@ -105,9 +72,8 @@ const Vote = (props) => {
       <div
         className={`vote-button ${userId ? 'vote-button-clickable' : ''}`}
         onClick={() => {
-          if (userId) updateVote(story)
+          if (userId && !voteClicked) updateVote(story)
         }}
-        disabled={voteClicked}
       >
         <i className='eos-icons'>thumb_up</i>
         Vote

@@ -40,3 +40,79 @@
     }
   }
 }
+
+.roadmap-one {
+  .btn-tabs {
+
+    .eos-icons {
+      margin-right: 12px;
+      vertical-align: sub;
+    }
+
+    &-selected,
+    &:hover,
+    &:focus {
+      border: 2px solid $light-gray;
+    }
+
+    &:focus {
+      outline: transparent 0px;
+    }
+  }
+}
+
+.roadmap-dropdown {
+  background-color: white;
+  display: none;
+  padding: 20px;
+}
+
+@media (max-width: 900px) {
+  .roadmap-container {
+    display: none;
+  }
+
+  .roadmap-dropdown {
+    display: block;
+  }
+
+  .roadmap {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    &::before {
+      border-left: 1px solid gray;
+      border-top: 0;
+      content: '';
+      height: 80%;
+      left: 23px;
+      position: absolute;
+      width: 100%;
+      z-index: 1;
+    }
+
+    .btn-tabs {
+      margin: 0.8rem 0;
+    }
+  }
+
+  .btn-tabs {
+    margin: 0.5rem;
+    width: 200px;
+  }
+
+}
+
+@media (max-width: 600px) {
+  .roadmap-one {
+    flex-direction: column;
+  }
+
+  .btn-tabs {
+    margin: 0.3rem 0;
+    text-align: left;
+    width: 100%;
+  }
+}

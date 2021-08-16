@@ -37,8 +37,21 @@
   font-size: $font-size-header;
   height: 25px;
   position: absolute;
-  right: 0;
+  right: 0.5em;
   text-align: center;
   top: 0.5em;
   width: 25px;
 }
+
+.remove-img-icon {
+  position: absolute;
+  right: 20px;
+  transition: 0.1s ease-out;
+  width: 25px;
+
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+  }
+}
+

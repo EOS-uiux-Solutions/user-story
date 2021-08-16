@@ -1,40 +1,38 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
+import { debounce } from 'lodash'
+import userStory from '../services/user_story'
+import { strip } from '../utils/filterText'
 
 const Search = (props) => {
-  const { listToBeSearched, title } = props
+  const { title } = props
+
   const [searchResults, setSearchResults] = useState([])
 
-  const strip = (html) => {
-    return html.replace(/<\s*[^>]*>/gi, '')
-  }
+  const handleTitleChange = useCallback(
+    debounce(async (title) => {
+      const response = await userStory.getStoriesByTitle(title)
+      setSearchResults(response.data.data.userStories)
+    }, 600),
+    []
+  )
 
   useEffect(() => {
-    const updateSearchResults = () => {
-      const toBeAppended = []
-      if (title === '') {
-        setSearchResults(toBeAppended)
-        return
-      }
-      for (let i = 0; i < listToBeSearched.length; i++) {
-        const txtVal = listToBeSearched[i].Title
-        if (txtVal.toUpperCase().indexOf(title.toUpperCase()) > -1)
-          toBeAppended.push({
-            id: listToBeSearched[i].id,
-            Title: txtVal,
-            Description: listToBeSearched[i].Description,
-            followers: listToBeSearched[i].followers
-          })
-      }
-      setSearchResults(toBeAppended)
+    if (!title) {
+      return
     }
-    updateSearchResults()
-  }, [title, listToBeSearched])
+    handleTitleChange(title)
+  }, [title, handleTitleChange])
 
-  return searchResults.length > 0 ? (
+  if (!title) {
+    return ''
+  }
+  return (
     <div className='flex flex-column title-search'>
       <h4>
-        <i className='eos-icons'>arrow_forward</i> We found some matching
-        results
+        <i className='eos-icons'>arrow_forward</i>
+        {searchResults.length > 0
+          ? ' We found some matching results'
+          : ' No matching stories found. Go ahead and create one.'}
       </h4>
       {searchResults.map((result, key) => {
         return (
@@ -44,8 +42,7 @@ const Search = (props) => {
             key={key}
           >
             <div className='stories-content title-search-result'>
-              <h4>{result.Title}</h4>
-              {strip(result.Description)}
+              <h4>{strip(result.Title, 80)}</h4>
             </div>
             <div className='icon-display'>
               {result.followers.length}
@@ -55,8 +52,6 @@ const Search = (props) => {
         )
       })}
     </div>
-  ) : (
-    ''
   )
 }
 
