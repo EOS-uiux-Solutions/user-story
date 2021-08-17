@@ -25,7 +25,7 @@ jobs:
 
       - name: Build the site
         run: |
-          echo "$CONFIG_JSON" > src/config.json
+          echo $CONFIG_JSON > src/config.json
           npm run build
           cp build/index.html build/404.html
         env:
