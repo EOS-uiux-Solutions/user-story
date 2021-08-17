@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from 'react'
+import {
+  EOS_KEYBOARD_ARROW_LEFT,
+  EOS_KEYBOARD_ARROW_RIGHT
+} from 'eos-icons-react'
 
 const Pagination = (props) => {
   const { getPage, storyCount, status, productQuery } = props
@@ -39,7 +43,7 @@ const Pagination = (props) => {
           }
         }}
       >
-        <i className='eos-icons eos-18'>keyboard_arrow_left</i>
+        <EOS_KEYBOARD_ARROW_LEFT className='eos-icons eos-18' />
         {`Prev`}
       </span>
       <div className='btn btn-pagination'>
@@ -72,7 +76,7 @@ const Pagination = (props) => {
         }}
       >
         {`Next`}
-        <i className='eos-icons eos-18'>keyboard_arrow_right</i>
+        <EOS_KEYBOARD_ARROW_RIGHT className='eos-icons eos-18' />
       </span>
     </div>
   )

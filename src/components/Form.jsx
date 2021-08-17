@@ -1,4 +1,5 @@
 import React from 'react'
+import { EOS_VISIBILITY } from 'eos-icons-react'
 
 export const Input = ({ type, updateState }) => {
   return (
@@ -9,9 +10,7 @@ export const Input = ({ type, updateState }) => {
         type='password'
       >
         <div class='input-group-append'>
-          <i class='eos-icons eos-18 toggle-password js-toggle-password'>
-            visibility
-          </i>
+          <EOS_VISIBILITY class='eos-icons eos-18 toggle-password js-toggle-password' />
         </div>
       </input>
     </div>

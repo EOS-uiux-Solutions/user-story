@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-
+import { EOS_KEYBOARD_ARROW_UP, EOS_KEYBOARD_ARROW_DOWN } from 'eos-icons-react'
 import { CheckBox, RadioButton } from './InputButtons'
 import SearchInput from '../modules/SearchInput'
 import Lists from '../utils/Lists'
@@ -59,9 +59,9 @@ const SearchBar = (props) => {
         {filtersOpened ? 'Hide ' : 'Show '}
         Filters{' '}
         {filtersOpened ? (
-          <i className='eos-icons'>keyboard_arrow_up</i>
+          <EOS_KEYBOARD_ARROW_UP className='eos-icons' />
         ) : (
-          <i className='eos-icons'>keyboard_arrow_down</i>
+          <EOS_KEYBOARD_ARROW_DOWN className='eos-icons' />
         )}
       </label>
 

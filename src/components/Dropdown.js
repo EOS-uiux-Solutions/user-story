@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { EOS_KEYBOARD_ARROW_UP, EOS_KEYBOARD_ARROW_DOWN } from 'eos-icons-react'
 
 import Button from './Button'
 
@@ -49,15 +50,15 @@ const Dropdown = (props) => {
         <div className='dropdown-container' ref={reference} {...rest}>
           <Button
             type='button'
-            className='btn btn-transparent'
+            className='btn btn-transparent flex flex-row'
             onClick={handleDropdownState}
           >
             {dropdownState ? (
-              <i className='eos-icons'>keyboard_arrow_up</i>
+              <EOS_KEYBOARD_ARROW_UP className='eos-icons' />
             ) : (
-              <i className='eos-icons'>keyboard_arrow_down</i>
+              <EOS_KEYBOARD_ARROW_DOWN className='eos-icons' />
             )}
-            &nbsp; {curr}
+            &nbsp; <div className='curr'> {curr} </div>
           </Button>
           <div
             className={`dropdown ${

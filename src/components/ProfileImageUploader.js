@@ -5,6 +5,7 @@ import axios from 'axios'
 import { apiURL } from '../config.json'
 import LoadingIndicator from '../modules/LoadingIndicator'
 import FormError from './FormError'
+import { EOS_DELETE } from 'eos-icons-react'
 
 const ProfileImageUploader = ({
   userId,
@@ -132,7 +133,7 @@ const ProfileImageUploader = ({
                 setFile(null)
               }}
             >
-              <i className='eos-icons'>delete</i>
+              <EOS_DELETE className='eos-icons' />
             </span>
             <img
               src={profilePicURL}
@@ -160,7 +161,7 @@ const ProfileImageUploader = ({
                   setFile(null)
                 }}
               >
-                <i className='eos-icons'>delete</i>
+                <EOS_DELETE className='eos-icons' />
               </span>
               <img
                 src={file.preview}

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { EOS_CHECK } from 'eos-icons-react'
 
 import Lists from '../utils/Lists'
 
@@ -26,7 +27,7 @@ const Timeline = (props) => {
           <div className='status-element' key={key}>
             <div className='status flex flex-column'>
               {previousStatuses.includes(ele.status) ? (
-                <i className='eos-icons tick'>check</i>
+                <EOS_CHECK className='eos-icons tick' />
               ) : (
                 <i className='eos-icons no-tick'></i>
               )}

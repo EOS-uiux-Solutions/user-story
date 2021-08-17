@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import LanguageDropdown from './LanguageDropdown'
 import eosLogoColoured from '../assets/images/logo-coloured.png'
 import SocialMediaLinks from '../components/SocialMediaLinks'
+import { EOS_COPYRIGHT } from 'eos-icons-react'
 export const AuthWrapper = ({ children }) => {
   return (
     <div className='authentication-wrapper'>
@@ -49,7 +50,7 @@ export const AuthRightContainer = ({ children, logo }) => {
       {children}
       <div className='footer'>
         <span>
-          <i className='eos-icons'>copyright</i>
+          <EOS_COPYRIGHT className='eos-icons' />
           <span> {t('authentication:footer-right')} </span>
         </span>
         <a className='link link-default' href='/policies'>
