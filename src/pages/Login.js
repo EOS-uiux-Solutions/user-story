@@ -14,6 +14,7 @@ import AuthWrapper, {
   AuthLeftContainer,
   AuthRightContainer
 } from '../components/AuthWrapper'
+import ProviderLogin from '../components/ProviderLogin'
 
 export const Login = (props) => {
   const { message } = props
@@ -120,6 +121,7 @@ export const Login = (props) => {
                 {t('authentication:create-account')}
               </Link>
             </div>
+            <ProviderLogin />
           </div>
         </AuthRightContainer>
       </AuthWrapper>

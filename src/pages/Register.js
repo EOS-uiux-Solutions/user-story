@@ -13,6 +13,7 @@ import AuthWrapper, {
   AuthLeftContainer,
   AuthRightContainer
 } from '../components/AuthWrapper'
+import ProviderLogin from '../components/ProviderLogin'
 
 export const Register = () => {
   const { registerUser } = useAuth()
@@ -136,6 +137,7 @@ export const Register = () => {
                 {t('authentication:existing-user')}
               </Link>
             </div>
+            <ProviderLogin />
           </div>
         </AuthRightContainer>
       </AuthWrapper>

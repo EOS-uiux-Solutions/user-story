@@ -44,6 +44,17 @@ const useAuth = () => {
     return payload
   }
 
+  const registerWithProvider = async (credentials, providerName) => {
+    const { data: payload } = await axios
+      .get(`${apiURL}/auth/${providerName}/callback${credentials}`, {
+        withCredentials: true
+      })
+      .catch((err) => {
+        throw err
+      })
+    return payload
+  }
+
   const logout = async () => {
     await axios
       .post(`${apiURL}/logout`, {}, { withCredentials: true })
@@ -127,6 +138,7 @@ const useAuth = () => {
 
   return {
     registerUser,
+    registerWithProvider,
     login,
     logout,
     forgotPassword,
