@@ -1,35 +1,9 @@
 name: Run Tests
 
-<<<<<<< HEAD
-on: [push, pull_request]
-
-jobs:
-  cache_node_modules:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository code
-        uses: actions/checkout@v2
-
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@v2
-        with:
-          path: node_modules
-          key: node_modules-${{ hashFiles('package-lock.json') }}
-
-      - name: Install dependencies
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: npm install
-
-  test_lints_sass:
-    needs: cache_node_modules
-=======
 on: [pull_request]
 
 jobs:
   test_lints:
->>>>>>> main
     runs-on: ubuntu-latest
 
     steps:
