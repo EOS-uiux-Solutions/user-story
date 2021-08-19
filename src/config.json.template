@@ -1,3 +1,4 @@
 {
-  "apiURL": "Enter your server URL here"
+  "apiURL": "Enter your server URL here",
+  "APP_ENV": "Set to 'dev' in development and 'prod' in production"
 }
