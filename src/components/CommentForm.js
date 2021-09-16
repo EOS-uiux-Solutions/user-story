@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { EOS_ATTACHMENT } from 'eos-icons-react'
 
 import Button from './Button'
 import FormError from './FormError'
 import MediaPreview from './MediaPreview'
+import userStory from '../services/user_story'
+import { MentionsInput, Mention } from 'react-mentions'
 
 const CommentForm = (props) => {
   const {
@@ -20,11 +22,17 @@ const CommentForm = (props) => {
 
   const { register, errors, handleSubmit } = useForm()
 
-  const resizeTextbox = (e) => {
-    const textArea = document.querySelector('textarea')
-    textArea.style.height = '15px'
-    const scHeight = e.target.scrollHeight
-    textArea.style.height = `${scHeight}px`
+  const [users, setUsers] = useState([])
+
+  const fetchUsers = async () => {
+    const response = await userStory.getUsers()
+    setUsers(response.data?.data?.users ?? [])
+  }
+
+  fetchUsers()
+
+  const displayTransform = (id, display) => {
+    return `@${display}`
   }
 
   const handleFileChange = async (event) => {
@@ -44,15 +52,22 @@ const CommentForm = (props) => {
     <form className='comment-form' onSubmit={handleSubmit(addComment)}>
       <div className='flex flex-row'>
         <div className='comment-input'>
-          <textarea
+          <MentionsInput
             name='Comments'
             value={comment}
             data-cy={`comment-input-${id}`}
-            ref={register({ required: true })}
+            inputRef={register({ required: true })}
             onChange={(e) => setComment(e.target.value)}
             placeholder={placeholder}
-            onKeyUp={resizeTextbox}
-          ></textarea>
+            allowSuggestionsAboveCursor={true}
+            className='mentions'
+          >
+            <Mention
+              trigger='@'
+              data={users}
+              displayTransform={displayTransform}
+            />
+          </MentionsInput>
           <div className='file-input'>
             <input
               type='file'

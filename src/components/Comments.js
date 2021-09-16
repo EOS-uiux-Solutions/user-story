@@ -80,6 +80,7 @@ const Comments = (props) => {
     attachFiles(formData, attachments)
 
     await userStory.postComment(formData)
+
     setComment('')
     setAttachments([])
 
@@ -147,7 +148,7 @@ const Comments = (props) => {
                     )}`}
                   </div>
                 </div>
-                <p>{data.Comments}</p>
+                <div dangerouslySetInnerHTML={{ __html: data.Comments }} />
                 <div>
                   {!!data.attachment.length && (
                     <div className='gallery-container-comment'>
