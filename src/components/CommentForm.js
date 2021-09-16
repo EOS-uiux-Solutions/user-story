@@ -26,7 +26,7 @@ const CommentForm = (props) => {
 
   const fetchUsers = async () => {
     const response = await userStory.getUsers()
-    setUsers(response.data.data.users)
+    setUsers(response.data?.data?.users ?? [])
   }
 
   fetchUsers()
