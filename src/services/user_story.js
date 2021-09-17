@@ -321,6 +321,18 @@ const userStory = {
     }
     return apiCall('/graphql', updateQuery)
   },
+  getUsers: () => {
+    const getUsersQuery = {
+      query: `
+      query {
+        users {
+          id
+          display: username
+        }
+      }`
+    }
+    return apiCall('/graphql', getUsersQuery)
+  },
   getComments: (storyId) => {
     const commentsQuery = {
       query: `
