@@ -35,12 +35,12 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits. You will also see any lint errors in the console.
 
-### JS and SCSS quality assurance
+### JS and SASS quality assurance
 
 Before submitting a PR/MR make sure your code is compliant with our JS rules by running: `npm run test:js`
 You can format it automatically by running: `npm run format`.
 
-To make sure your SCSS is compliant run: `npm run test:scss`
+To make sure your SASS is compliant run: `npm run test:sass`
 
 ### Build it to ensure it will work on production
 
