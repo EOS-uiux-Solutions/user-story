@@ -40,7 +40,7 @@ The page will reload if you make edits. You will also see any lint errors in the
 Before submitting a PR/MR make sure your code is compliant with our JS rules by running: `npm run test:js`
 You can format it automatically by running: `npm run format`.
 
-To make sure your SASS is compliant run: `npm run test:sass`
+We use the `sass-lint` because it is also compatible with SCSS syntax.To make sure your SCSS is compliant run: `npm run test:scss`.
 
 ### Build it to ensure it will work on production
 

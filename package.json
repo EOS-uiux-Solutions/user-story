@@ -53,7 +53,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "test:sass": "sass-lint -v -q",
+    "test:scss": "sass-lint -v -q",
     "format": "prettier --write .",
     "js:fix": "eslint src/ --fix",
     "test:js": "eslint src/",
@@ -64,7 +64,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run test:sass && npm run test:js"
+      "pre-commit": "npm run test:scss && npm run test:js"
     }
   },
   "browserslist": {
