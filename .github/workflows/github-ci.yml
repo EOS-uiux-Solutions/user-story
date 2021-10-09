@@ -21,8 +21,8 @@ jobs:
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: npm install
 
-      - name: Test SASS
-        run: npm run test:sass
+      - name: Test SCSS
+        run: npm run test:scss
         
       - name: Test JS
         run: npm run test:js
