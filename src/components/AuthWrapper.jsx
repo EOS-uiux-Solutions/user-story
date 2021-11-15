@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import LanguageDropdown from './LanguageDropdown'
-import eosLogoColoured from '../assets/images/logo-coloured.png'
+import eosIcon from '../assets/images/user-story-logo.svg'
 import SocialMediaLinks from '../components/SocialMediaLinks'
 import { EOS_COPYRIGHT } from 'eos-icons-react'
 export const AuthWrapper = ({ children }) => {
@@ -43,7 +43,7 @@ export const AuthRightContainer = ({ children, logo }) => {
     <div className='container-right'>
       <div className='flex flex-row flex-space-between'>
         <div className='image image-logo eos-logo-resize'>
-          <img src={logo ?? eosLogoColoured} alt='EOS Logo' />
+          <img src={logo ?? eosIcon} alt='EOS Logo' />
         </div>
         <LanguageDropdown translator={i18n} />
       </div>
