@@ -65,7 +65,7 @@ const Story = (props) => {
       return
     }
     event.preventDefault()
-    const combinedDescription = story.Description + editDescription
+    const combinedDescription = editDescription
     const filteredDescription = filterDescriptionText(combinedDescription)
     await userStory.updateUserStoryDescription(storyId, filteredDescription)
     setEditor(false)
