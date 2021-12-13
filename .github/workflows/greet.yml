@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: StarTrooper08/Notify-Bot
+      - uses: StarTrooper08/Notify-Bot@latest
         with:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           TENOR_TOKEN: ${{secrets.TENOR_TOKEN}}
