@@ -96,7 +96,7 @@ const Story = (props) => {
 
   const deleteStory = async () => {
     await userStory.deleteStory(storyId)
-    history.push("/")
+    history.push('/')
   }
 
   const hashtagsArray = ['EOS', 'userstory']
