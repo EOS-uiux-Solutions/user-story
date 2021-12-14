@@ -3,9 +3,6 @@ import { apiURL, APP_ENV } from '../config.json'
 
 const config = {
   baseURL: apiURL,
-  headers:{
-    Authorization:"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYjM0MGEyYzk2NzVlNDYwY2IwNTY0OSIsImlhdCI6MTYzOTI1NTA1OSwiZXhwIjoxNjQxODQ3MDU5fQ.wvawV1CEVuot7v3RcZoMnJEoR78ru7r1kJ7fyRLjO7c"
-  },
   withCredentials: true
 }
 
@@ -33,10 +30,10 @@ apiClient.interceptors.response.use(
   }
 )
 
-function apiCall(url, data, _method = 'post') {
+function apiCall(url, data) {
   return apiClient.request({
     url,
-    method: _method,
+    method: 'post',
     data,
     ...config
   })
