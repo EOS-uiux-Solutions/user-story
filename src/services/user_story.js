@@ -8,6 +8,9 @@ const userStory = {
   createStory: (data) => {
     return apiCall('/user-stories', data)
   },
+  deleteStory: (storyId) => {
+    return apiCall(`/user-stories/${storyId}`,null,"delete")
+  },
   checkAuthor: (userId, storyId) => {
     return apiCall('/checkAuthor', {
       id: userId,
