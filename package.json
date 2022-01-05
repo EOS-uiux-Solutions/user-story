@@ -24,8 +24,8 @@
     "react-image-gallery": "^1.2.5",
     "react-loading-skeleton": "^2.2.0",
     "react-markdown": "^5.0.2",
-    "react-mentions": "^4.3.0",
     "react-markdown-editor-lite": "^1.2.4",
+    "react-mentions": "^4.3.0",
     "react-promise-tracker": "^2.1.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
@@ -45,7 +45,8 @@
     "eslint-plugin-standard": "^4.0.1",
     "husky": "^4.2.5",
     "prettier": "^2.0.5",
-    "sass-lint": "^1.12.1"
+    "sass-lint": "^1.12.1",
+    "sass-lint-auto-fix": "^0.21.2"
   },
   "scripts": {
     "start": "react-scripts start",
