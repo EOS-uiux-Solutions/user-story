@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { EOS_ATTACHMENT } from 'eos-icons-react'
 
@@ -29,7 +29,9 @@ const CommentForm = (props) => {
     setUsers(response.data?.data?.users ?? [])
   }
 
-  fetchUsers()
+  useEffect(() => {
+    fetchUsers()
+  }, [])
 
   const displayTransform = (id, display) => {
     return `@${display}`
