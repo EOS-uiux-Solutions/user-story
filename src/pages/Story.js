@@ -177,6 +177,14 @@ const Story = (props) => {
                       </>
                     }
                   </div>
+                  <h4>
+                    Created At:{' '}
+                    {new Date(story.createdAt).toLocaleDateString(undefined, {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    })}
+                  </h4>
                 </div>
               </div>
 
