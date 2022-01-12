@@ -96,16 +96,6 @@ const StoriesList = (props) => {
                   <small>Category</small>
                   <span className='category-text'>{story.Category}</span>
                 </div>
-                <div className='flex flex-column story-subcontent'>
-                  <small>Created At</small>
-                  <span className='category-text'>
-                    {new Date(story.createdAt).toLocaleDateString(undefined, {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
-                    })}
-                  </span>
-                </div>
                 <div className='flex flex-column s-metas'>
                   <span className='story-meta'>
                     <EOS_ATTACHMENT className='eos-icons' />
