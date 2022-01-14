@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useCallback } from 'react'
 import { Link } from '@reach/router'
 import Button from './Button'
 import Gallery from './ImageGallery'
-
+import moment from 'moment'
 import CommentForm from './CommentForm'
 import Context from '../modules/Context'
 import userStory from '../services/user_story'
@@ -141,12 +141,7 @@ const Comments = (props) => {
                   {data.user.username}
                 </Link>
                 <div className='metadata'>
-                  <div>
-                    {`${data.createdAt.slice(0, 10)}  ${data.createdAt.slice(
-                      11,
-                      19
-                    )}`}
-                  </div>
+                  <div>{moment(data.createdAt).fromNow()}</div>
                 </div>
                 <div dangerouslySetInnerHTML={{ __html: data.Comments }} />
                 <div>

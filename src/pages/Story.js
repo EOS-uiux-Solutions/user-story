@@ -142,7 +142,18 @@ const Story = (props) => {
                     fill='#42779B'
                   />
                 </svg>
-                <h2>{story.Title}</h2>
+                <span>
+                  <h2 style={{ marginBlockEnd: '0px' }}>{story.Title}</h2>
+                  <br />
+                  <h4 style={{ marginBlockStart: '0px' }}>
+                    Created At:{' '}
+                    {new Date(story.createdAt).toLocaleDateString(undefined, {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    })}
+                  </h4>
+                </span>
                 <div className='author-information'>
                   <h4>
                     By:{' '}

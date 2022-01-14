@@ -89,6 +89,7 @@ const userStory = {
                   username
                 }
                 Category
+                createdAt
               }
             }
             `
@@ -114,6 +115,7 @@ const userStory = {
             id
             url
           }
+          createdAt
         }
       }
       ${BASIC_STORY_INFO_FRAGMENT}
