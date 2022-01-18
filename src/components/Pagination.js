@@ -30,8 +30,8 @@ const Pagination = (props) => {
     }
   }, [storyCount])
 
-  if (storyCount > 5) {
-    return (
+  return (
+    storyCount > 5 && (
       <div className='pagination'>
         <span
           className={`btn btn-pagination ${
@@ -81,9 +81,7 @@ const Pagination = (props) => {
         </span>
       </div>
     )
-  } else {
-    return null
-  }
+  )
 }
 
 export default Pagination
