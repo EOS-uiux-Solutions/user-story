@@ -168,9 +168,11 @@ const Comments = (props) => {
                       Reply
                     </Button>
                   )}
-                  {data.user_story_comment_replies.length > 0 ? (
+                  <br/> 
+                  {data.user_story_comment_replies.length == 1 ? (
+                  
                     <Button
-                      className='btn btn-default'
+                      className='btn btn-default btn-comment-edit'
                       onClick={() => {
                         toggleViewReplies(
                           viewRepliesToggled,
@@ -179,11 +181,23 @@ const Comments = (props) => {
                         )
                       }}
                     >
-                      View Replies ({data.user_story_comment_replies.length})
+                      {data.user_story_comment_replies.length} Reply
                     </Button>
-                  ) : (
+                  ) : data.user_story_comment_replies.length == 0 ? (
                     ''
-                  )}
+                  ) :  ( <Button
+                      className='btn btn-default btn-comment-edit'
+                      onClick={() => {
+                        toggleViewReplies(
+                          viewRepliesToggled,
+                          setViewRepliesToggled,
+                          key
+                        )
+                      }}
+                    >
+                      {data.user_story_comment_replies.length} Replies
+                    </Button>)   }
+                  
                 </div>
                 {viewRepliesToggled.find((item) => item === key + 1) &&
                   data.user_story_comment_replies.map((reply, key) => (
