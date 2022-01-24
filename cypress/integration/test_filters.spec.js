@@ -8,8 +8,9 @@ describe('Test the filters and search for stories in Home page', () => {
   }
 
   const selectProduct = (productName) => {
-    cy.get(`[data-cy=${productName.split(' ').join('-')}-card]`)
-      .click({ force: true })
+    cy.get(`[data-cy=${productName.split(' ').join('-')}-card]`).click({
+      force: true
+    })
   }
 
   const setDropdown = (dropdown, value) => {

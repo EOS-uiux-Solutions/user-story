@@ -22,7 +22,11 @@ export const Login = (props) => {
 
   const { login } = useAuth()
 
-  const { register, handleSubmit, errors } = useForm()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm()
 
   const [showPassword, toggleShowPassword] = useState(false)
 
@@ -70,8 +74,7 @@ export const Login = (props) => {
                 <input
                   className='input-default'
                   type='text'
-                  name='identifier'
-                  ref={register({ required: true })}
+                  {...register('identifier', { required: true })}
                 />
                 {errors.identifier && (
                   <FormError type={errors.identifier.type} />
@@ -86,8 +89,7 @@ export const Login = (props) => {
                   <input
                     className='input-default'
                     type={showPassword ? 'text' : 'password'}
-                    name='password'
-                    ref={register({ required: true })}
+                    {...register('password', { required: true })}
                   ></input>
 
                   <div

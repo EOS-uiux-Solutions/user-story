@@ -11,9 +11,8 @@ const Notifications = () => {
 
   const [notifications, setNotifications] = useState([])
 
-  const [notificationsDropdownState, setNotificationsDropdownState] = useState(
-    false
-  )
+  const [notificationsDropdownState, setNotificationsDropdownState] =
+    useState(false)
 
   const [notificationCount, setNotificationCount] = useState(0)
 

@@ -24,7 +24,12 @@ const initialDescriptionInputsValue = {
 const NewStory = () => {
   const { state } = useContext(Context)
 
-  const { register, handleSubmit, errors, watch } = useForm()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch
+  } = useForm()
 
   const [currentProductSelected, setCurrentProductSelected] = useState('None')
 
@@ -144,10 +149,11 @@ const NewStory = () => {
                   <input
                     className='input-default'
                     type='text'
-                    name='Title'
                     data-cy='title'
                     autoComplete='off'
-                    ref={register({ required: 'Title cannot be empty' })}
+                    {...register('Title', {
+                      required: 'Title cannot be empty'
+                    })}
                   />
                   {errors.Title && <FormError message={errors.Title.message} />}
                 </div>
@@ -156,10 +162,11 @@ const NewStory = () => {
                   <label htmlFor='product'>Product</label>
                   <select
                     className='select-default'
-                    name='product'
                     data-cy='product'
                     onChange={handleProductSelectChange}
-                    ref={register({ required: 'Product must be set' })}
+                    {...register('product', {
+                      required: 'Product must be set'
+                    })}
                   >
                     <option defaultValue={true} value=''>
                       Select a product
@@ -181,9 +188,10 @@ const NewStory = () => {
                   <label htmlFor='category'>Category</label>
                   <select
                     className='select-default'
-                    name='Category'
                     data-cy='category'
-                    ref={register({ required: 'Category must be set' })}
+                    {...register('Category', {
+                      required: 'Category must be set'
+                    })}
                   >
                     <option defaultValue={true} value=''>
                       Select a category
@@ -205,9 +213,10 @@ const NewStory = () => {
                   <label htmlFor='priority'>Priority</label>
                   <select
                     className='select-default'
-                    name='Priority'
                     data-cy='priority'
-                    ref={register({ required: 'Priority must be set' })}
+                    {...register('Priority', {
+                      required: 'Priority must be set'
+                    })}
                   >
                     <option defaultValue={true} value=''>
                       Select priority

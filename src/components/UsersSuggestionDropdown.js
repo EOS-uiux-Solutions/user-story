@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
-import { apiURL } from '../config.json'
+import * as config from '../config.json'
 import LoadingIndicator from '../modules/LoadingIndicator'
+const { apiURL } = config
 
 const UsersSuggestionDropdown = ({
   isOpen,
