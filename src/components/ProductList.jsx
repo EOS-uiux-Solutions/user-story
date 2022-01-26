@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Skeleton from 'react-loading-skeleton'
+import { debounce } from 'lodash'
 import userStory from '../services/user_story'
 
 const ProductSkeleton = () => {
@@ -15,6 +16,18 @@ const ProductSkeleton = () => {
   )
 }
 
+const handleProductCardClick = debounce(
+  (product, selected, setProduct) => {
+    if (!selected) {
+      setProduct(product.Name)
+    } else {
+      setProduct('All')
+    }
+  },
+  600,
+  { leading: true, trailing: false }
+)
+
 const ProductCard = ({ product, selected, setProduct }) => {
   return (
     <div
@@ -22,13 +35,7 @@ const ProductCard = ({ product, selected, setProduct }) => {
         selected ? 'product-card-selected' : ''
       }`}
       data-cy={`${product.Name.split(' ').join('-')}-card`}
-      onClick={() => {
-        if (!selected) {
-          setProduct(product.Name)
-        } else {
-          setProduct('All')
-        }
-      }}
+      onClick={() => handleProductCardClick(product, selected, setProduct)}
     >
       <div className='product-logo'>
         <img src={product.logo?.url} alt={`${product.Name} logo`} />

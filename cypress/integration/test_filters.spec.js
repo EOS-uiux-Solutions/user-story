@@ -10,6 +10,7 @@ describe('Test the filters and search for stories in Home page', () => {
   const selectProduct = (productName) => {
     cy.get(`[data-cy=${productName.split(' ').join('-')}-card]`)
       .click({ force: true })
+    cy.wait(1000)
   }
 
   const setDropdown = (dropdown, value) => {
