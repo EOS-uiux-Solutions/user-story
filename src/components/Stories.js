@@ -1,32 +1,20 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 
-import Button from './Button'
 import StoriesList from './StoriesList'
 import Pagination from './Pagination'
-import Dropdown from './Dropdown'
-import SearchInput from '../modules/SearchInput'
-
-import Lists from '../utils/Lists'
-import userStory from '../services/user_story'
+import SearchBar from './SearchBar'
 import ProductList from './ProductList'
+import userStory from '../services/user_story'
 
 const Stories = ({ authorId, followerId }) => {
-  const [currentStateSelected, selectState] = useState('Under consideration')
+  const [selectedStatuses, setSelectedStatuses] = useState([])
 
   const [page, setPage] = useState(1)
 
-  const statusOptions = []
-
-  const [status, setStatus] = useState('Under consideration')
-
   const [sort, setSort] = useState('Most Voted')
 
-  const [category, setCategory] = useState('All')
-
-  const [categories, setCategories] = useState([])
-
-  const [searchTerm, setSearchTerm] = useState('')
+  const [selectedCategories, setSelectedCategories] = useState([])
 
   const { promiseInProgress } = usePromiseTracker({ area: 'stories-div' })
 
@@ -34,19 +22,9 @@ const Stories = ({ authorId, followerId }) => {
 
   const [stories, setStories] = useState([])
 
-  const statusDropdownContainer = useRef()
-
-  const sortDropdownContainer = useRef()
-
-  const categoryDropdownContainer = useRef()
-
   const [productQuery, setProductQuery] = useState(``)
 
-  const [categoryQuery, setCategoryQuery] = useState(``)
-
   const [searchQuery, setSearchQuery] = useState('')
-
-  const [userTerm, setUserTerm] = useState('')
 
   const [authorQuery, setAuthorQuery] = useState('')
 
@@ -55,18 +33,12 @@ const Stories = ({ authorId, followerId }) => {
   }, [])
 
   useEffect(() => {
-    for (let i = 0; i < Lists.stateList.length; i++) {
-      statusOptions.push(Lists.stateList[i].status)
-    }
-  }, [statusOptions])
-
-  useEffect(() => {
     const fetchStoryCount = async () => {
       const response = await userStory.getStoryCount(
-        currentStateSelected,
+        selectedStatuses,
         authorId,
         authorQuery,
-        categoryQuery,
+        selectedCategories,
         productQuery,
         searchQuery,
         followerId
@@ -75,8 +47,8 @@ const Stories = ({ authorId, followerId }) => {
     }
     fetchStoryCount()
   }, [
-    currentStateSelected,
-    categoryQuery,
+    selectedStatuses,
+    selectedCategories,
     productQuery,
     searchQuery,
     authorQuery,
@@ -85,27 +57,13 @@ const Stories = ({ authorId, followerId }) => {
   ])
 
   useEffect(() => {
-    if (category !== 'All') {
-      setCategoryQuery(`Category : "${category}"`)
-    } else {
-      setCategoryQuery(``)
-    }
-    if (searchTerm === '') {
-      setSearchQuery('')
-    }
-    if (userTerm === '') {
-      setAuthorQuery('')
-    }
-  }, [category, searchTerm, userTerm])
-
-  useEffect(() => {
     const fetchStories = async () => {
       const response = await userStory.getStories(
         page,
-        currentStateSelected,
+        selectedStatuses,
         authorId,
         authorQuery,
-        categoryQuery,
+        selectedCategories,
         productQuery,
         searchQuery,
         followerId
@@ -114,8 +72,8 @@ const Stories = ({ authorId, followerId }) => {
     }
     trackPromise(fetchStories(), 'stories-div')
   }, [
-    categoryQuery,
-    currentStateSelected,
+    selectedCategories,
+    selectedStatuses,
     page,
     productQuery,
     searchQuery,
@@ -123,19 +81,6 @@ const Stories = ({ authorId, followerId }) => {
     authorId,
     followerId
   ])
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      const response = await userStory.getCategories()
-      setCategories([
-        'All',
-        ...response.data.data.__type.enumValues.map((ele) => {
-          return ele.name
-        })
-      ])
-    }
-    fetchCategories()
-  }, [])
 
   useEffect(() => {
     const comparatorVotes = (a, b) => {
@@ -159,83 +104,31 @@ const Stories = ({ authorId, followerId }) => {
   }, [sort, stories, setStories])
 
   return (
-    <div>
+    <>
       <ProductList setProductQuery={setProductQuery} />
-      <div className='roadmap-container'>
-        <div className='roadmap'>
-          {Lists.stateList &&
-            Lists.stateList.map((state, key) => {
-              return (
-                <Button
-                  className={
-                    currentStateSelected === state.status
-                      ? 'btn btn-tabs btn-tabs-selected'
-                      : 'btn btn-tabs'
-                  }
-                  key={key}
-                  onClick={() => {
-                    selectState(state.status)
-                    setPage(1)
-                  }}
-                >
-                  {state.icon}
-                  {state.status}
-                </Button>
-              )
-            })}
-        </div>
-      </div>
 
-      <div className='roadmap-dropdown'>
-        <Dropdown
-          title='Status'
-          reference={statusDropdownContainer}
-          curr={status}
-          setCurr={setStatus}
-          itemList={statusOptions}
-          data-cy='status-dropdown'
-          selectstate={selectState}
-          setpage={setPage}
-        />
-      </div>
+      <SearchBar
+        sort={sort}
+        setSort={setSort}
+        setSearchQuery={setSearchQuery}
+        setAuthorQuery={setAuthorQuery}
+        setPage={setPage}
+        selectedStatuses={selectedStatuses}
+        setSelectedStatuses={setSelectedStatuses}
+        selectedCategories={selectedCategories}
+        setSelectedCategories={setSelectedCategories}
+      />
 
-      <div className='flex flex-row search-bar'>
-        <SearchInput
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          userTerm={userTerm}
-          setUserTerm={setUserTerm}
-          setSearchQuery={setSearchQuery}
-          setAuthorQuery={setAuthorQuery}
-        />
-        <div className='flex flex-row options-bar'>
-          <Dropdown
-            title='Categories'
-            reference={categoryDropdownContainer}
-            curr={category}
-            setCurr={setCategory}
-            itemList={categories}
-            data-cy='category-dropdown'
-          />
-          <Dropdown
-            title='Sort By'
-            reference={sortDropdownContainer}
-            curr={sort}
-            setCurr={setSort}
-            itemList={Lists.sortByList}
-          />
-        </div>
-      </div>
       <div className='stories-div'>
         <StoriesList stories={stories} isLoading={promiseInProgress} />
       </div>
       <Pagination
         getPage={getPage}
         storyCount={storyCount}
-        status={currentStateSelected}
+        status={selectedStatuses}
         productQuery={productQuery}
       />
-    </div>
+    </>
   )
 }
 

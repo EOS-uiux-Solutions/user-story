@@ -1,18 +1,15 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import Button from '../components/Button'
 import Dropdown from '../components/Dropdown'
 import UsersSuggestionDropdown from '../components/UsersSuggestionDropdown'
 import { EOS_CLOSE, EOS_SEARCH } from 'eos-icons-react'
 
 function SearchInput(props) {
-  const {
-    searchTerm,
-    setSearchTerm,
-    userTerm,
-    setUserTerm,
-    setSearchQuery,
-    setAuthorQuery
-  } = props
+  const { setSearchQuery, setAuthorQuery } = props
+
+  const [searchTerm, setSearchTerm] = useState('')
+
+  const [userTerm, setUserTerm] = useState('')
 
   const fieldToSearchDropdownContainer = useRef()
 
@@ -28,6 +25,15 @@ function SearchInput(props) {
       setUsersSuggestionOpen(false)
     }
   }
+
+  useEffect(() => {
+    if (searchTerm === '') {
+      setSearchQuery('')
+    }
+    if (userTerm === '') {
+      setAuthorQuery('')
+    }
+  }, [searchTerm, userTerm, setSearchQuery, setAuthorQuery])
 
   return (
     <div className='flex flex-row search-controls'>

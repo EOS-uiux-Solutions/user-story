@@ -1,4 +1,5 @@
 import apiCall from './api'
+import { parseArrayToQuery } from '../utils/filterText'
 import {
   BASIC_STORY_INFO_FRAGMENT,
   NOTIFICATION_DATA_FRAGMENT
@@ -30,10 +31,10 @@ const userStory = {
   },
   getStories: (
     page,
-    currentStateSelected,
+    selectedStatuses,
     authorId,
     authorQuery,
-    categoryQuery,
+    selectedCategories,
     productQuery,
     searchQuery,
     followerId
@@ -46,20 +47,18 @@ const userStory = {
                 (page - 1) * 5
               }, where: {
                   user_story_status : {
-                    Status: "${currentStateSelected}"
+                    ${parseArrayToQuery('Status', selectedStatuses)}
                   },
                   author: {
                     ${authorId}
                     username_contains: "${authorQuery}"
                   }
-                  ${categoryQuery}
+                  ${parseArrayToQuery('Category', selectedCategories)}
                   ${productQuery}
                   ${searchQuery}
                   ${followerId}
               }) {
-                id
-                Title
-                Description
+                ...BasicStoryInfo
                 user_story_status {
                   Status
                 }
@@ -81,14 +80,11 @@ const userStory = {
                     url
                   }
                 }
-                followers {
-                  id
-                  username
-                }
                 Category
                 createdAt
               }
             }
+            ${BASIC_STORY_INFO_FRAGMENT}
             `
     }
     return apiCall('/graphql', storiesQuery)
@@ -121,10 +117,10 @@ const userStory = {
     return apiCall('/graphql', storyQuery)
   },
   getStoryCount: (
-    currentStateSelected,
+    selectedStatuses,
     authorId,
     authorQuery,
-    categoryQuery,
+    selectedCategories,
     productQuery,
     searchQuery,
     followerId
@@ -135,13 +131,13 @@ const userStory = {
       query: `query {
               userStoriesConnection(where: {
                 user_story_status: {
-                  Status: "${currentStateSelected}"
+                  ${parseArrayToQuery('Status', selectedStatuses)}
                 },
                 author: {
                   ${authorId}
                   username_contains: "${authorQuery}"
                 }
-                ${categoryQuery}
+                ${parseArrayToQuery('Category', selectedCategories)}
                 ${productQuery}
                 ${searchQuery}
                 ${followerId}
