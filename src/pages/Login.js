@@ -74,6 +74,7 @@ export const Login = (props) => {
                 <input
                   className='input-default'
                   type='text'
+                  data-cy='login-username'
                   {...register('identifier', { required: true })}
                 />
                 {errors.identifier && (
@@ -89,6 +90,7 @@ export const Login = (props) => {
                   <input
                     className='input-default'
                     type={showPassword ? 'text' : 'password'}
+                    data-cy='login-password'
                     {...register('password', { required: true })}
                   ></input>
 
@@ -106,7 +108,11 @@ export const Login = (props) => {
                 {errors.password && <FormError type={errors.password.type} />}
               </div>
 
-              <Button type='submit' className='btn btn-default'>
+              <Button
+                type='submit'
+                className='btn btn-default'
+                data-cy='login-btn'
+              >
                 {t('authentication:login-label')}
               </Button>
             </form>
