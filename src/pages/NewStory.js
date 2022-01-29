@@ -117,16 +117,20 @@ const NewStory = () => {
   }
 
   const onSubmit = async (data) => {
-    data.Description = filterDescriptionText(description)
-    const formData = new FormData()
-    formData.append('data', JSON.stringify(data))
-    if (attachments.length) {
-      attachments.forEach((file) => {
-        formData.append('files.Attachment', file)
-      })
+    try {
+      data.Description = filterDescriptionText(description)
+      const formData = new FormData()
+      formData.append('data', JSON.stringify(data))
+      if (attachments.length) {
+        attachments.forEach((file) => {
+          formData.append('files.Attachment', file)
+        })
+      }
+      await userStory.createStory(formData)
+      navigate('/')
+    } catch (err) {
+      console.log(err.message)
     }
-    await userStory.createStory(formData)
-    navigate('/')
   }
 
   return state.auth ? (
