@@ -67,11 +67,11 @@ export const UserSettings = ({ user }) => {
         <Skeleton width={200} />
       ) : (
         <ul>
-          <li>
+          <li data-cy='user-email'>
             Email address:
             <span>{user?.email}</span>
           </li>
-          <li>
+          <li data-cy='user-username'>
             Username:
             <span>{user?.username}</span>
           </li>
@@ -107,8 +107,9 @@ export const UserDetails = ({
             allowEditing={allowEditing}
             updateProfile={updateProfile}
             placeholder='Your name'
+            data-cy='edit-Name'
           >
-            <h2 className='user-profile-name'>
+            <h2 className='user-profile-name' data-cy='user-Name'>
               {user.Name ? user.Name : user.username}
             </h2>
           </EditableLabel>
@@ -120,8 +121,9 @@ export const UserDetails = ({
             allowEditing={allowEditing}
             updateProfile={updateProfile}
             placeholder='Say something about yourself'
+            data-cy='edit-Bio'
           >
-            <p>
+            <p data-cy='user-Bio'>
               {user.Bio ||
                 (allowEditing ? 'Say something about yourself' : 'Hi There!')}
             </p>
@@ -145,8 +147,9 @@ export const UserDetails = ({
                   allowEditing={allowEditing}
                   updateProfile={updateProfile}
                   placeholder='Your job title'
+                  data-cy='edit-Profession'
                 >
-                  <span>
+                  <span data-cy='user-Profession'>
                     {!user.Profession ? 'Your job title' : user.Profession}
                   </span>
                 </EditableLabel>
@@ -163,8 +166,9 @@ export const UserDetails = ({
                   allowEditing={allowEditing}
                   updateProfile={updateProfile}
                   placeholder='Your company name'
+                  data-cy='edit-Company'
                 >
-                  <span>
+                  <span data-cy='user-Company'>
                     {!user.Company ? 'Your company name' : user.Company}
                   </span>
                 </EditableLabel>
@@ -181,8 +185,9 @@ export const UserDetails = ({
                   allowEditing={allowEditing}
                   updateProfile={updateProfile}
                   placeholder='Your LinkedIn username'
+                  data-cy='edit-LinkedIn'
                 >
-                  <span>
+                  <span data-cy='user-LinkedIn'>
                     {user.LinkedIn ? (
                       <a
                         className='link link-default'
@@ -210,8 +215,9 @@ export const UserDetails = ({
                   allowEditing={allowEditing}
                   updateProfile={updateProfile}
                   placeholder='Your Twitter handle'
+                  data-cy='edit-Twitter'
                 >
-                  <span>
+                  <span data-cy='user-Twitter'>
                     {user.Twitter ? (
                       <a
                         className='link link-default'

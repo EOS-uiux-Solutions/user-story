@@ -106,6 +106,7 @@ const Navigation = (props) => {
                 </li>
                 <li
                   className='dropdown-element'
+                  data-cy='user-profile-btn'
                   onClick={() => navigate('/myProfile')}
                 >
                   <EOS_SETTINGS className='eos-icons eos-18' />
