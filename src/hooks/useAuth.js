@@ -1,8 +1,7 @@
 import axios from 'axios'
-import * as config from '../config.json'
 import Context from '../modules/Context'
 import { useContext } from 'react'
-const { apiURL } = config
+const { apiURL } = require('../config.json')
 
 const useAuth = () => {
   const { dispatch } = useContext(Context)

@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import Modal from './Modal'
 import axios from 'axios'
-import * as config from '../config.json'
 import LoadingIndicator from '../modules/LoadingIndicator'
 import FormError from './FormError'
 import { EOS_DELETE } from 'eos-icons-react'
-const { apiURL } = config
+const { apiURL } = require('../config.json')
 
 const ProfileImageUploader = ({
   userId,
