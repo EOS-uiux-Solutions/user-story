@@ -58,6 +58,16 @@ describe('Test the filters and search for stories in Home page', () => {
     cy.contains(testStory.title)
   })
 
+  it('Filters stories based on Priority', () => {
+    setDropdown('priority', 'Low')
+
+    cy.contains('No stories')
+
+    setDropdown('priority', testStory.priority)
+
+    cy.contains(testStory.title)
+  })
+
   it('Searches stories based on title', () => {
     searchByTitle('random')
 

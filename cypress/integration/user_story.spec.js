@@ -77,6 +77,14 @@ describe('Test new User Registration Workflow', () => {
     })
   })
 
+  describe('Test My Stories Page', () => {
+    it('Display the story created by the logged in author', () => {
+      cy.get('[data-cy=stories]').contains(testStory.title).click()
+
+      cy.url().should('contain', 'story')
+    })
+  })
+
   describe('Test Home page', () => {
     it('Displays story in home page, once created', () => {
       cy.get('[data-cy=stories]').contains(testStory.title).click()
