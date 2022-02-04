@@ -57,9 +57,10 @@ const StoryPageTimeline = (props) => {
         (id) => id !== JSON.stringify(userId)
       )
       const response = await userStory.updateVotes(story.id, updatedFollowerIds)
-      updatedFollowerIds = response.data.data.updateUserStory.userStory.followers.map(
-        (follower) => JSON.stringify(follower.id)
-      )
+      updatedFollowerIds =
+        response.data.data.updateUserStory.userStory.followers.map((follower) =>
+          JSON.stringify(follower.id)
+        )
       setFollowers(updatedFollowerIds)
       setVoted(false)
       setVotes((votes) => votes - 1)
@@ -67,9 +68,10 @@ const StoryPageTimeline = (props) => {
       followers.push(JSON.stringify(userId))
       let updatedFollowerIds = followers
       const response = await userStory.updateVotes(story.id, updatedFollowerIds)
-      updatedFollowerIds = response.data.data.updateUserStory.userStory.followers.map(
-        (follower) => JSON.stringify(follower.id)
-      )
+      updatedFollowerIds =
+        response.data.data.updateUserStory.userStory.followers.map((follower) =>
+          JSON.stringify(follower.id)
+        )
       setFollowers(updatedFollowerIds)
       setVoted(true)
       setVotes((votes) => votes + 1)

@@ -22,7 +22,11 @@ const ResetPassword = () => {
 
   const { resetPassword } = useAuth()
 
-  const { register, handleSubmit, errors } = useForm()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm()
 
   const location = useLocation()
 
@@ -79,7 +83,7 @@ const ResetPassword = () => {
                       className='input-default'
                       type='password'
                       name='password'
-                      ref={register({ required: true })}
+                      {...register('password', { required: true })}
                     />
 
                     {errors.password && (
@@ -93,8 +97,7 @@ const ResetPassword = () => {
                     <input
                       className='input-default'
                       type='password'
-                      name='passwordConfirmation'
-                      ref={register({ required: true })}
+                      {...register('passwordConfirmation', { required: true })}
                     />
                     {errors.passwordConfirmation && (
                       <FormError type={errors.passwordConfirmation.type} />

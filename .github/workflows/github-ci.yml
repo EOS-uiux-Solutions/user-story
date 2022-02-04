@@ -19,11 +19,11 @@ jobs:
 
       - name: Install node_modules
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: npm install
+        run: npm install -f
 
       - name: Test SCSS
         run: npm run test:scss
-        
+
       - name: Test JS
         run: npm run test:js
 
@@ -40,10 +40,11 @@ jobs:
       - name: Create config.json
         run: echo $TEST_CONFIG_JSON > src/config.json
         env:
-          TEST_CONFIG_JSON: "{ \"apiURL\": \"http://localhost:1337\", \"APP_ENV\": \"prod\" }"
+          TEST_CONFIG_JSON: '{ "apiURL": "http://localhost:1337", "APP_ENV": "prod" }'
 
       - name: Test Cypress
         uses: cypress-io/github-action@v2
         with:
+          install-command: npm i -f
           start: npm start
           wait-on: 'http://localhost:3000'
