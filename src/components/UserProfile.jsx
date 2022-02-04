@@ -109,7 +109,11 @@ export const UserDetails = ({
             placeholder='Your name'
           >
             <h2 className='user-profile-name'>
-              {user.Name ? user.Name : user.username}
+              {user.Name
+                ? user.Name === 'null'
+                  ? user.username
+                  : user.Name
+                : user.username}
             </h2>
           </EditableLabel>
           <EditableLabel
@@ -122,7 +126,7 @@ export const UserDetails = ({
             placeholder='Say something about yourself'
           >
             <p>
-              {user.Bio ||
+              {(user.Bio && user.Bio !== 'null') ||
                 (allowEditing ? 'Say something about yourself' : 'Hi There!')}
             </p>
           </EditableLabel>
@@ -147,7 +151,11 @@ export const UserDetails = ({
                   placeholder='Your job title'
                 >
                   <span>
-                    {!user.Profession ? 'Your job title' : user.Profession}
+                    {!user.Profession
+                      ? 'Your job title'
+                      : user.Profession === 'null'
+                      ? 'Your job title'
+                      : user.Profession}
                   </span>
                 </EditableLabel>
               </li>
@@ -165,7 +173,11 @@ export const UserDetails = ({
                   placeholder='Your company name'
                 >
                   <span>
-                    {!user.Company ? 'Your company name' : user.Company}
+                    {!user.Company
+                      ? 'Your company name'
+                      : user.Company === 'null'
+                      ? 'Your company name'
+                      : user.Company}
                   </span>
                 </EditableLabel>
               </li>
@@ -184,14 +196,18 @@ export const UserDetails = ({
                 >
                   <span>
                     {user.LinkedIn ? (
-                      <a
-                        className='link link-default'
-                        href={`https://www.linkedin.com/in/${user?.LinkedIn}`}
-                        target='_blank'
-                        rel='noopener noreferrer'
-                      >
-                        {user.LinkedIn}
-                      </a>
+                      user.LinkedIn === 'null' ? (
+                        'Your LinkedIn username'
+                      ) : (
+                        <a
+                          className='link link-default'
+                          href={`https://www.linkedin.com/in/${user?.LinkedIn}`}
+                          target='_blank'
+                          rel='noopener noreferrer'
+                        >
+                          {user.LinkedIn}
+                        </a>
+                      )
                     ) : (
                       'Your LinkedIn username'
                     )}
@@ -213,14 +229,18 @@ export const UserDetails = ({
                 >
                   <span>
                     {user.Twitter ? (
-                      <a
-                        className='link link-default'
-                        href={`https://twitter.com/${user?.Twitter}`}
-                        target='_blank'
-                        rel='noopener noreferrer'
-                      >
-                        {user.Twitter ? `@${user.Twitter}` : ''}
-                      </a>
+                      user.Twitter === 'null' ? (
+                        'Your Twitter handle'
+                      ) : (
+                        <a
+                          className='link link-default'
+                          href={`https://twitter.com/${user?.Twitter}`}
+                          target='_blank'
+                          rel='noopener noreferrer'
+                        >
+                          {user.Twitter ? `@${user.Twitter}` : ''}
+                        </a>
+                      )
                     ) : (
                       'Your Twitter handle'
                     )}
