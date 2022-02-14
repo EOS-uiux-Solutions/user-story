@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 
 import Button from './Button'
@@ -16,7 +16,7 @@ const Stories = ({ authorId, followerId }) => {
 
   const [page, setPage] = useState(1)
 
-  const statusOptions = []
+  const statusOptions = useMemo(() => [], [])
 
   const [status, setStatus] = useState('Under consideration')
 
