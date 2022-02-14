@@ -92,6 +92,10 @@ export const UserDetails = ({
   allowEditing,
   updateProfile
 }) => {
+  const checkNull = (value) => {
+    if (value === null) return false
+    else return true
+  }
   return (
     <div className='user-profile-details'>
       {!user ? (
@@ -110,7 +114,7 @@ export const UserDetails = ({
           >
             <h2 className='user-profile-name'>
               {user.Name
-                ? user.Name === 'null'
+                ? checkNull(user.Name)
                   ? user.username
                   : user.Name
                 : user.username}
@@ -126,7 +130,7 @@ export const UserDetails = ({
             placeholder='Say something about yourself'
           >
             <p>
-              {(user.Bio && user.Bio !== 'null') ||
+              {(user.Bio && !checkNull(user.Bio)) ||
                 (allowEditing ? 'Say something about yourself' : 'Hi There!')}
             </p>
           </EditableLabel>
@@ -153,7 +157,7 @@ export const UserDetails = ({
                   <span>
                     {!user.Profession
                       ? 'Your job title'
-                      : user.Profession === 'null'
+                      : checkNull(user.Profession)
                       ? 'Your job title'
                       : user.Profession}
                   </span>
@@ -175,7 +179,7 @@ export const UserDetails = ({
                   <span>
                     {!user.Company
                       ? 'Your company name'
-                      : user.Company === 'null'
+                      : checkNull(user.Company)
                       ? 'Your company name'
                       : user.Company}
                   </span>
@@ -196,7 +200,7 @@ export const UserDetails = ({
                 >
                   <span>
                     {user.LinkedIn ? (
-                      user.LinkedIn === 'null' ? (
+                      checkNull(user.LinkedIn) ? (
                         'Your LinkedIn username'
                       ) : (
                         <a
@@ -229,7 +233,7 @@ export const UserDetails = ({
                 >
                   <span>
                     {user.Twitter ? (
-                      user.Twitter === 'null' ? (
+                      checkNull(user.Twitter) ? (
                         'Your Twitter handle'
                       ) : (
                         <a
