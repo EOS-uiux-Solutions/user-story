@@ -8,6 +8,7 @@ env:
 root: true
 plugins:
   - react
+  - react-hooks
 rules:
   arrow-spacing: 'error'
   no-const-assign: 'error'
@@ -16,3 +17,5 @@ rules:
   prefer-template: 'error'
   prefer-destructuring: ['error', { 'object': true, 'array': false }]
   object-curly-spacing: [2, 'always']
+  react-hooks/rules-of-hooks: 'error'
+  react-hooks/exhaustive-deps: 'warn'

@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import { debounce } from 'lodash'
+import React, { useState, useEffect } from 'react'
 import userStory from '../services/user_story'
 import { strip } from '../utils/filterText'
 import { EOS_ARROW_FORWARD, EOS_THUMB_UP } from 'eos-icons-react'
@@ -9,20 +8,14 @@ const Search = (props) => {
 
   const [searchResults, setSearchResults] = useState([])
 
-  const handleTitleChange = useCallback(
-    debounce(async (title) => {
+  useEffect(() => {
+    if (!title) return
+
+    setTimeout(async () => {
       const response = await userStory.getStoriesByTitle(title)
       setSearchResults(response.data.data.userStories)
-    }, 600),
-    []
-  )
-
-  useEffect(() => {
-    if (!title) {
-      return
-    }
-    handleTitleChange(title)
-  }, [title, handleTitleChange])
+    }, 600)
+  }, [title])
 
   if (!title) {
     return ''

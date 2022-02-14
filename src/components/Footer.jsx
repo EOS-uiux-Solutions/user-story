@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default () => {
+function Footer() {
   return (
     <div className='footer-main'>
       <a className='link link-default' href='/policies'>
@@ -11,3 +11,5 @@ export default () => {
     </div>
   )
 }
+
+export default Footer
