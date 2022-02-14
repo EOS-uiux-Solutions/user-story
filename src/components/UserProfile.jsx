@@ -93,8 +93,8 @@ export const UserDetails = ({
   updateProfile
 }) => {
   const checkNull = (value) => {
-    if (value === null) return false
-    else return true
+    if (value === 'null') return true
+    else return false
   }
   return (
     <div className='user-profile-details'>
