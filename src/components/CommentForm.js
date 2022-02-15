@@ -20,7 +20,9 @@ const CommentForm = (props) => {
     placeholder
   } = props
 
-  const { register, errors, handleSubmit } = useForm()
+  const {
+    formState: { errors }
+  } = useForm({ defaultValues: { Comments: '' } })
 
   const [users, setUsers] = useState([])
 
@@ -28,10 +30,6 @@ const CommentForm = (props) => {
     const response = await userStory.getUsers()
     setUsers(response.data?.data?.users ?? [])
   }
-
-  useEffect(() => {
-    fetchUsers()
-  }, [])
 
   const displayTransform = (id, display) => {
     return `@${display}`
@@ -50,15 +48,18 @@ const CommentForm = (props) => {
     setAttachments([...attachments, ...newFilesArray])
   }
 
+  useEffect(() => {
+    fetchUsers()
+  }, [])
+
   return (
-    <form className='comment-form' onSubmit={handleSubmit(addComment)}>
+    <form className='comment-form'>
       <div className='flex flex-row'>
         <div className='comment-input'>
           <MentionsInput
-            name='Comments'
-            value={comment}
+            id='Comments'
             data-cy={`comment-input-${id}`}
-            inputRef={register({ required: true })}
+            value={comment}
             onChange={(e) => setComment(e.target.value)}
             placeholder={placeholder}
             allowSuggestionsAboveCursor={true}
@@ -85,6 +86,8 @@ const CommentForm = (props) => {
           <Button
             className='btn btn-secondary btn-comment'
             data-cy={`btn-comment-${id}`}
+            onClick={(e) => addComment(e, { Comments: comment })}
+            type='button'
           >
             {cta}
           </Button>

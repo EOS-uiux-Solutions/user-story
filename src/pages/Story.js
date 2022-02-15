@@ -179,7 +179,11 @@ const Story = (props) => {
                     )}
                     {
                       <>
-                        <Button className='share-story' onClick={togglePopup}>
+                        <Button
+                          className='share-story'
+                          onClick={togglePopup}
+                          data-cy='share-story-btn'
+                        >
                           <EOS_SHARE className='eos-icons' />
                         </Button>
                         <Button className='share-story' onClick={copy}>
@@ -255,6 +259,7 @@ const Story = (props) => {
                         title={title}
                         hashtags={hashtagsArray}
                         onShareWindowClose={togglePopup}
+                        data-cy='twitter-share-btn'
                       >
                         <TwitterIcon />
                       </TwitterShareButton>
@@ -262,6 +267,7 @@ const Story = (props) => {
                         url={window.location}
                         className='share-button'
                         onShareWindowClose={togglePopup}
+                        data-cy='linkedin-share-btn'
                       >
                         <LinkedinIcon />
                       </LinkedinShareButton>

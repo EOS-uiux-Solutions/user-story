@@ -17,9 +17,7 @@ The goal of **User Story** is to design and present a scalable backend infrastru
 
 ### Setting up the project
 
-After cloning this repository you will need to install all the dependencies: `npm i`
-
-**NOTE**: `"node-sass": "^4.13.1"` requires `node v13.x.x` according to this [stackoverflow](https://stackoverflow.com/questions/60394291/error-node-modules-node-sass-command-failed) answer. You can use `nvm` to manage multiple node versions. Follow this [tutorial](https://www.loginradius.com/blog/async/run-multiple-nodejs-version-on-the-same-machine/) to setup nvm.
+After cloning this repository you will need to install all the dependencies: `npm i -f`
 
 User Story uses [this repository](https://github.com/EOS-uiux-Solutions/strapi) as its `backend`. There are two ways to set up the `backend`:
 

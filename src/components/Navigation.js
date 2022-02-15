@@ -72,6 +72,7 @@ const Navigation = (props) => {
         {state.auth && (
           <div
             className='dropdown-container'
+            data-cy='user-dropdown-menu-btn'
             onClick={() => {
               setUserDropdownState(!userDropdownState)
             }}
@@ -97,6 +98,7 @@ const Navigation = (props) => {
                 <hr className='dropdown-separator' />
                 <li
                   className='dropdown-element'
+                  data-cy='user-stories-btn'
                   onClick={() => navigate('/myStories')}
                 >
                   <EOS_MESSAGE className='eos-icons eos-18' />
@@ -104,6 +106,7 @@ const Navigation = (props) => {
                 </li>
                 <li
                   className='dropdown-element'
+                  data-cy='user-profile-btn'
                   onClick={() => navigate('/myProfile')}
                 >
                   <EOS_SETTINGS className='eos-icons eos-18' />

@@ -78,7 +78,7 @@ const Home = () => {
         <div className='body-wrapper'>
           <div className='product-introduction'>
             <div>
-              <h1>TELL US YOUR STORY</h1>
+              <h1 data-cy='dashboard-heading'>TELL US YOUR STORY</h1>
               <h2 className='subheader'>
                 Share with us how you use our products, relate to other users'
                 stories, vote them up, and we'll make sure we deliver cohesive

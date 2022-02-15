@@ -23,7 +23,11 @@ const ChangePassword = () => {
 
   const { changePassword, logout } = useAuth()
 
-  const { register, handleSubmit, errors } = useForm()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm()
 
   const [response, setResponse] = useState('')
 
@@ -85,8 +89,7 @@ const ChangePassword = () => {
                     <input
                       className='input-default'
                       type='password'
-                      name='oldPassword'
-                      ref={register({ required: true })}
+                      {...register('oldPassword', { required: true })}
                     />
                     {errors.oldPassword && (
                       <FormError type={errors.oldPassword.type} />
@@ -99,8 +102,7 @@ const ChangePassword = () => {
                     <input
                       className='input-default'
                       type='password'
-                      name='password'
-                      ref={register({ required: true })}
+                      {...register('password', { required: true })}
                     />
                     {errors.password && (
                       <FormError type={errors.password.type} />
@@ -113,8 +115,7 @@ const ChangePassword = () => {
                     <input
                       className='input-default'
                       type='password'
-                      name='passwordConfirmation'
-                      ref={register({ required: true })}
+                      {...register('passwordConfirmation', { required: true })}
                     />
                     {errors.passwordConfirmation && (
                       <FormError type={errors.passwordConfirmation.type} />
