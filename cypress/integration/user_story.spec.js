@@ -1,118 +1,137 @@
 /// <reference types="cypress" />
 
-describe('Test new User Registration Workflow', () => {
-  const testUser = {
-    username: Cypress.env('testUsername'),
-    email: Cypress.env('testUserEmail'),
-    password: Cypress.env('testUserPassword')
-  }
+describe('Tests for story page', () => {
+  const testUser = Cypress.env("testUser")
 
   const testStory = {
-    title: Cypress.env('testStoryTitle'),
-    product: Cypress.env('testStoryProduct'),
-    category: Cypress.env('testCategory'),
-    priority: 'High',
-    description: '{enter}Testing User Story'
+    ...Cypress.env("testStory"),
+    ...{
+      priority: 'High',
+      description: '{enter}Testing User Story',
+      descriptionText: 'Testing User Story'
+    }
   }
 
   const editedDescription = 'Edited story description'
   const testComment = 'Testing comments'
 
-  before('Test new user registration', () => {
+  before('Log in the user', () => {
     cy.visit('/')
 
     cy.get('[data-cy=btn-signin]').click()
 
     cy.url().should('equal', `${Cypress.config().baseUrl}/login`)
 
-    cy.get('[data-cy=link-create-account]').click()
+    cy.wait(1500)
 
-    cy.url().should('equal', `${Cypress.config().baseUrl}/register`)
+    cy.get('[data-cy=login-username]').type(testUser.username)
 
-    cy.get('[data-cy=username]').type(testUser.username)
+    cy.get('[data-cy=login-password]').type(testUser.password)
 
-    cy.get('[data-cy=email]').type(testUser.email)
-
-    cy.get('[data-cy=password]')
-      .should('have.attr', 'type', 'password')
-      .type(testUser.password)
-
-    cy.get('[data-cy=tc]').click()
-
-    cy.get('[data-cy=btn-register]').click()
+    cy.get('[data-cy=login-btn]').click()
 
     cy.url().should('equal', `${Cypress.config().baseUrl}/`)
-
-    cy.saveLocalStorage()
   })
+  
+  before('Navigate to the story created by the user',()=>{
+    
+    // Enter story title in seacrh bar and click on search button
+    cy.get('[data-cy=search-input]').type(testStory.title)
+    
+    cy.get('[data-cy=btn-search]').click()
 
+    // click on the story
+    cy.get('[data-cy=story-row]').first().click({ force: true})
+
+    cy.wait(1500)
+    
+    cy.url().should('contain', `story`)
+
+  })
+  
   beforeEach(() => {
     Cypress.Cookies.preserveOnce('token')
     cy.restoreLocalStorage()
+
+    cy.wait(500)
   })
 
   afterEach(() => {
     cy.saveLocalStorage()
   })
 
-  describe('Test New Story page', () => {
-    it('Allows user to create new story', () => {
-      cy.get('[data-cy=btn-new-story]').click()
+  it('Displays the details of the story', () => {
+    
+    cy.contains(testStory.title)
 
-      cy.url().should('equal', `${Cypress.config().baseUrl}/newStory`)
+    cy.contains(testStory.descriptionText)
 
-      cy.get('[data-cy=title]').type(testStory.title)
+    cy.contains(testUser.username)
 
-      cy.get('[data-cy=product]').select(testStory.product)
+    cy.get('div.story-votes-count').should('contain','0')
 
-      cy.get('[data-cy=category]').select(testStory.category)
-
-      cy.get('[data-cy=priority]').select(testStory.priority)
-
-      cy.get('[data-cy=description-editor]').type(testStory.description)
-
-      cy.get('[data-cy=btn-submit]').click()
-
-      cy.url().should('equal', `${Cypress.config().baseUrl}/`)
-    })
   })
 
-  describe('Test Home page', () => {
-    it('Displays story in home page, once created', () => {
-      cy.get('[data-cy=stories]').contains(testStory.title).click()
+  it('Allows user to edit the story created by them', () => {
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(1500)
 
-      cy.url().should('contain', 'story')
-    })
+    cy.get('[data-cy=btn-edit]').click()
+
+    cy.get('[data-cy=edit-description]').type(editedDescription)
+
+    cy.get('[data-cy=btn-save]').click()
+
+    cy.get('[data-cy=story-description]').contains(editedDescription)
   })
 
-  describe('Test Story Page', () => {
-    it('Displays the data from template text', () => {
-      cy.contains('What is the issue?') // Data from the template text
-    })
+  it('Allows user to comment on a story', () => {
 
-    it('Allows user to edit the story created by them', () => {
-      // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(1500)
+    cy.wait(1000)
 
-      cy.get('[data-cy=btn-edit]').click()
+    cy.get('[data-cy=comment-input-2]').type(testComment)
 
-      cy.get('[data-cy=edit-description]').type(editedDescription)
+    cy.get('[data-cy=btn-comment-2]').click()
 
-      cy.get('[data-cy=btn-save]').click()
+    cy.get('[data-cy=comment-content]').contains(testComment)
 
-      cy.get('[data-cy=story-description]').contains(editedDescription)
-    })
+    cy.get('[data-cy=comment-username]').contains(testUser.username).click()
 
-    it('Allows user to comment on a story', () => {
-      cy.get('[data-cy=comment-input-2]').type(testComment)
+    cy.url().should('contain', 'profile')
 
-      cy.get('[data-cy=btn-comment-2]').click()
-
-      cy.get('[data-cy=comment-content]').contains(testComment)
-
-      cy.get('[data-cy=comment-username]').contains(testUser.username).click()
-
-      cy.url().should('contain', 'profile')
-    })
+    cy.go('back')
   })
+  
+  it('Allows user to share a story',()=>{
+
+    cy.wait(1000)
+    
+    // For sharing on social media
+    cy.get('[data-cy=share-story-btn]').click()
+    
+    cy.contains('Share')
+    
+    cy.get('[data-cy=twitter-share-btn]').should('exist')
+    
+    cy.get('[data-cy=linkedin-share-btn]').should('exist')
+    
+    cy.get('span.close-icon').click()
+
+  })
+
+  it('Allows user to vote a story',()=>{
+
+    cy.wait(1000)
+    
+    // Initially no one has voted for the story
+    cy.get('[data-cy=story-votes-count]').should('contain','0')
+    
+    // click on the vote button 
+    cy.get('[data-cy=story-vote-btn]').click()
+    
+    // check if vote count has increased
+    cy.get('[data-cy=story-votes-count]').should('contain','1')
+
+  })
+
 })

@@ -56,6 +56,7 @@ export const EditableLabel = ({
           {children}
           {allowEditing && (
             <button
+              data-cy={`edit-${name}-btn`}
               className='editable-label-edit-btn'
               onClick={() => setEditMode(!editMode)}
             >
@@ -68,6 +69,7 @@ export const EditableLabel = ({
         <>
           {ComponentToRender(type)}
           <button
+            data-cy='save-changes-btn'
             onClick={() => {
               setEditMode(!editMode)
               updateProfile()
