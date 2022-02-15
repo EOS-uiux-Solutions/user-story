@@ -1,18 +1,15 @@
 /// <reference types="cypress" />
 
 describe("Tests for creating a new story", () => {
-    const testUser = {
-        username: Cypress.env('testUsername'),
-        email: Cypress.env('testUserEmail'),
-        password: Cypress.env('testUserPassword')
-    }
+
+    const testUser = Cypress.env("testUser")
 
     const testStory = {
-        title: Cypress.env('testStoryTitle'),
-        product: Cypress.env('testStoryProduct'),
-        category: Cypress.env('testCategory'),
-        priority: 'High',
-        description: '{enter}Testing User Story'
+        ...Cypress.env("testStory"),
+        ... {
+            priority: 'High',
+            description: '{enter}Testing User Story'
+        }
     }
 
     before('Log in the user', () => {

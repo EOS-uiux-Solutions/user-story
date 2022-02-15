@@ -13,15 +13,9 @@ describe('Tests for dashboard',()=>{
 
 
 describe('Test the filters and search for stories in Home page', () => {
-  const testStory = {
-    title: Cypress.env('testStoryTitle'),
-    product: Cypress.env('testStoryProduct'),
-    category: Cypress.env('testCategory')
-  }
+  const testStory = Cypress.env("testStory")
 
-  const testUser = {
-    username: Cypress.env('testUsername')
-  }
+  const testUser = Cypress.env("testUser")
 
   const selectProduct = (productName) => {
     cy.get(`[data-cy=${productName.split(' ').join('-')}-card]`).click({

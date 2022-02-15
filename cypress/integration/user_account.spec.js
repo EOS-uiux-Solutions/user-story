@@ -1,20 +1,10 @@
 /// <reference types="cypress" />
 
 describe("Tests for user's profile page", () => {
-    const testUser = {
-        username: Cypress.env('testUsername'),
-        email: Cypress.env('testUserEmail'),
-        password: Cypress.env('testUserPassword')
-    }
 
-    const updatedUser = {
-        name: testUser.username + '-updated',
-        bio: 'Hello, this is a updated bio for testing',
-        profession: 'updated-profession',
-        company: 'updated-company',
-        linkedin: 'updated-linkedin',
-        twitter: 'updated-twitter',
-    }
+    const testUser = Cypress.env("testUser")
+
+    const updatedUser = Cypress.env("updatedUser")
 
     // Function to update the detaiil of a user with the given text
     const updateDetail = (field, value) => {
@@ -113,4 +103,3 @@ describe("Tests for user's profile page", () => {
     })
 
 })
-

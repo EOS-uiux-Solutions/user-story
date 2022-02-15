@@ -2,11 +2,7 @@
 
 describe("Authentication Tests", () => {
 
-    const testUser = {
-        username: Cypress.env('testUsername'),
-        email: Cypress.env('testUserEmail'),
-        password: Cypress.env('testUserPassword')
-    }
+    const testUser = Cypress.env("testUser")
 
     beforeEach('visit the page and wait it to load', () => {
 
