@@ -30,10 +30,10 @@ apiClient.interceptors.response.use(
   }
 )
 
-function apiCall(url, data) {
+function apiCall(url, data, _method = 'post') {
   return apiClient.request({
     url,
-    method: 'post',
+    method: _method,
     data,
     ...config
   })

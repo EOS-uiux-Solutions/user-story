@@ -11,6 +11,7 @@ import { EOS_SHARE, EOS_CONTENT_COPY } from 'eos-icons-react'
 import StoryPageTimeline from '../components/StoryPageTimeline'
 import ShowMore from '../components/ShowMore'
 import { Helmet } from 'react-helmet'
+import { useHistory } from 'react-router-dom'
 
 import MarkdownEditor from '../components/MarkdownEditor'
 import { filterDescriptionText } from '../utils/filterText'
@@ -24,6 +25,8 @@ import userStory from '../services/user_story'
 
 const Story = (props) => {
   const { storyId } = props
+
+  const history = useHistory()
 
   const userId = localStorage.getItem('id')
 
@@ -89,6 +92,11 @@ const Story = (props) => {
     dummy.select()
     document.execCommand('copy')
     document.body.removeChild(dummy)
+  }
+
+  const deleteStory = async () => {
+    await userStory.deleteStory(storyId)
+    history.push('/')
   }
 
   const hashtagsArray = ['EOS', 'userstory']
@@ -172,6 +180,13 @@ const Story = (props) => {
                           onClick={() => setEditor(true)}
                         >
                           Edit
+                        </Button>
+                        <Button
+                          className='btn btn-default'
+                          data-cy='btn-edit'
+                          onClick={deleteStory}
+                        >
+                          Delete
                         </Button>
                       </>
                     ) : (
