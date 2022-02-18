@@ -57,9 +57,10 @@ const StoryPageTimeline = (props) => {
         (id) => id !== JSON.stringify(userId)
       )
       const response = await userStory.updateVotes(story.id, updatedFollowerIds)
-      updatedFollowerIds = response.data.data.updateUserStory.userStory.followers.map(
-        (follower) => JSON.stringify(follower.id)
-      )
+      updatedFollowerIds =
+        response.data.data.updateUserStory.userStory.followers.map((follower) =>
+          JSON.stringify(follower.id)
+        )
       setFollowers(updatedFollowerIds)
       setVoted(false)
       setVotes((votes) => votes - 1)
@@ -67,9 +68,10 @@ const StoryPageTimeline = (props) => {
       followers.push(JSON.stringify(userId))
       let updatedFollowerIds = followers
       const response = await userStory.updateVotes(story.id, updatedFollowerIds)
-      updatedFollowerIds = response.data.data.updateUserStory.userStory.followers.map(
-        (follower) => JSON.stringify(follower.id)
-      )
+      updatedFollowerIds =
+        response.data.data.updateUserStory.userStory.followers.map((follower) =>
+          JSON.stringify(follower.id)
+        )
       setFollowers(updatedFollowerIds)
       setVoted(true)
       setVotes((votes) => votes + 1)
@@ -85,6 +87,7 @@ const StoryPageTimeline = (props) => {
         }`}
       >
         <div
+          data-cy='story-vote-btn'
           className={`story-vote-button ${
             userId ? 'story-vote-button-clickable' : ''
           }`}
@@ -94,7 +97,11 @@ const StoryPageTimeline = (props) => {
         >
           <EOS_THUMB_UP className='eos-icons' color='white' size='l' />
         </div>
-        <div className='story-votes-count' onClick={togglePopup}>
+        <div
+          className='story-votes-count'
+          onClick={togglePopup}
+          data-cy='story-votes-count'
+        >
           {votes} Votes
         </div>
         {isOpen && (

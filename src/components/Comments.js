@@ -71,7 +71,9 @@ const Comments = (props) => {
     [attachments, replyAttachments]
   )
 
-  const addComment = async (data) => {
+  const addComment = async (e, data) => {
+    e.preventDefault()
+
     const formData = new FormData()
     data.user = id
     data.user_story = storyId
@@ -87,7 +89,8 @@ const Comments = (props) => {
     fetchStoryComments()
   }
 
-  const addCommentReply = async (data) => {
+  const addCommentReply = async (e, data) => {
+    console.log(data)
     const formData = new FormData()
 
     data.user = id
@@ -168,9 +171,8 @@ const Comments = (props) => {
                       Reply
                     </Button>
                   )}
-                  <br/> 
-                  {data.user_story_comment_replies.length == 1 ? (
-                  
+                  <br />
+                  {data.user_story_comment_replies.length === 1 ? (
                     <Button
                       className='btn btn-default btn-comment-edit'
                       onClick={() => {
@@ -183,9 +185,10 @@ const Comments = (props) => {
                     >
                       {data.user_story_comment_replies.length} Reply
                     </Button>
-                  ) : data.user_story_comment_replies.length == 0 ? (
+                  ) : data.user_story_comment_replies.length === 0 ? (
                     ''
-                  ) :  ( <Button
+                  ) : (
+                    <Button
                       className='btn btn-default btn-comment-edit'
                       onClick={() => {
                         toggleViewReplies(
@@ -196,8 +199,8 @@ const Comments = (props) => {
                       }}
                     >
                       {data.user_story_comment_replies.length} Replies
-                    </Button>)   }
-                  
+                    </Button>
+                  )}
                 </div>
                 {viewRepliesToggled.find((item) => item === key + 1) &&
                   data.user_story_comment_replies.map((reply, key) => (

@@ -1,15 +1,24 @@
 {
   "baseUrl": "http://localhost:3000",
   "env": {
-    "testUsername": "user1",
-    "testUserEmail": "test1@gmail.com",
-    "testUserPassword": "password",
-    "testStoryTitle": "This is a test story",
-    "testStoryProduct": "EOS Icons",
-    "testCategory": "Documentation"
+    "testUser":{
+      "username": "user1",
+      "email": "test1@gmail.com",
+      "password": "password"
+    },
+    "updatedUser": {
+      "name": "user1-updated",
+      "bio": "Hello, this is a updated bio for testing",
+      "profession": "updated-profession",
+      "company": "updated-company",
+      "linkedin": "updated-linkedin",
+      "twitter": "updated-twitter"
+    },
+    "testStory": {
+      "title": "This is a test story",
+      "product": "EOS Icons",
+      "category": "Documentation"
+    }
   },
-  "testFiles": [
-    "user_story.spec.js",
-    "test_filters.spec.js"
-  ]
+  "testFiles": ["auth.spec.js","new_story.spec.js","user_story.spec.js","dashboard.spec.js", "user_account.spec.js"]
 }

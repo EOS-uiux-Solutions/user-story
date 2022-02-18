@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { apiURL, APP_ENV } from '../config.json'
+const { apiURL, APP_ENV } = require('../config.json')
 
 const config = {
   baseURL: apiURL,

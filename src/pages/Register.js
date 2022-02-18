@@ -19,7 +19,11 @@ export const Register = () => {
 
   const { state, dispatch } = useContext(Context)
 
-  const { register, handleSubmit, errors } = useForm()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm()
 
   const { t } = useTranslation()
 
@@ -66,9 +70,8 @@ export const Register = () => {
                 <input
                   className='input-default'
                   type='text'
-                  name='username'
                   data-cy='username'
-                  ref={register({ required: true })}
+                  {...register('username', { required: true })}
                 />
                 {errors.username && <FormError type={errors.username.type} />}
               </div>
@@ -77,9 +80,8 @@ export const Register = () => {
                 <input
                   className='input-default'
                   type='text'
-                  name='email'
                   data-cy='email'
-                  ref={register({ required: true })}
+                  {...register('email', { required: true })}
                 />
                 {errors.email && <FormError type={errors.email.type} />}
               </div>
@@ -90,9 +92,8 @@ export const Register = () => {
                 <input
                   className='input-default'
                   type='password'
-                  name='password'
                   data-cy='password'
-                  ref={register({
+                  {...register('password', {
                     required: 'This is required',
                     minLength: {
                       value: 8,
@@ -108,9 +109,8 @@ export const Register = () => {
                 <div className='flex flex-row flex-align-center '>
                   <input
                     type='checkbox'
-                    name='tc'
                     data-cy='tc'
-                    ref={register({
+                    {...register('tc', {
                       required: 'You must accept our Terms and Conditions'
                     })}
                   />

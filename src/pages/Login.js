@@ -22,7 +22,11 @@ export const Login = (props) => {
 
   const { login } = useAuth()
 
-  const { register, handleSubmit, errors } = useForm()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm()
 
   const [showPassword, toggleShowPassword] = useState(false)
 
@@ -70,11 +74,11 @@ export const Login = (props) => {
                 <input
                   className='input-default'
                   type='text'
-                  name='identifier'
-                  ref={register({ required: true })}
+                  data-cy='login-username'
+                  {...register('identifier', { required: true })}
                 />
-                {errors.identifier && (
-                  <FormError type={errors.identifier.type} />
+                {errors?.identifier && (
+                  <FormError type={errors?.identifier.type} />
                 )}
               </div>
 
@@ -86,8 +90,8 @@ export const Login = (props) => {
                   <input
                     className='input-default'
                     type={showPassword ? 'text' : 'password'}
-                    name='password'
-                    ref={register({ required: true })}
+                    data-cy='login-password'
+                    {...register('password', { required: true })}
                   ></input>
 
                   <div
@@ -101,10 +105,14 @@ export const Login = (props) => {
                     )}
                   </div>
                 </div>
-                {errors.password && <FormError type={errors.password.type} />}
+                {errors?.password && <FormError type={errors?.password.type} />}
               </div>
 
-              <Button type='submit' className='btn btn-default'>
+              <Button
+                type='submit'
+                className='btn btn-default'
+                data-cy='login-btn'
+              >
                 {t('authentication:login-label')}
               </Button>
             </form>
