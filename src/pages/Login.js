@@ -14,6 +14,7 @@ import AuthWrapper, {
   AuthLeftContainer,
   AuthRightContainer
 } from '../components/AuthWrapper'
+const { sessionLimit } = require('../config.json')
 
 export const Login = (props) => {
   const { message } = props
@@ -41,6 +42,10 @@ export const Login = (props) => {
       localStorage.setItem('id', payload.user.id)
       localStorage.setItem('username', payload.user.username)
       localStorage.setItem('email', payload.user.email)
+      localStorage.setItem(
+        '_expiredTime',
+        Date.now() + (sessionLimit || 3600) * 1000
+      )
       dispatch({
         type: 'AUTHENTICATE'
       })
