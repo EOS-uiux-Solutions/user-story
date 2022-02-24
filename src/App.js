@@ -19,6 +19,9 @@ import Notifications from './pages/Notifications'
 import Context from './modules/Context'
 import ContextReducer from './modules/ContextReducer'
 import Footer from './components/Footer'
+import IdleTimer from './utils/IdleTimer'
+import logout from './utils/Logout'
+const { sessionLimit } = require('./config.json')
 
 const initialState = {
   auth: false,
@@ -53,6 +56,29 @@ const App = () => {
       dispatch({
         type: 'DEAUTHENTICATE'
       })
+    }
+  }, [userId])
+
+  useEffect(() => {
+    if (!userId) return
+
+    const timer = new IdleTimer({
+      timeout: sessionLimit || 6 * 3600,
+      onTimeout: () => {
+        logout()
+        dispatch({
+          type: 'DEAUTHENTICATE'
+        })
+      },
+      onExpired: () => {
+        dispatch({
+          type: 'DEAUTHENTICATE'
+        })
+      }
+    })
+
+    return () => {
+      timer.cleanUp()
     }
   }, [userId])
 
