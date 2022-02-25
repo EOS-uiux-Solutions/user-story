@@ -45,7 +45,7 @@ export const Login = (props) => {
       dispatch({
         type: 'AUTHENTICATE'
       })
-      toast(`Logged in successfully as ${payload.user.username}`)
+      toast.success(`Logged in successfully as ${payload.user.username}`)
       navigate('/', { replace: true })
     } catch (e) {}
   }

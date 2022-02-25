@@ -53,7 +53,6 @@ const Story = (props) => {
       const check = await userStory.checkAuthor(userId, storyId)
       if (check.data) {
         setEditMode(true)
-        toast('Edit mode activated')
       }
     }
     if (userId) {
