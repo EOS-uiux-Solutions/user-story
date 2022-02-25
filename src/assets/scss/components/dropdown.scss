@@ -23,6 +23,7 @@
 
   .curr {
     margin-top: 0.6em;
+    margin-left: -1.2em;
   }
 }
 
@@ -95,6 +96,10 @@
 
 .dropdown-separator {
   opacity: 0.08;
+}
+
+.dropdown-button{
+  display: flex;
 }
 
 @media only screen and (max-width: 500px) {

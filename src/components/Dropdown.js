@@ -48,18 +48,23 @@ const Dropdown = (props) => {
       <div className='dropdown-main'>
         <div className='filter-title'>{title}</div>
         <div className='dropdown-container' ref={reference} {...rest}>
-          <Button
-            type='button'
-            className='btn btn-transparent flex flex-row'
-            onClick={handleDropdownState}
-          >
-            {dropdownState ? (
-              <EOS_KEYBOARD_ARROW_UP className='eos-icons' />
-            ) : (
-              <EOS_KEYBOARD_ARROW_DOWN className='eos-icons' />
-            )}
-            &nbsp; <div className='curr'> {curr} </div>
-          </Button>
+          <div className='dropdown-button'>
+            <div>
+              <Button
+                type='button'
+                className='btn btn-transparent flex flex-row'
+                onClick={handleDropdownState}
+              >
+                {dropdownState ? (
+                  <EOS_KEYBOARD_ARROW_UP className='eos-icons' />
+                ) : (
+                  <EOS_KEYBOARD_ARROW_DOWN className='eos-icons' />
+                )}
+                &nbsp;
+              </Button>
+            </div>
+            <div className='curr'> {curr} </div>
+          </div>
           <div
             className={`dropdown ${
               dropdownState
