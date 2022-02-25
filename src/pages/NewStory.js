@@ -4,7 +4,7 @@ import MarkdownEditor from '../components/MarkdownEditor'
 import { filterDescriptionText } from '../utils/filterText'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 import { Helmet } from 'react-helmet'
-
+import toast from 'react-hot-toast'
 import FormError from '../components/FormError'
 import Navigation from '../components/Navigation'
 import LoadingIndicator from '../modules/LoadingIndicator'
@@ -127,12 +127,13 @@ const NewStory = () => {
         })
       }
       await userStory.createStory(formData)
+      toast.success('New story created successfully')
       navigate('/')
     } catch (err) {
       console.log(err.message)
+      toast.error(err.message)
     }
   }
-
   return state.auth ? (
     <>
       <Helmet>

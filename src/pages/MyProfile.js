@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { Helmet } from 'react-helmet'
-
+import toast from 'react-hot-toast'
 import Navigation from '../components/Navigation'
 import Context from '../modules/Context'
 import Login from './Login'
@@ -24,9 +24,15 @@ const MyProfile = () => {
   }
 
   const updateProfile = async () => {
-    const response = await userStory.updateUser({ id: userId, ...user })
-    if (response) {
-      setUpdated(true)
+    try {
+      const response = await userStory.updateUser({ id: userId, ...user })
+      if (response) {
+        toast.success('Profile updated successfully')
+        setUpdated(true)
+      }
+    } catch (err) {
+      console.log(err.message)
+      toast.error(err.message)
     }
   }
 

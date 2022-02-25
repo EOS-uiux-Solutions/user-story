@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { Helmet } from 'react-helmet'
-
+import toast from 'react-hot-toast'
 import { Link, navigate } from '@reach/router'
 import Button from '../components/Button'
 import useAuth from '../hooks/useAuth'
@@ -41,8 +41,12 @@ export const Register = () => {
       dispatch({
         type: 'AUTHENTICATE'
       })
+      toast.success(`Successfully registered as ${payload.user.username}`)
       navigate('/', { replace: true })
-    } catch (e) {}
+    } catch (e) {
+      console.log(e.message)
+      toast.error(e.message)
+    }
   }
 
   if (state.auth) {

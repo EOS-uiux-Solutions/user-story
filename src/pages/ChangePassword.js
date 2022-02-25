@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { navigate } from '@reach/router'
 import { useTranslation } from 'react-i18next'
 import { Helmet } from 'react-helmet'
-
+import toast from 'react-hot-toast'
 import Button from '../components/Button'
 import useAuth from '../hooks/useAuth'
 import FormError from '../components/FormError'
@@ -38,7 +38,12 @@ const ChangePassword = () => {
         id: localStorage.getItem('id')
       })
       setResponse(reply)
-    } catch (e) {}
+      console.log(reply)
+      toast.success('Password changed successfully')
+    } catch (e) {
+      console.log(e.message)
+      toast.error(e.message)
+    }
   }
 
   const handleNavigateToLogin = async () => {
