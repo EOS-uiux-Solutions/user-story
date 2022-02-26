@@ -10,7 +10,7 @@ import userStory from '../services/user_story'
 import isMongoID from '../utils/IsMongoID'
 
 const Profile = (props) => {
-  const { profileId: identifier } = props
+  const { identifier } = props
   const [user, setUser] = useState('')
 
   useEffect(() => {
