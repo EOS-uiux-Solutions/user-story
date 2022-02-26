@@ -38,7 +38,6 @@ const ChangePassword = () => {
         id: localStorage.getItem('id')
       })
       setResponse(reply)
-      console.log(reply)
       toast.success('Password changed successfully')
     } catch (e) {
       console.log(e.message)
