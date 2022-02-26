@@ -58,8 +58,8 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 1. Open a new issue or pick an open issue from the issue list and claim it in the comments. Make sure that the issue is confirmed so you don't work on something that will not be approved to be merged.
 2. Make sure you follow our best practices: [refer to our Wiki](https://github.com/EOS-uiux-Solutions/wiki/blob/main/README.md). You'll find information on writing code, how to name a branch, how we release, etc.
-3. Join Slack [optional] to get in touch with the maintainers if you have any doubt: [join slack](https://eos-community.slack.com)
-4. Make sure you fork the project, cloning it will not give you the right access to open a PR/MR. [How to open a PR in open source](https://github.com/EOS-uiux-Solutions/wiki/blob/main/pull-requests,-approvals,-and-merging-to-master.md#opening-a-pull-request-pr)
+3. Join Slack [optional] to get in touch with the maintainers if you have any doubt: [join slack](http://slack.eosdesignsystem.com)
+4. Make sure you fork the project, cloning it will not give you the right access to open a PR/MR. [How to open a PR in open source](https://github.com/EOS-uiux-Solutions/wiki/blob/main/Basic-git-instructions-for-beginners.md)
 
 ### Design contributions
 
@@ -67,14 +67,16 @@ If you'd like to contribute with design changes, you'll have to do as follows:
 
 1. [Open an issue](https://github.com/EOS-uiux-Solutions/user-story/issues/new)
 2. Add all relevant information to the issue. Please be as descriptive as possible. Add links to references, images, videos, etc.
-3. While working on your design, please make sure you follow our [design guidelines](https://github.com/EOS-uiux-Solutions/wiki/blob/main/README.md#designing-the-eos-project).
+3. While working on your design, please make sure you follow our [design guidelines](https://github.com/EOS-uiux-Solutions/wiki/blob/main/Design-process-and-feedback-gathering.md).
 4. Once the issue is approved by us, it'll be ready to be implemented.
 
 # Learn more about the EOS Design System
 
-- [EOS Design System](https://www.eosdesignsystem.com)
+- [EOS Icons](https://eos-icons.com)
 
-- [EOS Icons](eos-icons.com)
+- [EOS User Story](https://userstory.eosdesignsystem.com/)
+
+- [EOS Design System](https://www.eosdesignsystem.com)
 
 - [Follow us on Twitter](https://twitter.com/eosdesignsystem)
 
