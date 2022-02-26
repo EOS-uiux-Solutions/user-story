@@ -79,8 +79,8 @@ export const Login = (props) => {
                   data-cy='login-username'
                   {...register('identifier', { required: true })}
                 />
-                {errors.identifier && (
-                  <FormError type={errors.identifier.type} />
+                {errors?.identifier && (
+                  <FormError type={errors?.identifier.type} />
                 )}
               </div>
 
@@ -107,7 +107,7 @@ export const Login = (props) => {
                     )}
                   </div>
                 </div>
-                {errors.password && <FormError type={errors.password.type} />}
+                {errors?.password && <FormError type={errors?.password.type} />}
               </div>
 
               <Button

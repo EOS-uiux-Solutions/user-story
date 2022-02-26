@@ -69,6 +69,7 @@ const CommentForm = (props) => {
               trigger='@'
               data={users}
               displayTransform={displayTransform}
+              markup={`<a class='mentions' href=${window.location.origin}/profile/__id__>@__display__</a>`}
             />
           </MentionsInput>
           <div className='file-input'>
