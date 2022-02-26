@@ -285,6 +285,32 @@ const userStory = {
             id
             url
           }
+          _id
+          Name
+          Bio
+          username
+          Company
+          Profession
+          email
+          LinkedIn
+          Twitter
+        }
+      }
+      `
+    }
+    return apiCall('/graphql', userQuery)
+  },
+  getUserDetailsByUsername: (username) => {
+    const userQuery = {
+      query: `query {
+        users(where: {
+          username: "${username}"
+        }) {
+          profilePicture {
+            id
+            url
+          }
+          _id
           Name
           Bio
           username
