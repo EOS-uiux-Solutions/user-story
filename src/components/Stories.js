@@ -12,13 +12,13 @@ import userStory from '../services/user_story'
 import ProductList from './ProductList'
 
 const Stories = ({ authorId, followerId }) => {
-  const [currentStateSelected, selectState] = useState('Under consideration')
+  const [currentStateSelected, selectState] = useState('All')
 
   const [page, setPage] = useState(1)
 
   const statusOptions = useMemo(() => [], [])
 
-  const [status, setStatus] = useState('Under consideration')
+  const [status, setStatus] = useState('All')
 
   const [sort, setSort] = useState('Most Voted')
 
