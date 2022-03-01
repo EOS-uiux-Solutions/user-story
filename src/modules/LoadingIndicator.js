@@ -1,13 +1,10 @@
 import React from 'react'
+import { ReactComponent as Loader } from '../assets/images/loading.svg'
 
 const LoadingIndicator = () => {
   return (
     <div className='loading-indicator'>
-      <img
-        className='loader-image'
-        src={require('../assets/images/loading.svg')}
-        alt='loader'
-      ></img>
+      <Loader className='loader-image' />
     </div>
   )
 }
