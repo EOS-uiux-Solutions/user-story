@@ -95,6 +95,7 @@ const Notifications = () => {
             count={notificationCount}
             containerStyle={{ height: '0%' }}
             frameLength={1.0}
+            className='notification-badge'
           />
         )}
         <EOS_NOTIFICATIONS
