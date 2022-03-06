@@ -31,7 +31,7 @@ const MyProfile = () => {
         setUpdated(true)
       }
     } catch (err) {
-      console.log(err.message)
+      console.error(err.message)
       toast.error(err.message)
     }
   }

@@ -40,7 +40,7 @@ const ChangePassword = () => {
       setResponse(reply)
       toast.success('Password changed successfully')
     } catch (e) {
-      console.log(e.message)
+      console.error(e.message)
       toast.error(e.message)
     }
   }

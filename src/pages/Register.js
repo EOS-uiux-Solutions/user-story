@@ -44,7 +44,7 @@ export const Register = () => {
       toast.success(`Successfully registered as ${payload.user.username}`)
       navigate('/', { replace: true })
     } catch (e) {
-      console.log(e.message)
+      console.error(e.message)
       toast.error(e.message)
     }
   }
