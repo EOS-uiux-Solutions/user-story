@@ -90,7 +90,6 @@ const Comments = (props) => {
   }
 
   const addCommentReply = async (e, data) => {
-    console.log(data)
     const formData = new FormData()
 
     data.user = id
