@@ -27,16 +27,19 @@
 
 .vote-button {
   color: $eos-white;
+  cursor: pointer;
   font-weight: bold;
   margin: 4px 8px;
-
-  &-clickable {
-    cursor: pointer;
-  }
 
   .eos-icons {
     margin: 0px 4px 0px 4px;
   }
+}
+
+.vote-link {
+  color: $eos-white;
+  font-weight: bold;
+  text-decoration: none;
 }
 
 @media (max-width: 900px) {
