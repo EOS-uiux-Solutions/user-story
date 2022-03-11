@@ -4,6 +4,7 @@ import LanguageDropdown from './LanguageDropdown'
 import eosIcon from '../assets/images/user-story-logo.svg'
 import SocialMediaLinks from '../components/SocialMediaLinks'
 import { EOS_COPYRIGHT } from 'eos-icons-react'
+import { Link } from '@reach/router'
 export const AuthWrapper = ({ children }) => {
   return (
     <div className='authentication-wrapper'>
@@ -43,7 +44,9 @@ export const AuthRightContainer = ({ children, logo }) => {
     <div className='container-right'>
       <div className='flex flex-row flex-space-between'>
         <div className='image image-logo eos-logo-resize'>
-          <img src={logo ?? eosIcon} alt='EOS Logo' />
+          <Link className='link' data-cy='nav-eos-logo' to='/'>
+            <img className='logo' src={eosIcon} alt='EOS Logo' />
+          </Link>
         </div>
         <LanguageDropdown translator={i18n} />
       </div>
