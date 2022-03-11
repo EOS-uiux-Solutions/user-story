@@ -73,9 +73,13 @@ const Vote = (props) => {
         {votes}
       </div>
       <div
-        className={`vote-button ${userId ? 'vote-button-clickable' : ''}`}
+        className={`vote-button`}
         onClick={() => {
-          if (userId && !voteClicked) updateVote(story)
+          if (userId && !voteClicked) {
+            updateVote(story)
+          } else if (!userId) {
+            console.log('Not loged In')
+          }
         }}
       >
         <EOS_THUMB_UP className='eos-icons' color='white' />

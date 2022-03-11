@@ -24,6 +24,8 @@ const StoryPageTimeline = (props) => {
 
   const [isOpen, setIsOpen] = useState(false)
 
+  const [showLog, setShowLog] = useState(false)
+
   const [previousStatuses, setPreviousStatuses] = useState([])
 
   const togglePopup = () => {
@@ -88,11 +90,15 @@ const StoryPageTimeline = (props) => {
       >
         <div
           data-cy='story-vote-btn'
-          className={`story-vote-button ${
-            userId ? 'story-vote-button-clickable' : ''
-          }`}
+          className={`story-vote-button story-vote-button-clickable`}
           onClick={() => {
-            if (userId && !voteClicked) updateVote(story)
+            if (userId && !voteClicked) {
+              updateVote(story)
+              console.log('even after being logged')
+            } else if (!userId) {
+              console.log('Not loged In')
+              setShowLog(!showLog)
+            }
           }}
         >
           <EOS_THUMB_UP className='eos-icons' color='white' size='l' />
@@ -104,6 +110,30 @@ const StoryPageTimeline = (props) => {
         >
           {votes} Votes
         </div>
+        {showLog && (
+          <>
+            <Modal
+              content={
+                <>
+                  <div>
+                    <h1>Oops! You're not signed In</h1>
+                    <div>
+                      <h2>
+                        <Link className='btn' data-cy='btn-signin' to='/login'>
+                          Sign-In to UpVote :)
+                        </Link>
+                      </h2>
+                    </div>
+                  </div>
+                </>
+              }
+              handleClose={() => {
+                setShowLog(!showLog)
+              }}
+              active={showLog}
+            />
+          </>
+        )}
         {isOpen && (
           <Modal
             content={
