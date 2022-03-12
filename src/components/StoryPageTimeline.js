@@ -94,9 +94,7 @@ const StoryPageTimeline = (props) => {
           onClick={() => {
             if (userId && !voteClicked) {
               updateVote(story)
-              console.log('even after being logged')
             } else if (!userId) {
-              console.log('Not loged In')
               setShowLog(!showLog)
             }
           }}
@@ -115,16 +113,12 @@ const StoryPageTimeline = (props) => {
             <Modal
               content={
                 <>
-                  <div>
-                    <h1>Oops! You're not signed In</h1>
-                    <div>
-                      <h2>
-                        <Link className='btn' data-cy='btn-signin' to='/login'>
-                          Sign-In to UpVote :)
-                        </Link>
-                      </h2>
-                    </div>
-                  </div>
+                  <h1>Oops! You're not signed In</h1>
+                  <h2>
+                    <Link className='btn' data-cy='btn-signin' to='/login'>
+                      Sign-In to UpVote :)
+                    </Link>
+                  </h2>
                 </>
               }
               handleClose={() => {
