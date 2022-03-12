@@ -77,8 +77,6 @@ const Vote = (props) => {
         onClick={() => {
           if (userId && !voteClicked) {
             updateVote(story)
-          } else if (!userId) {
-            console.log('Not loged In')
           }
         }}
       >
