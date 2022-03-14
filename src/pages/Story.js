@@ -193,6 +193,11 @@ const Story = (props) => {
                         </Button>
                       </>
                     }
+                    <img
+                      src={story.product.logo.url}
+                      className='preview image'
+                      style={{ width: '150px' }}
+                    />
                   </div>
                 </div>
               </div>

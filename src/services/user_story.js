@@ -113,6 +113,12 @@ const userStory = {
             url
           }
           createdAt
+          product {
+            Name
+            logo {
+              url
+            }
+          }
         }
       }
       ${BASIC_STORY_INFO_FRAGMENT}
