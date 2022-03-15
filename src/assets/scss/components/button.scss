@@ -1,7 +1,9 @@
 .btn {
   border: 0;
   border-radius: 10px;
-  padding: 8px 16px;
+  align-items: center;
+  // padding: 8px 16px;
+  padding: 0.5rem;
   text-decoration: none;
 
   &:hover {

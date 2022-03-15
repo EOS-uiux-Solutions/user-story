@@ -1,8 +1,11 @@
 .footer-main {
-  display: flex;
-  justify-content: flex-end;
   align-items: center;
-  flex-direction: column;
+  display: flex;
+  flex-direction: row;
+
+  a {
+    padding: 10px 25px;
+  }
 }
 
 @media only screen and (max-width: 600px) {
