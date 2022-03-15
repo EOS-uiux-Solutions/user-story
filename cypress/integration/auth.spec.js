@@ -63,6 +63,7 @@ describe("Authentication Tests", () => {
         cy.get('[data-cy=btn-register]').click()
         cy.contains("Username already taken")
     })
+
     it("Should not register using invalid email", () => {
         cy.get('[data-cy=btn-signin]').click()
         cy.url().should('equal', `${Cypress.config().baseUrl}/login`)
@@ -77,6 +78,47 @@ describe("Authentication Tests", () => {
         cy.get('[data-cy=btn-register]').click()
         cy.contains("Please provide valid email address.")
     })
+
+    it("Should not register using ", () => {
+        cy.get('[data-cy=btn-signin]').click()
+        cy.url().should('equal', `${Cypress.config().baseUrl}/login`)
+        cy.get('[data-cy=link-create-account]').click()
+        cy.url().should('equal', `${Cypress.config().baseUrl}/register`)
+        cy.get('[data-cy=username]').type(testUser.username)
+        cy.get('[data-cy=email]').type(Math.random() * 1000) //Invalid email address
+        cy.get('[data-cy=password]')
+            .should('have.attr', 'type', 'password')
+            .type(testUser.password)
+        cy.get('[data-cy=tc]').click()
+        cy.get('[data-cy=btn-register]').click()
+        cy.contains("Please provide valid email address.")
+    })
+
+    it("register details should not be empty", () => {
+
+
+        cy.get('[data-cy=btn-signin]').click()
+
+        cy.url().should('equal', `${Cypress.config().baseUrl}/login`)
+
+        cy.get('[data-cy=link-create-account]').click()
+
+        cy.url().should('equal', `${Cypress.config().baseUrl}/register`)
+
+        cy.get('[data-cy=username]')
+
+        cy.get('[data-cy=email]') 
+
+        cy.get('[data-cy=password]')
+            .should('have.attr', 'type', 'password') // Password not provided
+
+        cy.get('[data-cy=tc]').click()
+
+        cy.get('[data-cy=btn-register]').click()
+
+        cy.contains("This is required")
+    })
+
     it("Should not register without agreeing to terms and conditions", () => {
         cy.get('[data-cy=btn-signin]').click()
         cy.url().should('equal', `${Cypress.config().baseUrl}/login`)
@@ -91,12 +133,30 @@ describe("Authentication Tests", () => {
         cy.get('[data-cy=btn-register]').click()
         cy.contains("You must accept our Terms and Conditions")
     })
-    it("Should not login using invalid credentials", () => {
+    it("Should not login using invalid password", () => {
         cy.get('[data-cy=btn-signin]').click()
         cy.url().should('equal', `${Cypress.config().baseUrl}/login`)
         cy.get('[data-cy=login-username]').type(testUser.username)
         cy.get('[data-cy=login-password]').type(Math.random() * 1000) //Invalid password
         cy.get('[data-cy=login-btn]').click()
         cy.contains("Identifier or password invalid")
+    })
+
+    it("Should not login using invalid username", () => {
+        cy.get('[data-cy=btn-signin]').click()
+        cy.url().should('equal', `${Cypress.config().baseUrl}/login`)
+        cy.get('[data-cy=login-username]').type(Math.random() * 1000)
+        cy.get('[data-cy=login-password]').type(testUser.password) //Invalid password
+        cy.get('[data-cy=login-btn]').click()
+        cy.contains("Identifier or password invalid")
+    })
+
+    it("login details should not be empty", () => {
+        cy.get('[data-cy=btn-signin]').click()
+        cy.url().should('equal', `${Cypress.config().baseUrl}/login`)
+        cy.get('[data-cy=login-username]')
+        cy.get('[data-cy=login-password]')
+        cy.get('[data-cy=login-btn]').click()
+        cy.contains("This is required")
     })
 })
