@@ -21,6 +21,7 @@
     "react-dropzone": "^11.5.1",
     "react-helmet": "^6.1.0",
     "react-hook-form": "^7.25.0",
+    "react-hot-toast": "^2.2.0",
     "react-i18next": "^11.15.3",
     "react-image-gallery": "^1.2.7",
     "react-loading-skeleton": "^3.0.2",
