@@ -75,7 +75,9 @@ const Vote = (props) => {
       <div
         className='vote-button'
         onClick={() => {
-          if (userId && !voteClicked) updateVote(story)
+          if (userId && !voteClicked) {
+            updateVote(story)
+          }
         }}
       >
         {!userId ? (
