@@ -21,7 +21,11 @@ const ForgotPassword = () => {
 
   const { forgotPassword } = useAuth()
 
-  const { register, handleSubmit, errors } = useForm()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm()
 
   const [response, setResponse] = useState('')
 
@@ -63,8 +67,7 @@ const ForgotPassword = () => {
                     <input
                       className='input-default'
                       type='email'
-                      name='email'
-                      ref={register({ required: true })}
+                      {...register('email', { required: true })}
                     />
                     {errors.email && <FormError type={errors.email.type} />}
                   </div>

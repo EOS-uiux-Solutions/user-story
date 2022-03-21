@@ -4,6 +4,7 @@ import { Link } from '@reach/router'
 import userStory from '../services/user_story'
 import Lists from '../utils/Lists'
 import { EOS_THUMB_UP } from 'eos-icons-react'
+import storyPagePattern from '../assets/images/story-page-pattern.svg'
 
 const StoryPageTimeline = (props) => {
   const { story, currentStatus } = props
@@ -57,9 +58,10 @@ const StoryPageTimeline = (props) => {
         (id) => id !== JSON.stringify(userId)
       )
       const response = await userStory.updateVotes(story.id, updatedFollowerIds)
-      updatedFollowerIds = response.data.data.updateUserStory.userStory.followers.map(
-        (follower) => JSON.stringify(follower.id)
-      )
+      updatedFollowerIds =
+        response.data.data.updateUserStory.userStory.followers.map((follower) =>
+          JSON.stringify(follower.id)
+        )
       setFollowers(updatedFollowerIds)
       setVoted(false)
       setVotes((votes) => votes - 1)
@@ -67,9 +69,10 @@ const StoryPageTimeline = (props) => {
       followers.push(JSON.stringify(userId))
       let updatedFollowerIds = followers
       const response = await userStory.updateVotes(story.id, updatedFollowerIds)
-      updatedFollowerIds = response.data.data.updateUserStory.userStory.followers.map(
-        (follower) => JSON.stringify(follower.id)
-      )
+      updatedFollowerIds =
+        response.data.data.updateUserStory.userStory.followers.map((follower) =>
+          JSON.stringify(follower.id)
+        )
       setFollowers(updatedFollowerIds)
       setVoted(true)
       setVotes((votes) => votes + 1)
@@ -85,6 +88,7 @@ const StoryPageTimeline = (props) => {
         }`}
       >
         <div
+          data-cy='story-vote-btn'
           className={`story-vote-button ${
             userId ? 'story-vote-button-clickable' : ''
           }`}
@@ -94,7 +98,11 @@ const StoryPageTimeline = (props) => {
         >
           <EOS_THUMB_UP className='eos-icons' color='white' size='l' />
         </div>
-        <div className='story-votes-count' onClick={togglePopup}>
+        <div
+          className='story-votes-count'
+          onClick={togglePopup}
+          data-cy='story-votes-count'
+        >
           {votes} Votes
         </div>
         {isOpen && (
@@ -158,10 +166,7 @@ const StoryPageTimeline = (props) => {
         })}
       </div>
       <div className='story-pattern'>
-        <img
-          src={require(`../assets/images/story-page-pattern.svg`)}
-          alt='pattern'
-        />
+        <img src={storyPagePattern} alt='pattern' />
       </div>
     </div>
   )

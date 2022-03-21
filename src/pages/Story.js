@@ -11,7 +11,7 @@ import { EOS_SHARE, EOS_CONTENT_COPY } from 'eos-icons-react'
 import StoryPageTimeline from '../components/StoryPageTimeline'
 import ShowMore from '../components/ShowMore'
 import { Helmet } from 'react-helmet'
-
+import toast from 'react-hot-toast'
 import MarkdownEditor from '../components/MarkdownEditor'
 import { filterDescriptionText } from '../utils/filterText'
 import Comments from '../components/Comments'
@@ -73,6 +73,7 @@ const Story = (props) => {
       ...story,
       Description: `${combinedDescription}`
     })
+    toast.success('Changes saved successfully')
   }
 
   if (story === null) {
@@ -89,6 +90,7 @@ const Story = (props) => {
     dummy.select()
     document.execCommand('copy')
     document.body.removeChild(dummy)
+    toast.success('Link copied to clipboard')
   }
 
   const hashtagsArray = ['EOS', 'userstory']
@@ -134,7 +136,18 @@ const Story = (props) => {
                     fill='#42779B'
                   />
                 </svg>
-                <h2>{story.Title}</h2>
+                <span>
+                  <h2 style={{ marginBlockEnd: '0px' }}>{story.Title}</h2>
+                  <br />
+                  <h4 style={{ marginBlockStart: '0px' }}>
+                    Created At:{' '}
+                    {new Date(story.createdAt).toLocaleDateString(undefined, {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    })}
+                  </h4>
+                </span>
                 <div className='author-information'>
                   <h4>
                     By:{' '}
@@ -168,7 +181,11 @@ const Story = (props) => {
                     )}
                     {
                       <>
-                        <Button className='share-story' onClick={togglePopup}>
+                        <Button
+                          className='share-story'
+                          onClick={togglePopup}
+                          data-cy='share-story-btn'
+                        >
                           <EOS_SHARE className='eos-icons' />
                         </Button>
                         <Button className='share-story' onClick={copy}>
@@ -244,6 +261,7 @@ const Story = (props) => {
                         title={title}
                         hashtags={hashtagsArray}
                         onShareWindowClose={togglePopup}
+                        data-cy='twitter-share-btn'
                       >
                         <TwitterIcon />
                       </TwitterShareButton>
@@ -251,6 +269,7 @@ const Story = (props) => {
                         url={window.location}
                         className='share-button'
                         onShareWindowClose={togglePopup}
+                        data-cy='linkedin-share-btn'
                       >
                         <LinkedinIcon />
                       </LinkedinShareButton>

@@ -4,7 +4,7 @@ import MarkdownEditor from '../components/MarkdownEditor'
 import { filterDescriptionText } from '../utils/filterText'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 import { Helmet } from 'react-helmet'
-
+import toast from 'react-hot-toast'
 import FormError from '../components/FormError'
 import Navigation from '../components/Navigation'
 import LoadingIndicator from '../modules/LoadingIndicator'
@@ -24,7 +24,12 @@ const initialDescriptionInputsValue = {
 const NewStory = () => {
   const { state } = useContext(Context)
 
-  const { register, handleSubmit, errors, watch } = useForm()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch
+  } = useForm()
 
   const [currentProductSelected, setCurrentProductSelected] = useState('None')
 
@@ -112,18 +117,23 @@ const NewStory = () => {
   }
 
   const onSubmit = async (data) => {
-    data.Description = filterDescriptionText(description)
-    const formData = new FormData()
-    formData.append('data', JSON.stringify(data))
-    if (attachments.length) {
-      attachments.forEach((file) => {
-        formData.append('files.Attachment', file)
-      })
+    try {
+      data.Description = filterDescriptionText(description)
+      const formData = new FormData()
+      formData.append('data', JSON.stringify(data))
+      if (attachments.length) {
+        attachments.forEach((file) => {
+          formData.append('files.Attachment', file)
+        })
+      }
+      await userStory.createStory(formData)
+      toast.success('New story created successfully')
+      navigate('/')
+    } catch (err) {
+      console.error(err.message)
+      toast.error(err.message)
     }
-    await userStory.createStory(formData)
-    navigate('/')
   }
-
   return state.auth ? (
     <>
       <Helmet>
@@ -144,10 +154,11 @@ const NewStory = () => {
                   <input
                     className='input-default'
                     type='text'
-                    name='Title'
                     data-cy='title'
                     autoComplete='off'
-                    ref={register({ required: 'Title cannot be empty' })}
+                    {...register('Title', {
+                      required: 'Title cannot be empty'
+                    })}
                   />
                   {errors.Title && <FormError message={errors.Title.message} />}
                 </div>
@@ -156,10 +167,11 @@ const NewStory = () => {
                   <label htmlFor='product'>Product</label>
                   <select
                     className='select-default'
-                    name='product'
                     data-cy='product'
                     onChange={handleProductSelectChange}
-                    ref={register({ required: 'Product must be set' })}
+                    {...register('product', {
+                      required: 'Product must be set'
+                    })}
                   >
                     <option defaultValue={true} value=''>
                       Select a product
@@ -181,9 +193,10 @@ const NewStory = () => {
                   <label htmlFor='category'>Category</label>
                   <select
                     className='select-default'
-                    name='Category'
                     data-cy='category'
-                    ref={register({ required: 'Category must be set' })}
+                    {...register('Category', {
+                      required: 'Category must be set'
+                    })}
                   >
                     <option defaultValue={true} value=''>
                       Select a category
@@ -205,9 +218,10 @@ const NewStory = () => {
                   <label htmlFor='priority'>Priority</label>
                   <select
                     className='select-default'
-                    name='Priority'
                     data-cy='priority'
-                    ref={register({ required: 'Priority must be set' })}
+                    {...register('Priority', {
+                      required: 'Priority must be set'
+                    })}
                   >
                     <option defaultValue={true} value=''>
                       Select priority

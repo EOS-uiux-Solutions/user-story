@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useCallback } from 'react'
 import { Link } from '@reach/router'
 import Button from './Button'
 import Gallery from './ImageGallery'
-
+import moment from 'moment'
 import CommentForm from './CommentForm'
 import Context from '../modules/Context'
 import userStory from '../services/user_story'
@@ -71,37 +71,43 @@ const Comments = (props) => {
     [attachments, replyAttachments]
   )
 
-  const addComment = async (data) => {
+  const addComment = async (e, data) => {
+    e.preventDefault()
+
     const formData = new FormData()
     data.user = id
     data.user_story = storyId
-    formData.append('data', JSON.stringify(data))
+    if (data.Comments.trim() !== '') {
+      formData.append('data', JSON.stringify(data))
 
-    attachFiles(formData, attachments)
+      attachFiles(formData, attachments)
 
-    await userStory.postComment(formData)
+      await userStory.postComment(formData)
 
-    setComment('')
-    setAttachments([])
+      setComment('')
+      setAttachments([])
 
-    fetchStoryComments()
+      fetchStoryComments()
+    }
   }
 
-  const addCommentReply = async (data) => {
+  const addCommentReply = async (e, data) => {
     const formData = new FormData()
 
     data.user = id
     data.user_story_comment = commentId
-    formData.append('data', JSON.stringify(data))
+    if (data.Comments.trim() !== '') {
+      formData.append('data', JSON.stringify(data))
 
-    attachFiles(formData, replyAttachments)
+      attachFiles(formData, replyAttachments)
 
-    await userStory.postCommentReply(formData)
-    setCommentReply('')
-    setReplyAttachments([])
-    setRepliesToggled(null)
+      await userStory.postCommentReply(formData)
+      setCommentReply('')
+      setReplyAttachments([])
+      setRepliesToggled(null)
 
-    fetchStoryComments()
+      fetchStoryComments()
+    }
   }
 
   return (
@@ -141,12 +147,7 @@ const Comments = (props) => {
                   {data.user.username}
                 </Link>
                 <div className='metadata'>
-                  <div>
-                    {`${data.createdAt.slice(0, 10)}  ${data.createdAt.slice(
-                      11,
-                      19
-                    )}`}
-                  </div>
+                  <div>{moment(data.createdAt).fromNow()}</div>
                 </div>
                 <div dangerouslySetInnerHTML={{ __html: data.Comments }} />
                 <div>
@@ -173,9 +174,10 @@ const Comments = (props) => {
                       Reply
                     </Button>
                   )}
-                  {data.user_story_comment_replies.length > 0 ? (
+                  <br />
+                  {data.user_story_comment_replies.length === 1 ? (
                     <Button
-                      className='btn btn-default'
+                      className='btn btn-default btn-comment-edit'
                       onClick={() => {
                         toggleViewReplies(
                           viewRepliesToggled,
@@ -184,10 +186,23 @@ const Comments = (props) => {
                         )
                       }}
                     >
-                      View Replies ({data.user_story_comment_replies.length})
+                      {data.user_story_comment_replies.length} Reply
                     </Button>
-                  ) : (
+                  ) : data.user_story_comment_replies.length === 0 ? (
                     ''
+                  ) : (
+                    <Button
+                      className='btn btn-default btn-comment-edit'
+                      onClick={() => {
+                        toggleViewReplies(
+                          viewRepliesToggled,
+                          setViewRepliesToggled,
+                          key
+                        )
+                      }}
+                    >
+                      {data.user_story_comment_replies.length} Replies
+                    </Button>
                   )}
                 </div>
                 {viewRepliesToggled.find((item) => item === key + 1) &&

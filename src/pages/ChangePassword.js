@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { navigate } from '@reach/router'
 import { useTranslation } from 'react-i18next'
 import { Helmet } from 'react-helmet'
-
+import toast from 'react-hot-toast'
 import Button from '../components/Button'
 import useAuth from '../hooks/useAuth'
 import FormError from '../components/FormError'
@@ -23,7 +23,11 @@ const ChangePassword = () => {
 
   const { changePassword, logout } = useAuth()
 
-  const { register, handleSubmit, errors } = useForm()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm()
 
   const [response, setResponse] = useState('')
 
@@ -34,7 +38,11 @@ const ChangePassword = () => {
         id: localStorage.getItem('id')
       })
       setResponse(reply)
-    } catch (e) {}
+      toast.success('Password changed successfully')
+    } catch (e) {
+      console.error(e.message)
+      toast.error(e.message)
+    }
   }
 
   const handleNavigateToLogin = async () => {
@@ -85,8 +93,7 @@ const ChangePassword = () => {
                     <input
                       className='input-default'
                       type='password'
-                      name='oldPassword'
-                      ref={register({ required: true })}
+                      {...register('oldPassword', { required: true })}
                     />
                     {errors.oldPassword && (
                       <FormError type={errors.oldPassword.type} />
@@ -99,8 +106,7 @@ const ChangePassword = () => {
                     <input
                       className='input-default'
                       type='password'
-                      name='password'
-                      ref={register({ required: true })}
+                      {...register('password', { required: true })}
                     />
                     {errors.password && (
                       <FormError type={errors.password.type} />
@@ -113,8 +119,7 @@ const ChangePassword = () => {
                     <input
                       className='input-default'
                       type='password'
-                      name='passwordConfirmation'
-                      ref={register({ required: true })}
+                      {...register('passwordConfirmation', { required: true })}
                     />
                     {errors.passwordConfirmation && (
                       <FormError type={errors.passwordConfirmation.type} />

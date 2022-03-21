@@ -41,9 +41,10 @@ const Vote = (props) => {
         (id) => id !== JSON.stringify(userId)
       )
       const response = await userStory.updateVotes(story.id, updatedFollowerIds)
-      updatedFollowerIds = response.data.data.updateUserStory.userStory.followers.map(
-        (follower) => JSON.stringify(follower.id)
-      )
+      updatedFollowerIds =
+        response.data.data.updateUserStory.userStory.followers.map((follower) =>
+          JSON.stringify(follower.id)
+        )
       setFollowers(updatedFollowerIds)
       setVoted(false)
       setVotes((votes) => votes - 1)
@@ -51,9 +52,10 @@ const Vote = (props) => {
       followers.push(JSON.stringify(userId))
       let updatedFollowerIds = followers
       const response = await userStory.updateVotes(story.id, updatedFollowerIds)
-      updatedFollowerIds = response.data.data.updateUserStory.userStory.followers.map(
-        (follower) => JSON.stringify(follower.id)
-      )
+      updatedFollowerIds =
+        response.data.data.updateUserStory.userStory.followers.map((follower) =>
+          JSON.stringify(follower.id)
+        )
       setFollowers(updatedFollowerIds)
       setVoted(true)
       setVotes((votes) => votes + 1)
@@ -71,13 +73,22 @@ const Vote = (props) => {
         {votes}
       </div>
       <div
-        className={`vote-button ${userId ? 'vote-button-clickable' : ''}`}
+        className='vote-button'
         onClick={() => {
           if (userId && !voteClicked) updateVote(story)
         }}
       >
-        <EOS_THUMB_UP className='eos-icons' color='white' />
-        Vote
+        {!userId ? (
+          <Link className='vote-link' to='/login'>
+            <EOS_THUMB_UP className='eos-icons' color='white' />
+            Vote
+          </Link>
+        ) : (
+          <>
+            <EOS_THUMB_UP className='eos-icons' color='white' />
+            Vote
+          </>
+        )}
       </div>
       {isOpen && (
         <Modal

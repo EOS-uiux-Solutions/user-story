@@ -62,6 +62,7 @@ const StoriesList = (props) => {
             <div className='story' key={key}>
               <Vote story={story} />
               <div
+                data-cy='story-row'
                 className='stories-content'
                 onClick={() => {
                   navigate(`/story/${story.id}`)

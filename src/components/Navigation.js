@@ -6,7 +6,7 @@ import {
   EOS_SETTINGS,
   EOS_EXIT_TO_APP
 } from 'eos-icons-react'
-
+import toast from 'react-hot-toast'
 import eosIcon from '../assets/images/user-story-logo.svg'
 import useAuth from '../hooks/useAuth'
 import Context from '../modules/Context'
@@ -45,6 +45,7 @@ const Navigation = (props) => {
     dispatch({
       type: 'DEAUTHENTICATE'
     })
+    toast.success('You are now logged out of the application')
     navigate('/')
   }
 
@@ -72,6 +73,7 @@ const Navigation = (props) => {
         {state.auth && (
           <div
             className='dropdown-container'
+            data-cy='user-dropdown-menu-btn'
             onClick={() => {
               setUserDropdownState(!userDropdownState)
             }}
@@ -97,6 +99,7 @@ const Navigation = (props) => {
                 <hr className='dropdown-separator' />
                 <li
                   className='dropdown-element'
+                  data-cy='user-stories-btn'
                   onClick={() => navigate('/myStories')}
                 >
                   <EOS_MESSAGE className='eos-icons eos-18' />
@@ -104,6 +107,7 @@ const Navigation = (props) => {
                 </li>
                 <li
                   className='dropdown-element'
+                  data-cy='user-profile-btn'
                   onClick={() => navigate('/myProfile')}
                 >
                   <EOS_SETTINGS className='eos-icons eos-18' />

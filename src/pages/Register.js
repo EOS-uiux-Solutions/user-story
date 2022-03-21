@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { Helmet } from 'react-helmet'
-
+import toast from 'react-hot-toast'
 import { Link, navigate } from '@reach/router'
 import Button from '../components/Button'
 import useAuth from '../hooks/useAuth'
@@ -19,7 +19,11 @@ export const Register = () => {
 
   const { state, dispatch } = useContext(Context)
 
-  const { register, handleSubmit, errors } = useForm()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm()
 
   const { t } = useTranslation()
 
@@ -37,8 +41,12 @@ export const Register = () => {
       dispatch({
         type: 'AUTHENTICATE'
       })
+      toast.success(`Successfully registered as ${payload.user.username}`)
       navigate('/', { replace: true })
-    } catch (e) {}
+    } catch (e) {
+      console.error(e.message)
+      toast.error(e.message)
+    }
   }
 
   if (state.auth) {
@@ -66,9 +74,8 @@ export const Register = () => {
                 <input
                   className='input-default'
                   type='text'
-                  name='username'
                   data-cy='username'
-                  ref={register({ required: true })}
+                  {...register('username', { required: true })}
                 />
                 {errors.username && <FormError type={errors.username.type} />}
               </div>
@@ -77,9 +84,8 @@ export const Register = () => {
                 <input
                   className='input-default'
                   type='text'
-                  name='email'
                   data-cy='email'
-                  ref={register({ required: true })}
+                  {...register('email', { required: true })}
                 />
                 {errors.email && <FormError type={errors.email.type} />}
               </div>
@@ -90,9 +96,8 @@ export const Register = () => {
                 <input
                   className='input-default'
                   type='password'
-                  name='password'
                   data-cy='password'
-                  ref={register({
+                  {...register('password', {
                     required: 'This is required',
                     minLength: {
                       value: 8,
@@ -108,9 +113,8 @@ export const Register = () => {
                 <div className='flex flex-row flex-align-center '>
                   <input
                     type='checkbox'
-                    name='tc'
                     data-cy='tc'
-                    ref={register({
+                    {...register('tc', {
                       required: 'You must accept our Terms and Conditions'
                     })}
                   />
