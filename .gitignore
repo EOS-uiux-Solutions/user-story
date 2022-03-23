@@ -9,8 +9,8 @@
 /coverage
 
 # production
-/build
-/src/config.json
+
+
 
 ############################
 # Logs and databases
