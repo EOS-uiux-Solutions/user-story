@@ -30,6 +30,11 @@
   &-author {
     align-items: center;
     display: flex;
+    flex-basis: 12em;
+  }
+
+  &-category {
+    flex-basis: 9em;
   }
 
   .category-text {
