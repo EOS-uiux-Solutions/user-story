@@ -170,7 +170,7 @@
   }
 
   .eos-logo-resize {
-    height: 30px;
+    height: 50px;
     visibility: visible;
     width: 74px;
   }
@@ -179,6 +179,10 @@
     border-top: 1px solid $border-gray;
     padding: 16px 0;
   }
+ .image-logo{
+ width: 120px !important;
+ }
+
 
   .cookies-mobile {
     background: $eos-white;
@@ -196,7 +200,14 @@
     z-index: 1;
   }
 }
-
+@media only screen and (max-width: 360px) {
+  .image-logo{
+    width: 95px !important;
+    }
+    .footer1{
+      font-size:12px;
+    }
+}
 @media only screen and (max-width: 284px) {
   .cookies-mobile {
     padding: 8px;

@@ -3,29 +3,20 @@
   display: inline-block;
   padding: 0px 8px;
   position: relative;
-
-  .eos-icons {
+  
+  .eos-icons1 {
     border-radius: 24px;
-    height: 24px;
-    padding: 8px;
-    text-align: center;
-    vertical-align: sub;
-    width: 24px;
-
-    &-open {
-      background-color: $gray-bg;
-    }
+    margin: 2px;
   }
 
   &:hover .dropdown-hover {
     display: block;
   }
-
-  .curr {
-    margin-top: 0.6em;
-  }
 }
-
+.curr{
+  margin-top:0.25rem;
+  font-size:12px;
+}
 .dropdown {
   border: 1px solid rgba(0, 0, 0, 0.04);
   box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14);
@@ -101,4 +92,21 @@
   .dropdown-container {
     padding: 0px;
   }
+}
+  @media only screen and (min-width: 360px) {
+    .eos-icons1 {
+      border-radius: 24px;
+      padding: 8px;
+      text-align: center;
+      vertical-align: sub;
+      width: 24px;
+      height: 24px;
+
+      &-open {
+        background-color: $gray-bg;
+      }
+    }
+    .curr{
+      padding-top:0.6rem;
+    }
 }

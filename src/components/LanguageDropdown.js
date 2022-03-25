@@ -27,15 +27,15 @@ const LanguageDropdown = (props) => {
     <div className='dropdown-container' ref={container}>
       <Button
         type='button'
-        className='btn btn-secondary flex flex-row'
+        className='btn btn-secondary flex'
         onClick={handleButtonClick}
       >
         {dropdownState ? (
-          <EOS_KEYBOARD_ARROW_UP className='eos-icons' />
+          <EOS_KEYBOARD_ARROW_UP className='eos-icons1' />
         ) : (
-          <EOS_KEYBOARD_ARROW_DOWN className='eos-icons' />
+          <EOS_KEYBOARD_ARROW_DOWN className='eos-icons1' />
         )}
-        &nbsp; <div className='curr'> Language </div>
+        <div className='curr'> Language </div>
       </Button>
       {dropdownState ? (
         <div className='dropdown'>
