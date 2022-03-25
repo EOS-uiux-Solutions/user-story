@@ -31,11 +31,11 @@ const LanguageDropdown = (props) => {
         onClick={handleButtonClick}
       >
         {dropdownState ? (
-          <EOS_KEYBOARD_ARROW_UP className='eos-icons' />
+          <EOS_KEYBOARD_ARROW_UP />
         ) : (
-          <EOS_KEYBOARD_ARROW_DOWN className='eos-icons' />
+          <EOS_KEYBOARD_ARROW_DOWN />
         )}
-        &nbsp; <div className='curr'> Language </div>
+        &nbsp; <div> Language </div>
       </Button>
       {dropdownState ? (
         <div className='dropdown'>
