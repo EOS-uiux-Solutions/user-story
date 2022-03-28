@@ -38,7 +38,7 @@ const Modal = (props) => {
       )}
       {active ? (
         <>
-          <div className='modal'>
+          <div className='modal' onClick={props.handleClose}>
             <div className='modal-card-vote'>
               <div className='modal-content'>
                 <span className='close-icon' onClick={props.handleClose}>
