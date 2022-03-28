@@ -39,7 +39,10 @@ const Modal = (props) => {
       {active ? (
         <>
           <div className='modal' onClick={props.handleClose}>
-            <div className='modal-card-vote'>
+            <div
+              className='modal-card-vote'
+              onClick={(e) => e.stopPropagation()}
+            >
               <div className='modal-content'>
                 <span className='close-icon' onClick={props.handleClose}>
                   &times;
