@@ -58,7 +58,7 @@ export const AuthRightContainer = ({ children, logo }) => {
           Cookies and Privacy policy
         </a>
       </div>
-
+      <br />
       <div className='cookies-mobile'>
         <p>
           {t('authentication:footer-left')} -{' '}
