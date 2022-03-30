@@ -72,7 +72,7 @@ const ProductList = ({ setProductQuery }) => {
 
   return (
     <div className='product-list-container'>
-      <h4>Select a Product</h4>
+      <h3>Select a Product</h3>
       <div className='flex flex-row flex-center product-list'>
         {!products &&
           Array(productCount)

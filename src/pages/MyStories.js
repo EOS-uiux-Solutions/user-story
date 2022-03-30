@@ -25,25 +25,29 @@ const MyStories = () => {
       <Navigation />
       <div className='body-content'>
         <div className='body-wrapper my-stories'>
-          <h3>My Stories</h3>
+          <h2>My Stories</h2>
           <div className='flex flex-row roadmap-one'>
             <Button
-              className={
-                currentStateSelected === 'My Submissions'
-                  ? 'btn btn-tabs btn-tabs-selected'
-                  : 'btn btn-tabs'
-              }
+              className={`btn btn-default
+                ${
+                  currentStateSelected === 'My Submissions'
+                    ? 'btn btn-tabs btn-tabs-selected'
+                    : 'btn btn-tabs'
+                }
+              `}
               onClick={() => selectState('My Submissions')}
             >
               My Submissions
             </Button>
             &nbsp; &nbsp;
             <Button
-              className={
-                currentStateSelected === 'Following'
-                  ? 'btn btn-tabs btn-tabs-selected'
-                  : 'btn btn-tabs'
-              }
+              className={`btn btn-default
+                ${
+                  currentStateSelected === 'Following'
+                    ? 'btn btn-tabs btn-tabs-selected'
+                    : 'btn btn-tabs'
+                }
+              `}
               onClick={() => selectState('Following')}
             >
               Following
