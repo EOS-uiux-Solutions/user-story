@@ -102,7 +102,10 @@ const Vote = (props) => {
                 )}
               </div>
               {story.followers.map((voters) => (
-                <div className='flex flex-row author-information'>
+                <div
+                  className='flex flex-row author-information vote-item'
+                  key={voters.id}
+                >
                   <div className='user-avatar avatar-vote'>
                     <img
                       className='avatar'
