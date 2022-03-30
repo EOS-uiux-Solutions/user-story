@@ -16,20 +16,39 @@ const MyProfile = () => {
 
   const [, setUpdated] = useState(false)
 
+  const [updatingField, setUpdatingField] = useState({})
+
+  const [currFieldDefaultValue, setCurrFieldDefaultValue] = useState({})
+
+  const assignCurrField = (val, name) => {
+    setCurrFieldDefaultValue((p) => ({
+      ...p,
+      [name]: val
+    }))
+    setUpdatingField((p) => ({ ...p, [name]: val }))
+  }
+
   const handleInputChange = (event) => {
+    setUpdatingField((p) => ({ ...p, [event.target.name]: event.target.value }))
     setUser({
       ...user,
       [event.target.name]: event.target.value
     })
   }
 
-  const updateProfile = async () => {
+  const updateProfile = async (name) => {
+    if (currFieldDefaultValue[name] === updatingField[name]) {
+      toast.success('Nothing changed here')
+      return
+    }
     try {
       const response = await userStory.updateUser({ id: userId, ...user })
-      if (response) {
-        toast.success('Profile updated successfully')
-        setUpdated(true)
+      if (response && updatingField[name].length === 0) {
+        toast.success('Your data has been removed')
+      } else if (response && updatingField[name].length > 0) {
+        toast.success('Your changes have been saved')
       }
+      setUpdated(true)
     } catch (err) {
       console.error(err.message)
       toast.error(err.message)
@@ -61,6 +80,7 @@ const MyProfile = () => {
                 user={user === '' ? '' : Object.assign(user, { id: userId })}
                 handleInputChange={handleInputChange}
                 updateProfile={updateProfile}
+                assignCurrField={assignCurrField}
                 allowEditing
               />
             </div>
