@@ -1,8 +1,19 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useReducer } from 'react'
 import Modal from './Modal'
 import { Link } from '@reach/router'
 import userStory from '../services/user_story'
 import { EOS_THUMB_UP } from 'eos-icons-react'
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'upVote':
+      return { votes: state.votes + 1 }
+    case 'downVote':
+      return { votes: state.votes - 1 }
+    default:
+      throw new Error()
+  }
+}
 
 const Vote = (props) => {
   const { story } = props
@@ -13,11 +24,13 @@ const Vote = (props) => {
     JSON.stringify(follower.id)
   )
 
+  const [state, dispatch] = useReducer(reducer, {
+    votes: story.followers.length
+  })
+
   const [followers, setFollowers] = useState(followerIds)
 
   const [voters, setVoters] = useState(story.followers)
-
-  const [votes, setVotes] = useState(story.followers.length)
 
   const [voteClicked, setVoteClicked] = useState(false)
 
@@ -49,7 +62,7 @@ const Vote = (props) => {
         )
       setFollowers(updatedFollowerIds)
       setVoted(false)
-      setVotes((votes) => votes - 1)
+      dispatch({ type: 'downVote' })
       setVoters(response.data.data.updateUserStory.userStory.followers)
     } else {
       followers.push(JSON.stringify(userId))
@@ -61,7 +74,7 @@ const Vote = (props) => {
         )
       setFollowers(updatedFollowerIds)
       setVoted(true)
-      setVotes((votes) => votes + 1)
+      dispatch({ type: 'upVote' })
       setVoters(response.data.data.updateUserStory.userStory.followers)
     }
     setVoteClicked(false)
@@ -74,7 +87,7 @@ const Vote = (props) => {
       }`}
     >
       <div className='votes-count' onClick={togglePopup}>
-        {votes}
+        {state.votes}
       </div>
       <div
         className='vote-button'

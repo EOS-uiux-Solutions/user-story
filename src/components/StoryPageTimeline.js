@@ -1,10 +1,21 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useReducer } from 'react'
 import Modal from './Modal'
 import { Link } from '@reach/router'
 import userStory from '../services/user_story'
 import Lists from '../utils/Lists'
 import { EOS_THUMB_UP } from 'eos-icons-react'
 import storyPagePattern from '../assets/images/story-page-pattern.svg'
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'upVote':
+      return { votes: state.votes + 1 }
+    case 'downVote':
+      return { votes: state.votes - 1 }
+    default:
+      throw new Error()
+  }
+}
 
 const StoryPageTimeline = (props) => {
   const { story, currentStatus } = props
@@ -17,7 +28,9 @@ const StoryPageTimeline = (props) => {
 
   const [followers, setFollowers] = useState(followerIds)
 
-  const [votes, setVotes] = useState(story.followers.length)
+  const [state, dispatch] = useReducer(reducer, {
+    votes: story.followers.length
+  })
 
   const [voteClicked, setVoteClicked] = useState(false)
 
@@ -66,7 +79,7 @@ const StoryPageTimeline = (props) => {
         )
       setFollowers(updatedFollowerIds)
       setVoted(false)
-      setVotes((votes) => votes - 1)
+      dispatch({ type: 'downVote' })
       setVoters(response.data.data.updateUserStory.userStory.followers)
       console.log(voters)
     } else {
@@ -79,7 +92,7 @@ const StoryPageTimeline = (props) => {
         )
       setFollowers(updatedFollowerIds)
       setVoted(true)
-      setVotes((votes) => votes + 1)
+      dispatch({ type: 'upVote' })
       setVoters(response.data.data.updateUserStory.userStory.followers)
     }
     setVoteClicked(false)
@@ -108,7 +121,7 @@ const StoryPageTimeline = (props) => {
           onClick={togglePopup}
           data-cy='story-votes-count'
         >
-          {votes} Votes
+          {state.votes} Votes
         </div>
         {isOpen && (
           <Modal
