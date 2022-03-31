@@ -15,6 +15,8 @@ const Vote = (props) => {
 
   const [followers, setFollowers] = useState(followerIds)
 
+  const [voters, setVoters] = useState(story.followers)
+
   const [votes, setVotes] = useState(story.followers.length)
 
   const [voteClicked, setVoteClicked] = useState(false)
@@ -48,6 +50,7 @@ const Vote = (props) => {
       setFollowers(updatedFollowerIds)
       setVoted(false)
       setVotes((votes) => votes - 1)
+      setVoters(response.data.data.updateUserStory.userStory.followers)
     } else {
       followers.push(JSON.stringify(userId))
       let updatedFollowerIds = followers
@@ -59,6 +62,7 @@ const Vote = (props) => {
       setFollowers(updatedFollowerIds)
       setVoted(true)
       setVotes((votes) => votes + 1)
+      setVoters(response.data.data.updateUserStory.userStory.followers)
     }
     setVoteClicked(false)
   }
@@ -95,27 +99,31 @@ const Vote = (props) => {
           content={
             <>
               <div>
-                {story.followers.length === 0 ? (
+                {voters.length === 0 ? (
                   <h1>No Voters For This Story</h1>
                 ) : (
                   <h1>Voters For This Story</h1>
                 )}
               </div>
-              {story.followers.map((voters) => (
+              {voters.map((voter) => (
                 <div className='flex flex-row author-information'>
                   <div className='user-avatar avatar-vote'>
                     <img
                       className='avatar'
-                      src={`https://avatars.dicebear.com/api/jdenticon/${voters.username}.svg`}
+                      src={
+                        voter?.profilePicture
+                          ? voter?.profilePicture?.url
+                          : `https://avatars.dicebear.com/api/jdenticon/${voter.username}.svg`
+                      }
                       alt='Default User Avatar'
                     ></img>
                   </div>
                   <div>
                     <Link
                       className='link-vote link link-default'
-                      to={`/profile/${voters.id}`}
+                      to={`/profile/${voter.id}`}
                     >
-                      {voters.username}
+                      {voter.username}
                     </Link>
                   </div>
                 </div>

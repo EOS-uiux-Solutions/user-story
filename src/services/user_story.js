@@ -389,7 +389,12 @@ const userStory = {
         updateUserStory(input: {where: {id: "${storyId}"} data: {followers: [${updatedFollowerIds}]}}){
           userStory{
             followers {
-              id
+              id,
+              username,
+              profilePicture {
+                id
+                url
+              }
             }
           }
         }
