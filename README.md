@@ -25,7 +25,7 @@ User Story uses [this repository](https://github.com/EOS-uiux-Solutions/strapi) 
 
 - You can setup `backend` locally by following [these instructions](https://github.com/EOS-uiux-Solutions/strapi#locally).
 
-If you want to work only on the `frontend` then go to `src/config.json` and change the value of `apiURL` to `https://userstory-strapi.herokuapp.com`.
+If you want to work only on the `frontend` then run `cd src && cp config.template.json config.json` and Open the new created `/src/config.json` with your favourite editor and change the value of `apiURL` and `APP_ENV` to `https://userstory-strapi.herokuapp.com`.
 
 Then run: `npm start` to run the app in development mode.
 
