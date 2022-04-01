@@ -8,7 +8,8 @@ export const UserProfile = ({
   allowEditing,
   user,
   handleInputChange,
-  updateProfile
+  updateProfile,
+  assignCurrField
 }) => {
   return (
     <>
@@ -19,6 +20,7 @@ export const UserProfile = ({
           handleInputChange={handleInputChange}
           updateProfile={updateProfile}
           allowEditing={allowEditing}
+          assignCurrField={assignCurrField}
         />
       </div>
       {allowEditing && <UserSettings user={user} />}
@@ -90,7 +92,8 @@ export const UserDetails = ({
   user,
   handleInputChange,
   allowEditing,
-  updateProfile
+  updateProfile,
+  assignCurrField
 }) => {
   return (
     <div className='user-profile-details'>
@@ -104,6 +107,7 @@ export const UserDetails = ({
             value={user.Name ?? user.username}
             className='input-default'
             handleInputChange={handleInputChange}
+            assignCurrField={assignCurrField}
             allowEditing={allowEditing}
             updateProfile={updateProfile}
             placeholder='Your name'
@@ -118,6 +122,7 @@ export const UserDetails = ({
             name={'Bio'}
             value={user.Bio}
             handleInputChange={handleInputChange}
+            assignCurrField={assignCurrField}
             allowEditing={allowEditing}
             updateProfile={updateProfile}
             placeholder='Say something about yourself'
@@ -144,6 +149,7 @@ export const UserDetails = ({
                   name={'Profession'}
                   value={user.Profession}
                   handleInputChange={handleInputChange}
+                  assignCurrField={assignCurrField}
                   allowEditing={allowEditing}
                   updateProfile={updateProfile}
                   placeholder='Your job title'
@@ -163,6 +169,7 @@ export const UserDetails = ({
                   name={'Company'}
                   value={user.Company}
                   handleInputChange={handleInputChange}
+                  assignCurrField={assignCurrField}
                   allowEditing={allowEditing}
                   updateProfile={updateProfile}
                   placeholder='Your company name'
@@ -182,6 +189,7 @@ export const UserDetails = ({
                   name={'LinkedIn'}
                   value={user.LinkedIn}
                   handleInputChange={handleInputChange}
+                  assignCurrField={assignCurrField}
                   allowEditing={allowEditing}
                   updateProfile={updateProfile}
                   placeholder='Your LinkedIn username'
@@ -212,6 +220,7 @@ export const UserDetails = ({
                   name={'Twitter'}
                   value={user.Twitter}
                   handleInputChange={handleInputChange}
+                  assignCurrField={assignCurrField}
                   allowEditing={allowEditing}
                   updateProfile={updateProfile}
                   placeholder='Your Twitter handle'

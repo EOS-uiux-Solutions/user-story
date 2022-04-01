@@ -6,6 +6,7 @@ export const EditableLabel = ({
   value,
   type,
   handleInputChange,
+  assignCurrField,
   updateProfile,
   children,
   allowEditing,
@@ -24,7 +25,7 @@ export const EditableLabel = ({
               handleInputChange(e)
 
               if (e.key === 'Enter') {
-                updateProfile()
+                updateProfile(name)
                 setEditMode(!editMode)
               }
             }}
@@ -58,7 +59,10 @@ export const EditableLabel = ({
             <button
               data-cy={`edit-${name}-btn`}
               className='editable-label-edit-btn'
-              onClick={() => setEditMode(!editMode)}
+              onClick={() => {
+                setEditMode(!editMode)
+                assignCurrField(value, name)
+              }}
             >
               <EOS_MODE_EDIT className='eos-icons' />
             </button>
@@ -72,7 +76,7 @@ export const EditableLabel = ({
             data-cy='save-changes-btn'
             onClick={() => {
               setEditMode(!editMode)
-              updateProfile()
+              updateProfile(name)
             }}
           >
             <EOS_SAVE className='eos-icons' />
