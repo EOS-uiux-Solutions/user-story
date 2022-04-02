@@ -36,15 +36,16 @@ const userStory = {
     categoryQuery,
     productQuery,
     searchQuery,
-    followerId
+    followerId,
+    sortType
   ) => {
     authorId = !authorId ? '' : `id: "${authorId}"`
     followerId = !followerId ? '' : `followers: "${followerId}"`
     const storiesQuery = {
       query: `query {
-              userStories(sort: "createdAt:desc", limit: 5, start: ${
-                (page - 1) * 5
-              }, where: {
+              userStories(sort: "${sortType}", limit: 5, start: ${
+        (page - 1) * 5
+      }, where: {
                   user_story_status : {
                     Status: "${currentStateSelected}"
                   },
