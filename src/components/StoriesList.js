@@ -112,7 +112,7 @@ const StoriesList = (props) => {
           )
         })
       ) : (
-        <h3>No stories</h3>
+        <h3 className='stories-header'>No stories</h3>
       )}
     </div>
   )

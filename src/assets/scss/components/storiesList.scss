@@ -36,7 +36,10 @@
     font-weight: bold;
   }
 }
-
+.stories-header {
+  text-align: center;
+  margin: 100px 0;
+}
 .stories-content {
   cursor: pointer;
   flex-grow: 2;
