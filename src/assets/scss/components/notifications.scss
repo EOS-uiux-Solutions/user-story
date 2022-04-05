@@ -1,7 +1,7 @@
 .notifications {
   &-dropdown {
     max-height: 512px;
-    overflow-y: scroll;
+    overflow-y: auto;
     width: 256px;
   }
 
