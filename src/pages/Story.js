@@ -93,6 +93,10 @@ const Story = (props) => {
     toast.success('Link copied to clipboard')
   }
 
+  const productLink = (name) => {
+    navigate(`/?product=${name}`)
+  }
+
   const hashtagsArray = ['EOS', 'userstory']
   const title = 'EOS User Story - POST Stories. GET Features.'
 
@@ -193,12 +197,17 @@ const Story = (props) => {
                         </Button>
                       </>
                     }
-                    <img
-                      src={story.product.logo?.url}
-                      className='preview image'
-                      style={{ width: '150px' }}
-                      alt={story.product.Name}
-                    />
+                    <div
+                      onClick={() => productLink(story.product.Name)}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      <img
+                        src={story.product.logo?.url}
+                        className='preview image'
+                        style={{ width: '150px' }}
+                        alt={story.product.Name}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import userStory from '../services/user_story'
+import { useLocation } from '@reach/router'
+import queryString from 'query-string'
 
 const ProductSkeleton = () => {
   return (
@@ -16,6 +18,13 @@ const ProductSkeleton = () => {
 }
 
 const ProductCard = ({ product, selected, setProduct }) => {
+  const location = useLocation()
+
+  useEffect(() => {
+    const param = queryString.parse(location.search)
+    if (param.product) setProduct(param.product)
+  }, [location, setProduct])
+
   return (
     <div
       className={`flex flex-center flex-align-center product-card ${
@@ -25,6 +34,7 @@ const ProductCard = ({ product, selected, setProduct }) => {
       onClick={() => {
         if (!selected) {
           setProduct(product.Name)
+          window.history.pushState(null, null, `?product=${product.Name}`)
         } else {
           setProduct('All')
         }
