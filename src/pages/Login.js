@@ -101,9 +101,9 @@ export const Login = (props) => {
                     onClick={() => toggleShowPassword(!showPassword)}
                   >
                     {showPassword ? (
-                      <EOS_VISIBILITY_OFF className='eos-icons eos-18' />
-                    ) : (
                       <EOS_VISIBILITY className='eos-icons eos-18' />
+                    ) : (
+                      <EOS_VISIBILITY_OFF className='eos-icons eos-18' />
                     )}
                   </div>
                 </div>
