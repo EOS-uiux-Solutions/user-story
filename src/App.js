@@ -7,6 +7,7 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import ForgotPassword from './pages/ForgotPassword'
+import Auth from './pages/Auth'
 import ResetPassword from './pages/ResetPassword'
 import NewStory from './pages/NewStory'
 import Story from './pages/Story'
@@ -63,6 +64,7 @@ const App = () => {
         <Home path='/' />
         <Register path='/register' />
         <Login path='/login' />
+        <Auth path='/connect/:provider/redirect' />
         <ForgotPassword path='/forgotPassword' />
         <ResetPassword path='/resetPassword' />
         <NewStory path='/newStory' />
