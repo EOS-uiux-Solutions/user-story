@@ -73,22 +73,13 @@ const Vote = (props) => {
         {votes}
       </div>
       <div
-        className='vote-button'
+        className={`vote-button ${userId ? 'vote-button-clickable' : ''}`}
         onClick={() => {
           if (userId && !voteClicked) updateVote(story)
         }}
       >
-        {!userId ? (
-          <Link className='vote-link' to='/login'>
-            <EOS_THUMB_UP className='eos-icons' color='white' />
-            Vote
-          </Link>
-        ) : (
-          <>
-            <EOS_THUMB_UP className='eos-icons' color='white' />
-            Vote
-          </>
-        )}
+        <EOS_THUMB_UP className='eos-icons' color='white' />
+        Vote
       </div>
       {isOpen && (
         <Modal

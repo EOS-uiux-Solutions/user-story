@@ -6,7 +6,6 @@ import { Link, navigate } from '@reach/router'
 import { useTranslation } from 'react-i18next'
 import useAuth from '../hooks/useAuth'
 import { Helmet } from 'react-helmet'
-import toast from 'react-hot-toast'
 
 import Button from '../components/Button'
 import FormError from '../components/FormError'
@@ -45,7 +44,6 @@ export const Login = (props) => {
       dispatch({
         type: 'AUTHENTICATE'
       })
-      toast.success(`Logged in successfully as ${payload.user.username}`)
       navigate('/', { replace: true })
     } catch (e) {}
   }

@@ -4,7 +4,6 @@ import { Link } from '@reach/router'
 import userStory from '../services/user_story'
 import Lists from '../utils/Lists'
 import { EOS_THUMB_UP } from 'eos-icons-react'
-import storyPagePattern from '../assets/images/story-page-pattern.svg'
 
 const StoryPageTimeline = (props) => {
   const { story, currentStatus } = props
@@ -166,7 +165,10 @@ const StoryPageTimeline = (props) => {
         })}
       </div>
       <div className='story-pattern'>
-        <img src={storyPagePattern} alt='pattern' />
+        <img
+          src={require(`../assets/images/story-page-pattern.svg`)}
+          alt='pattern'
+        />
       </div>
     </div>
   )
