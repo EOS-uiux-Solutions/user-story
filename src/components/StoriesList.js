@@ -112,7 +112,11 @@ const StoriesList = (props) => {
           )
         })
       ) : (
-        <h3>No stories</h3>
+        <center>
+          <h2>
+            No stories! Create your first story <Link to='/newStory'>here</Link>
+          </h2>
+        </center>
       )}
     </div>
   )
