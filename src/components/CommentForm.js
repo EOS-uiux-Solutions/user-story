@@ -85,7 +85,7 @@ const CommentForm = (props) => {
             </label>
           </div>
           <Button
-            className='btn btn-secondary btn-comment'
+            className='btn btn-secondary btn-comment margin-y'
             data-cy={`btn-comment-${id}`}
             onClick={(e) => addComment(e, { Comments: comment })}
             type='button'
