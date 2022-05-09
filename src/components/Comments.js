@@ -110,6 +110,8 @@ const Comments = (props) => {
     }
   }
 
+  console.log({ comments })
+
   return (
     <div className='comments-wrapper'>
       {state.auth && (
@@ -134,7 +136,11 @@ const Comments = (props) => {
               <div className='user-avatar'>
                 <img
                   className='avatar'
-                  src={`https://avatars.dicebear.com/api/jdenticon/${data.user.username}.svg`}
+                  src={
+                    data.user.profilePicture && data.user.profilePicture.url
+                      ? data.user.profilePicture.url
+                      : `https://avatars.dicebear.com/api/jdenticon/${data.user.username}.svg`
+                  }
                   alt='Default User Avatar'
                 ></img>
               </div>
@@ -211,7 +217,12 @@ const Comments = (props) => {
                       <div className='user-avatar'>
                         <img
                           className='avatar'
-                          src={`https://avatars.dicebear.com/api/jdenticon/${reply.user.username}.svg`}
+                          src={
+                            reply.user.profilePicture &&
+                            reply.user.profilePicture.url
+                              ? reply.user.profilePicture.url
+                              : `https://avatars.dicebear.com/api/jdenticon/${reply.user.username}.svg`
+                          }
                           alt='Default User Avatar'
                         ></img>
                       </div>
