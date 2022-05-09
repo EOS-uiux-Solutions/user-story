@@ -110,8 +110,6 @@ const Comments = (props) => {
     }
   }
 
-  console.log({ comments })
-
   return (
     <div className='comments-wrapper'>
       {state.auth && (
