@@ -352,6 +352,9 @@ const userStory = {
             user {
               id
               username
+              profilePicture{
+                url
+              }
             }
             createdAt
             attachment {
@@ -364,6 +367,9 @@ const userStory = {
               user {
                 id
                 username
+                profilePicture{
+                  url
+                }
               }
               attachment {
                 id
