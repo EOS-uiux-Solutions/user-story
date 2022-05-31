@@ -1,6 +1,8 @@
 [![Open Source Love svg2](https://badges.frapsoft.com/os/v2/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](https://choosealicense.com/licenses/mit/)
 
+Online demo: [Userstory.site](https://userstory.site)
+
 # User Story
 
 ![](./static/user_story.png)
@@ -70,11 +72,11 @@ If you'd like to contribute with design changes, you'll have to do as follows:
 3. While working on your design, please make sure you follow our [design guidelines](https://github.com/EOS-uiux-Solutions/wiki/blob/main/Design-process-and-feedback-gathering.md).
 4. Once the issue is approved by us, it'll be ready to be implemented.
 
-# Learn more about the EOS Design System
+# Learn more about the EOS UX/UI Solutions
 
 - [EOS Icons](https://eos-icons.com)
 
-- [EOS User Story](https://userstory.eosdesignsystem.com/)
+- [EOS User Story](https://userstory.site)
 
 - [EOS Design System](https://www.eosdesignsystem.com)
 
