@@ -9,7 +9,7 @@ Online demo: [Userstory.site](https://userstory.site)
 
 # Introduction
 
-The goal of **User Story** is to design and present a scalable backend infrastructure that delivers a web interface allowing users to request new features and give feedback in an easy and intuitive way. Users can attach files with their story to explain what they want. The admins can then resolve, close and update the status of these stories. Users can interact with other stories via comments and votes. This can also serve as an efficient feedback and response mechanism which is critical for any organization to improve and make progress. Simply, its a **product management tool**.
+The goal of **User Story** is to design and present a scalable backend infrastructure that delivers a web interface allowing users to request new features and give feedback in an easy and intuitive way. Users can attach files with their story to explain what they want. The admins can then resolve, close and update the status of these stories. Users can interact with other stories via comments and votes. This can also serve as an efficient feedback and response mechanism which is critical for any organization to improve and make progress. Put in simple words, User Story is an open **product management tool**.
 
 # How it works
 
@@ -27,7 +27,7 @@ User Story uses [this repository](https://github.com/EOS-uiux-Solutions/strapi) 
 
 - You can setup `backend` locally by following [these instructions](https://github.com/EOS-uiux-Solutions/strapi#locally).
 
-If you want to work only on the `frontend` then go to `src/config.json` and change the value of `apiURL` to `https://userstory-strapi.herokuapp.com`.
+If you want to work only on the `frontend` then copy the `src/config.temp.json` and remove the `.temp` part from the file name. It is already assigned with the default value of `apiURL` to `https://strapi.userstory.site`. You can change it for your own Strapi endpoint if you are running already. The `APP_ENV` key will accept any string value. If you set it as "prod" it will not print console.logs so this is the recommended setting for production environment.
 
 Then run: `npm start` to run the app in development mode.
 
