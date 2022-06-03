@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef, useContext } from 'react'
 import { Link, navigate } from '@reach/router'
 import {
-  EOS_ACCOUNT_CIRCLE,
+  //  EOS_ACCOUNT_CIRCLE,
+  //  EOS_SETTING,
   EOS_MESSAGE,
-  EOS_SETTINGS,
+  EOS_PERSON_OUTLINED,
   EOS_EXIT_TO_APP
 } from 'eos-icons-react'
 import toast from 'react-hot-toast'
@@ -79,11 +80,14 @@ const Navigation = (props) => {
             }}
             ref={userDropdownContainer}
           >
-            <EOS_ACCOUNT_CIRCLE
+            <img
+              src={`https://avatars.dicebear.com/api/jdenticon/${userName}.svg`}
               className={`eos-icons ${
                 userDropdownState ? 'eos-icons-open' : ''
               }`}
+              alt='Default User Avatar'
             />
+
             <div
               className={`dropdown nav-dropdown ${
                 userDropdownState
@@ -92,7 +96,9 @@ const Navigation = (props) => {
               }`}
             >
               <ul className='dropdown-list nav-dropdown-list'>
-                <li className='user-dropdown user-dropdown-name'>{userName}</li>
+                <li className='user-dropdown user-dropdown-name'>
+                  <center>{userName}</center>
+                </li>
                 <li className='user-dropdown user-dropdown-email'>
                   {userEmail}
                 </li>
@@ -110,8 +116,8 @@ const Navigation = (props) => {
                   data-cy='user-profile-btn'
                   onClick={() => navigate('/myProfile')}
                 >
-                  <EOS_SETTINGS className='eos-icons eos-18' />
-                  My Account
+                  <EOS_PERSON_OUTLINED className='eos-icons eos-18' />
+                  My Profile
                 </li>
                 <hr className='dropdown-separator' />
                 <li className='dropdown-element' onClick={handleLogout}>
