@@ -127,6 +127,10 @@
   visibility: hidden;
 }
 
+.image-logo {
+  width: 120px !important;
+}
+
 @media only screen and (max-width: 1120px) {
   .authentication {
     height: 100%;
@@ -194,6 +198,12 @@
     visibility: visible;
     width: 95vw;
     z-index: 1;
+  }
+}
+
+@media only screen and (max-width: 360px) {
+  .image-logo {
+    width: 95px !important;
   }
 }
 
