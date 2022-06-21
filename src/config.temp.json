@@ -1,4 +1,4 @@
 {
-  "apiURL": "https://strapi.userstory.site/",
+  "apiURL": "https://strapi.userstory.site",
   "APP_ENV": "dev"
 }
