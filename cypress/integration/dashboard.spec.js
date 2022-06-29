@@ -17,6 +17,8 @@ describe('Test the filters and search for stories in Home page', () => {
 
   const testUser = Cypress.env("testUser")
 
+  const noStoryMessage = Cypress.env("noStoryMessage")
+
   const selectProduct = (productName) => {
     cy.get(`[data-cy=${productName.split(' ').join('-')}-card]`).click({
       force: true
@@ -50,7 +52,7 @@ describe('Test the filters and search for stories in Home page', () => {
   it('Filters stories based on product', () => {
     selectProduct('EOS User Story')
 
-    cy.contains('No stories')
+    cy.contains(noStoryMessage)
 
     selectProduct(testStory.product)
 
@@ -62,7 +64,7 @@ describe('Test the filters and search for stories in Home page', () => {
   it('Filters stories based on category', () => {
     setDropdown('category', 'Bug')
 
-    cy.contains('No stories')
+    cy.contains(noStoryMessage)
 
     setDropdown('category', testStory.category)
 
@@ -72,7 +74,7 @@ describe('Test the filters and search for stories in Home page', () => {
   it('Searches stories based on title', () => {
     searchByTitle('random')
 
-    cy.contains('No stories')
+    cy.contains(noStoryMessage)
 
     clearSearchInput()
 
