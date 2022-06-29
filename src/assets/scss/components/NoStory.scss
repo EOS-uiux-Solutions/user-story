@@ -1,17 +1,13 @@
-.noStory {
-    min-width: 100%;
-    min-height: 200px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    & p {
-        font-weight: bold;
-        margin-block-end: 0px;
-    }
-    & a {
-        text-decoration: none;
-        color: #42779B;
-        font-weight: bold;
-    }
+.no-story {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 200px;
+  min-width: 100%;
+
+  & p {
+    font-weight: bold;
+    margin-block-end: 0px;
+  }
 }
