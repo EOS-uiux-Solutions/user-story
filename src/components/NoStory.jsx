@@ -1,5 +1,4 @@
 import React from 'react'
-import '../assets/scss/components/noStory.scss'
 
 function NoStory() {
   return (
