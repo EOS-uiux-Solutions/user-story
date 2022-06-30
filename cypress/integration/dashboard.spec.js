@@ -1,21 +1,19 @@
 /// <reference types="cypress" />
 
-describe('Tests for dashboard',()=>{
-
-  before(()=>{
+describe('Tests for dashboard', () => {
+  before(() => {
     cy.visit('/')
   })
 
-  it('Shows the dashboard',()=>{
+  it('Shows the dashboard', () => {
     cy.get('[data-cy=dashboard-heading]').contains('TELL US YOUR STORY')
   })
 })
 
-
 describe('Test the filters and search for stories in Home page', () => {
-  const testStory = Cypress.env("testStory")
+  const testStory = Cypress.env('testStory')
 
-  const testUser = Cypress.env("testUser")
+  const testUser = Cypress.env('testUser')
 
   const selectProduct = (productName) => {
     cy.get(`[data-cy=${productName.split(' ').join('-')}-card]`).click({
@@ -91,7 +89,7 @@ describe('Test the filters and search for stories in Home page', () => {
 
     clearSearchInput()
 
-    typeOnSearch(testUser.username.slice(0,2))
+    typeOnSearch(testUser.username.slice(0, 2))
     cy.get('[data-cy=search-input-div]')
       .contains(testUser.username)
       .click({ force: true })

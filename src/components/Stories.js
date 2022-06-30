@@ -160,7 +160,6 @@ const Stories = ({ authorId, followerId }) => {
 
   return (
     <div>
-      <ProductList setProductQuery={setProductQuery} />
       <div className='roadmap-container'>
         <div className='roadmap'>
           {Lists.stateList &&
@@ -201,6 +200,7 @@ const Stories = ({ authorId, followerId }) => {
 
       <div className='filters'>
         <div className='flex flex-row options-bar'>
+          <ProductList setProductQuery={setProductQuery} />
           <Dropdown
             title='Categories'
             reference={categoryDropdownContainer}
