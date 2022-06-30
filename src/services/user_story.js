@@ -144,9 +144,13 @@ const userStory = {
     const storyCountQuery = {
       query: `query {
               userStoriesConnection(where: {
-                user_story_status: {
-                  Status: "${currentStateSelected}"
-                },
+                ${
+                  currentStateSelected !== 'All'
+                    ? `user_story_status : {
+                    Status: "${currentStateSelected}"
+                  },`
+                    : ''
+                }
                 author: {
                   ${authorId}
                   username_contains: "${authorQuery}"
