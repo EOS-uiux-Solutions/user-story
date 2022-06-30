@@ -199,7 +199,7 @@ const Stories = ({ authorId, followerId }) => {
       </div>
 
       <div className='filters'>
-        <div className='flex flex-row options-bar'>
+        <div className='options-bar'>
           <ProductList setProductQuery={setProductQuery} />
           <Dropdown
             title='Categories'
