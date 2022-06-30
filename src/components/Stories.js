@@ -199,15 +199,7 @@ const Stories = ({ authorId, followerId }) => {
         />
       </div>
 
-      <div className='flex flex-row search-bar'>
-        <SearchInput
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          userTerm={userTerm}
-          setUserTerm={setUserTerm}
-          setSearchQuery={setSearchQuery}
-          setAuthorQuery={setAuthorQuery}
-        />
+      <div className='filters'>
         <div className='flex flex-row options-bar'>
           <Dropdown
             title='Categories'
@@ -225,6 +217,14 @@ const Stories = ({ authorId, followerId }) => {
             itemList={Lists.sortByList}
           />
         </div>
+        <SearchInput
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          userTerm={userTerm}
+          setUserTerm={setUserTerm}
+          setSearchQuery={setSearchQuery}
+          setAuthorQuery={setAuthorQuery}
+        />
       </div>
       <div className='stories-div'>
         <StoriesList stories={stories} isLoading={promiseInProgress} />
