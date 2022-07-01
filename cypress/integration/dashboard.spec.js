@@ -15,6 +15,8 @@ describe('Test the filters and search for stories in Home page', () => {
 
   const testUser = Cypress.env('testUser')
 
+  const noStoryMessage = Cypress.env('noStoryMessage')
+
   const setDropdown = (dropdown, value) => {
     cy.get('[data-cy=search-input-div]')
       .get(`[data-cy=${dropdown}-dropdown]`)
