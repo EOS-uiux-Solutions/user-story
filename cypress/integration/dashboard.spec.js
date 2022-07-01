@@ -15,6 +15,8 @@ describe('Test the filters and search for stories in Home page', () => {
 
   const testUser = Cypress.env('testUser')
 
+  const noStoryMessage = Cypress.env('noStoryMessage')
+
   const setDropdown = (dropdown, value) => {
     cy.get('[data-cy=search-input-div]')
       .get(`[data-cy=${dropdown}-dropdown]`)
@@ -42,7 +44,7 @@ describe('Test the filters and search for stories in Home page', () => {
   it('Filters stories based on category', () => {
     setDropdown('category', 'Bug')
 
-    cy.contains('No stories')
+    cy.contains(noStoryMessage)
 
     setDropdown('category', testStory.category)
 
@@ -52,7 +54,7 @@ describe('Test the filters and search for stories in Home page', () => {
   it('Searches stories based on title', () => {
     searchByTitle('random')
 
-    cy.contains('No stories')
+    cy.contains(noStoryMessage)
 
     clearSearchInput()
 

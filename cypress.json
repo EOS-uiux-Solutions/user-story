@@ -23,7 +23,8 @@
       "title": "This is a test story",
       "product": "EOS Icons",
       "category": "Documentation"
-    }
+    },
+    "noStoryMessage": "No story found"
   },
   "testFiles": [
     "auth.spec.js",
