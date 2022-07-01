@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 
+// components
 import Button from './Button'
 import StoriesList from './StoriesList'
 import Pagination from './Pagination'
 import Dropdown from './Dropdown'
+import ProductList from './ProductList'
+// others
 import SearchInput from '../modules/SearchInput'
-
 import Lists from '../utils/Lists'
 import userStory from '../services/user_story'
-import ProductList from './ProductList'
 
 const Stories = ({ authorId, followerId }) => {
   const [currentStateSelected, selectState] = useState('All')
@@ -166,11 +167,12 @@ const Stories = ({ authorId, followerId }) => {
             Lists.stateList.map((state, key) => {
               return (
                 <Button
-                  className={
+                  className={`btn btn-tabs ${
                     currentStateSelected === state.status
-                      ? 'btn btn-tabs btn-tabs-selected'
-                      : 'btn btn-tabs'
+                      ? ' btn-tabs-selected'
+                      : ''
                   }
+                  `}
                   key={key}
                   onClick={() => {
                     selectState(state.status)
