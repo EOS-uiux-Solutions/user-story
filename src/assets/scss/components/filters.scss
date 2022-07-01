@@ -1,0 +1,23 @@
+.filters {
+  @extend .flex;
+  background-color: $eos-white;
+  border-radius: 10px;
+  justify-content: space-between;
+  margin: 16px 0px 16px 0px;
+  padding: 8px 16px;
+}
+
+.search-controls {
+  align-items: center;
+  justify-content: center;
+}
+
+.options-bar {
+  @extend .flex;
+}
+
+@media (max-width: 900px) {
+  .filters {
+    padding: 8px;
+  }
+}
