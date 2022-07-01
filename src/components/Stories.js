@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 
 // components
-import Button from './Button'
 import StoriesList from './StoriesList'
 import Pagination from './Pagination'
 import Dropdown from './Dropdown'
 import ProductList from './ProductList'
+import RoadmapFilter from './roadmap-filter'
 // others
 import SearchInput from '../modules/SearchInput'
 import Lists from '../utils/Lists'
@@ -16,16 +16,6 @@ const Stories = ({ authorId, followerId }) => {
   const [currentStateSelected, selectState] = useState('All')
 
   const [page, setPage] = useState(1)
-
-  const statusOptions = useMemo(() => {
-    const optionsArray = []
-    for (let i = 0; i < Lists.stateList.length; i++) {
-      optionsArray.push(Lists.stateList[i].status)
-    }
-    return optionsArray
-  }, [])
-
-  const [status, setStatus] = useState('All')
 
   const [sort, setSort] = useState('Most Voted')
 
@@ -40,8 +30,6 @@ const Stories = ({ authorId, followerId }) => {
   const [storyCount, setStoryCount] = useState()
 
   const [stories, setStories] = useState([])
-
-  const statusDropdownContainer = useRef()
 
   const sortDropdownContainer = useRef()
 
@@ -161,44 +149,11 @@ const Stories = ({ authorId, followerId }) => {
 
   return (
     <div>
-      <div className='roadmap-container'>
-        <div className='roadmap'>
-          {Lists.stateList &&
-            Lists.stateList.map((state, key) => {
-              return (
-                <Button
-                  className={`btn btn-tabs ${
-                    currentStateSelected === state.status
-                      ? ' btn-tabs-selected'
-                      : ''
-                  }
-                  `}
-                  key={key}
-                  onClick={() => {
-                    selectState(state.status)
-                    setPage(1)
-                  }}
-                >
-                  {state.icon}
-                  {state.status}
-                </Button>
-              )
-            })}
-        </div>
-      </div>
-
-      <div className='roadmap-dropdown'>
-        <Dropdown
-          title='Status'
-          reference={statusDropdownContainer}
-          curr={status}
-          setCurr={setStatus}
-          itemList={statusOptions}
-          data-cy='status-dropdown'
-          selectstate={selectState}
-          setpage={setPage}
-        />
-      </div>
+      <RoadmapFilter
+        selectState={selectState}
+        setPage={setPage}
+        currentStateSelected={currentStateSelected}
+      />
 
       <div className='filters'>
         <div className='options-bar'>

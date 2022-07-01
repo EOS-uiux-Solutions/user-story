@@ -3,8 +3,8 @@ import Dropdown from './Dropdown'
 import Lists from '../utils/Lists'
 import Button from './Button'
 
-const RoadmapFilter = (setPage) => {
-  const [currentStateSelected, selectState] = useState('All')
+const RoadmapFilter = (props) => {
+  const { selectState, setPage, currentStateSelected } = props
   const [status, setStatus] = useState('All')
   const statusDropdownContainer = useRef()
 
@@ -24,11 +24,12 @@ const RoadmapFilter = (setPage) => {
             Lists.stateList.map((state, key) => {
               return (
                 <Button
-                  className={
-                    currentStateSelected === state.status
-                      ? 'btn btn-tabs btn-tabs-selected'
-                      : 'btn btn-tabs'
-                  }
+                  className={`btn btn-tabs
+                    ${
+                      currentStateSelected === state.status
+                        ? 'btn-tabs-selected'
+                        : ''
+                    }`}
                   key={key}
                   onClick={() => {
                     selectState(state.status)
