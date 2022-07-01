@@ -1,27 +1,19 @@
 /// <reference types="cypress" />
 
-describe('Tests for dashboard',()=>{
-
-  before(()=>{
+describe('Tests for dashboard', () => {
+  before(() => {
     cy.visit('/')
   })
 
-  it('Shows the dashboard',()=>{
+  it('Shows the dashboard', () => {
     cy.get('[data-cy=dashboard-heading]').contains('TELL US YOUR STORY')
   })
 })
 
-
 describe('Test the filters and search for stories in Home page', () => {
-  const testStory = Cypress.env("testStory")
+  const testStory = Cypress.env('testStory')
 
-  const testUser = Cypress.env("testUser")
-
-  const selectProduct = (productName) => {
-    cy.get(`[data-cy=${productName.split(' ').join('-')}-card]`).click({
-      force: true
-    })
-  }
+  const testUser = Cypress.env('testUser')
 
   const setDropdown = (dropdown, value) => {
     cy.get('[data-cy=search-input-div]')
@@ -45,18 +37,6 @@ describe('Test the filters and search for stories in Home page', () => {
 
   before(() => {
     cy.visit('/')
-  })
-
-  it('Filters stories based on product', () => {
-    selectProduct('EOS User Story')
-
-    cy.contains('No stories')
-
-    selectProduct(testStory.product)
-
-    cy.contains(testStory.title)
-
-    selectProduct(testStory.product)
   })
 
   it('Filters stories based on category', () => {
@@ -91,7 +71,7 @@ describe('Test the filters and search for stories in Home page', () => {
 
     clearSearchInput()
 
-    typeOnSearch(testUser.username.slice(0,2))
+    typeOnSearch(testUser.username.slice(0, 2))
     cy.get('[data-cy=search-input-div]')
       .contains(testUser.username)
       .click({ force: true })
