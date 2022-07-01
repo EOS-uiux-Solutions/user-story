@@ -90,7 +90,9 @@ const Notifications = () => {
         ref={notificationsDropdownContainer}
       >
         <EOS_NOTIFICATIONS
-          className={`eos-icons ${notificationsDropdownState ? 'open' : ''}`}
+          className={`eos-icons icon-dropdown ${
+            notificationsDropdownState ? 'open' : ''
+          }`}
         />
         <span className='notifications-count'>
           {' '}

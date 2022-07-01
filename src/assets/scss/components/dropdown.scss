@@ -6,11 +6,14 @@
 
   .eos-icons {
     align-self: center;
-    border-radius: 20px;
     margin: 0;
-    padding: 8px;
     text-align: center;
     vertical-align: sub;
+  }
+
+  .icon-dropdown {
+    border-radius: 20px;
+    padding: 8px;
   }
 
   .open {
