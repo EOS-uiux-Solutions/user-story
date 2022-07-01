@@ -16,7 +16,13 @@ const Stories = ({ authorId, followerId }) => {
 
   const [page, setPage] = useState(1)
 
-  const statusOptions = useMemo(() => [], [])
+  const statusOptions = useMemo(() => {
+    const optionsArray = []
+    for (let i = 0; i < Lists.stateList.length; i++) {
+      optionsArray.push(Lists.stateList[i].status)
+    }
+    return optionsArray
+  }, [])
 
   const [status, setStatus] = useState('All')
 
@@ -53,12 +59,6 @@ const Stories = ({ authorId, followerId }) => {
   const getPage = useCallback((page) => {
     setPage(page)
   }, [])
-
-  useEffect(() => {
-    for (let i = 0; i < Lists.stateList.length; i++) {
-      statusOptions.push(Lists.stateList[i].status)
-    }
-  }, [statusOptions])
 
   useEffect(() => {
     const fetchStoryCount = async () => {
