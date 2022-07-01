@@ -6,14 +6,15 @@
 
   .eos-icons {
     align-self: center;
+    border-radius: 20px;
     margin: 0;
+    padding: 8px;
     text-align: center;
     vertical-align: sub;
-    width: 24px;
+  }
 
-    &-open {
-      background-color: $gray-bg;
-    }
+  .open {
+    background-color: $gray-bg;
   }
 
   &:hover .dropdown-hover {
