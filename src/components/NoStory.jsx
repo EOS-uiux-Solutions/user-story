@@ -3,8 +3,8 @@ import React from 'react'
 function NoStory() {
   return (
     <div className='no-story'>
-      <p>No story found</p>
-      <a href='/newStory' className='link'>
+      <strong>No story found</strong>
+      <a href='/newStory' className='link link-default'>
         Create a new story instead
       </a>
     </div>
