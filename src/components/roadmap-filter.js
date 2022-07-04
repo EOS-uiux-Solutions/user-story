@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from 'react'
+import React, { useState, useRef } from 'react'
 import Dropdown from './Dropdown'
 import Lists from '../utils/Lists'
 import Button from './Button'
@@ -8,13 +8,10 @@ const RoadmapFilter = (props) => {
   const [status, setStatus] = useState('All')
   const statusDropdownContainer = useRef()
 
-  const statusOptions = useMemo(() => {
-    const optionsArray = []
-    for (let i = 0; i < Lists.stateList.length; i++) {
-      optionsArray.push(Lists.stateList[i].status)
-    }
-    return optionsArray
-  }, [])
+  const statusOptions = [...Lists.stateList].reduce(
+    (acc, cur) => [...acc, cur.status],
+    []
+  )
 
   return (
     <>
