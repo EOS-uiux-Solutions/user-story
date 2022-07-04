@@ -6,7 +6,9 @@
   overflow-x: hidden;
   overflow-y: scroll;
 }
-
+.scrollbar-disabled{
+  overflow-y: hidden;
+}
 
 .title-search-results {
   background-color: $eos-white;
