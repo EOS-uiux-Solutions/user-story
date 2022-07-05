@@ -51,10 +51,9 @@ export const AuthRightContainer = ({ children, logo }) => {
       <div className='footer'>
         <span>
           <EOS_COPYRIGHT className='eos-icons' />
-          <span> {t('authentication:footer-right')} </span>
+          <span>{new Date().getFullYear()} EOS</span>
         </span>
         <a className='link link-default' href='/policies'>
-          {' '}
           Cookies and Privacy policy
         </a>
       </div>
