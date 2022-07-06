@@ -1,10 +1,13 @@
 import axios from 'axios'
 import Context from '../modules/Context'
 import { useContext } from 'react'
-const { apiURL } = require('../config.json')
+import { useOktaAuth } from '@okta/okta-react'
+const { apiURL, SSO } = require('../config.json')
 
 const useAuth = () => {
   const { dispatch } = useContext(Context)
+
+  const { authState, oktaAuth } = useOktaAuth === null ? null : useOktaAuth
 
   const registerUser = async (credentials) => {
     const { data: payload } = await axios
@@ -27,38 +30,60 @@ const useAuth = () => {
   }
 
   const login = async (credentials) => {
-    const { data: payload } = await axios
-      .post(`${apiURL}/auth/local`, credentials, { withCredentials: true })
-      .catch((err) => {
-        if (err.message === 'Network Error')
-          dispatch({
-            type: 'ERROR',
-            payload: err.message
-          })
-        else
-          dispatch({
-            type: 'ERROR',
-            payload: err.response.data.message[0].messages[0].message
-          })
-      })
-    return payload
+    if (SSO) {
+      await oktaAuth.signInWithRedirect()
+      if (!authState || !authState.isAuthenticated) {
+        dispatch({
+          type: 'DEAUTHENTICATE'
+        })
+      } else {
+        dispatch({
+          type: 'AUTHENTICATE'
+        })
+      }
+    } else {
+      const { data: payload } = await axios
+        .post(`${apiURL}/auth/local`, credentials, { withCredentials: true })
+        .catch((err) => {
+          if (err.message === 'Network Error')
+            dispatch({
+              type: 'ERROR',
+              payload: err.message
+            })
+          else
+            dispatch({
+              type: 'ERROR',
+              payload: err.response.data.message[0].messages[0].message
+            })
+        })
+      return payload
+    }
   }
 
   const logout = async () => {
-    await axios
-      .post(`${apiURL}/logout`, {}, { withCredentials: true })
-      .catch((err) => {
-        if (err.message === 'Network Error')
-          dispatch({
-            type: 'ERROR',
-            payload: err.message
-          })
-        else
-          dispatch({
-            type: 'ERROR',
-            payload: err.response.data.message[0].messages[0].message
-          })
-      })
+    if (SSO) {
+      await oktaAuth.signOut()
+      if (!authState || !authState.isAuthenticated) {
+        dispatch({
+          type: 'DEAUTHENTICATE'
+        })
+      }
+    } else {
+      await axios
+        .post(`${apiURL}/logout`, {}, { withCredentials: true })
+        .catch((err) => {
+          if (err.message === 'Network Error')
+            dispatch({
+              type: 'ERROR',
+              payload: err.message
+            })
+          else
+            dispatch({
+              type: 'ERROR',
+              payload: err.response.data.message[0].messages[0].message
+            })
+        })
+    }
     localStorage.clear()
   }
 
