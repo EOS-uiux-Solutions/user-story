@@ -21,7 +21,11 @@ const Search = (props) => {
     return ''
   }
   return (
-    <div className='flex flex-column title-search'>
+    <div
+      className={`flex flex-column title-search ${
+        searchResults.length === 0 ? 'scrollbar-disabled' : ''
+      }`}
+    >
       <h4>
         <EOS_ARROW_FORWARD className='eos-icons' />
         {searchResults.length > 0
