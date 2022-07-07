@@ -112,8 +112,8 @@ const Navigation = (props) => {
             ref={userDropdownContainer}
           >
             <EOS_ACCOUNT_CIRCLE
-              className={`eos-icons ${
-                userDropdownState ? 'eos-icons-open' : ''
+              className={`eos-icons icon-dropdown ${
+                userDropdownState ? 'open' : ''
               }`}
             />
             <div

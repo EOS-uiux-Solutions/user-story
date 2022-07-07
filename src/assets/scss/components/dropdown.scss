@@ -5,24 +5,23 @@
   position: relative;
 
   .eos-icons {
-    border-radius: 24px;
-    height: 24px;
-    padding: 8px;
+    align-self: center;
+    margin: 0;
     text-align: center;
     vertical-align: sub;
-    width: 24px;
+  }
 
-    &-open {
-      background-color: $gray-bg;
-    }
+  .icon-dropdown {
+    border-radius: 20px;
+    padding: 8px;
+  }
+
+  .open {
+    background-color: $gray-bg;
   }
 
   &:hover .dropdown-hover {
     display: block;
-  }
-
-  .curr {
-    margin-top: 0.6em;
   }
 }
 

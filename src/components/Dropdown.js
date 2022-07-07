@@ -50,7 +50,7 @@ const Dropdown = (props) => {
         <div className='dropdown-container' ref={reference} {...rest}>
           <Button
             type='button'
-            className='btn btn-transparent flex flex-row'
+            className='btn btn-transparent flex'
             onClick={handleDropdownState}
           >
             {dropdownState ? (
@@ -58,7 +58,7 @@ const Dropdown = (props) => {
             ) : (
               <EOS_KEYBOARD_ARROW_DOWN className='eos-icons' />
             )}
-            &nbsp; <div className='curr'> {curr} </div>
+            &nbsp; <span> {curr} </span>
           </Button>
           <div
             className={`dropdown ${

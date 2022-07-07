@@ -1,24 +1,21 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 
-import Button from './Button'
+// components
 import StoriesList from './StoriesList'
 import Pagination from './Pagination'
 import Dropdown from './Dropdown'
+import ProductList from './ProductList'
+import RoadmapFilter from './roadmap-filter'
+// others
 import SearchInput from '../modules/SearchInput'
-
 import Lists from '../utils/Lists'
 import userStory from '../services/user_story'
-import ProductList from './ProductList'
 
 const Stories = ({ authorId, followerId }) => {
-  const [currentStateSelected, selectState] = useState('Under consideration')
+  const [currentStateSelected, selectState] = useState('All')
 
   const [page, setPage] = useState(1)
-
-  const statusOptions = useMemo(() => [], [])
-
-  const [status, setStatus] = useState('Under consideration')
 
   const [sort, setSort] = useState('Most Voted')
 
@@ -33,8 +30,6 @@ const Stories = ({ authorId, followerId }) => {
   const [storyCount, setStoryCount] = useState()
 
   const [stories, setStories] = useState([])
-
-  const statusDropdownContainer = useRef()
 
   const sortDropdownContainer = useRef()
 
@@ -53,12 +48,6 @@ const Stories = ({ authorId, followerId }) => {
   const getPage = useCallback((page) => {
     setPage(page)
   }, [])
-
-  useEffect(() => {
-    for (let i = 0; i < Lists.stateList.length; i++) {
-      statusOptions.push(Lists.stateList[i].status)
-    }
-  }, [statusOptions])
 
   useEffect(() => {
     const fetchStoryCount = async () => {
@@ -160,55 +149,15 @@ const Stories = ({ authorId, followerId }) => {
 
   return (
     <div>
-      <ProductList setProductQuery={setProductQuery} />
-      <div className='roadmap-container'>
-        <div className='roadmap'>
-          {Lists.stateList &&
-            Lists.stateList.map((state, key) => {
-              return (
-                <Button
-                  className={
-                    currentStateSelected === state.status
-                      ? 'btn btn-tabs btn-tabs-selected'
-                      : 'btn btn-tabs'
-                  }
-                  key={key}
-                  onClick={() => {
-                    selectState(state.status)
-                    setPage(1)
-                  }}
-                >
-                  {state.icon}
-                  {state.status}
-                </Button>
-              )
-            })}
-        </div>
-      </div>
+      <RoadmapFilter
+        selectState={selectState}
+        setPage={setPage}
+        currentStateSelected={currentStateSelected}
+      />
 
-      <div className='roadmap-dropdown'>
-        <Dropdown
-          title='Status'
-          reference={statusDropdownContainer}
-          curr={status}
-          setCurr={setStatus}
-          itemList={statusOptions}
-          data-cy='status-dropdown'
-          selectstate={selectState}
-          setpage={setPage}
-        />
-      </div>
-
-      <div className='flex flex-row search-bar'>
-        <SearchInput
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          userTerm={userTerm}
-          setUserTerm={setUserTerm}
-          setSearchQuery={setSearchQuery}
-          setAuthorQuery={setAuthorQuery}
-        />
-        <div className='flex flex-row options-bar'>
+      <div className='filters'>
+        <div className='options-bar'>
+          <ProductList setProductQuery={setProductQuery} />
           <Dropdown
             title='Categories'
             reference={categoryDropdownContainer}
@@ -225,6 +174,14 @@ const Stories = ({ authorId, followerId }) => {
             itemList={Lists.sortByList}
           />
         </div>
+        <SearchInput
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          userTerm={userTerm}
+          setUserTerm={setUserTerm}
+          setSearchQuery={setSearchQuery}
+          setAuthorQuery={setAuthorQuery}
+        />
       </div>
       <div className='stories-div'>
         <StoriesList stories={stories} isLoading={promiseInProgress} />
