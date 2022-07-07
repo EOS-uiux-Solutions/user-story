@@ -12,13 +12,21 @@ import useAuth from '../hooks/useAuth'
 import Context from '../modules/Context'
 import Notifications from './Notifications'
 import Button from './Button'
+import { useOktaAuth } from '@okta/okta-react'
 const { SSO } = require('../config.json')
 
 const Navigation = (props) => {
   const { login, logout } = useAuth()
 
-  const userName = localStorage.getItem('username')
-  const userEmail = localStorage.getItem('email')
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { authState } = useOktaAuth() === null ? null : useOktaAuth()
+
+  const userName = SSO
+    ? authState?.idToken?.claims?.preferred_username
+    : localStorage.getItem('username')
+  const userEmail = SSO
+    ? authState?.idToken?.claims?.email
+    : localStorage.getItem('email')
 
   const { state, dispatch } = useContext(Context)
 
@@ -45,6 +53,7 @@ const Navigation = (props) => {
   const handleLogin = () => {
     if (SSO) login()
     else navigate('/login')
+    console.log(authState)
   }
 
   const handleLogout = async () => {
@@ -55,6 +64,18 @@ const Navigation = (props) => {
     toast.success('You are now logged out of the application')
     navigate('/')
   }
+
+  useEffect(() => {
+    if (authState && authState.isAuthenticated) {
+      dispatch({
+        type: 'AUTHENTICATE'
+      })
+    } else {
+      dispatch({
+        type: 'DEAUTHENTICATE'
+      })
+    }
+  }, [authState])
 
   return (
     <header className='nav-header'>

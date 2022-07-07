@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer } from 'react'
-import { Router, createHistory } from '@reach/router'
+import { Router, navigate } from '@reach/router'
 import './assets/scss/index.scss'
 import { Toaster } from 'react-hot-toast'
 import { OktaAuth, toRelativeUrl } from '@okta/okta-auth-js'
@@ -35,7 +35,7 @@ if (SSO) {
   oktaAuth = new OktaAuth({
     issuer: issuer,
     clientId: clientId,
-    redirectUri: `${window.location.origin}`
+    redirectUri: `${window.location.origin}/login/callback`
   })
 }
 
@@ -43,7 +43,6 @@ const App = (props) => {
   const [state, dispatch] = useReducer(ContextReducer, initialState)
 
   const userId = localStorage.getItem('id')
-  const history = createHistory(window)
 
   useEffect(() => {
     window.addEventListener('storage', (e) => {
@@ -72,7 +71,7 @@ const App = (props) => {
   }, [userId])
 
   const restoreOriginalUri = async (_oktaAuth, originalUri) => {
-    history.replace(toRelativeUrl(originalUri || '/', window.location.origin))
+    navigate(toRelativeUrl(originalUri || '/', window.location.origin))
   }
 
   const routes = (

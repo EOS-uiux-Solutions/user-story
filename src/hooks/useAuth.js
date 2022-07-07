@@ -7,7 +7,8 @@ const { apiURL, SSO } = require('../config.json')
 const useAuth = () => {
   const { dispatch } = useContext(Context)
 
-  const { authState, oktaAuth } = useOktaAuth === null ? null : useOktaAuth
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { authState, oktaAuth } = useOktaAuth() === null ? null : useOktaAuth()
 
   const registerUser = async (credentials) => {
     const { data: payload } = await axios
