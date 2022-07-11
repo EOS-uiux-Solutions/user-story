@@ -1,11 +1,10 @@
 .preview {
   &-root {
-    display: flex;
-    flex-direction: column;
     border: 1px solid #eaeaea;
     border-radius: 2px;
     box-sizing: border-box;
     display: inline-flex;
+    flex-direction: column;
     height: 150px;
     margin-bottom: 8px;
     margin-right: 8px;
@@ -23,8 +22,8 @@
   &-image {
     display: block;
     height: 100px;
-    width: 140px;
     object-fit: contain;
+    width: 140px;
   }
 
   &-remove-button {

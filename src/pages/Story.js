@@ -118,28 +118,13 @@ const Story = (props) => {
                 : 'body-content story-page'
             }
           >
-            <div className='body-wrapper'>
-              <div className='story-heading flex flex-row'>
-                <svg
-                  className='story-title-pattern'
-                  width='41'
-                  height='41'
-                  viewBox='0 0 41 41'
-                  fill='none'
-                  xmlns='http://www.w3.org/2000/svg'
-                >
-                  <circle
-                    id='Ellipse 1'
-                    cx='20.5'
-                    cy='20.5'
-                    r='12'
-                    fill='#42779B'
-                  />
-                </svg>
+            <div className='body-wrapper body-wrapper-left'>
+              <div className='story-heading flex flex-column'>
                 <span>
-                  <h2 style={{ marginBlockEnd: '0px' }}>{story.Title}</h2>
-                  <br />
-                  <h4 style={{ marginBlockStart: '0px' }}>
+                  <h1 style={{ marginBlockEnd: '0px' }}>{story.Title}</h1>
+                </span>
+                <div className='author-information'>
+                  <h4 className='date'>
                     Created At:{' '}
                     {new Date(story.createdAt).toLocaleDateString(undefined, {
                       year: 'numeric',
@@ -147,25 +132,37 @@ const Story = (props) => {
                       day: 'numeric'
                     })}
                   </h4>
-                </span>
-                <div className='author-information'>
-                  <h4>
-                    By:{' '}
-                    <Link
-                      className='link link-default'
-                      to={`/profile/${story.author.id}`}
-                    >
-                      {story.author.username}
-                    </Link>
-                  </h4>
-                  <div className='user-avatar'>
-                    <img
-                      className='avatar'
-                      src={`https://avatars.dicebear.com/api/jdenticon/${story.author.username}.svg`}
-                      alt='Default User Avatar'
-                    ></img>
+                  <div className='name'>
+                    <h4>
+                      By:{' '}
+                      <Link
+                        className='link link-default'
+                        to={`/profile/${story.author.id}`}
+                      >
+                        @{story.author.username}
+                      </Link>
+                    </h4>
+                    <div className='user-avatar'>
+                      <img
+                        className='avatar'
+                        src={
+                          story.author.profilePicture
+                            ? story.author.profilePicture.url
+                            : `https://avatars.dicebear.com/api/jdenticon/${story.author.username}.svg`
+                        }
+                        alt='Default User Avatar'
+                      ></img>
+                    </div>
                   </div>
-                  <div className='story-buttons-container-top'>
+                  <div className='target-product'>
+                    <h4>Target Product:</h4>
+                    <img
+                      src={story.product.logo?.url}
+                      className='product-logo'
+                      alt={story.product.Name}
+                    />
+                  </div>
+                  <div>
                     {editMode && !editor ? (
                       <>
                         <Button
@@ -193,12 +190,6 @@ const Story = (props) => {
                         </Button>
                       </>
                     }
-                    <img
-                      src={story.product.logo?.url}
-                      className='preview image'
-                      style={{ width: '150px' }}
-                      alt={story.product.Name}
-                    />
                   </div>
                 </div>
               </div>
