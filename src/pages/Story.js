@@ -191,6 +191,12 @@ const Story = (props) => {
                       </>
                     }
                   </div>
+                  <img
+                    src={story.product.logo?.url}
+                    className='preview image'
+                    style={{ width: '150px', height: '60px' }}
+                    alt={story.product.Name}
+                  />
                 </div>
               </div>
 

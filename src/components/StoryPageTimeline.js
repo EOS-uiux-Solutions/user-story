@@ -103,7 +103,7 @@ const StoryPageTimeline = (props) => {
           onClick={togglePopup}
           data-cy='story-votes-count'
         >
-          {votes} Votes
+          {votes} {votes === 1 ? 'Vote' : 'Votes'}
         </div>
         {isOpen && (
           <Modal
