@@ -47,6 +47,11 @@ body {
 .body-wrapper {
   margin: auto;
   max-width: 1120px;
+
+  &-left {
+    margin-left: 5em;
+    width: 70%;
+  }
 }
 
 .hidden {

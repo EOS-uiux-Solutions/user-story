@@ -194,7 +194,7 @@ const Story = (props) => {
                 </div>
               </div>
 
-              <div className='flex flex-row'>
+              <div className='flex flex-col story-page-body'>
                 {editor ? (
                   <div data-cy='edit-description' className='story-editor'>
                     <MarkdownEditor
@@ -204,17 +204,17 @@ const Story = (props) => {
                     />
                   </div>
                 ) : (
-                  <div className='flex flex-row'>
-                    {!!story.Attachment.length && (
-                      <div className='gallery-container flex-column'>
-                        <Gallery imageArray={story.Attachment} />
-                      </div>
-                    )}
+                  <div className='flex flex-col'>
                     <ShowMore
                       maxCharacterLimit={350}
                       txt={story.Description}
                       textLength={story.Description.length}
                     />
+                    {!!story.Attachment.length && (
+                      <div className='gallery-container flex-column'>
+                        <Gallery imageArray={story.Attachment} />
+                      </div>
+                    )}
                   </div>
                 )}
                 <div className='right-nav'>
