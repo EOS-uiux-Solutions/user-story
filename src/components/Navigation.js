@@ -1,3 +1,4 @@
+/* eslint-disable no-var */
 import React, { useState, useEffect, useRef, useContext } from 'react'
 import { Link, navigate } from '@reach/router'
 import {
@@ -19,7 +20,7 @@ const Navigation = (props) => {
   const { login, logout } = useAuth()
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { authState } = useOktaAuth() === null ? null : useOktaAuth()
+  if (SSO) var { authState } = useOktaAuth()
 
   const userName = SSO
     ? authState?.idToken?.claims?.preferred_username
@@ -53,7 +54,6 @@ const Navigation = (props) => {
   const handleLogin = () => {
     if (SSO) login()
     else navigate('/login')
-    console.log(authState)
   }
 
   const handleLogout = async () => {

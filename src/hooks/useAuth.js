@@ -1,3 +1,4 @@
+/* eslint-disable no-var */
 import axios from 'axios'
 import Context from '../modules/Context'
 import { useContext } from 'react'
@@ -7,8 +8,10 @@ const { apiURL, SSO } = require('../config.json')
 const useAuth = () => {
   const { dispatch } = useContext(Context)
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { authState, oktaAuth } = useOktaAuth() === null ? null : useOktaAuth()
+  if (SSO) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    var { authState, oktaAuth } = useOktaAuth()
+  }
 
   const registerUser = async (credentials) => {
     const { data: payload } = await axios
@@ -33,7 +36,7 @@ const useAuth = () => {
   const login = async (credentials) => {
     if (SSO) {
       await oktaAuth.signInWithRedirect()
-      if (!authState || !authState.isAuthenticated) {
+      if (!authState || authState.isAuthenticated) {
         dispatch({
           type: 'DEAUTHENTICATE'
         })
@@ -64,7 +67,7 @@ const useAuth = () => {
   const logout = async () => {
     if (SSO) {
       await oktaAuth.signOut()
-      if (!authState || !authState.isAuthenticated) {
+      if (authState || authState.isAuthenticated) {
         dispatch({
           type: 'DEAUTHENTICATE'
         })
