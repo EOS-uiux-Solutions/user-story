@@ -9,15 +9,39 @@
   display: flex;
   flex-direction: row;
   margin: 8px 0px;
+
+  .avatar {
+    width: 2.5rem;
+    height: fit-content;
+  }
 }
 
 .comment-content {
-  margin-left: 16px;
+  width: 100%;
 
+  &-body {
+    width: 100%;
+    border: 1px solid rgba(0,0,0,0.5);
+    border-radius: 5px;
+  }
+
+  .top {
+    padding: 0.25rem 0.6rem;
+  }
+  
   .metadata {
     display: inline-block;
     font-size: $comments-font-size-metadata;
     margin-left: 1em;
+  }
+  
+  .text {
+    border-top: 1px solid rgba(0,0,0,0.4);
+    padding: 1rem 0.6rem;
+  }
+
+  .reply-form {
+    margin-left: 4.5rem;
   }
 
   .reply-action {
@@ -26,11 +50,19 @@
     a {
       font-weight: 100;
     }
+
+    .toggled {
+      background-color: #42779B;
+    }
   }
 }
 
 .btn-comment-edit {
   margin: 2% 0;
+}
+
+.btn-comment-reply {
+  margin: 1% 0;
 }
 
 .comment-form {

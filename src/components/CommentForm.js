@@ -53,7 +53,7 @@ const CommentForm = (props) => {
   }, [])
 
   return (
-    <form className='comment-form'>
+    <form className={`comment-form ${props.className}`}>
       <div className='flex flex-row'>
         <div className='comment-input'>
           <MentionsInput
