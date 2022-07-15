@@ -241,7 +241,9 @@ const Comments = (props) => {
           )
         })
       ) : (
-        <h3>No comments yet</h3>
+        <div className='no-comments'>
+          <h3>No comments yet</h3>
+        </div>
       )}
     </div>
   )
