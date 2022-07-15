@@ -117,7 +117,8 @@ const Comments = (props) => {
           />
         </div>
       )}
-      <h3>Comments</h3>
+      <h2 className='comments-heading'>Comments</h2>
+      <hr />
       {comments.length ? (
         comments.map((data, key) => {
           return (
