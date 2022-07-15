@@ -154,7 +154,7 @@ const Comments = (props) => {
                   />
                   <div>
                     {!!data.attachment.length && (
-                      <div className='gallery-container-comment'>
+                      <div className='gallery-container-comment media'>
                         <Gallery imageArray={data.attachment} />
                       </div>
                     )}
@@ -213,7 +213,7 @@ const Comments = (props) => {
                           className='text'
                         />
                         {reply.attachment.length !== 0 ? (
-                          <div className='gallery-container'>
+                          <div className='gallery-container media'>
                             <Gallery imageArray={reply.attachment} />
                           </div>
                         ) : (
