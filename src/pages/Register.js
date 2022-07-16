@@ -1,8 +1,8 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Helmet } from 'react-helmet'
 import toast from 'react-hot-toast'
-import { Link, navigate } from '@reach/router'
+import { globalHistory, Link, navigate } from '@reach/router'
 import Button from '../components/Button'
 import useAuth from '../hooks/useAuth'
 import Context from '../modules/Context'
@@ -26,6 +26,14 @@ export const Register = () => {
   } = useForm()
 
   const { t } = useTranslation()
+
+  useEffect(() => {
+    globalHistory.listen(({ location }) => {
+      if (location.pathname === '/login') {
+        dispatch({ type: 'ERROR', payload: null })
+      }
+    })
+  })
 
   const onSubmit = async (data) => {
     try {

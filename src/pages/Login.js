@@ -1,8 +1,7 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { EOS_VISIBILITY, EOS_VISIBILITY_OFF } from 'eos-icons-react'
-
-import { Link, navigate } from '@reach/router'
+import { globalHistory, Link, navigate } from '@reach/router'
 import { useTranslation } from 'react-i18next'
 import useAuth from '../hooks/useAuth'
 import { Helmet } from 'react-helmet'
@@ -32,6 +31,14 @@ export const Login = (props) => {
   const [showPassword, toggleShowPassword] = useState(false)
 
   const { state, dispatch } = useContext(Context)
+
+  useEffect(() => {
+    globalHistory.listen(({ location }) => {
+      if (location.pathname === '/register') {
+        dispatch({ type: 'ERROR', payload: null })
+      }
+    })
+  })
 
   const onSubmit = async (data) => {
     try {
