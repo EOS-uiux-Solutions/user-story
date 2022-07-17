@@ -34,8 +34,6 @@ const Comments = (props) => {
 
   const [comment, setComment] = useState('')
 
-  const [commentId, setCommentId] = useState()
-
   const [commentReply, setCommentReply] = useState('')
 
   const [comments, setComments] = useState([])
@@ -63,12 +61,12 @@ const Comments = (props) => {
     [attachments, replyAttachments]
   )
 
-  const addComment = async (e, data) => {
+  const addComment = async (e, data, _storyId = storyId) => {
     e.preventDefault()
 
     const formData = new FormData()
     data.user = id
-    data.user_story = storyId
+    data.user_story = _storyId
     if (data.Comments.trim() !== '') {
       formData.append('data', JSON.stringify(data))
 
@@ -83,7 +81,7 @@ const Comments = (props) => {
     }
   }
 
-  const addCommentReply = async (e, data) => {
+  const addCommentReply = async (e, data, commentId) => {
     const formData = new FormData()
 
     data.user = id
@@ -167,7 +165,6 @@ const Comments = (props) => {
                       'toggled'
                     }`}
                     onClick={() => {
-                      setCommentId(data.id)
                       toggleViewReplies(
                         viewRepliesToggled,
                         setViewRepliesToggled,
@@ -225,7 +222,7 @@ const Comments = (props) => {
                 {viewRepliesToggled.find((item) => item === key + 1) &&
                   state.auth && (
                     <CommentForm
-                      id={1}
+                      id={data.id}
                       attachments={replyAttachments}
                       setAttachments={setReplyAttachments}
                       addComment={addCommentReply}
@@ -234,6 +231,7 @@ const Comments = (props) => {
                       cta={'Add Reply'}
                       placeholder={'Adding a Reply'}
                       className='reply-form'
+                      type='reply'
                     />
                   )}
               </div>

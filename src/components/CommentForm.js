@@ -17,7 +17,8 @@ const CommentForm = (props) => {
     comment,
     setComment,
     cta,
-    placeholder
+    placeholder,
+    type
   } = props
 
   const {
@@ -48,6 +49,12 @@ const CommentForm = (props) => {
     setAttachments([...attachments, ...newFilesArray])
   }
 
+  const handleReply = (data) => {
+    const newReply = {}
+    newReply[id] = data
+    setComment({ ...comment, ...newReply })
+  }
+
   useEffect(() => {
     fetchUsers()
   }, [])
@@ -59,8 +66,12 @@ const CommentForm = (props) => {
           <MentionsInput
             id='Comments'
             data-cy={`comment-input-${id}`}
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
+            value={type === 'reply' ? comment[id] : comment}
+            onChange={(e) =>
+              type === 'reply'
+                ? handleReply(e.target.value)
+                : setComment(e.target.value)
+            }
             placeholder={placeholder}
             allowSuggestionsAboveCursor={true}
             className='mentions'
@@ -88,7 +99,11 @@ const CommentForm = (props) => {
             <Button
               className='btn btn-secondary btn-comment'
               data-cy={`btn-comment-${id}`}
-              onClick={(e) => addComment(e, { Comments: comment })}
+              onClick={(e) =>
+                type === 'reply'
+                  ? addComment(e, { Comments: comment[id] }, id)
+                  : addComment(e, { Comments: comment })
+              }
               type='button'
             >
               {cta}
