@@ -79,6 +79,7 @@ const CommentForm = (props) => {
               className='file'
               multiple={true}
               onChange={handleFileChange}
+              accept='image/*'
             />
             <label htmlFor={`file-${id}`} className='file-button-label'>
               <EOS_ATTACHMENT className='eos-icons' size='l' />
