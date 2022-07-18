@@ -1,7 +1,10 @@
 .footer-main {
   align-items: center;
+  bottom: 0px;
   display: flex;
   flex-direction: row;
+  position: static;
+  width: 100%;
 
   a {
     padding: 10px 25px;

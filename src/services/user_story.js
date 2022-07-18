@@ -111,6 +111,10 @@ const userStory = {
           author {
             id
             username
+            profilePicture {
+              id
+              url
+            }
           }
           Attachment {
             id
