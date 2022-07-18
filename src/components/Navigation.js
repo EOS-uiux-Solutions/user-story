@@ -66,14 +66,16 @@ const Navigation = (props) => {
   }
 
   useEffect(() => {
-    if (authState && authState.isAuthenticated) {
-      dispatch({
-        type: 'AUTHENTICATE'
-      })
-    } else {
-      dispatch({
-        type: 'DEAUTHENTICATE'
-      })
+    if (SSO) {
+      if (authState && authState.isAuthenticated) {
+        dispatch({
+          type: 'AUTHENTICATE'
+        })
+      } else {
+        dispatch({
+          type: 'DEAUTHENTICATE'
+        })
+      }
     }
   }, [authState])
 

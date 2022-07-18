@@ -7,11 +7,12 @@ import Login from './Login'
 import UserProfile from '../components/UserProfile'
 import userStory from '../services/user_story'
 import { useOktaAuth } from '@okta/okta-react'
+const { SSO } = require('../config.json')
 
 const MyProfile = () => {
   const userId = localStorage.getItem('id')
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { authState, oktaAuth } = useOktaAuth() === null ? null : useOktaAuth()
+  // eslint-disable-next-line react-hooks/rules-of-hooks, no-var
+  if (SSO) var { authState, oktaAuth } = useOktaAuth()
 
   const { state } = useContext(Context)
 
