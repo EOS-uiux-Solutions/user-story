@@ -1,3 +1,4 @@
+/* eslint-disable no-var */
 import React, { useState, useEffect, useRef, useContext } from 'react'
 import { Link, navigate } from '@reach/router'
 import {
@@ -11,12 +12,22 @@ import eosIcon from '../assets/images/user-story-logo.svg'
 import useAuth from '../hooks/useAuth'
 import Context from '../modules/Context'
 import Notifications from './Notifications'
+import Button from './Button'
+import { useOktaAuth } from '@okta/okta-react'
+const { SSO } = require('../config.json')
 
 const Navigation = (props) => {
-  const { logout } = useAuth()
+  const { login, logout } = useAuth()
 
-  const userName = localStorage.getItem('username')
-  const userEmail = localStorage.getItem('email')
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  if (SSO) var { authState } = useOktaAuth()
+
+  const userName = SSO
+    ? authState?.idToken?.claims?.preferred_username
+    : localStorage.getItem('username')
+  const userEmail = SSO
+    ? authState?.idToken?.claims?.email
+    : localStorage.getItem('email')
 
   const { state, dispatch } = useContext(Context)
 
@@ -40,6 +51,11 @@ const Navigation = (props) => {
     }
   }, [userDropdownContainer])
 
+  const handleLogin = () => {
+    if (SSO) login()
+    else navigate('/login')
+  }
+
   const handleLogout = async () => {
     await logout()
     dispatch({
@@ -48,6 +64,20 @@ const Navigation = (props) => {
     toast.success('You are now logged out of the application')
     navigate('/')
   }
+
+  useEffect(() => {
+    if (SSO) {
+      if (authState && authState.isAuthenticated) {
+        dispatch({
+          type: 'AUTHENTICATE'
+        })
+      } else {
+        dispatch({
+          type: 'DEAUTHENTICATE'
+        })
+      }
+    }
+  }, [authState])
 
   return (
     <header className='nav-header'>
@@ -65,9 +95,13 @@ const Navigation = (props) => {
           </Link>
         )}
         {!state.auth && (
-          <Link className='btn btn-default' data-cy='btn-signin' to='/login'>
+          <Button
+            className='btn btn-default'
+            data-cy='btn-signin'
+            onClick={handleLogin}
+          >
             Sign In
-          </Link>
+          </Button>
         )}
         <Notifications />
         {state.auth && (
