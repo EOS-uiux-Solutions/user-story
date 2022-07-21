@@ -77,7 +77,7 @@ const Navigation = (props) => {
         })
       }
     }
-  }, [authState])
+  }, [authState, dispatch])
 
   return (
     <header className='nav-header'>
