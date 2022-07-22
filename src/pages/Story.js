@@ -43,11 +43,12 @@ const Story = (props) => {
     setIsOpen(!isOpen)
   }
 
+  const fetchStory = async () => {
+    const response = await userStory.getStory(storyId)
+    setStory(response.data.data.userStory)
+  }
+
   useEffect(() => {
-    const fetchStory = async () => {
-      const response = await userStory.getStory(storyId)
-      setStory(response.data.data.userStory)
-    }
     trackPromise(fetchStory())
     const editStory = async () => {
       const check = await userStory.checkAuthor(userId, storyId)
@@ -114,8 +115,8 @@ const Story = (props) => {
           <div
             className={
               story.user_story_comments.length !== 0 || editor
-                ? 'body-content story-page-second'
-                : 'body-content story-page'
+                ? 'body-content flex story-page-second'
+                : 'body-content flex story-page'
             }
           >
             <div className='body-wrapper body-wrapper-left'>
@@ -217,12 +218,6 @@ const Story = (props) => {
                     )}
                   </div>
                 )}
-                <div className='right-nav'>
-                  <StoryPageTimeline
-                    story={story}
-                    currentStatus={story.user_story_status.Status}
-                  />
-                </div>
               </div>
               <div className='story-buttons-container-bottom'>
                 {editor ? (
@@ -277,6 +272,13 @@ const Story = (props) => {
                 />
               )}
               <Comments storyId={storyId} />
+            </div>
+            <div className='body-wrapper-right'>
+              <StoryPageTimeline
+                story={story}
+                currentStatus={story.user_story_status.Status}
+                fetchStory={fetchStory}
+              />
             </div>
           </div>
         </>

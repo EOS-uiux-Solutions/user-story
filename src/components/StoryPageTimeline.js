@@ -78,6 +78,7 @@ const StoryPageTimeline = (props) => {
       setVotes((votes) => votes + 1)
     }
     setVoteClicked(false)
+    props.fetchStory()
   }
 
   return (
@@ -105,6 +106,25 @@ const StoryPageTimeline = (props) => {
         >
           {votes} Votes
         </div>
+      </div>
+      <div className='story-voters-list flex'>
+        {story.followers.map((follower, key) => (
+          <img
+            className='avatar'
+            src={
+              follower.profilePicture && follower.profilePicture.url
+                ? follower.profilePicture.url
+                : `https://avatars.dicebear.com/api/jdenticon/${follower.username}.svg`
+            }
+            alt='Default User Avatar'
+            key={key}
+          />
+        ))}
+      </div>
+      <div className='story-voters-list-modal'>
+        <p className='text' onClick={togglePopup}>
+          See All Voters
+        </p>
         {isOpen && (
           <Modal
             content={
