@@ -5,7 +5,7 @@
 }
 
 .status-element {
-  width: 150px;
+  width: 100%;
   z-index: 20;
 
   .status {
@@ -21,5 +21,54 @@
       background-color: $light-gray;
       padding: 13px;
     }
+  }
+}
+
+.stepper {
+  align-items: flex-start !important;
+  padding: 10px;
+
+  .step {
+    align-items: center;
+    display: flex;
+    height: 1.5rem;
+    justify-content: center;
+    width: 1.5rem;
+  }
+
+  .eos-icons {
+    margin-right: 0px;
+  }
+
+  .progress,
+  .completed {
+  
+    .eos-icons {
+      fill: white;
+    }
+  }
+
+  .progress,
+  .progress:after {
+    background: $hyper-link-hover-color !important;
+    fill: $hyper-link-hover-color !important;
+  }
+
+  .completed,
+  .completed:after {
+    background: $hyper-link-color !important;
+    fill: $hyper-link-color !important;
+  }
+
+  .title {
+    margin-top: 3px;
+    font-family: $font-family;
+  }
+
+  .progress-bar {
+    background: $medium-gray;
+    fill: $medium-gray;
+    height: 20px;
+    margin: 5px 0px 5px 10px;
   }
 }

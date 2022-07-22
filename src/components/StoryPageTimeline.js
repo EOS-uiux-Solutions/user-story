@@ -4,7 +4,7 @@ import { Link } from '@reach/router'
 import userStory from '../services/user_story'
 import Lists from '../utils/Lists'
 import { EOS_THUMB_UP } from 'eos-icons-react'
-import storyPagePattern from '../assets/images/story-page-pattern.svg'
+import { Stepper, Step, StepTitle } from 'react-custom-stepper'
 
 const StoryPageTimeline = (props) => {
   const { story, currentStatus } = props
@@ -25,7 +25,7 @@ const StoryPageTimeline = (props) => {
 
   const [isOpen, setIsOpen] = useState(false)
 
-  const [previousStatuses, setPreviousStatuses] = useState([])
+  const [step, setStep] = useState(0)
 
   const togglePopup = () => {
     setIsOpen(!isOpen)
@@ -33,13 +33,12 @@ const StoryPageTimeline = (props) => {
 
   useEffect(() => {
     const setStatuses = () => {
-      const tempList = []
       for (let i = 0; i < Lists.stateList.length; i++) {
-        tempList.push(Lists.stateList[i].status)
-        if (Lists.stateList[i].status === currentStatus) break
+        if (Lists.stateList[i].status === currentStatus) {
+          setStep(i - 1)
+          break
+        }
       }
-
-      setPreviousStatuses(tempList)
     }
     setStatuses()
   }, [currentStatus])
@@ -163,30 +162,13 @@ const StoryPageTimeline = (props) => {
         )}
       </div>
       <div className='storypage-timeline'>
-        {Lists.stateList.map((ele, key) => {
-          return (
-            <div className='status-element' key={key}>
-              {previousStatuses.includes(ele.status) ? (
-                <div className='status-current'>
-                  <div className='status-icon'>
-                    {ele.icon}
-                    {ele.status}
-                  </div>
-                </div>
-              ) : (
-                <div className='status-previous'>
-                  <div className='status-icon'>
-                    {ele.icon}
-                    {ele.status}
-                  </div>
-                </div>
-              )}
-            </div>
-          )
-        })}
-      </div>
-      <div className='story-pattern'>
-        <img src={storyPagePattern} alt='pattern' />
+        <Stepper vertical step={step}>
+          {Lists.stateList.slice(1).map((ele) => (
+            <Step customContent={() => ele.icon}>
+              <StepTitle>{ele.status}</StepTitle>
+            </Step>
+          ))}
+        </Stepper>
       </div>
     </div>
   )
