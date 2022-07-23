@@ -25,7 +25,7 @@
 }
 
 .stepper {
-  align-items: flex-start !important;
+  margin-left: -45%;
   padding: 10px;
 
   .step {
@@ -42,33 +42,21 @@
 
   .progress,
   .completed {
-  
+
     .eos-icons {
       fill: white;
     }
   }
 
-  .progress,
-  .progress:after {
-    background: $hyper-link-hover-color !important;
-    fill: $hyper-link-hover-color !important;
-  }
-
-  .completed,
-  .completed:after {
-    background: $hyper-link-color !important;
-    fill: $hyper-link-color !important;
-  }
-
   .title {
-    margin-top: 3px;
     font-family: $font-family;
+    margin-top: 3px;
   }
 
   .progress-bar {
     background: $medium-gray;
     fill: $medium-gray;
     height: 20px;
-    margin: 5px 0px 5px 10px;
+    margin: 5px 0px;
   }
 }

@@ -50,6 +50,10 @@ const Story = (props) => {
 
   useEffect(() => {
     trackPromise(fetchStory())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
     const editStory = async () => {
       const check = await userStory.checkAuthor(userId, storyId)
       if (check.data) {
