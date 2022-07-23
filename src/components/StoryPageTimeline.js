@@ -6,6 +6,31 @@ import Lists from '../utils/Lists'
 import { EOS_THUMB_UP } from 'eos-icons-react'
 import { Stepper, Step, StepTitle } from 'react-custom-stepper'
 
+const stepperTheme = {
+  light: {
+    step: {
+      progress: {
+        background: '#15578f',
+        fill: '#15578f'
+      },
+      completed: {
+        background: '#008ACF',
+        fill: '#008ACF'
+      }
+    },
+    progressBar: {
+      progress: {
+        background: '#15578f',
+        fill: '#15578f'
+      },
+      completed: {
+        background: '#008ACF',
+        fill: '#008ACF'
+      }
+    }
+  }
+}
+
 const StoryPageTimeline = (props) => {
   const { story, currentStatus } = props
 
@@ -162,9 +187,9 @@ const StoryPageTimeline = (props) => {
         )}
       </div>
       <div className='storypage-timeline'>
-        <Stepper vertical step={step}>
-          {Lists.stateList.slice(1).map((ele) => (
-            <Step customContent={() => ele.icon}>
+        <Stepper vertical step={step} theme={stepperTheme}>
+          {Lists.stateList.slice(1).map((ele, key) => (
+            <Step customContent={() => ele.icon} key={key}>
               <StepTitle>{ele.status}</StepTitle>
             </Step>
           ))}
