@@ -132,7 +132,7 @@ const Comments = (props) => {
                   alt='Default User Avatar'
                 ></img>
               </div>
-              <div className='comment-content' data-cy='comment-content'>
+              <div className='comment-content'>
                 <div className='comment-content-body'>
                   <div className='top'>
                     <Link
@@ -149,6 +149,7 @@ const Comments = (props) => {
                   <div
                     dangerouslySetInnerHTML={{ __html: data.Comments }}
                     className='text'
+                    data-cy='comment-content'
                   />
                   <div>
                     {!!data.attachment.length && (
