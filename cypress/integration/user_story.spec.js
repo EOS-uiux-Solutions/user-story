@@ -86,7 +86,7 @@ describe('Tests for story page', () => {
 
     cy.get('[data-cy=comment-input-2]').type(testComment)
 
-    cy.get('[data-cy=btn-comment-2]').click()
+    cy.get('[data-cy=btn-comment-2]').click({force: true})
 
     cy.get('[data-cy=comment-content]').contains(testComment)
 
