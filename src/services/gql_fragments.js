@@ -5,6 +5,10 @@ export const BASIC_STORY_INFO_FRAGMENT = `fragment BasicStoryInfo on UserStory {
   followers {
     id
     username
+    profilePicture {
+      id
+      url
+    }
   }
 }`
 

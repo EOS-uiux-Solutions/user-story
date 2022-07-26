@@ -45,9 +45,13 @@ const userStory = {
               userStories(sort: "createdAt:desc", limit: 5, start: ${
                 (page - 1) * 5
               }, where: {
-                  user_story_status : {
-                    Status: "${currentStateSelected}"
-                  },
+                  ${
+                    currentStateSelected !== 'All'
+                      ? `user_story_status : {
+                      Status: "${currentStateSelected}"
+                    },`
+                      : ''
+                  }
                   author: {
                     ${authorId}
                     username_contains: "${authorQuery}"
@@ -107,6 +111,10 @@ const userStory = {
           author {
             id
             username
+            profilePicture {
+              id
+              url
+            }
           }
           Attachment {
             id
@@ -140,9 +148,13 @@ const userStory = {
     const storyCountQuery = {
       query: `query {
               userStoriesConnection(where: {
-                user_story_status: {
-                  Status: "${currentStateSelected}"
-                },
+                ${
+                  currentStateSelected !== 'All'
+                    ? `user_story_status : {
+                    Status: "${currentStateSelected}"
+                  },`
+                    : ''
+                }
                 author: {
                   ${authorId}
                   username_contains: "${authorQuery}"
@@ -378,6 +390,9 @@ const userStory = {
             user {
               id
               username
+              profilePicture{
+                url
+              }
             }
             createdAt
             attachment {
@@ -390,6 +405,9 @@ const userStory = {
               user {
                 id
                 username
+                profilePicture{
+                  url
+                }
               }
               attachment {
                 id

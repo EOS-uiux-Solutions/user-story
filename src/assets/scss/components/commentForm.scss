@@ -1,13 +1,15 @@
 .comment {
-  &-form {
-    margin: 16px 0px;
-  }
 
   &-input {
     align-items: flex-end;
     display: flex;
     margin-bottom: 5px;
-    width: fit-content;
+    width: 100%;
+
+    .buttons {
+      align-items: center;
+    }
+
   }
 }
 
@@ -30,4 +32,10 @@
   &-button-label:hover {
     cursor: pointer;
   }
+}
+
+.no-comments {
+  padding: 2rem 0px;
+  text-align: center;
+  width: 100%;
 }

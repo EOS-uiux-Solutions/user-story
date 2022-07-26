@@ -17,7 +17,8 @@ const CommentForm = (props) => {
     comment,
     setComment,
     cta,
-    placeholder
+    placeholder,
+    type
   } = props
 
   const {
@@ -48,19 +49,29 @@ const CommentForm = (props) => {
     setAttachments([...attachments, ...newFilesArray])
   }
 
+  const handleReply = (data) => {
+    const newReply = {}
+    newReply[id] = data
+    setComment({ ...comment, ...newReply })
+  }
+
   useEffect(() => {
     fetchUsers()
   }, [])
 
   return (
-    <form className='comment-form'>
+    <form className={`comment-form ${props.className}`}>
       <div className='flex flex-row'>
-        <div className='comment-input'>
+        <div className='comment-input flex flex-column'>
           <MentionsInput
             id='Comments'
             data-cy={`comment-input-${id}`}
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
+            value={type === 'reply' ? comment[id] : comment}
+            onChange={(e) =>
+              type === 'reply'
+                ? handleReply(e.target.value)
+                : setComment(e.target.value)
+            }
             placeholder={placeholder}
             allowSuggestionsAboveCursor={true}
             className='mentions'
@@ -72,26 +83,32 @@ const CommentForm = (props) => {
               markup={`<a class='mentions' href=${window.location.origin}/profile/__id__>@__display__</a>`}
             />
           </MentionsInput>
-          <div className='file-input'>
-            <input
-              type='file'
-              id={`file-${id}`}
-              className='file'
-              multiple={true}
-              onChange={handleFileChange}
-            />
-            <label htmlFor={`file-${id}`} className='file-button-label'>
-              <EOS_ATTACHMENT className='eos-icons' size='l' />
-            </label>
+          <div className='buttons flex flex-row-reverse'>
+            <div className='file-input'>
+              <input
+                type='file'
+                id={`file-${id}`}
+                className='file'
+                multiple={true}
+                onChange={handleFileChange}
+              />
+              <label htmlFor={`file-${id}`} className='file-button-label'>
+                <EOS_ATTACHMENT className='eos-icons' size='l' />
+              </label>
+            </div>
+            <Button
+              className='btn btn-secondary btn-comment'
+              data-cy={`btn-comment-${id}`}
+              onClick={(e) =>
+                type === 'reply'
+                  ? addComment(e, { Comments: comment[id] }, id)
+                  : addComment(e, { Comments: comment })
+              }
+              type='button'
+            >
+              {cta}
+            </Button>
           </div>
-          <Button
-            className='btn btn-secondary btn-comment'
-            data-cy={`btn-comment-${id}`}
-            onClick={(e) => addComment(e, { Comments: comment })}
-            type='button'
-          >
-            {cta}
-          </Button>
         </div>
       </div>
       {errors.Comments && <FormError message='Reply cannot be empty' />}

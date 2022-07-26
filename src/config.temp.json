@@ -1,0 +1,7 @@
+{
+  "apiURL": "https://strapi.userstory.site",
+  "APP_ENV": "dev",
+  "SSO" : false,
+  "issuer": "",
+  "clientId": ""
+}

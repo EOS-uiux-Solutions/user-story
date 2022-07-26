@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  EOS_ALL_INCLUSIVE,
   EOS_SCHEDULE,
   EOS_CHECK_CIRCLE,
   EOS_MODE_EDIT,
@@ -10,6 +11,10 @@ import {
 
 const Lists = {
   stateList: [
+    {
+      icon: <EOS_ALL_INCLUSIVE className='eos-icons' />,
+      status: 'All'
+    },
     {
       icon: <EOS_SCHEDULE className='eos-icons' />,
       status: 'Under consideration'

@@ -1,7 +1,7 @@
 import React from 'react'
 import { navigate, Link } from '@reach/router'
 import { EOS_COMMENT, EOS_ATTACHMENT } from 'eos-icons-react'
-
+import NoStory from './NoStory'
 import Vote from './Vote'
 import { strip } from '../utils/filterText'
 import Skeleton from 'react-loading-skeleton'
@@ -112,7 +112,7 @@ const StoriesList = (props) => {
           )
         })
       ) : (
-        <h3>No stories</h3>
+        <NoStory />
       )}
     </div>
   )
