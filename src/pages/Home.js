@@ -85,13 +85,6 @@ const Home = () => {
                 solutions that enhance your experience.
               </h2>
             </div>
-            <div className='img-wrap'>
-              <img
-                className='profile-picture'
-                src={require(`../assets/images/user-story-graphic.svg`)}
-                alt='profile pic'
-              />
-            </div>
           </div>
           <Stories />
         </div>

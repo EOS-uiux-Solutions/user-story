@@ -6,6 +6,7 @@ import { Link, navigate } from '@reach/router'
 import { useTranslation } from 'react-i18next'
 import useAuth from '../hooks/useAuth'
 import { Helmet } from 'react-helmet'
+import toast from 'react-hot-toast'
 
 import Button from '../components/Button'
 import FormError from '../components/FormError'
@@ -44,6 +45,7 @@ export const Login = (props) => {
       dispatch({
         type: 'AUTHENTICATE'
       })
+      toast.success(`Logged in successfully as ${payload.user.username}`)
       navigate('/', { replace: true })
     } catch (e) {}
   }
@@ -77,8 +79,8 @@ export const Login = (props) => {
                   data-cy='login-username'
                   {...register('identifier', { required: true })}
                 />
-                {errors.identifier && (
-                  <FormError type={errors.identifier.type} />
+                {errors?.identifier && (
+                  <FormError type={errors?.identifier.type} />
                 )}
               </div>
 
@@ -99,13 +101,13 @@ export const Login = (props) => {
                     onClick={() => toggleShowPassword(!showPassword)}
                   >
                     {showPassword ? (
-                      <EOS_VISIBILITY_OFF className='eos-icons eos-18' />
-                    ) : (
                       <EOS_VISIBILITY className='eos-icons eos-18' />
+                    ) : (
+                      <EOS_VISIBILITY_OFF className='eos-icons eos-18' />
                     )}
                   </div>
                 </div>
-                {errors.password && <FormError type={errors.password.type} />}
+                {errors?.password && <FormError type={errors?.password.type} />}
               </div>
 
               <Button

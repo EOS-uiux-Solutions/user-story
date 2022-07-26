@@ -6,7 +6,7 @@ import {
   EOS_SETTINGS,
   EOS_EXIT_TO_APP
 } from 'eos-icons-react'
-
+import toast from 'react-hot-toast'
 import eosIcon from '../assets/images/user-story-logo.svg'
 import useAuth from '../hooks/useAuth'
 import Context from '../modules/Context'
@@ -45,6 +45,7 @@ const Navigation = (props) => {
     dispatch({
       type: 'DEAUTHENTICATE'
     })
+    toast.success('You are now logged out of the application')
     navigate('/')
   }
 

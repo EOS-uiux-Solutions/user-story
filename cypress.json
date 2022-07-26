@@ -6,6 +6,11 @@
       "email": "test1@gmail.com",
       "password": "password"
     },
+    "testUser2":{
+      "username": "user1",
+      "email": "test2@gmail.com",
+      "password": "password"
+    },
     "updatedUser": {
       "name": "user1-updated",
       "bio": "Hello, this is a updated bio for testing",

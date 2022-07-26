@@ -11,7 +11,7 @@ import { EOS_SHARE, EOS_CONTENT_COPY } from 'eos-icons-react'
 import StoryPageTimeline from '../components/StoryPageTimeline'
 import ShowMore from '../components/ShowMore'
 import { Helmet } from 'react-helmet'
-
+import toast from 'react-hot-toast'
 import MarkdownEditor from '../components/MarkdownEditor'
 import { filterDescriptionText } from '../utils/filterText'
 import Comments from '../components/Comments'
@@ -73,6 +73,7 @@ const Story = (props) => {
       ...story,
       Description: `${combinedDescription}`
     })
+    toast.success('Changes saved successfully')
   }
 
   if (story === null) {
@@ -89,6 +90,7 @@ const Story = (props) => {
     dummy.select()
     document.execCommand('copy')
     document.body.removeChild(dummy)
+    toast.success('Link copied to clipboard')
   }
 
   const hashtagsArray = ['EOS', 'userstory']
@@ -191,6 +193,12 @@ const Story = (props) => {
                         </Button>
                       </>
                     }
+                    <img
+                      src={story.product.logo?.url}
+                      className='preview image'
+                      style={{ width: '150px' }}
+                      alt={story.product.Name}
+                    />
                   </div>
                 </div>
               </div>

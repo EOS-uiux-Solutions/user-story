@@ -1,6 +1,7 @@
 import React, { useEffect, useReducer } from 'react'
 import { Router } from '@reach/router'
 import './assets/scss/index.scss'
+import { Toaster } from 'react-hot-toast'
 
 import Home from './pages/Home'
 import Login from './pages/Login'
@@ -75,6 +76,7 @@ const App = () => {
         <Page404 default />
       </Router>
       <Footer />
+      <Toaster />
     </Context.Provider>
   )
 }

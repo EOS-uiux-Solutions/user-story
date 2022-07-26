@@ -77,34 +77,37 @@ const Comments = (props) => {
     const formData = new FormData()
     data.user = id
     data.user_story = storyId
-    formData.append('data', JSON.stringify(data))
+    if (data.Comments.trim() !== '') {
+      formData.append('data', JSON.stringify(data))
 
-    attachFiles(formData, attachments)
+      attachFiles(formData, attachments)
 
-    await userStory.postComment(formData)
+      await userStory.postComment(formData)
 
-    setComment('')
-    setAttachments([])
+      setComment('')
+      setAttachments([])
 
-    fetchStoryComments()
+      fetchStoryComments()
+    }
   }
 
   const addCommentReply = async (e, data) => {
-    console.log(data)
     const formData = new FormData()
 
     data.user = id
     data.user_story_comment = commentId
-    formData.append('data', JSON.stringify(data))
+    if (data.Comments.trim() !== '') {
+      formData.append('data', JSON.stringify(data))
 
-    attachFiles(formData, replyAttachments)
+      attachFiles(formData, replyAttachments)
 
-    await userStory.postCommentReply(formData)
-    setCommentReply('')
-    setReplyAttachments([])
-    setRepliesToggled(null)
+      await userStory.postCommentReply(formData)
+      setCommentReply('')
+      setReplyAttachments([])
+      setRepliesToggled(null)
 
-    fetchStoryComments()
+      fetchStoryComments()
+    }
   }
 
   return (
