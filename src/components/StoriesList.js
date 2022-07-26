@@ -87,7 +87,7 @@ const StoriesList = (props) => {
                     <small>Created by</small>
                     <Link
                       className='link link-default'
-                      to={`/profile/${story.author.id}`}
+                      to={`/profile/${story.author.username}`}
                     >
                       {story.author.username}
                     </Link>
