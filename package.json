@@ -19,6 +19,7 @@
     "moment": "^2.29.1",
     "node-sass": "^7.0.1",
     "react": "^17.0.2",
+    "react-custom-stepper": "^0.2.7",
     "react-dom": "^17.0.2",
     "react-dropzone": "^11.5.1",
     "react-helmet": "^6.1.0",
