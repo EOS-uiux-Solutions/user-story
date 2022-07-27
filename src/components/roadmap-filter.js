@@ -5,7 +5,7 @@ import Button from './Button'
 
 const RoadmapFilter = (props) => {
   const { selectState, setPage, currentStateSelected } = props
-  const [status, setStatus] = useState('All')
+  const [status, setStatus] = useState('Under consideration')
   const statusDropdownContainer = useRef()
 
   const statusOptions = [...Lists.stateList].reduce(
@@ -18,7 +18,7 @@ const RoadmapFilter = (props) => {
       <div className='roadmap-container'>
         <div className='roadmap'>
           {Lists.stateList &&
-            Lists.stateList.map((state, key) => {
+            Lists.stateList.slice(1).map((state, key) => {
               return (
                 <Button
                   className={`btn btn-tabs
