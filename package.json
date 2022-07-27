@@ -35,7 +35,8 @@
     "react-promise-tracker": "^2.1.0",
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
-    "react-share": "^4.4.0"
+    "react-share": "^4.4.0",
+    "react-switch": "^7.0.0"
   },
   "devDependencies": {
     "cypress": "^9.3.1",

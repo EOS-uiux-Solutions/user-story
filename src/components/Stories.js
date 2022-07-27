@@ -7,13 +7,14 @@ import Pagination from './Pagination'
 import Dropdown from './Dropdown'
 import ProductList from './ProductList'
 import RoadmapFilter from './roadmap-filter'
+import Switch from './Switch'
 // others
 import SearchInput from '../modules/SearchInput'
 import Lists from '../utils/Lists'
 import userStory from '../services/user_story'
 
 const Stories = ({ authorId, followerId }) => {
-  const [currentStateSelected, selectState] = useState('All')
+  const [currentStateSelected, selectState] = useState('Under consideration')
 
   const [page, setPage] = useState(1)
 
@@ -45,6 +46,8 @@ const Stories = ({ authorId, followerId }) => {
 
   const [authorQuery, setAuthorQuery] = useState('')
 
+  const [checked, setChecked] = useState(false)
+
   const getPage = useCallback((page) => {
     setPage(page)
   }, [])
@@ -58,7 +61,8 @@ const Stories = ({ authorId, followerId }) => {
         categoryQuery,
         productQuery,
         searchQuery,
-        followerId
+        followerId,
+        checked
       )
       setStoryCount(response.data.data.userStoriesConnection.aggregate.count)
     }
@@ -70,7 +74,8 @@ const Stories = ({ authorId, followerId }) => {
     searchQuery,
     authorQuery,
     authorId,
-    followerId
+    followerId,
+    checked
   ])
 
   useEffect(() => {
@@ -97,7 +102,8 @@ const Stories = ({ authorId, followerId }) => {
         categoryQuery,
         productQuery,
         searchQuery,
-        followerId
+        followerId,
+        checked
       )
       setStories(response.data.data.userStories)
     }
@@ -110,7 +116,8 @@ const Stories = ({ authorId, followerId }) => {
     searchQuery,
     authorQuery,
     authorId,
-    followerId
+    followerId,
+    checked
   ])
 
   useEffect(() => {
@@ -149,12 +156,6 @@ const Stories = ({ authorId, followerId }) => {
 
   return (
     <div>
-      <RoadmapFilter
-        selectState={selectState}
-        setPage={setPage}
-        currentStateSelected={currentStateSelected}
-      />
-
       <div className='filters'>
         <div className='options-bar'>
           <ProductList setProductQuery={setProductQuery} />
@@ -173,6 +174,12 @@ const Stories = ({ authorId, followerId }) => {
             setCurr={setSort}
             itemList={Lists.sortByList}
           />
+          <Switch
+            checked={checked}
+            setChecked={setChecked}
+            uncheckedOption={'All'}
+            checkedOption={'By roadmap stage'}
+          />
         </div>
         <SearchInput
           searchTerm={searchTerm}
@@ -183,6 +190,13 @@ const Stories = ({ authorId, followerId }) => {
           setAuthorQuery={setAuthorQuery}
         />
       </div>
+      {checked && (
+        <RoadmapFilter
+          selectState={selectState}
+          setPage={setPage}
+          currentStateSelected={currentStateSelected}
+        />
+      )}
       <div className='stories-div'>
         <StoriesList stories={stories} isLoading={promiseInProgress} />
       </div>
