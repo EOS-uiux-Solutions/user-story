@@ -2,16 +2,11 @@
 import axios from 'axios'
 import Context from '../modules/Context'
 import { useContext } from 'react'
-import { useOktaAuth } from '@okta/okta-react'
+import { navigate } from '@reach/router'
 const { apiURL, SSO } = require('../config.json')
 
 const useAuth = () => {
   const { dispatch } = useContext(Context)
-
-  if (SSO) {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    var { authState, oktaAuth } = useOktaAuth()
-  }
 
   const registerUser = async (credentials) => {
     const { data: payload } = await axios
@@ -35,16 +30,7 @@ const useAuth = () => {
 
   const login = async (credentials) => {
     if (SSO) {
-      await oktaAuth.signInWithRedirect()
-      if (!authState || authState.isAuthenticated) {
-        dispatch({
-          type: 'DEAUTHENTICATE'
-        })
-      } else {
-        dispatch({
-          type: 'AUTHENTICATE'
-        })
-      }
+      navigate(`${apiURL}/connect/okta`)
     } else {
       const { data: payload } = await axios
         .post(`${apiURL}/auth/local`, credentials, { withCredentials: true })
@@ -65,29 +51,20 @@ const useAuth = () => {
   }
 
   const logout = async () => {
-    if (SSO) {
-      await oktaAuth.signOut()
-      if (authState || authState.isAuthenticated) {
-        dispatch({
-          type: 'DEAUTHENTICATE'
-        })
-      }
-    } else {
-      await axios
-        .post(`${apiURL}/logout`, {}, { withCredentials: true })
-        .catch((err) => {
-          if (err.message === 'Network Error')
-            dispatch({
-              type: 'ERROR',
-              payload: err.message
-            })
-          else
-            dispatch({
-              type: 'ERROR',
-              payload: err.response.data.message[0].messages[0].message
-            })
-        })
-    }
+    await axios
+      .post(`${apiURL}/logout`, {}, { withCredentials: true })
+      .catch((err) => {
+        if (err.message === 'Network Error')
+          dispatch({
+            type: 'ERROR',
+            payload: err.message
+          })
+        else
+          dispatch({
+            type: 'ERROR',
+            payload: err.response.data.message[0].messages[0].message
+          })
+      })
     localStorage.clear()
   }
 

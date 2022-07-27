@@ -1,9 +1,7 @@
 import React, { useEffect, useReducer } from 'react'
-import { Router, navigate } from '@reach/router'
+import { Router } from '@reach/router'
 import './assets/scss/index.scss'
 import { Toaster } from 'react-hot-toast'
-import { OktaAuth, toRelativeUrl } from '@okta/okta-auth-js'
-import { LoginCallback, Security } from '@okta/okta-react'
 
 import Home from './pages/Home'
 import Login from './pages/Login'
@@ -22,21 +20,11 @@ import Notifications from './pages/Notifications'
 import Context from './modules/Context'
 import ContextReducer from './modules/ContextReducer'
 import Footer from './components/Footer'
-const { SSO, issuer, clientId } = require('./config.json')
+import LoginRedirect from './components/LoginRedirect'
 
 const initialState = {
   auth: false,
   errorCode: null
-}
-
-let oktaAuth
-
-if (SSO) {
-  oktaAuth = new OktaAuth({
-    issuer: issuer,
-    clientId: clientId,
-    redirectUri: `${window.location.origin}/login/callback`
-  })
 }
 
 const App = (props) => {
@@ -70,11 +58,7 @@ const App = (props) => {
     }
   }, [userId])
 
-  const restoreOriginalUri = async (_oktaAuth, originalUri) => {
-    navigate(toRelativeUrl(originalUri || '/', window.location.origin))
-  }
-
-  const routes = (
+  return (
     <Context.Provider value={{ state, dispatch }}>
       <Router>
         <Home path='/' />
@@ -91,22 +75,12 @@ const App = (props) => {
         <ChangePassword path='/changePassword' />
         <Policies path='/policies' />
         <Page404 default />
-        <LoginCallback path='/login/callback' />
+        <LoginRedirect path='/connect/okta/redirect' />
       </Router>
       <Footer />
       <Toaster />
     </Context.Provider>
   )
-
-  if (SSO) {
-    return (
-      <Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri}>
-        {routes}
-      </Security>
-    )
-  } else {
-    return routes
-  }
 }
 
 export default App
