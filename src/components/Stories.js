@@ -178,7 +178,7 @@ const Stories = ({ authorId, followerId }) => {
             checked={checked}
             setChecked={setChecked}
             uncheckedOption={'All'}
-            checkedOption={'By roadmap stage'}
+            checkedOption={'By Roadmap Stage'}
           />
         </div>
         <SearchInput

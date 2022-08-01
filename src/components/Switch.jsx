@@ -16,6 +16,7 @@ function SwitchComponent({
         checkedIcon={false}
         height={20}
         width={40}
+        onColor='#008ACF'
       />
       <p className='option'>{checkedOption}</p>
     </div>

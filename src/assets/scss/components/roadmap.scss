@@ -20,10 +20,18 @@
   }
 
   .btn-tabs {
-    border: 2px solid $status-tabs-bg;
+    background: $eos-white;
+    border: 1px solid $light-gray;
     border-radius: 35px;
     color: $light-gray;
     font-weight: bold;
+    padding: 8px 12px;
+
+    &-wrapper {
+      background: $eos-cerulean-50;
+      padding: 0px 10px;
+      z-index: 10;
+    }
 
     .eos-icons {
       fill: $light-gray;

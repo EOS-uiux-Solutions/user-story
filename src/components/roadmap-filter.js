@@ -20,27 +20,28 @@ const RoadmapFilter = (props) => {
           {Lists.stateList &&
             Lists.stateList.slice(1).map((state, key) => {
               return (
-                <Button
-                  className={`btn btn-tabs
-                    ${
-                      currentStateSelected === state.status
-                        ? 'btn-tabs-selected'
-                        : ''
-                    }`}
-                  key={key}
-                  onClick={() => {
-                    selectState(state.status)
-                    setPage(1)
-                  }}
-                >
-                  {state.icon}
-                  {state.status}
-                </Button>
+                <span className='btn-tabs-wrapper'>
+                  <Button
+                    className={`btn btn-tabs
+                      ${
+                        currentStateSelected === state.status
+                          ? 'btn-tabs-selected'
+                          : ''
+                      }`}
+                    key={key}
+                    onClick={() => {
+                      selectState(state.status)
+                      setPage(1)
+                    }}
+                  >
+                    {state.icon}
+                    {state.status}
+                  </Button>
+                </span>
               )
             })}
         </div>
       </div>
-
       <div className='roadmap-dropdown'>
         <Dropdown
           title='Status'
