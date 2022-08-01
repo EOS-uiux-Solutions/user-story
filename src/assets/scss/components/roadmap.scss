@@ -59,6 +59,7 @@
 
 .roadmap-one {
   .btn-tabs {
+    border: 1px solid $light-gray;
 
     .eos-icons {
       margin-right: 12px;
@@ -68,7 +69,9 @@
     &-selected,
     &:hover,
     &:focus {
-      border: 2px solid $light-gray;
+      background: $eos-cerulean-900;
+      border: 1px solid $dark-gray-transparent;
+      color: $eos-white;
     }
 
     &:focus {
