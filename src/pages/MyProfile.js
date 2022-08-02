@@ -6,9 +6,13 @@ import Context from '../modules/Context'
 import Login from './Login'
 import UserProfile from '../components/UserProfile'
 import userStory from '../services/user_story'
+import { useOktaAuth } from '@okta/okta-react'
+const { SSO } = require('../config.json')
 
 const MyProfile = () => {
   const userId = localStorage.getItem('id')
+  // eslint-disable-next-line react-hooks/rules-of-hooks, no-var
+  if (SSO) var { authState, oktaAuth } = useOktaAuth()
 
   const { state } = useContext(Context)
 
@@ -37,14 +41,27 @@ const MyProfile = () => {
   }
 
   useEffect(() => {
-    const fetchUserInfo = async () => {
-      const response = await userStory.getUserDetails(userId)
-      setUser(response.data.data.user)
+    console.log(authState)
+    if (!authState || !authState.isAuthenticated) {
+      const fetchUserInfo = async () => {
+        const response = await userStory.getUserDetails(userId)
+        setUser(response.data.data.user)
+      }
+      if (userId) {
+        fetchUserInfo()
+      }
+    } else {
+      console.log(authState.idToken.claims)
+      setUser({
+        username: authState.idToken.claims.preferred_username,
+        email: authState.idToken.claims.email
+      })
+      // You can also get user information from the `/userinfo` endpoint
+      /* oktaAuth.getUser().then((info) => {
+        setUserInfo(info);
+      }); */
     }
-    if (userId) {
-      fetchUserInfo()
-    }
-  }, [userId])
+  }, [authState, oktaAuth, userId])
 
   return state.auth ? (
     <>

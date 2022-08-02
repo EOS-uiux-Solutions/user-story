@@ -12,26 +12,6 @@ $subheader-font-size: 18px;
   }
 }
 
-.search-bar {
-  background-color: $eos-white;
-  border-radius: 10px;
-  justify-content: center;
-  margin: 16px 0px 16px 0px;
-  padding: 20px;
-}
-
-.search-controls {
-  align-items: center;
-  justify-content: center;
-}
-
-.options-bar {
-  justify-content: center;
-  background-color: $eos-white;
-  border-radius: 10px;
-  padding: 8px;
-}
-
 @media (max-width: 900px) {
   .product-introduction {
     display: block;
@@ -41,9 +21,5 @@ $subheader-font-size: 18px;
   .img-wrap {
     display: flex;
     justify-content: center;
-  }
-
-  .options-bar {
-    padding: 8px 0;
   }
 }

@@ -4,6 +4,7 @@
     border-radius: 2px;
     box-sizing: border-box;
     display: inline-flex;
+    flex-direction: column;
     height: 150px;
     margin-bottom: 8px;
     margin-right: 8px;
@@ -20,15 +21,9 @@
 
   &-image {
     display: block;
-    height: 100%;
-    width: auto;
-  }
-
-  &-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    margin-top: 16px;
+    height: 100px;
+    object-fit: contain;
+    width: 140px;
   }
 
   &-remove-button {

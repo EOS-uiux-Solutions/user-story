@@ -1,11 +1,31 @@
 .author-information {
+  align-items: center;
   display: flex;
-  flex-direction: row;
-  margin-left: 3em;
   margin-top: 0.5em;
+
+  & > *:not(:last-child) {
+    margin-right: 3rem;
+  }
+
+  .name,
+  .target-product {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+
+    .product-logo {
+      margin: 0 5px;
+      width: 100px;
+    }
+  }
 
   .user-avatar {
     margin: 0px 0px 0px 16px;
+
+    .avatar {
+      height: 25px;
+      width: 25px;
+    }
   }
 
   .avatar-vote {
@@ -20,13 +40,19 @@
   }
 
   &-description {
-    padding: 0 2em 0 2em;
-    width: 35%;
+    margin: 0;
+    padding: 0 3em 0 0;
   }
 
   &-page {
-    height: 100vh;
+    height: fit-content;
+    min-height: 100vh;
     position: relative;
+
+    &-body {
+      align-items: baseline;
+    }
+
   }
 
   &-page-second {
@@ -35,7 +61,6 @@
   }
 
   &-buttons-container-top {
-    margin-left: 3em;
     margin-top: 1em;
   }
 
@@ -57,7 +82,8 @@
 
 .gallery-container {
   height: 30%;
-  width: 30%;
+  margin: 2rem 0;
+  width: 40%;
 }
 
 .gallery-container-comment {
