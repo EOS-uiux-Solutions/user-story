@@ -2,8 +2,12 @@
   @extend .flex;
   @extend .flex-row;
   @extend .flex-space-between;
-  margin-bottom: 32px;
+  margin: 16px auto;
   position: relative;
+
+  &-container {
+    background: $eos-white;
+  }
 
   &::before {
     border-top: 1px solid gray;
@@ -28,7 +32,7 @@
     padding: 8px 12px;
 
     &-wrapper {
-      background: $eos-cerulean-50;
+      background: $eos-white;
       padding: 0px 10px;
       z-index: 10;
     }

@@ -157,46 +157,48 @@ const Stories = ({ authorId, followerId }) => {
   return (
     <div>
       <div className='filters'>
-        <div className='options-bar'>
-          <ProductList setProductQuery={setProductQuery} />
-          <Dropdown
-            title='Categories'
-            reference={categoryDropdownContainer}
-            curr={category}
-            setCurr={setCategory}
-            itemList={categories}
-            data-cy='category-dropdown'
-          />
-          <Dropdown
-            title='Sort By'
-            reference={sortDropdownContainer}
-            curr={sort}
-            setCurr={setSort}
-            itemList={Lists.sortByList}
-          />
-          <Switch
-            checked={checked}
-            setChecked={setChecked}
-            uncheckedOption={'All'}
-            checkedOption={'By Roadmap Stage'}
+        <div className='filters-top flex'>
+          <div className='options-bar'>
+            <ProductList setProductQuery={setProductQuery} />
+            <Dropdown
+              title='Categories'
+              reference={categoryDropdownContainer}
+              curr={category}
+              setCurr={setCategory}
+              itemList={categories}
+              data-cy='category-dropdown'
+            />
+            <Dropdown
+              title='Sort By'
+              reference={sortDropdownContainer}
+              curr={sort}
+              setCurr={setSort}
+              itemList={Lists.sortByList}
+            />
+            <Switch
+              checked={checked}
+              setChecked={setChecked}
+              uncheckedOption={'All'}
+              checkedOption={'By Roadmap Stage'}
+            />
+          </div>
+          <SearchInput
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            userTerm={userTerm}
+            setUserTerm={setUserTerm}
+            setSearchQuery={setSearchQuery}
+            setAuthorQuery={setAuthorQuery}
           />
         </div>
-        <SearchInput
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          userTerm={userTerm}
-          setUserTerm={setUserTerm}
-          setSearchQuery={setSearchQuery}
-          setAuthorQuery={setAuthorQuery}
-        />
+        {checked && (
+          <RoadmapFilter
+            selectState={selectState}
+            setPage={setPage}
+            currentStateSelected={currentStateSelected}
+          />
+        )}
       </div>
-      {checked && (
-        <RoadmapFilter
-          selectState={selectState}
-          setPage={setPage}
-          currentStateSelected={currentStateSelected}
-        />
-      )}
       <div className='stories-div'>
         <StoriesList stories={stories} isLoading={promiseInProgress} />
       </div>
