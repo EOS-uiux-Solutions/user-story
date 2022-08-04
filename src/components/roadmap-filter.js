@@ -5,7 +5,7 @@ import Button from './Button'
 
 const RoadmapFilter = (props) => {
   const { selectState, setPage, currentStateSelected } = props
-  const [status, setStatus] = useState('All')
+  const [status, setStatus] = useState('Under consideration')
   const statusDropdownContainer = useRef()
 
   const statusOptions = [...Lists.stateList].reduce(
@@ -18,29 +18,30 @@ const RoadmapFilter = (props) => {
       <div className='roadmap-container'>
         <div className='roadmap'>
           {Lists.stateList &&
-            Lists.stateList.map((state, key) => {
+            Lists.stateList.slice(1).map((state, key) => {
               return (
-                <Button
-                  className={`btn btn-tabs
-                    ${
-                      currentStateSelected === state.status
-                        ? 'btn-tabs-selected'
-                        : ''
-                    }`}
-                  key={key}
-                  onClick={() => {
-                    selectState(state.status)
-                    setPage(1)
-                  }}
-                >
-                  {state.icon}
-                  {state.status}
-                </Button>
+                <span className='btn-tabs-wrapper'>
+                  <Button
+                    className={`btn btn-tabs
+                      ${
+                        currentStateSelected === state.status
+                          ? 'btn-tabs-selected'
+                          : ''
+                      }`}
+                    key={key}
+                    onClick={() => {
+                      selectState(state.status)
+                      setPage(1)
+                    }}
+                  >
+                    {state.icon}
+                    {state.status}
+                  </Button>
+                </span>
               )
             })}
         </div>
       </div>
-
       <div className='roadmap-dropdown'>
         <Dropdown
           title='Status'
