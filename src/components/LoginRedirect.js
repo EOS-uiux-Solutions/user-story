@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { navigate, useLocation, useParams } from '@reach/router'
+import { useLocation, useParams, navigate } from '@reach/router'
 import Context from '../modules/Context'
 const { apiURL } = require('../config.json')
 
