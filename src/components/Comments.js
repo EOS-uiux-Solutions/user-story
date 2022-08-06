@@ -125,9 +125,13 @@ const Comments = (props) => {
                 <img
                   className='avatar'
                   src={
-                    data.user.profilePicture && data.user.profilePicture.url
+                    data.user &&
+                    data.user.profilePicture &&
+                    data.user.profilePicture.url
                       ? data.user.profilePicture.url
-                      : `https://avatars.dicebear.com/api/jdenticon/${data.user.username}.svg`
+                      : `https://avatars.dicebear.com/api/jdenticon/${
+                          data.user && data.user.username
+                        }.svg`
                   }
                   alt='Default User Avatar'
                 ></img>
@@ -138,9 +142,9 @@ const Comments = (props) => {
                     <Link
                       className='link link-default'
                       data-cy='comment-username'
-                      to={`/profile/${data.user.id}`}
+                      to={`/profile/${data.user && data.user.id}`}
                     >
-                      {data.user.username}
+                      {data.user && data.user.username}
                     </Link>
                     <div className='metadata'>
                       <div>{moment(data.createdAt).fromNow()}</div>

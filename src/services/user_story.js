@@ -47,7 +47,7 @@ const userStory = {
         (page - 1) * 5
       }, where: {
                   ${
-                    currentStateSelected !== 'All'
+                    currentStateSelected !== 'All' && checked
                       ? `user_story_status : {
                       Status: "${currentStateSelected}"
                     },`
@@ -142,7 +142,8 @@ const userStory = {
     categoryQuery,
     productQuery,
     searchQuery,
-    followerId
+    followerId,
+    checked
   ) => {
     authorId = !authorId ? '' : `id: "${authorId}"`
     followerId = !followerId ? '' : `followers: "${followerId}"`
@@ -150,7 +151,7 @@ const userStory = {
       query: `query {
               userStoriesConnection(where: {
                 ${
-                  currentStateSelected !== 'All'
+                  currentStateSelected !== 'All' && checked
                     ? `user_story_status : {
                     Status: "${currentStateSelected}"
                   },`

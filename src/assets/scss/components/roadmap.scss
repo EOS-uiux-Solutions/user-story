@@ -2,14 +2,18 @@
   @extend .flex;
   @extend .flex-row;
   @extend .flex-space-between;
-  margin-bottom: 32px;
+  margin: 16px auto;
   position: relative;
+
+  &-container {
+    background: $eos-white;
+  }
 
   &::before {
     border-top: 1px solid gray;
     content: '';
     position: absolute;
-    top: 22px;
+    top: 20px;
     width: 100%;
     z-index: 1;
   }
@@ -20,10 +24,21 @@
   }
 
   .btn-tabs {
-    border-bottom: 2px solid transparent;
-    border-radius: 0;
+    background: $eos-white;
+    border: 1px solid $light-gray;
+    border-radius: 35px;
+    color: $light-gray;
+    font-weight: bold;
+    padding: 8px 12px;
+
+    &-wrapper {
+      background: $eos-white;
+      padding: 0px 10px;
+      z-index: 10;
+    }
 
     .eos-icons {
+      fill: $light-gray;
       margin-right: 12px;
       vertical-align: sub;
     }
@@ -31,8 +46,13 @@
     &-selected,
     &:hover,
     &:focus {
-      border-bottom-color: $status-tabs-bg;
-      border-radius: 0px;
+      background-color: $gray-bg;
+      border-radius: 35px;
+      color: $black;
+
+      .eos-icons {
+        fill: $black;
+      }
     }
 
     &:focus {
@@ -43,6 +63,7 @@
 
 .roadmap-one {
   .btn-tabs {
+    border: 1px solid $light-gray;
 
     .eos-icons {
       margin-right: 12px;
@@ -52,7 +73,9 @@
     &-selected,
     &:hover,
     &:focus {
-      border: 2px solid $light-gray;
+      background: $eos-cerulean-900;
+      border: 1px solid $dark-gray-transparent;
+      color: $eos-white;
     }
 
     &:focus {
