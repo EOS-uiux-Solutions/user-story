@@ -1,10 +1,12 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { useLocation, useParams, navigate } from '@reach/router'
 import Context from '../modules/Context'
+import LoadingIndicator from '../modules/LoadingIndicator'
+import axios from 'axios'
+import toast from 'react-hot-toast'
 const { apiURL } = require('../config.json')
 
-const LoginRedirect = (props) => {
-  const [text, setText] = useState('Loading...')
+const LoginRedirect = () => {
   const location = useLocation()
   const params = useParams()
   const { dispatch } = useContext(Context)
@@ -12,24 +14,21 @@ const LoginRedirect = (props) => {
   useEffect(() => {
     // Successfully logged with the provider
     // Now logging with strapi by using the access_token (given by the provider) in props.location.search
-    fetch(`${apiURL}/auth/okta/callback${location.search}`)
+    axios
+      .get(`${apiURL}/auth/okta/callback${location.search}`)
       .then((res) => {
         if (res.status !== 200) {
           throw new Error(`Couldn't login to Strapi. Status: ${res.status}`)
         }
         return res
       })
-      .then((res) => res.json())
       .then((res) => {
         // Successfully logged with Strapi
         // Now saving the jwt to use it for future authenticated requests to Strapi
-        localStorage.setItem('jwt', res.jwt)
-        localStorage.setItem('username', res.user.username)
-        localStorage.setItem('email', res.user.email)
-        localStorage.setItem('id', res.user.id)
-        setText(
-          'You have been successfully logged in. You will be redirected in a few seconds...'
-        )
+        localStorage.setItem('jwt', res.data.jwt)
+        localStorage.setItem('username', res.data.user.username)
+        localStorage.setItem('email', res.data.user.email)
+        localStorage.setItem('id', res.data.user.id)
         dispatch({
           type: 'AUTHENTICATE'
         })
@@ -37,11 +36,12 @@ const LoginRedirect = (props) => {
       })
       .catch((err) => {
         console.log(err)
-        setText('An error occurred, please see the developer console.')
+        toast.error(err.message)
+        setTimeout(() => navigate('/'), 3000)
       })
   }, [dispatch, location.search, params.providerName])
 
-  return <p>{text}</p>
+  return <LoadingIndicator />
 }
 
 export default LoginRedirect
