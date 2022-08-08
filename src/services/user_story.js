@@ -37,7 +37,8 @@ const userStory = {
     productQuery,
     searchQuery,
     followerId,
-    sortType
+    sortType,
+    checked
   ) => {
     authorId = !authorId ? '' : `id: "${authorId}"`
     followerId = !followerId ? '' : `followers: "${followerId}"`

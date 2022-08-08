@@ -48,6 +48,8 @@ const Stories = ({ authorId, followerId }) => {
 
   const [sortType, setSortType] = useState('followers:desc')
 
+  const [checked, setChecked] = useState(false)
+
   const getPage = useCallback((page) => {
     setPage(page)
   }, [])
@@ -109,7 +111,8 @@ const Stories = ({ authorId, followerId }) => {
         productQuery,
         searchQuery,
         followerId,
-        sortType
+        sortType,
+        checked
       )
       setStories(response.data.data.userStories)
     }
@@ -124,7 +127,8 @@ const Stories = ({ authorId, followerId }) => {
     authorId,
     followerId,
     sortType,
-    sort
+    sort,
+    checked
   ])
 
   useEffect(() => {
