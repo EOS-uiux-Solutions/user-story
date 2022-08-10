@@ -32,6 +32,7 @@ const LoginRedirect = () => {
         dispatch({
           type: 'AUTHENTICATE'
         })
+        toast.success(`Logged in successfully as ${res.data.user.username}`)
         setTimeout(() => navigate('/'), 3000) // Redirect to homepage after 3 sec
       })
       .catch((err) => {
