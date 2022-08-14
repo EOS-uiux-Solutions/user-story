@@ -63,3 +63,27 @@ body {
 .hidden {
   display: none;
 }
+
+@media screen and (max-width: 500px) {
+
+  .body-content {
+    margin: 8px;
+    padding: 8px;
+  }
+
+  .body-wrapper {
+
+    &-left {
+      margin-left: 0px;
+      width: 100%;
+    }
+
+    &-right {
+      width: 100%;
+    }
+  }
+
+  .user-avatar {
+    margin: 0px 4px 0px 0px;
+  }
+}
