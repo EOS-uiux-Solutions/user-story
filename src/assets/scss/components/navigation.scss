@@ -17,3 +17,9 @@
     padding: 22px 10px 0;
   }
 }
+
+@media only screen and (max-width: 325px) {
+  .nav-header {
+    flex-direction: column;
+  }
+}
