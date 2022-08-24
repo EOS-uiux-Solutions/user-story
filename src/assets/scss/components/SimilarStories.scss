@@ -1,0 +1,39 @@
+.similar-stories {
+  width: 100%;
+
+  .title {
+    text-align: center;
+    width: 100%;
+  }
+
+  .card {
+    border: 1px solid black;
+    border-radius: 5px;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    min-height: 60px;
+    padding: 5px;
+    width: 100%;
+
+    .subject {
+      margin-block-end: 0px;
+      margin-block-start: 0px;
+    }
+
+    .info {
+      justify-content: space-between;
+      width: 100%;
+
+      .right {
+        span {
+          margin: 0px 5px;
+        }
+      }
+    }
+
+    svg {
+      margin-right: 5px;
+      vertical-align: middle;
+    }
+  }
+}
