@@ -1,7 +1,7 @@
 import React from 'react'
 import 'react-markdown-editor-lite/lib/index.css'
-import Editor from '../ckeditor5/build/ckeditor'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
+const Editor = require('../ckeditor5/build/ckeditor')
 
 function MarkdownEditor({ value, callback }) {
   return (
