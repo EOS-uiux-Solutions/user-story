@@ -37,15 +37,16 @@ const userStory = {
     productQuery,
     searchQuery,
     followerId,
+    sortType,
     checked
   ) => {
     authorId = !authorId ? '' : `id: "${authorId}"`
     followerId = !followerId ? '' : `followers: "${followerId}"`
     const storiesQuery = {
       query: `query {
-              userStories(sort: "createdAt:desc", limit: 5, start: ${
-                (page - 1) * 5
-              }, where: {
+              userStories(sort: "${sortType}", limit: 5, start: ${
+        (page - 1) * 5
+      }, where: {
                   ${
                     currentStateSelected !== 'All' && checked
                       ? `user_story_status : {

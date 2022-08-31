@@ -46,6 +46,8 @@ const Stories = ({ authorId, followerId }) => {
 
   const [authorQuery, setAuthorQuery] = useState('')
 
+  const [sortType, setSortType] = useState('followers:desc')
+
   const [checked, setChecked] = useState(false)
 
   const getPage = useCallback((page) => {
@@ -93,6 +95,12 @@ const Stories = ({ authorId, followerId }) => {
   }, [category, searchTerm, userTerm])
 
   useEffect(() => {
+    if (sort === 'Most Voted') {
+      setSortType('followers:desc')
+    } else if (sort === 'Most Discussed') {
+      setSortType('comments:desc')
+    }
+
     const fetchStories = async () => {
       const response = await userStory.getStories(
         page,
@@ -103,6 +111,7 @@ const Stories = ({ authorId, followerId }) => {
         productQuery,
         searchQuery,
         followerId,
+        sortType,
         checked
       )
       setStories(response.data.data.userStories)
@@ -117,6 +126,8 @@ const Stories = ({ authorId, followerId }) => {
     authorQuery,
     authorId,
     followerId,
+    sortType,
+    sort,
     checked
   ])
 
@@ -132,27 +143,6 @@ const Stories = ({ authorId, followerId }) => {
     }
     fetchCategories()
   }, [])
-
-  useEffect(() => {
-    const comparatorVotes = (a, b) => {
-      return a.followers.length > b.followers.length ? -1 : 1
-    }
-    const comparatorComments = (a, b) => {
-      return a.user_story_comments.length > b.user_story_comments.length
-        ? -1
-        : 1
-    }
-
-    const updateStories = async () => {
-      if (sort === 'Most Voted') {
-        setStories(stories.sort(comparatorVotes))
-      }
-      if (sort === 'Most Discussed') {
-        setStories(stories.sort(comparatorComments))
-      }
-    }
-    trackPromise(updateStories(), 'stories-div')
-  }, [sort, stories, setStories])
 
   return (
     <div>
