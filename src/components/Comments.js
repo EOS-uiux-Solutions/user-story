@@ -142,7 +142,7 @@ const Comments = (props) => {
                     <Link
                       className='link link-default'
                       data-cy='comment-username'
-                      to={`/profile/${data.user && data.user.id}`}
+                      to={`/profile/${data.user && data.user.username}`}
                     >
                       {data.user && data.user.username}
                     </Link>
@@ -202,7 +202,7 @@ const Comments = (props) => {
                         <div className='top'>
                           <Link
                             className='link link-default'
-                            to={`/profile/${data.user.id}`}
+                            to={`/profile/${data.user.username}`}
                           >
                             {reply.user.username}
                           </Link>

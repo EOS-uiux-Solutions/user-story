@@ -86,7 +86,7 @@ const App = (props) => {
         <Story path='/story/:storyId' />
         <MyStories path='/myStories' />
         <MyProfile path='/myProfile' />
-        <Profile path='/profile/:profileId' />
+        <Profile path='/profile/:identifier' />
         <Notifications path='/notifications' />
         <ChangePassword path='/changePassword' />
         <Policies path='/policies' />
