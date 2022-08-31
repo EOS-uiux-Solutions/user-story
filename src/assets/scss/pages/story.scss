@@ -96,3 +96,32 @@
   right: 0;
   top: 4em;
 }
+
+@media screen and (max-width: 540px) {
+  .author-information {
+    align-items: baseline;
+    flex-direction: column;
+
+    .date,
+    .name > h4,
+    .target-product > h4 {
+      line-height: 1.5rem;
+      margin-block-end: 0px;
+      margin-block-start: 0px;
+    }
+
+    .share-story {
+      line-height: 2em;
+      margin-left: 0px;
+    }
+  }
+
+  .gallery-container {
+    width: 100%;
+
+    &-comment {
+      width: 95%;
+    }
+  }
+
+}
