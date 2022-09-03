@@ -1,5 +1,5 @@
 import React from 'react'
-import { navigate } from '@reach/router'
+import { useNavigate } from 'react-router-dom'
 import {
   EOS_THUMB_UP,
   EOS_MESSAGE,
@@ -8,15 +8,19 @@ import {
 
 function SimilarStoryCard(props) {
   const { story } = props
+  const navigate = useNavigate()
+
   return (
     <div
       className='card flex flex-column'
       onClick={() => {
-        navigate(`/story/${story.id}`)
+        navigate(`/story/${story.id}`, { replace: true })
       }}
     >
       <div>
-        <h3 className='link link-default subject'>{story.Title}</h3>
+        <a className='link link-default subject' href={`/story/${story.id}`}>
+          {story.Title}
+        </a>
       </div>
       <div className='info flex'>
         <div className='left'>
