@@ -31,8 +31,8 @@ function SimilarStoryCard(props) {
             day: 'numeric'
           })}
         </div>
-        <div className='right'>
-          <span>
+        <div>
+          <span className='margin-right-s'>
             <EOS_THUMB_UP />
             {story.followers.length}
           </span>

@@ -16,19 +16,12 @@
     width: 100%;
 
     .subject {
-      margin-block-end: 0px;
-      margin-block-start: 0px;
+      font-size: $font-size-label;
     }
 
     .info {
       justify-content: space-between;
       width: 100%;
-
-      .right {
-        span {
-          margin: 0px 5px;
-        }
-      }
     }
 
     svg {
