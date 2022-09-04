@@ -1,0 +1,32 @@
+.similar-stories {
+  width: 100%;
+
+  .title {
+    text-align: center;
+    width: 100%;
+  }
+
+  .card {
+    border: 1px solid black;
+    border-radius: 5px;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    min-height: 60px;
+    padding: 5px;
+    width: 100%;
+
+    .subject {
+      font-size: $font-size-label;
+    }
+
+    .info {
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    svg {
+      margin-right: 5px;
+      vertical-align: middle;
+    }
+  }
+}

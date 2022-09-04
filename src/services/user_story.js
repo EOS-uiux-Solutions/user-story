@@ -444,6 +444,51 @@ const userStory = {
       `
     }
     return apiCall('/graphql', updateVotesQuery)
+  },
+  getSimilarStoriesByAuthor: (authorId, currentStoryId) => {
+    authorId = !authorId ? '' : `id: "${authorId}"`
+    const similarStoriesQuery = {
+      query: `query {
+              userStories(sort: "createdAt:desc", limit: 4, where: {
+                  author: {
+                    ${authorId}
+                  }
+              }) {
+                id
+                Title
+                Description
+                user_story_status {
+                  Status
+                }
+                user_story_comments {
+                  Comments
+                }
+                product {
+                  Name
+                }
+                Attachment {
+                  id
+                  url
+                }
+                author {
+                  id
+                  username
+                  profilePicture {
+                    id
+                    url
+                  }
+                }
+                followers {
+                  id
+                  username
+                }
+                Category
+                createdAt
+              }
+            }
+            `
+    }
+    return apiCall('/graphql', similarStoriesQuery)
   }
 }
 
