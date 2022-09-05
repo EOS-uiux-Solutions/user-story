@@ -1,11 +1,13 @@
 import React, { useState, useRef } from 'react'
 import Dropdown from './Dropdown'
 import Lists from '../utils/Lists'
-import Button from './Button'
+// import Button from './Button'
+// import StatusContainer from './StatusContainer'
 
 const RoadmapFilter = (props) => {
-  const { selectState, setPage, currentStateSelected } = props
-  const [status, setStatus] = useState('Under consideration')
+  const { selectState, setPage } = props
+  // const { selectState, setPage, currentStateSelected } = props
+  const [status, setStatus] = useState('All')
   const statusDropdownContainer = useRef()
 
   const statusOptions = [...Lists.stateList].reduce(
@@ -15,8 +17,8 @@ const RoadmapFilter = (props) => {
 
   return (
     <>
-      <div className='roadmap-container'>
-        <div className='roadmap'>
+      <div className='roadmap-container flex'>
+        {/* <div className='roadmap'>
           {Lists.stateList &&
             Lists.stateList.slice(1).map((state, key) => {
               return (
@@ -40,7 +42,7 @@ const RoadmapFilter = (props) => {
                 </span>
               )
             })}
-        </div>
+        </div> */}
       </div>
       <div className='roadmap-dropdown'>
         <Dropdown

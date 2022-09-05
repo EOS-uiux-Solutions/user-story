@@ -8,13 +8,14 @@ import Dropdown from './Dropdown'
 import ProductList from './ProductList'
 import RoadmapFilter from './roadmap-filter'
 import Switch from './Switch'
+import StatusContainer from './StatusContainer'
 // others
 import SearchInput from '../modules/SearchInput'
 import Lists from '../utils/Lists'
 import userStory from '../services/user_story'
 
 const Stories = ({ authorId, followerId }) => {
-  const [currentStateSelected, selectState] = useState('Under consideration')
+  const [currentStateSelected, selectState] = useState('All')
 
   const [page, setPage] = useState(1)
 
@@ -199,9 +200,19 @@ const Stories = ({ authorId, followerId }) => {
           />
         )}
       </div>
-      <div className='stories-div'>
-        <StoriesList stories={stories} isLoading={promiseInProgress} />
+      <div className='status-container-box flex'>
+        {checked &&
+          Lists.stateList
+            .slice(1)
+            .map((state, key) => (
+              <StatusContainer stories={stories} state={state} key={key} />
+            ))}
       </div>
+      {!checked && (
+        <div className='stories-div'>
+          <StoriesList stories={stories} isLoading={promiseInProgress} />
+        </div>
+      )}
       <Pagination
         getPage={getPage}
         storyCount={storyCount}
