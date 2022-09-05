@@ -141,7 +141,7 @@ const Vote = (props) => {
                   <div>
                     <Link
                       className='link-vote link link-default'
-                      to={`/profile/${voters.id}`}
+                      to={`/profile/${voters.username}`}
                     >
                       {voters.username}
                     </Link>

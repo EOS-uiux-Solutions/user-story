@@ -21,6 +21,7 @@ import Navigation from '../components/Navigation'
 import { Link, navigate } from '@reach/router'
 import Modal from '../components/Modal'
 import userStory from '../services/user_story'
+import SimilarStories from '../components/SimilarStories'
 
 const Story = (props) => {
   const { storyId } = props
@@ -39,6 +40,8 @@ const Story = (props) => {
 
   const [isOpen, setIsOpen] = useState(false)
 
+  const [similarStoriesByAuthor, setSimilarStoriesByAuthor] = useState([])
+
   const togglePopup = () => {
     setIsOpen(!isOpen)
   }
@@ -46,6 +49,15 @@ const Story = (props) => {
   const fetchStory = async () => {
     const response = await userStory.getStory(storyId)
     setStory(response.data.data.userStory)
+
+    const similarStoriesByAuthorResponse =
+      await userStory.getSimilarStoriesByAuthor(
+        response.data.data.userStory.author.id,
+        response.data.data.userStory.id
+      )
+    setSimilarStoriesByAuthor(
+      similarStoriesByAuthorResponse.data.data.userStories
+    )
   }
 
   useEffect(() => {
@@ -142,7 +154,7 @@ const Story = (props) => {
                       By:{' '}
                       <Link
                         className='link link-default'
-                        to={`/profile/${story.author.id}`}
+                        to={`/profile/${story.author.username}`}
                       >
                         @{story.author.username}
                       </Link>
@@ -283,6 +295,21 @@ const Story = (props) => {
                 currentStatus={story.user_story_status.Status}
                 fetchStory={fetchStory}
               />
+              {similarStoriesByAuthor.length > 1 && (
+                <SimilarStories
+                  titleText='More stories by'
+                  titleLink={
+                    <Link
+                      to={`/profile/${story.author.id}`}
+                      className='link link-default'
+                    >
+                      @{story.author.username}
+                    </Link>
+                  }
+                  stories={similarStoriesByAuthor}
+                  currentId={story.id}
+                />
+              )}
             </div>
           </div>
         </>

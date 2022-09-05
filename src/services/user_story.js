@@ -98,15 +98,16 @@ const userStory = {
     productQuery,
     searchQuery,
     followerId,
+    sortType,
     checked
   ) => {
     authorId = !authorId ? '' : `id: "${authorId}"`
     followerId = !followerId ? '' : `followers: "${followerId}"`
     const storiesQuery = {
       query: `query {
-              userStories(sort: "createdAt:desc", limit: 5, start: ${
-                (page - 1) * 5
-              }, where: {
+              userStories(sort: "${sortType}", limit: 5, start: ${
+        (page - 1) * 5
+      }, where: {
                   ${
                     currentStateSelected !== 'All' && checked
                       ? `user_story_status : {
@@ -366,6 +367,32 @@ const userStory = {
             id
             url
           }
+          _id
+          Name
+          Bio
+          username
+          Company
+          Profession
+          email
+          LinkedIn
+          Twitter
+        }
+      }
+      `
+    }
+    return apiCall('/graphql', userQuery)
+  },
+  getUserDetailsByUsername: (username) => {
+    const userQuery = {
+      query: `query {
+        users(where: {
+          username: "${username}"
+        }) {
+          profilePicture {
+            id
+            url
+          }
+          _id
           Name
           Bio
           username
@@ -478,6 +505,51 @@ const userStory = {
       `
     }
     return apiCall('/graphql', updateVotesQuery)
+  },
+  getSimilarStoriesByAuthor: (authorId, currentStoryId) => {
+    authorId = !authorId ? '' : `id: "${authorId}"`
+    const similarStoriesQuery = {
+      query: `query {
+              userStories(sort: "createdAt:desc", limit: 4, where: {
+                  author: {
+                    ${authorId}
+                  }
+              }) {
+                id
+                Title
+                Description
+                user_story_status {
+                  Status
+                }
+                user_story_comments {
+                  Comments
+                }
+                product {
+                  Name
+                }
+                Attachment {
+                  id
+                  url
+                }
+                author {
+                  id
+                  username
+                  profilePicture {
+                    id
+                    url
+                  }
+                }
+                followers {
+                  id
+                  username
+                }
+                Category
+                createdAt
+              }
+            }
+            `
+    }
+    return apiCall('/graphql', similarStoriesQuery)
   }
 }
 

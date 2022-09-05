@@ -1,12 +1,16 @@
 import axios from 'axios'
-const { apiURL, APP_ENV } = require('../config.json')
+const { apiURL, APP_ENV, SSO } = require('../config.json')
 
 const config = {
   baseURL: apiURL,
   withCredentials: true
 }
 
+const token = localStorage.getItem('jwt')
+
 const apiClient = axios.create(config)
+
+if (SSO && token) apiClient.defaults.headers.Authorization = `Bearer ${token}`
 
 apiClient.interceptors.response.use(
   (response) => {

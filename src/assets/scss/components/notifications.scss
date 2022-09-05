@@ -16,3 +16,8 @@
     width: 195px;
   }
 }
+
+.notification-badge {
+  background-color: $notificaion-badge;
+  font-size: $font-size-notification-badge;
+}

@@ -140,3 +140,32 @@
 .mentions__mention {
   background-color: #cee4e5;
 }
+
+@media screen and (max-width: 540px) {
+  .comment {
+
+    .avatar {
+      height: 2em;
+      width: 2em;
+    }
+
+    &-form {
+      margin: 0px;
+    }
+
+    &-content {
+
+      .text {
+        padding: 0.5rem;
+      }
+
+      .media {
+        padding: 0.5rem;
+      }
+
+      .reply-form {
+        margin-left: 2rem;
+      }
+    }
+  }
+}
