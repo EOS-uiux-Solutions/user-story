@@ -1,0 +1,106 @@
+.status-container {
+  background-color: $off-white;
+  border-radius: 5px;
+  box-shadow: 0px 0px 1px 2px rgba(85, 3, 79, 0.1);
+  display: inline-block;
+  margin-right: 10px;
+  min-height: 500px;
+  min-width: 300px;
+
+  &-box {
+    flex-wrap: nowrap;
+    overflow: auto;
+    padding: 10px 5px;
+  }
+
+  .status {
+    margin: 5px auto;
+    padding: 3px 16px;
+    text-align: left;
+  }
+
+  .wrapper {
+    margin-top: 5px;
+    max-height: 600px;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    &::-webkit-scrollbar-track {
+      width: 15px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: $light-gray;
+    }
+  }
+
+  .story {
+    align-items: baseline;
+    border-radius: 10px;
+    flex-direction: column;
+    height: fit-content;
+    margin: 5px auto 10px auto;
+    padding: 10px;
+    width: 90%;
+
+    .avatar {
+      height: 20px;
+      width: 20px;
+    }
+
+    .stories-content,
+    .story-small-details {
+      align-items: baseline;
+      justify-content: space-evenly;
+      width: 100%;
+    }
+
+    .stories-content {
+      margin: 0px;
+
+      >h3 {
+        margin-block-start: 0px;
+      }
+    }
+
+    .user-avatar {
+      margin: 0px 5px;
+    }
+
+    .eos-icons {
+      margin: auto 5px;
+    }
+
+    .s-metas {
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    &-meta {
+      margin-right: 5px;
+
+      &-wrapper {
+        margin-left: auto;
+      }
+    }
+  }
+
+  .votes-count {
+    font-size: $font-size-small;
+    padding: 5px 5px 1px 5px;
+  }
+
+  .vote {
+    &-button {
+      font-size: $font-size-small;
+      margin: 1px;
+    }
+
+    &-wrapper {
+      line-height: 1em;
+    }
+  }
+}
