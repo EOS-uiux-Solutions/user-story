@@ -3,6 +3,7 @@ import { Link, navigate } from '@reach/router'
 import Context from '../modules/Context'
 import userStory from '../services/user_story'
 import { EOS_NOTIFICATIONS } from 'eos-icons-react'
+import NotificationBadge from 'react-notification-badge'
 
 const Notifications = () => {
   const userId = localStorage.getItem('id')
@@ -89,15 +90,19 @@ const Notifications = () => {
         }}
         ref={notificationsDropdownContainer}
       >
+        {!notificationsSeen && (
+          <NotificationBadge
+            count={notificationCount}
+            containerStyle={{ height: '15%' }}
+            frameLength={1.0}
+            className='notification-badge'
+          />
+        )}
         <EOS_NOTIFICATIONS
           className={`eos-icons icon-dropdown ${
             notificationsDropdownState ? 'open' : ''
           }`}
         />
-        <span className='notifications-count'>
-          {' '}
-          {!notificationsSeen && notificationCount > 0 ? notificationCount : ''}
-        </span>
         <div
           className={`dropdown notifications-dropdown ${
             notificationsDropdownState
