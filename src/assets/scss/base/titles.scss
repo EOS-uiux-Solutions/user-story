@@ -1,5 +1,7 @@
 // variables
 $h1-font-size: 30px;
+$h3-font-size: 18px;
+$black: #000000;
 
 h1,
 h2,
@@ -12,4 +14,11 @@ h6 {
 
 h1 {
   font-size: $h1-font-size;
+}
+
+.h3 {
+  color: $black;
+  font-size: $h3-font-size;
+  font-weight: bold;
+  text-decoration: none;
 }

@@ -11,8 +11,6 @@ function StatusContainer(props) {
     (story) => story.user_story_status.Status === state.status
   )
 
-  console.log(state.status, filteredStories)
-
   return (
     <div className='status-container'>
       <h3 className='status'>{state.status}</h3>
@@ -26,7 +24,9 @@ function StatusContainer(props) {
                 navigate(`/story/${story.id}`)
               }}
             >
-              <h3>{strip(story.Title, 80)}</h3>
+              <a href={`/story/${story.id}`} className='h3'>
+                {strip(story.Title, 80)}
+              </a>
               <p>{strip(story.Description, 80)}</p>
             </div>
             <div className='story-small-details flex flex-column'>

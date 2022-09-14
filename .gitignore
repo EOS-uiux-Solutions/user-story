@@ -43,3 +43,4 @@ cypress.env.json
 /cypress/videos
 
 .replit/
+src/ckeditor5/node_modules

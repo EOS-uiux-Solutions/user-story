@@ -1,11 +1,10 @@
 .status-container {
-  background-color: $off-white;
   border-radius: 5px;
-  box-shadow: 0px 0px 1px 2px rgba(85, 3, 79, 0.1);
   display: inline-block;
   margin-right: 10px;
   min-height: 500px;
   min-width: 300px;
+  padding: $eos-xs;
 
   &-box {
     flex-wrap: nowrap;
@@ -39,12 +38,13 @@
 
   .story {
     align-items: baseline;
+    border: 1px solid $eos-gray-100;
     border-radius: 10px;
+    box-shadow: none;
     flex-direction: column;
     height: fit-content;
-    margin: 5px auto 10px auto;
-    padding: 10px;
-    width: 90%;
+    margin: $eos-s;
+    padding: $eos-m;
 
     .avatar {
       height: 20px;
