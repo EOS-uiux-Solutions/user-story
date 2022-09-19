@@ -1,0 +1,108 @@
+.status-container {
+  background-color: $eos-white;
+  border-radius: 5px;
+  display: inline-block;
+  margin-right: 10px;
+  min-height: 500px;
+  min-width: 300px;
+  padding: $eos-xs;
+
+  &-box {
+    flex-wrap: nowrap;
+    overflow: auto;
+    padding: 10px 5px;
+  }
+
+  .status {
+    margin: 5px auto;
+    padding: 3px 16px;
+    text-align: left;
+  }
+
+  .wrapper {
+    margin-top: 5px;
+    max-height: 600px;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    &::-webkit-scrollbar-track {
+      width: 15px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: $light-gray;
+    }
+  }
+
+  .story {
+    align-items: baseline;
+    background: $eos-white;
+    border: 1px solid $eos-gray-100;
+    border-radius: 10px;
+    box-shadow: none;
+    flex-direction: column;
+    height: fit-content;
+    margin: $eos-s;
+    padding: $eos-m;
+
+    .avatar {
+      height: 20px;
+      width: 20px;
+    }
+
+    .stories-content,
+    .story-small-details {
+      align-items: baseline;
+      justify-content: space-evenly;
+      width: 100%;
+    }
+
+    .stories-content {
+      margin: 0px;
+
+      >h3 {
+        margin-block-start: 0px;
+      }
+    }
+
+    .user-avatar {
+      margin: 0px 5px;
+    }
+
+    .eos-icons {
+      margin: auto 5px;
+    }
+
+    .s-metas {
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    &-meta {
+      margin-right: 5px;
+
+      &-wrapper {
+        margin-left: auto;
+      }
+    }
+  }
+
+  .votes-count {
+    font-size: $font-size-small;
+    padding: 5px 5px 1px 5px;
+  }
+
+  .vote {
+    &-button {
+      font-size: $font-size-small;
+      margin: 1px;
+    }
+
+    &-wrapper {
+      line-height: 1em;
+    }
+  }
+}

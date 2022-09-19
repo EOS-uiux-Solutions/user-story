@@ -28,6 +28,67 @@ const userStory = {
     }
     return apiCall('/graphql', query)
   },
+  getAllStories: (
+    page,
+    authorId,
+    authorQuery,
+    categoryQuery,
+    productQuery,
+    searchQuery,
+    followerId
+  ) => {
+    authorId = !authorId ? '' : `id: "${authorId}"`
+    followerId = !followerId ? '' : `followers: "${followerId}"`
+    const storiesQuery = {
+      query: `query {
+              userStories(sort: "createdAt:desc", limit: 5, start: ${
+                (page - 1) * 5
+              }, where: {
+                  author: {
+                    ${authorId}
+                    username_contains: "${authorQuery}"
+                  }
+                  ${categoryQuery}
+                  ${productQuery}
+                  ${searchQuery}
+                  ${followerId}
+              }) {
+                id
+                Title
+                Description
+                user_story_status {
+                  Status
+                }
+                user_story_comments {
+                  Comments
+                }
+                product {
+                  Name
+                }
+                Attachment {
+                  id
+                  url
+                }
+                author {
+                  id
+                  username
+                  profilePicture {
+                    id
+                    url
+                  }
+                }
+                followers {
+                  id
+                  username
+                }
+                Category
+                createdAt
+              }
+            }
+            `
+    }
+    return apiCall('/graphql', storiesQuery)
+  },
   getStories: (
     page,
     currentStateSelected,

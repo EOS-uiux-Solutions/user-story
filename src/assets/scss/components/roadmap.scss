@@ -7,6 +7,9 @@
 
   &-container {
     background: $eos-white;
+    flex-wrap: nowrap;
+    overflow: auto;
+    width: 100%;
   }
 
   &::before {
