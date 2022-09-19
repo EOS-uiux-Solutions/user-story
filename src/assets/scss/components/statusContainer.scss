@@ -1,4 +1,5 @@
 .status-container {
+  background-color: $eos-white;
   border-radius: 5px;
   display: inline-block;
   margin-right: 10px;
@@ -38,6 +39,7 @@
 
   .story {
     align-items: baseline;
+    background: $eos-white;
     border: 1px solid $eos-gray-100;
     border-radius: 10px;
     box-shadow: none;

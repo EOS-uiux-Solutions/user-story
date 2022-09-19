@@ -4,7 +4,6 @@ import Lists from '../utils/Lists'
 
 const RoadmapFilter = (props) => {
   const { selectState, setPage } = props
-  // const { selectState, setPage, currentStateSelected } = props
   const [status, setStatus] = useState('All')
   const statusDropdownContainer = useRef()
 
