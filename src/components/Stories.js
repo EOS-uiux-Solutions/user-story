@@ -49,7 +49,7 @@ const Stories = ({ authorId, followerId }) => {
 
   const [sortType, setSortType] = useState('followers:desc')
 
-  const [checked, setChecked] = useState(false)
+  const [isRoadmapView, setIsRoadmapView] = useState(false)
 
   const getPage = useCallback((page) => {
     setPage(page)
@@ -65,7 +65,7 @@ const Stories = ({ authorId, followerId }) => {
         productQuery,
         searchQuery,
         followerId,
-        checked
+        isRoadmapView
       )
       setStoryCount(response.data.data.userStoriesConnection.aggregate.count)
     }
@@ -78,7 +78,7 @@ const Stories = ({ authorId, followerId }) => {
     authorQuery,
     authorId,
     followerId,
-    checked
+    isRoadmapView
   ])
 
   useEffect(() => {
@@ -113,7 +113,7 @@ const Stories = ({ authorId, followerId }) => {
         searchQuery,
         followerId,
         sortType,
-        checked
+        isRoadmapView
       )
       setStories(response.data.data.userStories)
     }
@@ -129,7 +129,7 @@ const Stories = ({ authorId, followerId }) => {
     followerId,
     sortType,
     sort,
-    checked
+    isRoadmapView
   ])
 
   useEffect(() => {
@@ -167,8 +167,8 @@ const Stories = ({ authorId, followerId }) => {
               itemList={Lists.sortByList}
             />
             <Switch
-              checked={checked}
-              setChecked={setChecked}
+              checked={isRoadmapView}
+              setChecked={setIsRoadmapView}
               uncheckedOption={'All'}
               checkedOption={'By Roadmap Stage'}
             />
@@ -182,7 +182,7 @@ const Stories = ({ authorId, followerId }) => {
             setAuthorQuery={setAuthorQuery}
           />
         </div>
-        {checked && (
+        {isRoadmapView && (
           <RoadmapFilter
             selectState={selectState}
             setPage={setPage}
@@ -191,19 +191,19 @@ const Stories = ({ authorId, followerId }) => {
         )}
       </div>
       <div className='status-container-box flex'>
-        {checked &&
+        {isRoadmapView &&
           Lists.stateList
             .slice(1)
             .map((state, key) => (
               <StatusContainer stories={stories} state={state} key={key} />
             ))}
       </div>
-      {!checked && (
+      {!isRoadmapView && (
         <div className='stories-div'>
           <StoriesList stories={stories} isLoading={promiseInProgress} />
         </div>
       )}
-      {!checked && (
+      {!isRoadmapView && (
         <Pagination
           getPage={getPage}
           storyCount={storyCount}
