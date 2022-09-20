@@ -116,7 +116,9 @@ export const UserDetails = ({
             </h2>
           </EditableLabel>
           {!!(
-            user.access_role.length && user.access_role[0].name === 'Manager'
+            user.access_role &&
+            user.access_role.length &&
+            user.access_role[0].name === 'Manager'
           ) && <Tag content={'Manager'} />}
           <EditableLabel
             type='textArea'
