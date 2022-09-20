@@ -203,12 +203,14 @@ const Stories = ({ authorId, followerId }) => {
           <StoriesList stories={stories} isLoading={promiseInProgress} />
         </div>
       )}
-      <Pagination
-        getPage={getPage}
-        storyCount={storyCount}
-        status={currentStateSelected}
-        productQuery={productQuery}
-      />
+      {!checked && (
+        <Pagination
+          getPage={getPage}
+          storyCount={storyCount}
+          status={currentStateSelected}
+          productQuery={productQuery}
+        />
+      )}
     </div>
   )
 }

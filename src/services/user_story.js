@@ -105,9 +105,9 @@ const userStory = {
     followerId = !followerId ? '' : `followers: "${followerId}"`
     const storiesQuery = {
       query: `query {
-              userStories(sort: "${sortType}", limit: 5, start: ${
-        (page - 1) * 5
-      }, where: {
+              userStories(sort: "${sortType}", 
+              ${!checked ? 'limit: 5' : ''}, 
+              start: ${checked ? 0 : (page - 1) * 5}, where: {
                   ${
                     currentStateSelected !== 'All' && checked
                       ? `user_story_status : {
