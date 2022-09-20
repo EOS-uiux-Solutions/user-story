@@ -376,6 +376,9 @@ const userStory = {
           email
           LinkedIn
           Twitter
+          access_role {
+            name
+          }
         }
       }
       `
@@ -401,6 +404,9 @@ const userStory = {
           email
           LinkedIn
           Twitter
+          access_role {
+            name
+          }
         }
       }
       `

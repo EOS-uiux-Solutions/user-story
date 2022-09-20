@@ -3,6 +3,7 @@ import Skeleton from 'react-loading-skeleton'
 import ProfileImageUploader from './ProfileImageUploader'
 import EditableLabel from './EditableLabel'
 import EditProfileBadge from './EditProfileBadge'
+import Tag from './Tag'
 
 export const UserProfile = ({
   allowEditing,
@@ -92,6 +93,7 @@ export const UserDetails = ({
   allowEditing,
   updateProfile
 }) => {
+  console.log({ user })
   return (
     <div className='user-profile-details'>
       {!user ? (
@@ -113,6 +115,9 @@ export const UserDetails = ({
               {user.Name ? user.Name : user.username}
             </h2>
           </EditableLabel>
+          {!!(
+            user.access_role.length && user.access_role[0].name === 'Manager'
+          ) && <Tag content={'Manager'} />}
           <EditableLabel
             type='textArea'
             name={'Bio'}
