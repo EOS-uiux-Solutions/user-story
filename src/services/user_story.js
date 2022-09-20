@@ -99,17 +99,17 @@ const userStory = {
     searchQuery,
     followerId,
     sortType,
-    checked
+    isRoadmapView
   ) => {
     authorId = !authorId ? '' : `id: "${authorId}"`
     followerId = !followerId ? '' : `followers: "${followerId}"`
     const storiesQuery = {
       query: `query {
-              userStories(sort: "${sortType}", limit: 5, start: ${
-        (page - 1) * 5
-      }, where: {
+              userStories(sort: "${sortType}", 
+              ${!isRoadmapView ? 'limit: 5' : ''}, 
+              start: ${isRoadmapView ? 0 : (page - 1) * 5}, where: {
                   ${
-                    currentStateSelected !== 'All' && checked
+                    currentStateSelected !== 'All' && isRoadmapView
                       ? `user_story_status : {
                       Status: "${currentStateSelected}"
                     },`
