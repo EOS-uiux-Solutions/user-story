@@ -93,7 +93,6 @@ export const UserDetails = ({
   allowEditing,
   updateProfile
 }) => {
-  console.log({ user })
   return (
     <div className='user-profile-details'>
       {!user ? (
@@ -116,6 +115,7 @@ export const UserDetails = ({
             </h2>
           </EditableLabel>
           {!!(
+            user &&
             user.access_role &&
             user.access_role.length &&
             user.access_role[0].name === 'Manager'
