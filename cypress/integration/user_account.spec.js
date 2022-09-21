@@ -51,6 +51,8 @@ describe("Tests for user's profile page", () => {
   beforeEach(() => {
     Cypress.Cookies.preserveOnce('token')
     cy.restoreLocalStorage()
+
+    cy.wait(5000)
   })
 
   afterEach(() => {
@@ -58,6 +60,8 @@ describe("Tests for user's profile page", () => {
   })
 
   it('Shows user details', () => {
+    cy.wait(5000)
+
     cy.get('[data-cy=user-username]').contains(testUser.username)
 
     cy.get('[data-cy=user-email]').contains(testUser.email)
