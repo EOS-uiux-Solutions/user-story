@@ -2,13 +2,13 @@
   "baseUrl": "http://localhost:3000",
   "env": {
     "testUser": {
-      "username": "user123",
-      "email": "test12@gmail.com",
+      "username": "user1",
+      "email": "test1@gmail.com",
       "password": "password"
     },
     "testUser2": {
-      "username": "user123",
-      "email": "test23@gmail.com",
+      "username": "user1",
+      "email": "test2@gmail.com",
       "password": "password"
     },
     "updatedUser": {
