@@ -7,7 +7,7 @@ import {
   LinkedinIcon
 } from 'react-share'
 import Gallery from '../components/ImageGallery'
-import { EOS_SHARE, EOS_CONTENT_COPY } from 'eos-icons-react'
+import { EOS_SHARE, EOS_CONTENT_COPY, EOS_DELETE } from 'eos-icons-react'
 import StoryPageTimeline from '../components/StoryPageTimeline'
 import ShowMore from '../components/ShowMore'
 import { Helmet } from 'react-helmet'
@@ -41,6 +41,10 @@ const Story = (props) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const [similarStoriesByAuthor, setSimilarStoriesByAuthor] = useState([])
+
+  const [permissions, setPermissions] = useState([])
+
+  const [openDeleteModal, setOpenDeleteModal] = useState(false)
 
   const togglePopup = () => {
     setIsOpen(!isOpen)
@@ -77,6 +81,22 @@ const Story = (props) => {
     }
   }, [storyId, userId])
 
+  useEffect(() => {
+    const getPermissions = async () => {
+      const response = await userStory.getPermissionsById(userId)
+      if (response.data.data.user.access_role.length > 0) {
+        const currentPermissions =
+          response.data.data.user.access_role[0].permissions.map(
+            (item) => item.name
+          )
+        setPermissions(currentPermissions)
+      }
+    }
+    if (userId) {
+      getPermissions()
+    }
+  }, [storyId, userId])
+
   const save = async (event) => {
     if (editDescription.length <= 0) {
       return
@@ -108,6 +128,18 @@ const Story = (props) => {
     document.execCommand('copy')
     document.body.removeChild(dummy)
     toast.success('Link copied to clipboard')
+  }
+
+  const handleDelete = async () => {
+    try {
+      const response = await userStory.deleteStory(storyId)
+      if (response.status === 200) {
+        toast.success(`Story deleted successfully`)
+        navigate('/', { replace: true })
+      }
+    } catch (err) {
+      toast.error(err.data.message)
+    }
   }
 
   const hashtagsArray = ['EOS', 'userstory']
@@ -205,6 +237,14 @@ const Story = (props) => {
                         <Button className='share-story' onClick={copy}>
                           <EOS_CONTENT_COPY className='eos-icons' />
                         </Button>
+                        {permissions.includes('Delete Story') && (
+                          <Button
+                            className='share-story'
+                            onClick={() => setOpenDeleteModal(true)}
+                          >
+                            <EOS_DELETE className='eos-icons' />
+                          </Button>
+                        )}
                       </>
                     }
                   </div>
@@ -285,6 +325,23 @@ const Story = (props) => {
                   }
                   handleClose={togglePopup}
                   active={isOpen}
+                />
+              )}
+              {openDeleteModal && (
+                <Modal
+                  children={
+                    <h1>
+                      Delete{' '}
+                      {story.Title.substr(0, Math.min(story.Title.length, 15))}
+                    </h1>
+                  }
+                  handleClose={() => setOpenDeleteModal(false)}
+                  onOk={handleDelete}
+                  onCancel={() => setOpenDeleteModal(false)}
+                  isActive={openDeleteModal}
+                  okText='Delete'
+                  cancelText='Cancel'
+                  showButtons
                 />
               )}
               <Comments storyId={storyId} />
