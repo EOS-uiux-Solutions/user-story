@@ -44,3 +44,12 @@ function apiCall(url, data) {
 }
 
 export default apiCall
+
+export const deleteCall = (url, data) => {
+  return apiClient.request({
+    url,
+    method: 'delete',
+    data,
+    ...config
+  })
+}
