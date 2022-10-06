@@ -40,7 +40,7 @@ jobs:
       - name: Create config.json
         run: echo $TEST_CONFIG_JSON > src/config.json
         env:
-          TEST_CONFIG_JSON: '{ "apiURL": "http://localhost:1337", "APP_ENV": "prod" }'
+          TEST_CONFIG_JSON: '{ "apiURL": "http://localhost:1337", "APP_ENV": "prod" , "SSO": false}'
 
       - name: Test Cypress
         uses: cypress-io/github-action@v2
