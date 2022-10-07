@@ -51,8 +51,6 @@ describe("Tests for user's profile page", () => {
   beforeEach(() => {
     Cypress.Cookies.preserveOnce('token')
     cy.restoreLocalStorage()
-
-    cy.wait(5000)
   })
 
   afterEach(() => {
