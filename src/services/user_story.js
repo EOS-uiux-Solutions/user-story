@@ -1,4 +1,4 @@
-import apiCall from './api'
+import apiCall, { deleteCall } from './api'
 import {
   BASIC_STORY_INFO_FRAGMENT,
   NOTIFICATION_DATA_FRAGMENT
@@ -378,6 +378,10 @@ const userStory = {
           Twitter
           access_role {
             name
+            permissions {
+              id
+              name
+            }
           }
         }
       }
@@ -556,6 +560,28 @@ const userStory = {
             `
     }
     return apiCall('/graphql', similarStoriesQuery)
+  },
+  getPermissionsById: (userId) => {
+    const permissionsQuery = {
+      query: `
+        query {
+          user(id: "${userId}") {
+            id
+            Name
+            access_role {
+              permissions {
+                id
+                name
+              }
+            }
+          }
+        }
+      `
+    }
+    return apiCall('/graphql', permissionsQuery)
+  },
+  deleteStory: (storyId) => {
+    return deleteCall(`/user-stories/${storyId}`)
   }
 }
 
