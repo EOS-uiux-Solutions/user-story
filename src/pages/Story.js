@@ -7,7 +7,14 @@ import {
   LinkedinIcon
 } from 'react-share'
 import Gallery from '../components/ImageGallery'
-import { EOS_SHARE, EOS_CONTENT_COPY, EOS_DELETE } from 'eos-icons-react'
+import {
+  EOS_SHARE,
+  EOS_CONTENT_COPY,
+  EOS_DELETE,
+  EOS_MODE_EDIT,
+  EOS_CHECK,
+  EOS_CLOSE
+} from 'eos-icons-react'
 import StoryPageTimeline from '../components/StoryPageTimeline'
 import ShowMore from '../components/ShowMore'
 import { Helmet } from 'react-helmet'
@@ -22,6 +29,8 @@ import { Link, navigate } from '@reach/router'
 import Modal from '../components/Modal'
 import userStory from '../services/user_story'
 import SimilarStories from '../components/SimilarStories'
+import Dropdown from '../components/Dropdown'
+import Lists from '../utils/Lists'
 
 const Story = (props) => {
   const { storyId } = props
@@ -46,6 +55,10 @@ const Story = (props) => {
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false)
 
+  const [currentStatus, setCurrentStatus] = useState(Lists.stateList[0].status)
+
+  const [updateStatus, setUpdateStatus] = useState(false)
+
   const togglePopup = () => {
     setIsOpen(!isOpen)
   }
@@ -53,6 +66,7 @@ const Story = (props) => {
   const fetchStory = async () => {
     const response = await userStory.getStory(storyId)
     setStory(response.data.data.userStory)
+    setCurrentStatus(response.data.data.userStory.user_story_status.Status)
 
     const similarStoriesByAuthorResponse =
       await userStory.getSimilarStoriesByAuthor(
@@ -140,6 +154,10 @@ const Story = (props) => {
     } catch (err) {
       toast.error(err.data.message)
     }
+  }
+
+  const handleUpdateStatus = async () => {
+    // TO DO...
   }
 
   const hashtagsArray = ['EOS', 'userstory']
@@ -352,6 +370,38 @@ const Story = (props) => {
                 currentStatus={story.user_story_status.Status}
                 fetchStory={fetchStory}
               />
+              <div className='edit-status flex'>
+                {!updateStatus ? (
+                  <Button
+                    className='btn btn-default edit-status-btn'
+                    onClick={() => setUpdateStatus(!updateStatus)}
+                  >
+                    <EOS_MODE_EDIT className='svg' /> Edit Story Status
+                  </Button>
+                ) : (
+                  <>
+                    <Dropdown
+                      curr={currentStatus}
+                      setCurr={setCurrentStatus}
+                      itemList={Lists.stateList.map((state) => state.status)}
+                    />
+                    <span>
+                      <Button
+                        className='btn btn-default edit-status-action'
+                        onClick={handleUpdateStatus}
+                      >
+                        <EOS_CHECK className='svg' />
+                      </Button>
+                      <Button
+                        className='btn btn-default edit-status-action'
+                        onClick={() => setUpdateStatus(false)}
+                      >
+                        <EOS_CLOSE className='svg' />
+                      </Button>
+                    </span>
+                  </>
+                )}
+              </div>
               {similarStoriesByAuthor.length > 1 && (
                 <SimilarStories
                   titleText='More stories by'
