@@ -53,7 +53,7 @@ const Stories = ({ authorId, followerId, userId }) => {
 
   const [isRoadmapView, setIsRoadmapView] = useState(false)
 
-  const [isDragAllowed, setIsDragAllowed] = useState(false)
+  const [isDragDisabled, setIsDragDisabled] = useState(true)
 
   const getPage = useCallback((page) => {
     setPage(page)
@@ -162,7 +162,7 @@ const Stories = ({ authorId, followerId, userId }) => {
       const updatedAllowed = permissions.includes('Update Story Status')
       const editAllowed = permissions.includes('Edit Story')
 
-      setIsDragAllowed(updatedAllowed || editAllowed)
+      setIsDragDisabled(!updatedAllowed && !editAllowed)
     }
     getPermissions()
   }, [userId])
@@ -259,7 +259,7 @@ const Stories = ({ authorId, followerId, userId }) => {
                   state={state}
                   key={index}
                   index={index}
-                  isDragAllowed={isDragAllowed}
+                  isDragDisabled={isDragDisabled}
                 />
               ))}
         </DragDropContext>
