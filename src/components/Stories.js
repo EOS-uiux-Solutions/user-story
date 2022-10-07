@@ -154,10 +154,11 @@ const Stories = ({ authorId, followerId, userId }) => {
       if (!userId) return
 
       const permissionResponse = await userStory.getPermissionsById(userId)
-      const permissions =
-        permissionResponse.data.data.user.access_role[0].permissions.map(
-          (item) => item.name
-        )
+      const permissions = permissionResponse.data.data.user.access_role.length
+        ? permissionResponse.data.data.user.access_role[0].permissions.map(
+            (item) => item.name
+          )
+        : []
 
       const updatedAllowed = permissions.includes('Update Story Status')
       const editAllowed = permissions.includes('Edit Story')

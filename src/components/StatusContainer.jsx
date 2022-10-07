@@ -28,15 +28,14 @@ function StatusContainer(props) {
             {...provided.droppableProps}
           >
             {stories.map((story, index) => (
-              <>
+              <span key={index}>
                 <RoadmapStoryCard
                   story={story}
-                  key={index}
                   index={index}
                   isDragDisabled={isDragDisabled}
                 />
                 {provided.placeholder}
-              </>
+              </span>
             ))}
           </div>
         )}
