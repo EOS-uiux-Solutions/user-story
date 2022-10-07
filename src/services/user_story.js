@@ -250,6 +250,31 @@ const userStory = {
     }
     return apiCall('/graphql', updateQuery)
   },
+  updateUserStoryStatus: (storyId, statusId) => {
+    const updateQuery = {
+      query: `mutation {
+        updateUserStory(
+          input: { where: { id: "${storyId}" }, data: { user_story_status: "${statusId}" } }
+        ) {
+          userStory {
+            updatedAt
+          }
+        }
+      }`
+    }
+    return apiCall('/graphql', updateQuery)
+  },
+  getStatuses: () => {
+    const statusQuery = {
+      query: `{
+        userStoryStatuses {
+          id
+          Status
+        }
+      }`
+    }
+    return apiCall('/graphql', statusQuery)
+  },
   getCategories: () => {
     const categoryQuery = {
       query: '{ __type(name: "ENUM_USERSTORY_CATEGORY") {enumValues {name}}}'
