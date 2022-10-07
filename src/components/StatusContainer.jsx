@@ -6,9 +6,13 @@ import { Draggable, Droppable } from 'react-beautiful-dnd'
 import Vote from './Vote'
 
 function StoryCard(props) {
-  const { story, index } = props
+  const { story, index, isDragAllowed } = props
   return (
-    <Draggable draggableId={story.id} index={index}>
+    <Draggable
+      draggableId={story.id}
+      index={index}
+      isDragDisabled={!isDragAllowed}
+    >
       {(provided) => (
         <div
           className='story flex flex-column'
@@ -75,7 +79,7 @@ function StoryCard(props) {
 }
 
 function StatusContainer(props) {
-  const { state } = props
+  const { state, isDragAllowed } = props
   const [stories, setStories] = React.useState([])
 
   const filterStories = React.useCallback(() => {
@@ -101,7 +105,12 @@ function StatusContainer(props) {
           >
             {stories.map((story, index) => (
               <>
-                <StoryCard story={story} key={index} index={index} />
+                <StoryCard
+                  story={story}
+                  key={index}
+                  index={index}
+                  isDragAllowed={isDragAllowed}
+                />
                 {provided.placeholder}
               </>
             ))}

@@ -16,7 +16,7 @@ import Lists from '../utils/Lists'
 import userStory from '../services/user_story'
 import toast from 'react-hot-toast'
 
-const Stories = ({ authorId, followerId }) => {
+const Stories = ({ authorId, followerId, userId }) => {
   const [currentStateSelected, selectState] = useState('All')
 
   const [page, setPage] = useState(1)
@@ -52,6 +52,8 @@ const Stories = ({ authorId, followerId }) => {
   const [sortType, setSortType] = useState('followers:desc')
 
   const [isRoadmapView, setIsRoadmapView] = useState(false)
+
+  const [isDragAllowed, setIsDragAllowed] = useState(false)
 
   const getPage = useCallback((page) => {
     setPage(page)
@@ -147,6 +149,24 @@ const Stories = ({ authorId, followerId }) => {
     fetchCategories()
   }, [])
 
+  useEffect(() => {
+    const getPermissions = async () => {
+      if (!userId) return
+
+      const permissionResponse = await userStory.getPermissionsById(userId)
+      const permissions =
+        permissionResponse.data.data.user.access_role[0].permissions.map(
+          (item) => item.name
+        )
+
+      const updatedAllowed = permissions.includes('Update Story Status')
+      const editAllowed = permissions.includes('Edit Story')
+
+      setIsDragAllowed(updatedAllowed || editAllowed)
+    }
+    getPermissions()
+  }, [userId])
+
   const onDragEnd = async (result) => {
     try {
       if (!result.destination) {
@@ -239,6 +259,7 @@ const Stories = ({ authorId, followerId }) => {
                   state={state}
                   key={index}
                   index={index}
+                  isDragAllowed={isDragAllowed}
                 />
               ))}
         </DragDropContext>
