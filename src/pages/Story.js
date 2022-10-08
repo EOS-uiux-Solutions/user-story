@@ -407,7 +407,9 @@ const Story = (props) => {
                       <Dropdown
                         curr={currentStatus}
                         setCurr={setCurrentStatus}
-                        itemList={Lists.stateList.map((state) => state.status)}
+                        itemList={Lists.stateList
+                          .slice(1)
+                          .map((state) => state.status)}
                         reference={storyContainer}
                       />
                       <span>
