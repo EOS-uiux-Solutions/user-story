@@ -86,7 +86,7 @@ const Home = () => {
               </h2>
             </div>
           </div>
-          <Stories />
+          <Stories userId={userId} />
         </div>
       </div>
       {modal && policyUpdate ? (

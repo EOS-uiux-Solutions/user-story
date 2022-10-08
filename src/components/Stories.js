@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
+import { DragDropContext } from 'react-beautiful-dnd'
 
 // components
 import StoriesList from './StoriesList'
@@ -13,8 +14,9 @@ import StatusContainer from './StatusContainer'
 import SearchInput from '../modules/SearchInput'
 import Lists from '../utils/Lists'
 import userStory from '../services/user_story'
+import toast from 'react-hot-toast'
 
-const Stories = ({ authorId, followerId }) => {
+const Stories = ({ authorId, followerId, userId }) => {
   const [currentStateSelected, selectState] = useState('All')
 
   const [page, setPage] = useState(1)
@@ -50,6 +52,8 @@ const Stories = ({ authorId, followerId }) => {
   const [sortType, setSortType] = useState('followers:desc')
 
   const [isRoadmapView, setIsRoadmapView] = useState(false)
+
+  const [isDragDisabled, setIsDragDisabled] = useState(true)
 
   const getPage = useCallback((page) => {
     setPage(page)
@@ -145,6 +149,61 @@ const Stories = ({ authorId, followerId }) => {
     fetchCategories()
   }, [])
 
+  useEffect(() => {
+    const getPermissions = async () => {
+      if (!userId) return
+
+      const permissionResponse = await userStory.getPermissionsById(userId)
+      const permissions = permissionResponse.data.data.user.access_role.length
+        ? permissionResponse.data.data.user.access_role[0].permissions.map(
+            (item) => item.name
+          )
+        : []
+
+      const updatedAllowed = permissions.includes('Update Story Status')
+      const editAllowed = permissions.includes('Edit Story')
+
+      setIsDragDisabled(!updatedAllowed && !editAllowed)
+    }
+    getPermissions()
+  }, [userId])
+
+  const onDragEnd = async (result) => {
+    try {
+      if (!result.destination) {
+        return
+      }
+
+      const draggedStoryIndex = stories
+        .map((story) => story.id)
+        .indexOf(result.draggableId)
+
+      const draggedStory = stories[draggedStoryIndex]
+      if (
+        draggedStory.user_story_status.Status === result.destination.droppableId
+      )
+        return
+
+      draggedStory.user_story_status.Status = result.destination.droppableId
+      stories[draggedStoryIndex] = draggedStory
+      setStories([...stories])
+
+      const statusResponse = await userStory.getStatuses()
+      const newStatusIndex = statusResponse.data.data.userStoryStatuses
+        .map((status) => status.Status)
+        .indexOf(result.destination.droppableId)
+
+      await userStory.updateUserStoryStatus(
+        draggedStory.id,
+        statusResponse.data.data.userStoryStatuses[newStatusIndex].id
+      )
+
+      toast.success(`Updated ${draggedStory.Title}`)
+    } catch (err) {
+      toast.error(err.message)
+    }
+  }
+
   return (
     <div>
       <div className='filters'>
@@ -191,12 +250,20 @@ const Stories = ({ authorId, followerId }) => {
         )}
       </div>
       <div className='status-container-box flex'>
-        {isRoadmapView &&
-          Lists.stateList
-            .slice(1)
-            .map((state, key) => (
-              <StatusContainer stories={stories} state={state} key={key} />
-            ))}
+        <DragDropContext onDragEnd={onDragEnd}>
+          {isRoadmapView &&
+            Lists.stateList
+              .slice(1)
+              .map((state, index) => (
+                <StatusContainer
+                  stories={stories}
+                  state={state}
+                  key={index}
+                  index={index}
+                  isDragDisabled={isDragDisabled}
+                />
+              ))}
+        </DragDropContext>
       </div>
       {!isRoadmapView && (
         <div className='stories-div'>
