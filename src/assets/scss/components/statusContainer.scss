@@ -22,7 +22,9 @@
   .wrapper {
     margin-top: 5px;
     max-height: 600px;
+    min-height: 300px;
     overflow: auto;
+    padding: $eos-m;
 
     &::-webkit-scrollbar {
       width: 5px;
@@ -45,7 +47,7 @@
     box-shadow: none;
     flex-direction: column;
     height: fit-content;
-    margin: $eos-s;
+    margin: $eos-s 0px;
     padding: $eos-m;
 
     .avatar {
