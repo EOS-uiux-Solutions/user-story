@@ -105,15 +105,16 @@
   &-btn {
     width: 100%;
   }
-  
+
   &-action {
     margin: auto 5px;
   }
-  
+
   .svg {
     fill: $eos-white;
     vertical-align: middle;
   }
+
 }
 
 @media screen and (max-width: 540px) {
