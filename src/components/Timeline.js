@@ -11,7 +11,6 @@ const Timeline = (props) => {
 
   useEffect(() => {
     const setStatuses = async () => {
-
       const statusResponse = userStory.getStatuses()
       const _statusList = statusResponse.data.data.userStoryStatuses
 
