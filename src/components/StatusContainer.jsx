@@ -8,10 +8,10 @@ function StatusContainer(props) {
 
   const filterStories = React.useCallback(() => {
     const filteredStories = props.stories.filter(
-      (story) => story.user_story_status.Status === state.status
+      (story) => story.user_story_status.Status === state.Status
     )
     setStories(filteredStories)
-  }, [props.stories, state.status])
+  }, [props.stories, state.Status])
 
   useEffect(() => {
     filterStories()
@@ -19,8 +19,8 @@ function StatusContainer(props) {
 
   return (
     <div className='status-container'>
-      <h3 className='status'>{state.status}</h3>
-      <Droppable droppableId={state.status} index={props.index}>
+      <h3 className='status'>{state.Status}</h3>
+      <Droppable droppableId={state.Status} index={props.index}>
         {(provided) => (
           <div
             ref={provided.innerRef}

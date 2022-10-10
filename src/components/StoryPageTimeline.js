@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import Modal from './Modal'
 import { Link } from '@reach/router'
 import userStory from '../services/user_story'
-import Lists from '../utils/Lists'
 import { EOS_THUMB_UP } from 'eos-icons-react'
 import { Stepper, Step, StepTitle } from 'react-custom-stepper'
 
@@ -52,15 +51,21 @@ const StoryPageTimeline = (props) => {
 
   const [step, setStep] = useState(0)
 
+  const [statusList, setStatusList] = useState([])
+
   const togglePopup = () => {
     setIsOpen(!isOpen)
   }
 
   useEffect(() => {
-    const setStatuses = () => {
-      for (let i = 0; i < Lists.stateList.length; i++) {
-        if (Lists.stateList[i].status === currentStatus) {
-          setStep(i - 1)
+    const setStatuses = async () => {
+      const statusResponse = await userStory.getStatuses()
+      const _statusList = statusResponse.data.data.userStoryStatuses
+      setStatusList(_statusList)
+
+      for (let i = 0; i < _statusList.length; i++) {
+        if (_statusList[i].Status === currentStatus) {
+          setStep(i)
           break
         }
       }
@@ -188,9 +193,12 @@ const StoryPageTimeline = (props) => {
       </div>
       <div className='storypage-timeline'>
         <Stepper vertical step={step} theme={stepperTheme}>
-          {Lists.stateList.slice(1).map((ele, key) => (
-            <Step customContent={() => ele.icon} key={key}>
-              <StepTitle>{ele.status}</StepTitle>
+          {statusList.map((ele, key) => (
+            <Step
+              customContent={() => <i className='eos-icons'>{ele.icon_name}</i>}
+              key={key}
+            >
+              <StepTitle>{ele.Status}</StepTitle>
             </Step>
           ))}
         </Stepper>
