@@ -80,14 +80,12 @@ If you'd like to contribute with design changes, you'll have to do as follows:
 3. While working on your design, please make sure you follow our [design guidelines](https://github.com/EOS-uiux-Solutions/wiki/blob/main/Design-process-and-feedback-gathering.md).
 4. Once the issue is approved by us, it'll be ready to be implemented.
 
-# Learn more about the EOS UX/UI Solutions
+## Learn more about the EOS UX/UI Solutions
 
 - [EOS Icons](https://eos-icons.com)
 
 - [EOS User Story](https://userstory.site)
 
-- [EOS Design System](https://www.eosdesignsystem.com)
+- [Follow us on Twitter](https://twitter.com/eos_uxui)
 
-- [Follow us on Twitter](https://twitter.com/eosdesignsystem)
-
-- [Join us in Slack](https://eos-community.slack.com)
+- [Join us on Slack](https://slack.userstory.site)
