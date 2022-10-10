@@ -97,6 +97,26 @@
   top: 4em;
 }
 
+.edit-status {
+  justify-content: space-between;
+  margin: 10px auto;
+  width: 100%;
+
+  &-btn {
+    width: 100%;
+  }
+
+  &-action {
+    margin: auto 5px;
+  }
+
+  .svg {
+    fill: $eos-white;
+    vertical-align: middle;
+  }
+
+}
+
 @media screen and (max-width: 540px) {
   .author-information {
     align-items: baseline;
