@@ -15,6 +15,9 @@ import AuthWrapper, {
   AuthRightContainer
 } from '../components/AuthWrapper'
 
+import Oktalogo from '../assets/images/okta-logo.png'
+const { apiURL, SSO } = require('../config.json')
+
 export const Login = (props) => {
   const { message } = props
 
@@ -55,6 +58,10 @@ export const Login = (props) => {
       toast.success(`Logged in successfully as ${payload.user.username}`)
       navigate('/', { replace: true })
     } catch (e) {}
+  }
+
+  const handleSSO = () => {
+    navigate(`${apiURL}/connect/okta`)
   }
 
   if (state.auth) {
@@ -125,6 +132,15 @@ export const Login = (props) => {
                 {t('authentication:login-label')}
               </Button>
             </form>
+            <hr className='divider' />
+            {SSO && (
+              <div>
+                <Button className='okta-btn' onClick={handleSSO}>
+                  <img src={Oktalogo} alt='okta-logo' className='okta-logo' />
+                  {t('authentication:okta-login-label')}
+                </Button>
+              </div>
+            )}
             <div className='flex flex-row flex-space-between margin-top-l'>
               <Link className='link link-default' to='/forgotPassword'>
                 {t('authentication:forgot-password')}
