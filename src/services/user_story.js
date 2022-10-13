@@ -270,6 +270,7 @@ const userStory = {
         userStoryStatuses {
           id
           Status
+          icon_name
         }
       }`
     }

@@ -53,6 +53,11 @@
 
 .storypage-timeline {
   background-color: $eos-white;
+
+  .eos-icons {
+    font-size: $font-size-general;
+    vertical-align: middle;
+  }
 }
 
 .status-icon {

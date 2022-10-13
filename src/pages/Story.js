@@ -30,7 +30,6 @@ import Modal from '../components/Modal'
 import userStory from '../services/user_story'
 import SimilarStories from '../components/SimilarStories'
 import Dropdown from '../components/Dropdown'
-import Lists from '../utils/Lists'
 
 const Story = (props) => {
   const { storyId } = props
@@ -57,11 +56,13 @@ const Story = (props) => {
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false)
 
-  const [currentStatus, setCurrentStatus] = useState(Lists.stateList[0].status)
+  const [currentStatus, setCurrentStatus] = useState('All')
 
   const [updateStatus, setUpdateStatus] = useState(false)
 
   const [isUpdateAllowed, setIsUpdateAllowed] = useState(false)
+
+  const [statusList, setStatusList] = useState([])
 
   const togglePopup = () => {
     setIsOpen(!isOpen)
@@ -118,6 +119,15 @@ const Story = (props) => {
       getPermissions()
     }
   }, [storyId, userId])
+
+  useEffect(() => {
+    const fetchStatuses = async () => {
+      const statusResponse = await userStory.getStatuses()
+      setStatusList(statusResponse.data.data.userStoryStatuses)
+    }
+
+    fetchStatuses()
+  }, [])
 
   const save = async (event) => {
     if (editDescription.length <= 0) {
@@ -407,9 +417,7 @@ const Story = (props) => {
                       <Dropdown
                         curr={currentStatus}
                         setCurr={setCurrentStatus}
-                        itemList={Lists.stateList
-                          .slice(1)
-                          .map((state) => state.status)}
+                        itemList={statusList.map((state) => state.Status)}
                         reference={storyContainer}
                       />
                       <span>

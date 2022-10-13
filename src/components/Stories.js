@@ -55,6 +55,8 @@ const Stories = ({ authorId, followerId, userId }) => {
 
   const [isDragDisabled, setIsDragDisabled] = useState(true)
 
+  const [statusList, setStatusList] = useState([])
+
   const getPage = useCallback((page) => {
     setPage(page)
   }, [])
@@ -168,6 +170,18 @@ const Stories = ({ authorId, followerId, userId }) => {
     getPermissions()
   }, [userId])
 
+  useEffect(() => {
+    const fetchStatus = async () => {
+      const statusResponse = await userStory.getStatuses()
+      setStatusList([
+        ...Lists.additionalState,
+        ...statusResponse.data.data.userStoryStatuses
+      ])
+    }
+
+    fetchStatus()
+  }, [])
+
   const onDragEnd = async (result) => {
     try {
       if (!result.destination) {
@@ -188,14 +202,13 @@ const Stories = ({ authorId, followerId, userId }) => {
       stories[draggedStoryIndex] = draggedStory
       setStories([...stories])
 
-      const statusResponse = await userStory.getStatuses()
-      const newStatusIndex = statusResponse.data.data.userStoryStatuses
+      const newStatusIndex = statusList
         .map((status) => status.Status)
         .indexOf(result.destination.droppableId)
 
       await userStory.updateUserStoryStatus(
         draggedStory.id,
-        statusResponse.data.data.userStoryStatuses[newStatusIndex].id
+        statusList[newStatusIndex].id
       )
 
       toast.success(`Updated ${draggedStory.Title}`)
@@ -246,13 +259,14 @@ const Stories = ({ authorId, followerId, userId }) => {
             selectState={selectState}
             setPage={setPage}
             currentStateSelected={currentStateSelected}
+            statusList={statusList}
           />
         )}
       </div>
       <div className='status-container-box flex'>
         <DragDropContext onDragEnd={onDragEnd}>
           {isRoadmapView &&
-            Lists.stateList
+            statusList
               .slice(1)
               .map((state, index) => (
                 <StatusContainer
@@ -267,7 +281,11 @@ const Stories = ({ authorId, followerId, userId }) => {
       </div>
       {!isRoadmapView && (
         <div className='stories-div'>
-          <StoriesList stories={stories} isLoading={promiseInProgress} />
+          <StoriesList
+            stories={stories}
+            isLoading={promiseInProgress}
+            statusList={statusList}
+          />
         </div>
       )}
       {!isRoadmapView && (

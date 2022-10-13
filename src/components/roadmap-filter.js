@@ -1,13 +1,12 @@
 import React, { useState, useRef } from 'react'
 import Dropdown from './Dropdown'
-import Lists from '../utils/Lists'
 
 const RoadmapFilter = (props) => {
   const { selectState, setPage } = props
   const [status, setStatus] = useState('All')
   const statusDropdownContainer = useRef()
 
-  const statusOptions = [...Lists.stateList].reduce(
+  const statusOptions = [...props.statusList].reduce(
     (acc, cur) => [...acc, cur.status],
     []
   )
