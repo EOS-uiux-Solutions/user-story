@@ -20,6 +20,15 @@
     background-color: $gray-bg;
   }
 
+  .eos-icons-lang {
+    border-radius: 24px;
+    height: 24px;
+    padding: 7px;
+    text-align: center;
+    vertical-align: sub;
+    width: 24px;
+  }
+
   &:hover .dropdown-hover {
     display: block;
   }
@@ -99,5 +108,15 @@
 @media only screen and (max-width: 500px) {
   .dropdown-container {
     padding: 0px;
+  }
+}
+
+@media only screen and (max-width: 360px) {
+  .dropdown-container {
+    .eos-icons-lang {
+      border-radius: 24px;
+      padding: 0;
+      margin: 5px 0;
+    }
   }
 }
