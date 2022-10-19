@@ -241,7 +241,8 @@ const Stories = ({ authorId, followerId, userId }) => {
         ])
       }
       fetchStatus()
-      toast.success(`${statusType} added successfully`)
+      toast.success(`${statusType} status created successfully`)
+      setAddingNewStatus(false)
     } catch (err) {
       toast.error(err.message)
     }
