@@ -11,6 +11,14 @@
     flex-wrap: nowrap;
     overflow: auto;
     padding: 10px 5px;
+
+    .add-status {
+
+      &-btn {
+        height: fit-content;
+        min-width: 250px;
+      }
+    }
   }
 
   .status {
