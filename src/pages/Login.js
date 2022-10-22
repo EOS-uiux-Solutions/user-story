@@ -16,7 +16,8 @@ import AuthWrapper, {
 } from '../components/AuthWrapper'
 
 import Oktalogo from '../assets/images/okta-logo.png'
-const { apiURL, SSO } = require('../config.json')
+import axios from 'axios'
+const { apiURL } = require('../config.json')
 
 export const Login = (props) => {
   const { message } = props
@@ -32,6 +33,7 @@ export const Login = (props) => {
   } = useForm()
 
   const [showPassword, toggleShowPassword] = useState(false)
+  const [SSO, setSSO] = useState(false)
 
   const { state, dispatch } = useContext(Context)
 
@@ -41,6 +43,17 @@ export const Login = (props) => {
         dispatch({ type: 'ERROR', payload: null })
       }
     })
+  })
+
+  useEffect(() => {
+    axios
+      .get(`${apiURL}/users-permissions/providers`)
+      .then((res) => {
+        setSSO(res.data.okta.enabled)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   })
 
   const onSubmit = async (data) => {
