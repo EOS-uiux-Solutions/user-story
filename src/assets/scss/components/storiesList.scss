@@ -85,6 +85,18 @@
 }
 
 @media only screen and (max-width: 450px) {
+  .story {
+
+    &-heading {
+      margin: 0px;
+    }
+
+    &-description {
+      margin: auto 0px;
+      padding: 0px;
+    }
+  }
+
   .story-small-details {
     align-items: flex-start;
     display: flex;

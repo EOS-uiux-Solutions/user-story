@@ -63,6 +63,34 @@ const Vote = (props) => {
     setVoteClicked(false)
   }
 
+  if (props.small) {
+    return (
+      <div
+        className={`flex vote-wrapper ${
+          userId && voted ? 'vote-wrapper-voted' : ''
+        }`}
+      >
+        <div className='votes-count'>{votes}</div>
+        <div
+          className='vote-button'
+          onClick={() => {
+            if (userId && !voteClicked) updateVote(story)
+          }}
+        >
+          {!userId ? (
+            <Link className='vote-link' to='/login'>
+              <EOS_THUMB_UP className='eos-icons' color='white' />
+            </Link>
+          ) : (
+            <>
+              <EOS_THUMB_UP className='eos-icons' color='white' />
+            </>
+          )}
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div
       className={`flex flex-column vote-wrapper ${
@@ -113,7 +141,7 @@ const Vote = (props) => {
                   <div>
                     <Link
                       className='link-vote link link-default'
-                      to={`/profile/${voters.id}`}
+                      to={`/profile/${voters.username}`}
                     >
                       {voters.username}
                     </Link>

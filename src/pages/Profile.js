@@ -7,20 +7,26 @@ import Navigation from '../components/Navigation'
 import UserProfile from '../components/UserProfile'
 
 import userStory from '../services/user_story'
+import isMongoID from '../utils/IsMongoID'
 
 const Profile = (props) => {
-  const { profileId } = props
+  const { identifier } = props
   const [user, setUser] = useState('')
 
   useEffect(() => {
     const fetchUserInfo = async () => {
-      const response = await userStory.getUserDetails(profileId)
-      setUser(response.data.data.user)
+      if (isMongoID(identifier)) {
+        const response = await userStory.getUserDetails(identifier)
+        setUser(response.data.data.user)
+      } else {
+        const response = await userStory.getUserDetailsByUsername(identifier)
+        setUser(response.data.data.users[0])
+      }
     }
-    if (profileId) {
+    if (identifier) {
       fetchUserInfo()
     }
-  }, [profileId])
+  }, [identifier])
 
   if (user === null) {
     navigate('/404', { replace: true })
@@ -44,7 +50,7 @@ const Profile = (props) => {
           </div>
           <div className='flex flex-column'>
             <h3>Stories by this user</h3>
-            <Stories authorId={profileId} />
+            <Stories authorId={user._id} />
           </div>
         </div>
       </div>

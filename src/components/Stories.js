@@ -1,24 +1,25 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
+import { DragDropContext } from 'react-beautiful-dnd'
 
-import Button from './Button'
+// components
 import StoriesList from './StoriesList'
 import Pagination from './Pagination'
 import Dropdown from './Dropdown'
+import ProductList from './ProductList'
+import RoadmapFilter from './roadmap-filter'
+import Switch from './Switch'
+import StatusContainer from './StatusContainer'
+// others
 import SearchInput from '../modules/SearchInput'
-
 import Lists from '../utils/Lists'
 import userStory from '../services/user_story'
-import ProductList from './ProductList'
+import toast from 'react-hot-toast'
 
-const Stories = ({ authorId, followerId }) => {
-  const [currentStateSelected, selectState] = useState('Under consideration')
+const Stories = ({ authorId, followerId, userId }) => {
+  const [currentStateSelected, selectState] = useState('All')
 
   const [page, setPage] = useState(1)
-
-  const statusOptions = useMemo(() => [], [])
-
-  const [status, setStatus] = useState('Under consideration')
 
   const [sort, setSort] = useState('Most Voted')
 
@@ -34,8 +35,6 @@ const Stories = ({ authorId, followerId }) => {
 
   const [stories, setStories] = useState([])
 
-  const statusDropdownContainer = useRef()
-
   const sortDropdownContainer = useRef()
 
   const categoryDropdownContainer = useRef()
@@ -50,15 +49,17 @@ const Stories = ({ authorId, followerId }) => {
 
   const [authorQuery, setAuthorQuery] = useState('')
 
+  const [sortType, setSortType] = useState('followers:desc')
+
+  const [isRoadmapView, setIsRoadmapView] = useState(false)
+
+  const [isDragDisabled, setIsDragDisabled] = useState(true)
+
+  const [statusList, setStatusList] = useState([])
+
   const getPage = useCallback((page) => {
     setPage(page)
   }, [])
-
-  useEffect(() => {
-    for (let i = 0; i < Lists.stateList.length; i++) {
-      statusOptions.push(Lists.stateList[i].status)
-    }
-  }, [statusOptions])
 
   useEffect(() => {
     const fetchStoryCount = async () => {
@@ -69,7 +70,8 @@ const Stories = ({ authorId, followerId }) => {
         categoryQuery,
         productQuery,
         searchQuery,
-        followerId
+        followerId,
+        isRoadmapView
       )
       setStoryCount(response.data.data.userStoriesConnection.aggregate.count)
     }
@@ -81,7 +83,8 @@ const Stories = ({ authorId, followerId }) => {
     searchQuery,
     authorQuery,
     authorId,
-    followerId
+    followerId,
+    isRoadmapView
   ])
 
   useEffect(() => {
@@ -99,6 +102,12 @@ const Stories = ({ authorId, followerId }) => {
   }, [category, searchTerm, userTerm])
 
   useEffect(() => {
+    if (sort === 'Most Voted') {
+      setSortType('followers:desc')
+    } else if (sort === 'Most Discussed') {
+      setSortType('comments:desc')
+    }
+
     const fetchStories = async () => {
       const response = await userStory.getStories(
         page,
@@ -108,7 +117,9 @@ const Stories = ({ authorId, followerId }) => {
         categoryQuery,
         productQuery,
         searchQuery,
-        followerId
+        followerId,
+        sortType,
+        isRoadmapView
       )
       setStories(response.data.data.userStories)
     }
@@ -121,7 +132,10 @@ const Stories = ({ authorId, followerId }) => {
     searchQuery,
     authorQuery,
     authorId,
-    followerId
+    followerId,
+    sortType,
+    sort,
+    isRoadmapView
   ])
 
   useEffect(() => {
@@ -138,103 +152,150 @@ const Stories = ({ authorId, followerId }) => {
   }, [])
 
   useEffect(() => {
-    const comparatorVotes = (a, b) => {
-      return a.followers.length > b.followers.length ? -1 : 1
+    const getPermissions = async () => {
+      if (!userId) return
+
+      const permissionResponse = await userStory.getPermissionsById(userId)
+      const permissions = permissionResponse.data.data.user.access_role.length
+        ? permissionResponse.data.data.user.access_role[0].permissions.map(
+            (item) => item.name
+          )
+        : []
+
+      const updatedAllowed = permissions.includes('Update Story Status')
+      const editAllowed = permissions.includes('Edit Story')
+
+      setIsDragDisabled(!updatedAllowed && !editAllowed)
     }
-    const comparatorComments = (a, b) => {
-      return a.user_story_comments.length > b.user_story_comments.length
-        ? -1
-        : 1
+    getPermissions()
+  }, [userId])
+
+  useEffect(() => {
+    const fetchStatus = async () => {
+      const statusResponse = await userStory.getStatuses()
+      setStatusList([
+        ...Lists.additionalState,
+        ...statusResponse.data.data.userStoryStatuses
+      ])
     }
 
-    const updateStories = async () => {
-      if (sort === 'Most Voted') {
-        setStories(stories.sort(comparatorVotes))
+    fetchStatus()
+  }, [])
+
+  const onDragEnd = async (result) => {
+    try {
+      if (!result.destination) {
+        return
       }
-      if (sort === 'Most Discussed') {
-        setStories(stories.sort(comparatorComments))
-      }
+
+      const draggedStoryIndex = stories
+        .map((story) => story.id)
+        .indexOf(result.draggableId)
+
+      const draggedStory = stories[draggedStoryIndex]
+      if (
+        draggedStory.user_story_status.Status === result.destination.droppableId
+      )
+        return
+
+      draggedStory.user_story_status.Status = result.destination.droppableId
+      stories[draggedStoryIndex] = draggedStory
+      setStories([...stories])
+
+      const newStatusIndex = statusList
+        .map((status) => status.Status)
+        .indexOf(result.destination.droppableId)
+
+      await userStory.updateUserStoryStatus(
+        draggedStory.id,
+        statusList[newStatusIndex].id
+      )
+
+      toast.success(`Updated ${draggedStory.Title}`)
+    } catch (err) {
+      toast.error(err.message)
     }
-    trackPromise(updateStories(), 'stories-div')
-  }, [sort, stories, setStories])
+  }
 
   return (
     <div>
-      <ProductList setProductQuery={setProductQuery} />
-      <div className='roadmap-container'>
-        <div className='roadmap'>
-          {Lists.stateList &&
-            Lists.stateList.map((state, key) => {
-              return (
-                <Button
-                  className={
-                    currentStateSelected === state.status
-                      ? 'btn btn-tabs btn-tabs-selected'
-                      : 'btn btn-tabs'
-                  }
-                  key={key}
-                  onClick={() => {
-                    selectState(state.status)
-                    setPage(1)
-                  }}
-                >
-                  {state.icon}
-                  {state.status}
-                </Button>
-              )
-            })}
-        </div>
-      </div>
-
-      <div className='roadmap-dropdown'>
-        <Dropdown
-          title='Status'
-          reference={statusDropdownContainer}
-          curr={status}
-          setCurr={setStatus}
-          itemList={statusOptions}
-          data-cy='status-dropdown'
-          selectstate={selectState}
-          setpage={setPage}
-        />
-      </div>
-
-      <div className='flex flex-row search-bar'>
-        <SearchInput
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          userTerm={userTerm}
-          setUserTerm={setUserTerm}
-          setSearchQuery={setSearchQuery}
-          setAuthorQuery={setAuthorQuery}
-        />
-        <div className='flex flex-row options-bar'>
-          <Dropdown
-            title='Categories'
-            reference={categoryDropdownContainer}
-            curr={category}
-            setCurr={setCategory}
-            itemList={categories}
-            data-cy='category-dropdown'
-          />
-          <Dropdown
-            title='Sort By'
-            reference={sortDropdownContainer}
-            curr={sort}
-            setCurr={setSort}
-            itemList={Lists.sortByList}
+      <div className='filters'>
+        <div className='filters-top flex'>
+          <div className='options-bar'>
+            <ProductList setProductQuery={setProductQuery} />
+            <Dropdown
+              title='Categories'
+              reference={categoryDropdownContainer}
+              curr={category}
+              setCurr={setCategory}
+              itemList={categories}
+              data-cy='category-dropdown'
+            />
+            <Dropdown
+              title='Sort By'
+              reference={sortDropdownContainer}
+              curr={sort}
+              setCurr={setSort}
+              itemList={Lists.sortByList}
+            />
+            <Switch
+              checked={isRoadmapView}
+              setChecked={setIsRoadmapView}
+              uncheckedOption={'All'}
+              checkedOption={'By Roadmap Stage'}
+            />
+          </div>
+          <SearchInput
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            userTerm={userTerm}
+            setUserTerm={setUserTerm}
+            setSearchQuery={setSearchQuery}
+            setAuthorQuery={setAuthorQuery}
           />
         </div>
+        {isRoadmapView && (
+          <RoadmapFilter
+            selectState={selectState}
+            setPage={setPage}
+            currentStateSelected={currentStateSelected}
+            statusList={statusList}
+          />
+        )}
       </div>
-      <div className='stories-div'>
-        <StoriesList stories={stories} isLoading={promiseInProgress} />
+      <div className='status-container-box flex'>
+        <DragDropContext onDragEnd={onDragEnd}>
+          {isRoadmapView &&
+            statusList
+              .slice(1)
+              .map((state, index) => (
+                <StatusContainer
+                  stories={stories}
+                  state={state}
+                  key={index}
+                  index={index}
+                  isDragDisabled={isDragDisabled}
+                />
+              ))}
+        </DragDropContext>
       </div>
-      <Pagination
-        getPage={getPage}
-        storyCount={storyCount}
-        status={currentStateSelected}
-        productQuery={productQuery}
-      />
+      {!isRoadmapView && (
+        <div className='stories-div'>
+          <StoriesList
+            stories={stories}
+            isLoading={promiseInProgress}
+            statusList={statusList}
+          />
+        </div>
+      )}
+      {!isRoadmapView && (
+        <Pagination
+          getPage={getPage}
+          storyCount={storyCount}
+          status={currentStateSelected}
+          productQuery={productQuery}
+        />
+      )}
     </div>
   )
 }

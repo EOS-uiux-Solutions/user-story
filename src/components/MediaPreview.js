@@ -16,6 +16,9 @@ const MediaPreview = ({ attachments, setAttachments }) => {
       <div className='preview-inner'>
         <img src={file.preview} className='preview-image' alt='preview' />
       </div>
+      <div>
+        <center>{file.name}</center>
+      </div>
     </div>
   ))
 

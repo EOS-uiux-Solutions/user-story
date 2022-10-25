@@ -20,13 +20,14 @@ import Notifications from './pages/Notifications'
 import Context from './modules/Context'
 import ContextReducer from './modules/ContextReducer'
 import Footer from './components/Footer'
+import LoginRedirect from './components/LoginRedirect'
 
 const initialState = {
   auth: false,
   errorCode: null
 }
 
-const App = () => {
+const App = (props) => {
   const [state, dispatch] = useReducer(ContextReducer, initialState)
 
   const userId = localStorage.getItem('id')
@@ -69,11 +70,12 @@ const App = () => {
         <Story path='/story/:storyId' />
         <MyStories path='/myStories' />
         <MyProfile path='/myProfile' />
-        <Profile path='/profile/:profileId' />
+        <Profile path='/profile/:identifier' />
         <Notifications path='/notifications' />
         <ChangePassword path='/changePassword' />
         <Policies path='/policies' />
         <Page404 default />
+        <LoginRedirect path='/connect/okta/redirect' />
       </Router>
       <Footer />
       <Toaster />

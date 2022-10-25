@@ -46,9 +46,43 @@ body {
 
 .body-wrapper {
   margin: auto;
-  max-width: 1120px;
+
+  &-left {
+    margin-left: 5em;
+    width: 65%;
+  }
+
+  &-right {
+    margin-top: 4rem;
+    width: 25%;
+  }
+
 }
 
 .hidden {
   display: none;
+}
+
+@media screen and (max-width: 540px) {
+
+  .body-content {
+    margin: 8px;
+    padding: 8px;
+  }
+
+  .body-wrapper {
+
+    &-left {
+      margin-left: 0px;
+      width: 100%;
+    }
+
+    &-right {
+      width: 100%;
+    }
+  }
+
+  .user-avatar {
+    margin: 0px 4px 0px 0px;
+  }
 }

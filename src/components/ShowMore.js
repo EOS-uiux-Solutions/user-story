@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Button from './Button'
+import ReactHtmlParser from 'react-html-parser'
 
 const ShowMore = ({ txt, textLength, maxCharacterLimit = 350 }) => {
   const text = txt
@@ -16,16 +17,14 @@ const ShowMore = ({ txt, textLength, maxCharacterLimit = 350 }) => {
     <>
       {textLength <= maxCharacterLimit ? (
         <div
-          dangerouslySetInnerHTML={{ __html: resultString }}
           className='story-description flex-column'
           data-cy='story-description'
-        />
+        >
+          {ReactHtmlParser(resultString)}
+        </div>
       ) : (
         <div className='flex flex-column story-description'>
-          <div
-            dangerouslySetInnerHTML={{ __html: resultString }}
-            data-cy='story-description'
-          />
+          <div data-cy='story-description'>{ReactHtmlParser(resultString)}</div>
           <Button
             className='btn btn-transparent btn-reply'
             onClick={toggleIsTruncated}

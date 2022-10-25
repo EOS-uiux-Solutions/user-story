@@ -1,3 +1,4 @@
+/* eslint-disable no-var */
 import React, { useState, useEffect, useRef, useContext } from 'react'
 import { Link, navigate } from '@reach/router'
 import {
@@ -11,9 +12,13 @@ import eosIcon from '../assets/images/user-story-logo.svg'
 import useAuth from '../hooks/useAuth'
 import Context from '../modules/Context'
 import Notifications from './Notifications'
+import Button from './Button'
+const { SSO } = require('../config.json')
 
 const Navigation = (props) => {
-  const { logout } = useAuth()
+  const { login, logout } = useAuth()
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
 
   const userName = localStorage.getItem('username')
   const userEmail = localStorage.getItem('email')
@@ -40,6 +45,11 @@ const Navigation = (props) => {
     }
   }, [userDropdownContainer])
 
+  const handleLogin = () => {
+    if (SSO) login()
+    else navigate('/login')
+  }
+
   const handleLogout = async () => {
     await logout()
     dispatch({
@@ -65,9 +75,13 @@ const Navigation = (props) => {
           </Link>
         )}
         {!state.auth && (
-          <Link className='btn btn-default' data-cy='btn-signin' to='/login'>
+          <Button
+            className='btn btn-default'
+            data-cy='btn-signin'
+            onClick={handleLogin}
+          >
             Sign In
-          </Link>
+          </Button>
         )}
         <Notifications />
         {state.auth && (
@@ -80,8 +94,8 @@ const Navigation = (props) => {
             ref={userDropdownContainer}
           >
             <EOS_ACCOUNT_CIRCLE
-              className={`eos-icons ${
-                userDropdownState ? 'eos-icons-open' : ''
+              className={`eos-icons icon-dropdown ${
+                userDropdownState ? 'open' : ''
               }`}
             />
             <div

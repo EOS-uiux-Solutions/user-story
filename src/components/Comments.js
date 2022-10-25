@@ -15,12 +15,6 @@ const attachFiles = (formData, attachments) => {
   }
 }
 
-const toggleReplyForm = (repliesToggled, setRepliesToggled, key) => {
-  repliesToggled === key + 1
-    ? setRepliesToggled(null)
-    : setRepliesToggled(key + 1)
-}
-
 const toggleViewReplies = (viewRepliesToggled, setViewRepliesToggled, key) => {
   viewRepliesToggled.find((item) => item === key + 1)
     ? setViewRepliesToggled((viewRepliesToggled) =>
@@ -40,13 +34,9 @@ const Comments = (props) => {
 
   const [comment, setComment] = useState('')
 
-  const [commentId, setCommentId] = useState()
-
   const [commentReply, setCommentReply] = useState('')
 
   const [comments, setComments] = useState([])
-
-  const [repliesToggled, setRepliesToggled] = useState()
 
   const [viewRepliesToggled, setViewRepliesToggled] = useState([])
 
@@ -71,12 +61,12 @@ const Comments = (props) => {
     [attachments, replyAttachments]
   )
 
-  const addComment = async (e, data) => {
+  const addComment = async (e, data, _storyId = storyId) => {
     e.preventDefault()
 
     const formData = new FormData()
     data.user = id
-    data.user_story = storyId
+    data.user_story = _storyId
     if (data.Comments.trim() !== '') {
       formData.append('data', JSON.stringify(data))
 
@@ -91,7 +81,7 @@ const Comments = (props) => {
     }
   }
 
-  const addCommentReply = async (e, data) => {
+  const addCommentReply = async (e, data, commentId) => {
     const formData = new FormData()
 
     data.user = id
@@ -104,7 +94,6 @@ const Comments = (props) => {
       await userStory.postCommentReply(formData)
       setCommentReply('')
       setReplyAttachments([])
-      setRepliesToggled(null)
 
       fetchStoryComments()
     }
@@ -126,7 +115,8 @@ const Comments = (props) => {
           />
         </div>
       )}
-      <h3>Comments</h3>
+      <h2 className='comments-heading'>Comments</h2>
+      <hr />
       {comments.length ? (
         comments.map((data, key) => {
           return (
@@ -134,76 +124,64 @@ const Comments = (props) => {
               <div className='user-avatar'>
                 <img
                   className='avatar'
-                  src={`https://avatars.dicebear.com/api/jdenticon/${data.user.username}.svg`}
+                  src={
+                    data.user &&
+                    data.user.profilePicture &&
+                    data.user.profilePicture.url
+                      ? data.user.profilePicture.url
+                      : `https://avatars.dicebear.com/api/jdenticon/${
+                          data.user && data.user.username
+                        }.svg`
+                  }
                   alt='Default User Avatar'
                 ></img>
               </div>
-              <div className='comment-content' data-cy='comment-content'>
-                <Link
-                  className='link link-default'
-                  data-cy='comment-username'
-                  to={`/profile/${data.user.id}`}
-                >
-                  {data.user.username}
-                </Link>
-                <div className='metadata'>
-                  <div>{moment(data.createdAt).fromNow()}</div>
-                </div>
-                <div dangerouslySetInnerHTML={{ __html: data.Comments }} />
-                <div>
-                  {!!data.attachment.length && (
-                    <div className='gallery-container-comment'>
-                      <Gallery imageArray={data.attachment} />
+              <div className='comment-content'>
+                <div className='comment-content-body'>
+                  <div className='top'>
+                    <Link
+                      className='link link-default'
+                      data-cy='comment-username'
+                      to={`/profile/${data.user && data.user.username}`}
+                    >
+                      {data.user && data.user.username}
+                    </Link>
+                    <div className='metadata'>
+                      <div>{moment(data.createdAt).fromNow()}</div>
                     </div>
-                  )}
+                  </div>
+                  <div
+                    dangerouslySetInnerHTML={{ __html: data.Comments }}
+                    className='text'
+                    data-cy='comment-content'
+                  />
+                  <div>
+                    {!!data.attachment.length && (
+                      <div className='gallery-container-comment media'>
+                        <Gallery imageArray={data.attachment} />
+                      </div>
+                    )}
+                  </div>
                 </div>
                 <div className='reply-action'>
-                  {state.auth && (
-                    <Button
-                      className='btn btn-transparent btn-reply'
-                      onClick={() => {
-                        setCommentId(data.id)
-                        toggleReplyForm(repliesToggled, setRepliesToggled, key)
-                        toggleViewReplies(
-                          viewRepliesToggled,
-                          setViewRepliesToggled,
-                          key
-                        )
-                      }}
-                    >
-                      Reply
-                    </Button>
-                  )}
-                  <br />
-                  {data.user_story_comment_replies.length === 1 ? (
-                    <Button
-                      className='btn btn-default btn-comment-edit'
-                      onClick={() => {
-                        toggleViewReplies(
-                          viewRepliesToggled,
-                          setViewRepliesToggled,
-                          key
-                        )
-                      }}
-                    >
-                      {data.user_story_comment_replies.length} Reply
-                    </Button>
-                  ) : data.user_story_comment_replies.length === 0 ? (
-                    ''
-                  ) : (
-                    <Button
-                      className='btn btn-default btn-comment-edit'
-                      onClick={() => {
-                        toggleViewReplies(
-                          viewRepliesToggled,
-                          setViewRepliesToggled,
-                          key
-                        )
-                      }}
-                    >
-                      {data.user_story_comment_replies.length} Replies
-                    </Button>
-                  )}
+                  <Button
+                    className={`btn btn-default btn-comment-reply ${
+                      viewRepliesToggled.find((item) => item === key + 1) &&
+                      'toggled'
+                    }`}
+                    onClick={() => {
+                      toggleViewReplies(
+                        viewRepliesToggled,
+                        setViewRepliesToggled,
+                        key
+                      )
+                    }}
+                  >
+                    {data.user_story_comment_replies.length}
+                    {data.user_story_comment_replies.length <= 1
+                      ? ` Reply`
+                      : ` Replies`}
+                  </Button>
                 </div>
                 {viewRepliesToggled.find((item) => item === key + 1) &&
                   data.user_story_comment_replies.map((reply, key) => (
@@ -211,30 +189,33 @@ const Comments = (props) => {
                       <div className='user-avatar'>
                         <img
                           className='avatar'
-                          src={`https://avatars.dicebear.com/api/jdenticon/${reply.user.username}.svg`}
+                          src={
+                            reply.user.profilePicture &&
+                            reply.user.profilePicture.url
+                              ? reply.user.profilePicture.url
+                              : `https://avatars.dicebear.com/api/jdenticon/${reply.user.username}.svg`
+                          }
                           alt='Default User Avatar'
                         ></img>
                       </div>
-                      <div className='comment-content'>
-                        <Link
-                          className='link link-default'
-                          to={`/profile/${data.user.id}`}
-                        >
-                          {reply.user.username}
-                        </Link>
-                        <div className='metadata'>
-                          {
-                            <div>
-                              {`${reply.createdAt.slice(
-                                0,
-                                10
-                              )}  ${reply.createdAt.slice(11, 19)}`}
-                            </div>
-                          }
+                      <div className='comment-content comment-content-body'>
+                        <div className='top'>
+                          <Link
+                            className='link link-default'
+                            to={`/profile/${data.user.username}`}
+                          >
+                            {reply.user.username}
+                          </Link>
+                          <div className='metadata'>
+                            <div>{moment(reply.createdAt).fromNow()}</div>
+                          </div>
                         </div>
-                        <p>{reply.Comments}</p>
+                        <div
+                          dangerouslySetInnerHTML={{ __html: reply.Comments }}
+                          className='text'
+                        />
                         {reply.attachment.length !== 0 ? (
-                          <div className='gallery-container'>
+                          <div className='gallery-container media'>
                             <Gallery imageArray={reply.attachment} />
                           </div>
                         ) : (
@@ -243,24 +224,29 @@ const Comments = (props) => {
                       </div>
                     </div>
                   ))}
-                {repliesToggled === key + 1 && state.auth && (
-                  <CommentForm
-                    id={1}
-                    attachments={replyAttachments}
-                    setAttachments={setReplyAttachments}
-                    addComment={addCommentReply}
-                    comment={commentReply}
-                    setComment={setCommentReply}
-                    cta={'Add Reply'}
-                    placeholder={'Adding a Reply'}
-                  />
-                )}
+                {viewRepliesToggled.find((item) => item === key + 1) &&
+                  state.auth && (
+                    <CommentForm
+                      id={data.id}
+                      attachments={replyAttachments}
+                      setAttachments={setReplyAttachments}
+                      addComment={addCommentReply}
+                      comment={commentReply}
+                      setComment={setCommentReply}
+                      cta={'Add Reply'}
+                      placeholder={'Adding a Reply'}
+                      className='reply-form'
+                      type='reply'
+                    />
+                  )}
               </div>
             </div>
           )
         })
       ) : (
-        <h3>No comments yet</h3>
+        <div className='no-comments'>
+          <h3>No comments yet</h3>
+        </div>
       )}
     </div>
   )

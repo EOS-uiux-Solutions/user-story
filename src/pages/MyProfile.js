@@ -9,6 +9,7 @@ import userStory from '../services/user_story'
 
 const MyProfile = () => {
   const userId = localStorage.getItem('id')
+  // eslint-disable-next-line react-hooks/rules-of-hooks, no-var
 
   const { state } = useContext(Context)
 

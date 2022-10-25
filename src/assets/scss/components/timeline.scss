@@ -5,7 +5,7 @@
 }
 
 .status-element {
-  width: 150px;
+  width: 100%;
   z-index: 20;
 
   .status {
@@ -21,5 +21,42 @@
       background-color: $light-gray;
       padding: 13px;
     }
+  }
+}
+
+.stepper {
+  margin-left: -45%;
+  padding: 10px;
+
+  .step {
+    align-items: center;
+    display: flex;
+    height: 1.5rem;
+    justify-content: center;
+    width: 1.5rem;
+  }
+
+  .eos-icons {
+    margin-right: 0px;
+  }
+
+  .progress,
+  .completed {
+
+    .eos-icons {
+      fill: white;
+    }
+  }
+
+  .title {
+    font-family: $font-family;
+    margin-top: 3px;
+  }
+
+  .progress-bar {
+    background: $medium-gray;
+    fill: $medium-gray;
+    height: 20px;
+    margin: 5px 0px;
   }
 }

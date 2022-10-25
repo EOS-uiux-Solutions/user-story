@@ -2,9 +2,33 @@ import React, { useState, useEffect } from 'react'
 import Modal from './Modal'
 import { Link } from '@reach/router'
 import userStory from '../services/user_story'
-import Lists from '../utils/Lists'
 import { EOS_THUMB_UP } from 'eos-icons-react'
-import storyPagePattern from '../assets/images/story-page-pattern.svg'
+import { Stepper, Step, StepTitle } from 'react-custom-stepper'
+
+const stepperTheme = {
+  light: {
+    step: {
+      progress: {
+        background: '#15578f',
+        fill: '#15578f'
+      },
+      completed: {
+        background: '#008ACF',
+        fill: '#008ACF'
+      }
+    },
+    progressBar: {
+      progress: {
+        background: '#15578f',
+        fill: '#15578f'
+      },
+      completed: {
+        background: '#008ACF',
+        fill: '#008ACF'
+      }
+    }
+  }
+}
 
 const StoryPageTimeline = (props) => {
   const { story, currentStatus } = props
@@ -25,21 +49,26 @@ const StoryPageTimeline = (props) => {
 
   const [isOpen, setIsOpen] = useState(false)
 
-  const [previousStatuses, setPreviousStatuses] = useState([])
+  const [step, setStep] = useState(0)
+
+  const [statusList, setStatusList] = useState([])
 
   const togglePopup = () => {
     setIsOpen(!isOpen)
   }
 
   useEffect(() => {
-    const setStatuses = () => {
-      const tempList = []
-      for (let i = 0; i < Lists.stateList.length; i++) {
-        tempList.push(Lists.stateList[i].status)
-        if (Lists.stateList[i].status === currentStatus) break
-      }
+    const setStatuses = async () => {
+      const statusResponse = await userStory.getStatuses()
+      const _statusList = statusResponse.data.data.userStoryStatuses
+      setStatusList(_statusList)
 
-      setPreviousStatuses(tempList)
+      for (let i = 0; i < _statusList.length; i++) {
+        if (_statusList[i].Status === currentStatus) {
+          setStep(i)
+          break
+        }
+      }
     }
     setStatuses()
   }, [currentStatus])
@@ -78,6 +107,7 @@ const StoryPageTimeline = (props) => {
       setVotes((votes) => votes + 1)
     }
     setVoteClicked(false)
+    props.fetchStory()
   }
 
   return (
@@ -105,6 +135,25 @@ const StoryPageTimeline = (props) => {
         >
           {votes} Votes
         </div>
+      </div>
+      <div className='story-voters-list flex'>
+        {story.followers.map((follower, key) => (
+          <img
+            className='avatar'
+            src={
+              follower.profilePicture && follower.profilePicture.url
+                ? follower.profilePicture.url
+                : `https://avatars.dicebear.com/api/jdenticon/${follower.username}.svg`
+            }
+            alt='Default User Avatar'
+            key={key}
+          />
+        ))}
+      </div>
+      <div className='story-voters-list-modal'>
+        <p className='text' onClick={togglePopup}>
+          See All Voters
+        </p>
         {isOpen && (
           <Modal
             content={
@@ -128,7 +177,7 @@ const StoryPageTimeline = (props) => {
                     <div>
                       <Link
                         className='link-vote link link-default'
-                        to={`/profile/${voters.id}`}
+                        to={`/profile/${voters.username}`}
                       >
                         {voters.username}
                       </Link>
@@ -143,30 +192,16 @@ const StoryPageTimeline = (props) => {
         )}
       </div>
       <div className='storypage-timeline'>
-        {Lists.stateList.map((ele, key) => {
-          return (
-            <div className='status-element' key={key}>
-              {previousStatuses.includes(ele.status) ? (
-                <div className='status-current'>
-                  <div className='status-icon'>
-                    {ele.icon}
-                    {ele.status}
-                  </div>
-                </div>
-              ) : (
-                <div className='status-previous'>
-                  <div className='status-icon'>
-                    {ele.icon}
-                    {ele.status}
-                  </div>
-                </div>
-              )}
-            </div>
-          )
-        })}
-      </div>
-      <div className='story-pattern'>
-        <img src={storyPagePattern} alt='pattern' />
+        <Stepper vertical step={step} theme={stepperTheme}>
+          {statusList.map((ele, key) => (
+            <Step
+              customContent={() => <i className='eos-icons'>{ele.icon_name}</i>}
+              key={key}
+            >
+              <StepTitle>{ele.Status}</StepTitle>
+            </Step>
+          ))}
+        </Stepper>
       </div>
     </div>
   )

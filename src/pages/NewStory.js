@@ -260,6 +260,7 @@ const NewStory = () => {
                   attachments={attachments}
                   setAttachments={setAttachments}
                 />
+                <br />
                 <div className='flex flex-row flex-center'>
                   <Button
                     type='submit'

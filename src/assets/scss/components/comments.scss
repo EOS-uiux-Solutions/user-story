@@ -3,21 +3,55 @@
 .comments-wrapper {
   border-top: 1px solid $eos-gray-100;
   margin-top: 32px;
+
+  .comments-heading {
+    margin-block-end: 0px;
+    margin-block-start: 0px;
+  }
+
 }
 
 .comment {
   display: flex;
   flex-direction: row;
   margin: 8px 0px;
+
+  .avatar {
+    height: 2.5rem;
+    width: 2.5rem;
+  }
 }
 
 .comment-content {
-  margin-left: 16px;
+  width: 100%;
+
+  &-body {
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    width: 100%;
+  }
+
+  .top {
+    padding: 0.25rem 0.6rem;
+  }
 
   .metadata {
     display: inline-block;
     font-size: $comments-font-size-metadata;
     margin-left: 1em;
+  }
+
+  .text {
+    border-top: 1px solid rgba(0, 0, 0, 0.4);
+    padding: 1rem 0.6rem;
+  }
+
+  .media {
+    padding: 1rem 0.6rem;
+  }
+
+  .reply-form {
+    margin-left: 4.5rem;
   }
 
   .reply-action {
@@ -26,6 +60,10 @@
     a {
       font-weight: 100;
     }
+
+    .toggled {
+      background-color: #42779B;
+    }
   }
 }
 
@@ -33,14 +71,18 @@
   margin: 2% 0;
 }
 
+.btn-comment-reply {
+  margin: 1% 0;
+}
+
 .comment-form {
-  margin: 16px 0px;
+  margin: 16px 0px 0px 0px;
 }
 
 .mentions {
   background-color: #ffffff;
   margin: 1em 0;
-  width: 40vw;
+  width: 100%;
 }
 
 .mentions--singleLine {
@@ -62,8 +104,10 @@
 .mentions--multiLine {
   .mentions__control {
     border: 1px solid silver;
+    border-radius: 5px;
     font-family: $font-family;
     font-size: $font-size-general;
+    height: 100px;
   }
 
   .mentions__highlighter {
@@ -95,4 +139,33 @@
 
 .mentions__mention {
   background-color: #cee4e5;
+}
+
+@media screen and (max-width: 540px) {
+  .comment {
+
+    .avatar {
+      height: 2em;
+      width: 2em;
+    }
+
+    &-form {
+      margin: 0px;
+    }
+
+    &-content {
+
+      .text {
+        padding: 0.5rem;
+      }
+
+      .media {
+        padding: 0.5rem;
+      }
+
+      .reply-form {
+        margin-left: 2rem;
+      }
+    }
+  }
 }

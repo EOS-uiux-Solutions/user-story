@@ -25,7 +25,7 @@ const MyStories = () => {
       <Navigation />
       <div className='body-content'>
         <div className='body-wrapper my-stories'>
-          <h3>My Stories</h3>
+          <h1>My Stories</h1>
           <div className='flex flex-row roadmap-one'>
             <Button
               className={

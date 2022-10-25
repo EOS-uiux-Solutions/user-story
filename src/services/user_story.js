@@ -1,4 +1,4 @@
-import apiCall from './api'
+import apiCall, { deleteCall } from './api'
 import {
   BASIC_STORY_INFO_FRAGMENT,
   NOTIFICATION_DATA_FRAGMENT
@@ -28,9 +28,8 @@ const userStory = {
     }
     return apiCall('/graphql', query)
   },
-  getStories: (
+  getAllStories: (
     page,
-    currentStateSelected,
     authorId,
     authorQuery,
     categoryQuery,
@@ -45,9 +44,77 @@ const userStory = {
               userStories(sort: "createdAt:desc", limit: 5, start: ${
                 (page - 1) * 5
               }, where: {
-                  user_story_status : {
-                    Status: "${currentStateSelected}"
-                  },
+                  author: {
+                    ${authorId}
+                    username_contains: "${authorQuery}"
+                  }
+                  ${categoryQuery}
+                  ${productQuery}
+                  ${searchQuery}
+                  ${followerId}
+              }) {
+                id
+                Title
+                Description
+                user_story_status {
+                  Status
+                }
+                user_story_comments {
+                  Comments
+                }
+                product {
+                  Name
+                }
+                Attachment {
+                  id
+                  url
+                }
+                author {
+                  id
+                  username
+                  profilePicture {
+                    id
+                    url
+                  }
+                }
+                followers {
+                  id
+                  username
+                }
+                Category
+                createdAt
+              }
+            }
+            `
+    }
+    return apiCall('/graphql', storiesQuery)
+  },
+  getStories: (
+    page,
+    currentStateSelected,
+    authorId,
+    authorQuery,
+    categoryQuery,
+    productQuery,
+    searchQuery,
+    followerId,
+    sortType,
+    isRoadmapView
+  ) => {
+    authorId = !authorId ? '' : `id: "${authorId}"`
+    followerId = !followerId ? '' : `followers: "${followerId}"`
+    const storiesQuery = {
+      query: `query {
+              userStories(sort: "${sortType}", 
+              ${!isRoadmapView ? 'limit: 5' : ''}, 
+              start: ${isRoadmapView ? 0 : (page - 1) * 5}, where: {
+                  ${
+                    currentStateSelected !== 'All' && isRoadmapView
+                      ? `user_story_status : {
+                      Status: "${currentStateSelected}"
+                    },`
+                      : ''
+                  }
                   author: {
                     ${authorId}
                     username_contains: "${authorQuery}"
@@ -107,6 +174,10 @@ const userStory = {
           author {
             id
             username
+            profilePicture {
+              id
+              url
+            }
           }
           Attachment {
             id
@@ -133,16 +204,21 @@ const userStory = {
     categoryQuery,
     productQuery,
     searchQuery,
-    followerId
+    followerId,
+    checked
   ) => {
     authorId = !authorId ? '' : `id: "${authorId}"`
     followerId = !followerId ? '' : `followers: "${followerId}"`
     const storyCountQuery = {
       query: `query {
               userStoriesConnection(where: {
-                user_story_status: {
-                  Status: "${currentStateSelected}"
-                },
+                ${
+                  currentStateSelected !== 'All' && checked
+                    ? `user_story_status : {
+                    Status: "${currentStateSelected}"
+                  },`
+                    : ''
+                }
                 author: {
                   ${authorId}
                   username_contains: "${authorQuery}"
@@ -173,6 +249,32 @@ const userStory = {
       }`
     }
     return apiCall('/graphql', updateQuery)
+  },
+  updateUserStoryStatus: (storyId, statusId) => {
+    const updateQuery = {
+      query: `mutation {
+        updateUserStory(
+          input: { where: { id: "${storyId}" }, data: { user_story_status: "${statusId}" } }
+        ) {
+          userStory {
+            updatedAt
+          }
+        }
+      }`
+    }
+    return apiCall('/graphql', updateQuery)
+  },
+  getStatuses: () => {
+    const statusQuery = {
+      query: `{
+        userStoryStatuses {
+          id
+          Status
+          icon_name
+        }
+      }`
+    }
+    return apiCall('/graphql', statusQuery)
   },
   getCategories: () => {
     const categoryQuery = {
@@ -291,6 +393,7 @@ const userStory = {
             id
             url
           }
+          _id
           Name
           Bio
           username
@@ -299,6 +402,41 @@ const userStory = {
           email
           LinkedIn
           Twitter
+          access_role {
+            name
+            permissions {
+              id
+              name
+            }
+          }
+        }
+      }
+      `
+    }
+    return apiCall('/graphql', userQuery)
+  },
+  getUserDetailsByUsername: (username) => {
+    const userQuery = {
+      query: `query {
+        users(where: {
+          username: "${username}"
+        }) {
+          profilePicture {
+            id
+            url
+          }
+          _id
+          Name
+          Bio
+          username
+          Company
+          Profession
+          email
+          LinkedIn
+          Twitter
+          access_role {
+            name
+          }
         }
       }
       `
@@ -352,6 +490,9 @@ const userStory = {
             user {
               id
               username
+              profilePicture{
+                url
+              }
             }
             createdAt
             attachment {
@@ -364,6 +505,9 @@ const userStory = {
               user {
                 id
                 username
+                profilePicture{
+                  url
+                }
               }
               attachment {
                 id
@@ -397,6 +541,73 @@ const userStory = {
       `
     }
     return apiCall('/graphql', updateVotesQuery)
+  },
+  getSimilarStoriesByAuthor: (authorId, currentStoryId) => {
+    authorId = !authorId ? '' : `id: "${authorId}"`
+    const similarStoriesQuery = {
+      query: `query {
+              userStories(sort: "createdAt:desc", limit: 4, where: {
+                  author: {
+                    ${authorId}
+                  }
+              }) {
+                id
+                Title
+                Description
+                user_story_status {
+                  Status
+                }
+                user_story_comments {
+                  Comments
+                }
+                product {
+                  Name
+                }
+                Attachment {
+                  id
+                  url
+                }
+                author {
+                  id
+                  username
+                  profilePicture {
+                    id
+                    url
+                  }
+                }
+                followers {
+                  id
+                  username
+                }
+                Category
+                createdAt
+              }
+            }
+            `
+    }
+    return apiCall('/graphql', similarStoriesQuery)
+  },
+  getPermissionsById: (userId) => {
+    const permissionsQuery = {
+      query: `
+        query {
+          user(id: "${userId}") {
+            id
+            Name
+            access_role {
+              permissions {
+                id
+                name
+              }
+            }
+          }
+        }
+      `
+    }
+    return apiCall('/graphql', permissionsQuery)
+  },
+  deleteStory: (storyId) => {
+    return deleteCall(`/user-stories/${storyId}`)
   }
 }
 
