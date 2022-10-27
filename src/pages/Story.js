@@ -315,7 +315,7 @@ const Story = (props) => {
                   <div className='flex flex-col'>
                     <ShowMore
                       maxCharacterLimit={350}
-                      txt={story.Description}
+                      txt={story.Description.replaceAll('\\', '')}
                       textLength={story.Description.length}
                     />
                     {!!story.Attachment.length && (
