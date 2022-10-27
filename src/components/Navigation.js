@@ -61,9 +61,9 @@ const Navigation = (props) => {
 
   return (
     <header className='nav-header'>
-      <Link className='link' data-cy='nav-eos-logo' to='/'>
+      <a className='link' data-cy='nav-eos-logo' href='/'>
         <img className='logo' src={eosIcon} alt='' />
-      </Link>
+      </a>
       <nav className='navbar-content flex flex-row'>
         {state.auth && (
           <Link
