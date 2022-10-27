@@ -608,6 +608,12 @@ const userStory = {
   },
   deleteStory: (storyId) => {
     return deleteCall(`/user-stories/${storyId}`)
+  },
+  addNewStatus: (status, icon) => {
+    return apiCall('/user-story-statuses', {
+      Status: status,
+      icon_name: icon
+    })
   }
 }
 

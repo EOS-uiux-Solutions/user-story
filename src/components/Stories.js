@@ -10,6 +10,8 @@ import ProductList from './ProductList'
 import RoadmapFilter from './roadmap-filter'
 import Switch from './Switch'
 import StatusContainer from './StatusContainer'
+import Button from './Button'
+import Modal from './Modal'
 // others
 import SearchInput from '../modules/SearchInput'
 import Lists from '../utils/Lists'
@@ -56,6 +58,14 @@ const Stories = ({ authorId, followerId, userId }) => {
   const [isDragDisabled, setIsDragDisabled] = useState(true)
 
   const [statusList, setStatusList] = useState([])
+
+  const [addStatusAllowed, setAddStatusAllowed] = useState(false)
+
+  const [addingNewStatus, setAddingNewStatus] = useState(false)
+
+  const [statusType, setStatusType] = useState('')
+
+  const [statusIcon, setStatusIcon] = useState('')
 
   const getPage = useCallback((page) => {
     setPage(page)
@@ -164,7 +174,9 @@ const Stories = ({ authorId, followerId, userId }) => {
 
       const updatedAllowed = permissions.includes('Update Story Status')
       const editAllowed = permissions.includes('Edit Story')
+      const newStausAllowed = permissions.includes('Add New Status')
 
+      setAddStatusAllowed(editAllowed || newStausAllowed)
       setIsDragDisabled(!updatedAllowed && !editAllowed)
     }
     getPermissions()
@@ -212,6 +224,25 @@ const Stories = ({ authorId, followerId, userId }) => {
       )
 
       toast.success(`Updated ${draggedStory.Title}`)
+    } catch (err) {
+      toast.error(err.message)
+    }
+  }
+
+  const addNewStatus = async () => {
+    try {
+      await userStory.addNewStatus(statusType, statusIcon)
+
+      const fetchStatus = async () => {
+        const statusResponse = await userStory.getStatuses()
+        setStatusList([
+          ...Lists.additionalState,
+          ...statusResponse.data.data.userStoryStatuses
+        ])
+      }
+      fetchStatus()
+      toast.success(`${statusType} status created successfully`)
+      setAddingNewStatus(false)
     } catch (err) {
       toast.error(err.message)
     }
@@ -277,6 +308,16 @@ const Stories = ({ authorId, followerId, userId }) => {
                   isDragDisabled={isDragDisabled}
                 />
               ))}
+          {isRoadmapView && addStatusAllowed && (
+            <Button
+              className='btn btn-default add-status-btn'
+              onClick={() => setAddingNewStatus(true)}
+            >
+              <i class='eos-icons'>add</i>
+              <br />
+              Add new status type
+            </Button>
+          )}
         </DragDropContext>
       </div>
       {!isRoadmapView && (
@@ -296,6 +337,47 @@ const Stories = ({ authorId, followerId, userId }) => {
           productQuery={productQuery}
         />
       )}
+      <Modal
+        isActive={addingNewStatus}
+        okText='Add'
+        cancelText='Cancel'
+        onCancel={() => setAddingNewStatus(false)}
+        onOk={addNewStatus}
+        showButtons
+      >
+        <div className='add-status-modal flex flex-column'>
+          <h2>Add new status</h2>
+          <div className='form'>
+            <label htmlFor='statusType'>Enter the status type</label>
+            <input
+              name='statusType'
+              value={statusType}
+              onChange={(e) => setStatusType(e.target.value)}
+              className='input input-default'
+              required
+            />
+          </div>
+          <div className='form'>
+            <label htmlFor='statusIcon'>
+              Enter the status icon &nbsp;
+              <a
+                className='link link-default'
+                href='https://eos-icons.com'
+                target='_blank'
+                rel='noreferrer'
+              >
+                <i class='eos-icons'>call_made</i>
+              </a>
+            </label>
+            <input
+              name='statusIcon'
+              value={statusIcon}
+              onChange={(e) => setStatusIcon(e.target.value)}
+              className='input input-default'
+            />
+          </div>
+        </div>
+      </Modal>
     </div>
   )
 }

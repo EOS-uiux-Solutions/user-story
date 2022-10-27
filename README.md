@@ -34,6 +34,7 @@ After setting up the project, make sure the following configurations exist in th
 - A permission named as `Delete Story` should be defined in the **User Story Permission** collection.
 - Only those instances of **User Story Roles**, that have the `Delete Story` permission, will be allowed to delete a story.
 - Only those instances of **User Story Roles**, that have the `Edit Story` or `Update Story Status` permission, will be allowed to update the status of a story using drag and drop in the roadmap view.
+- Only those instances of **User Story Roles**, that have the `Edit Story` or `Add New Status` permission, will be allowed to add a new status type in the roadmap view.
 
 If you want to work only on the `frontend` then copy the `src/config.temp.json` and remove the `.temp` part from the file name. It is already assigned with the default value of `apiURL` to `https://strapi.userstory.site`. You can change it for your own Strapi endpoint if you are running already. The `APP_ENV` key will accept any string value. If you set it as "prod" it will not print console.logs so this is the recommended setting for production environment.
 
