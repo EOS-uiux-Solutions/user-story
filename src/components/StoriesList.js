@@ -95,7 +95,12 @@ const StoriesList = (props) => {
                 </div>
                 <div className='flex flex-column story-subcontent'>
                   <small>Category</small>
-                  <span className='category-text'>{story.Category}</span>
+                  <a
+                    href={`?category=${story.Category}`}
+                    className='link link-default'
+                  >
+                    {story.Category}
+                  </a>
                 </div>
                 <div className='flex flex-column s-metas'>
                   <span className='story-meta'>

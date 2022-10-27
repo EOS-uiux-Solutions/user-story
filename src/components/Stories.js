@@ -15,15 +15,19 @@ import SearchInput from '../modules/SearchInput'
 import Lists from '../utils/Lists'
 import userStory from '../services/user_story'
 import toast from 'react-hot-toast'
+import { useLocation } from '@reach/router'
 
 const Stories = ({ authorId, followerId, userId }) => {
+  const location = useLocation()
+  const query = new URLSearchParams(location.search)
+
   const [currentStateSelected, selectState] = useState('All')
 
   const [page, setPage] = useState(1)
 
   const [sort, setSort] = useState('Most Voted')
 
-  const [category, setCategory] = useState('All')
+  const [category, setCategory] = useState(query.get('category') || 'All')
 
   const [categories, setCategories] = useState([])
 
