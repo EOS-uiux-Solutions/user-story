@@ -21,6 +21,7 @@
     "footer-right": "2020 EOS",
     "existing-user": "¿Usuario existente?",
     "reset-password-done": "Llévame a la página de inicio de sesión",
-    "success": "Éxito"
+    "success": "Éxito",
+    "okta-login-label": "Continuar con Okta"
   }
 }

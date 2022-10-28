@@ -13,10 +13,9 @@ import useAuth from '../hooks/useAuth'
 import Context from '../modules/Context'
 import Notifications from './Notifications'
 import Button from './Button'
-const { SSO } = require('../config.json')
 
 const Navigation = (props) => {
-  const { login, logout } = useAuth()
+  const { logout } = useAuth()
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
 
@@ -46,8 +45,7 @@ const Navigation = (props) => {
   }, [userDropdownContainer])
 
   const handleLogin = () => {
-    if (SSO) login()
-    else navigate('/login')
+    navigate('/login')
   }
 
   const handleLogout = async () => {
