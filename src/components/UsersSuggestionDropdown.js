@@ -110,7 +110,7 @@ const UsersSuggestionDropdown = ({
           ))}
         </ul>
       ) : (
-        <p>No users found</p>
+        setUsersSuggestionOpen(false)
       )}
     </div>
   )
