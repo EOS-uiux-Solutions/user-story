@@ -102,6 +102,8 @@ const CommentForm = (props) => {
               onClick={(e) =>
                 type === 'reply'
                   ? addComment(e, { Comments: comment[id] }, id)
+                  : type === 'edit'
+                  ? addComment(e, { Comments: comment }, id)
                   : addComment(e, { Comments: comment })
               }
               type='button'
