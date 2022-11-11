@@ -395,7 +395,7 @@ const Story = (props) => {
                   showButtons
                 />
               )}
-              <Comments storyId={storyId} />
+              <Comments storyId={storyId} userId={userId} />
             </div>
             <div className='body-wrapper-right'>
               <StoryPageTimeline

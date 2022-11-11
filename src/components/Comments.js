@@ -6,6 +6,7 @@ import moment from 'moment'
 import CommentForm from './CommentForm'
 import Context from '../modules/Context'
 import userStory from '../services/user_story'
+import { EOS_DELETE, EOS_EDIT } from 'eos-icons-react'
 
 const attachFiles = (formData, attachments) => {
   if (attachments.length) {
@@ -26,7 +27,7 @@ const toggleViewReplies = (viewRepliesToggled, setViewRepliesToggled, key) => {
 }
 
 const Comments = (props) => {
-  const { storyId } = props
+  const { storyId, userId } = props
 
   const { state } = useContext(Context)
 
@@ -43,6 +44,14 @@ const Comments = (props) => {
   const [attachments, setAttachments] = useState([])
 
   const [replyAttachments, setReplyAttachments] = useState([])
+
+  const [editMode, setEditMode] = useState(false)
+
+  const [commentEdit, setCommentEdit] = useState('')
+
+  const [replyEditMode, setreplyEditMode] = useState(false)
+
+  const [replyEdit, setReplyEdit] = useState('')
 
   const fetchStoryComments = useCallback(async () => {
     const response = await userStory.getComments(storyId)
@@ -99,6 +108,29 @@ const Comments = (props) => {
     }
   }
 
+  const editComment = async (e, data, commentId) => {
+    await userStory.updateComment(commentId, data.Comments)
+    setEditMode(false)
+    fetchStoryComments()
+  }
+
+  const deleteComment = async (id) => {
+    await userStory.deleteComment(id)
+    fetchStoryComments()
+  }
+
+  const editCommentReply = async (e, data, id) => {
+    console.log(data)
+    await userStory.updateCommentReply(id, data.Comments)
+    setreplyEditMode(false)
+    fetchStoryComments()
+  }
+
+  const deleteCommentReply = async (id) => {
+    await userStory.deleteCommentReply(id)
+    fetchStoryComments()
+  }
+
   return (
     <div className='comments-wrapper'>
       {state.auth && (
@@ -149,12 +181,53 @@ const Comments = (props) => {
                     <div className='metadata'>
                       <div>{moment(data.createdAt).fromNow()}</div>
                     </div>
+                    {data?.user?.id === userId && (
+                      <div className='buttons'>
+                        <div className='metadata'>
+                          <Button
+                            className='editbutton'
+                            onClick={() => {
+                              setEditMode(true)
+                              setCommentEdit(data.Comments)
+                            }}
+                          >
+                            <EOS_EDIT className='svg' />
+                          </Button>
+                        </div>
+                        <div className='metadata'>
+                          <Button
+                            className='deletebutton'
+                            onClick={() => {
+                              deleteComment(data.id)
+                            }}
+                          >
+                            <EOS_DELETE className='svg' />
+                          </Button>
+                        </div>
+                      </div>
+                    )}
                   </div>
-                  <div
-                    dangerouslySetInnerHTML={{ __html: data.Comments }}
-                    className='text'
-                    data-cy='comment-content'
-                  />
+                  {!editMode && (
+                    <div
+                      dangerouslySetInnerHTML={{ __html: data.Comments }}
+                      className='text'
+                      data-cy='comment-content'
+                    />
+                  )}
+                  {editMode && state.auth && (
+                    <CommentForm
+                      id={data.id}
+                      comment={commentEdit}
+                      attachments={attachments}
+                      setAttachments={setAttachments}
+                      setComment={setCommentEdit}
+                      addComment={editComment}
+                      cta={'save'}
+                      placeholder={data.Comments}
+                      className='editform'
+                      type='edit'
+                    />
+                  )}
                   <div>
                     {!!data.attachment.length && (
                       <div className='gallery-container-comment media'>
@@ -207,13 +280,54 @@ const Comments = (props) => {
                             {reply.user.username}
                           </Link>
                           <div className='metadata'>
-                            <div>{moment(reply.createdAt).fromNow()}</div>
+                            <div>{moment(data.createdAt).fromNow()}</div>
                           </div>
+                          {data?.user?.id === userId && (
+                            <div className='buttons'>
+                              <div className='metadata'>
+                                <Button
+                                  className='editbutton'
+                                  onClick={() => {
+                                    setreplyEditMode(true)
+                                    setReplyEdit(reply.Comments)
+                                  }}
+                                >
+                                  <EOS_EDIT className='svg' />
+                                </Button>
+                              </div>
+                              <div className='metadata'>
+                                <Button
+                                  className='deletebutton'
+                                  onClick={() => {
+                                    deleteCommentReply(reply.id)
+                                  }}
+                                >
+                                  <EOS_DELETE className='svg' />
+                                </Button>
+                              </div>
+                            </div>
+                          )}
                         </div>
-                        <div
-                          dangerouslySetInnerHTML={{ __html: reply.Comments }}
-                          className='text'
-                        />
+                        {!replyEditMode && (
+                          <div
+                            dangerouslySetInnerHTML={{ __html: reply.Comments }}
+                            className='text'
+                          />
+                        )}
+                        {replyEditMode && state.auth && (
+                          <CommentForm
+                            id={reply.id}
+                            comment={replyEdit}
+                            attachments={replyAttachments}
+                            setAttachments={setReplyAttachments}
+                            setComment={setReplyEdit}
+                            addComment={editCommentReply}
+                            cta={'save'}
+                            placeholder={reply.Comments}
+                            className='editform'
+                            type='edit'
+                          />
+                        )}
                         {reply.attachment.length !== 0 ? (
                           <div className='gallery-container media'>
                             <Gallery imageArray={reply.attachment} />
