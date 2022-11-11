@@ -500,6 +500,7 @@ const userStory = {
               id
             }
             user_story_comment_replies {
+              id
               createdAt
               Comments
               user {
@@ -525,6 +526,40 @@ const userStory = {
   },
   postCommentReply: (data) => {
     return apiCall('/user-story-comment-threads', data)
+  },
+  updateComment: (id, data) => {
+    const updateQuery = {
+      query: `mutation {
+        updateUserStoryComment(
+          input: { where: { id: "${id}" }, data: { Comments: "${data}" } }
+        ) {
+          userStoryComment {
+            Comments
+          }
+        }
+      }`
+    }
+    return apiCall('/graphql', updateQuery)
+  },
+  deleteComment: (id) => {
+    return deleteCall(`/user-story-comments/${id}`)
+  },
+  updateCommentReply: (id, data) => {
+    const updateQuery = {
+      query: `mutation {
+        updateUserStoryCommentThread(
+          input: { where: { id: "${id}" }, data: { Comments: "${data}" } }
+        ) {
+          userStoryCommentThread {
+            Comments
+          }
+        }
+      }`
+    }
+    return apiCall('/graphql', updateQuery)
+  },
+  deleteCommentReply: (id) => {
+    return deleteCall(`/user-story-comment-threads/${id}`)
   },
   updateVotes: (storyId, updatedFollowerIds) => {
     const updateVotesQuery = {

@@ -41,6 +41,22 @@
     margin-left: 1em;
   }
 
+  .buttons {
+    display: inline-block;
+  }
+
+  .editbutton {
+    background-color: #F5F9FA;
+    border: 0px;
+    cursor: pointer;
+  }
+
+  .deletebutton { 
+    background-color: #F5F9FA;
+    border: 0px;
+    cursor: pointer;
+  }
+  
   .text {
     border-top: 1px solid rgba(0, 0, 0, 0.4);
     padding: 1rem 0.6rem;
