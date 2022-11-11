@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.08ce19c6.css",
-    "main.js": "/static/js/main.07ae8f52.js",
+    "main.css": "/static/css/main.43172d10.css",
+    "main.js": "/static/js/main.45d94ef0.js",
     "static/media/okta-logo.png": "/static/media/okta-logo.19d77795942cf49ef22f.png",
     "static/media/montserrat.ttf": "/static/media/montserrat.e20d5327f1a05620c084.ttf",
     "static/media/auth-left.png": "/static/media/auth-left.ea9128cd36495622fde2.png",
@@ -9,11 +9,11 @@
     "static/media/background.svg": "/static/media/background.f0851e63f65385a30188.svg",
     "index.html": "/index.html",
     "static/media/loading.svg": "/static/media/loading.21452c44402646f340cef3d02efce4c2.svg",
-    "main.08ce19c6.css.map": "/static/css/main.08ce19c6.css.map",
-    "main.07ae8f52.js.map": "/static/js/main.07ae8f52.js.map"
+    "main.43172d10.css.map": "/static/css/main.43172d10.css.map",
+    "main.45d94ef0.js.map": "/static/js/main.45d94ef0.js.map"
   },
   "entrypoints": [
-    "static/css/main.08ce19c6.css",
-    "static/js/main.07ae8f52.js"
+    "static/css/main.43172d10.css",
+    "static/js/main.45d94ef0.js"
   ]
 }
