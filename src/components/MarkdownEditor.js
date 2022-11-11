@@ -1,17 +1,38 @@
-import React from 'react'
+import React, { useState } from 'react'
+import MarkdownIt from 'markdown-it'
+import MdEditor from 'react-markdown-editor-lite'
 import 'react-markdown-editor-lite/lib/index.css'
-import { CKEditor } from '@ckeditor/ckeditor5-react'
-const Editor = require('../ckeditor5/build/ckeditor')
+
+const mdParser = new MarkdownIt().set({ html: true })
 
 function MarkdownEditor({ value, callback }) {
+  const [userInput, setUserInput] = useState('')
+
   return (
-    <CKEditor
-      editor={Editor}
-      data={value}
-      onChange={(event, editor) => {
-        const data = editor.getData()
-        callback(data, data)
+    <MdEditor
+      config={{
+        view: {
+          html: false
+        }
       }}
+      plugins={[
+        'header',
+        'font-bold',
+        'font-italic',
+        'list-unordered',
+        'list-ordered',
+        'link',
+        'mode-toggle'
+      ]}
+      style={{ height: '350px' }}
+      renderHTML={(text) => mdParser.render(text)}
+      onChange={({ html, text }) => {
+        if (typeof value === typeof undefined) {
+          setUserInput(text)
+        }
+        callback(html, text)
+      }}
+      value={value ?? userInput}
     />
   )
 }
