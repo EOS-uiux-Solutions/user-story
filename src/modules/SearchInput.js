@@ -63,6 +63,8 @@ function SearchInput(props) {
             data-cy='btn-clear'
             onClick={() => {
               setSearchTerm('')
+              setSearchUser('')
+              setUserTerm('')
             }}
           >
             {searchTerm.length > 0 && <EOS_CLOSE className='eos-icons' />}
