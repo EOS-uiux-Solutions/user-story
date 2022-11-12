@@ -51,15 +51,10 @@
     cursor: pointer;
   }
 
-  .deletebutton { 
+  .deletebutton {
     background-color: #F5F9FA;
     border: 0px;
     cursor: pointer;
-  }
-  
-  .text {
-    border-top: 1px solid rgba(0, 0, 0, 0.4);
-    padding: 1rem 0.6rem;
   }
 
   .media {
@@ -155,6 +150,11 @@
 
 .mentions__mention {
   background-color: #cee4e5;
+}
+
+.text {
+  border-top: 1px solid rgba(0, 0, 0, 0.4);
+  padding: 1rem 0.6rem;
 }
 
 @media screen and (max-width: 540px) {

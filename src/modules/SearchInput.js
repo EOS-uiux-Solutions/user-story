@@ -1,6 +1,5 @@
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 import Button from '../components/Button'
-import Dropdown from '../components/Dropdown'
 import UsersSuggestionDropdown from '../components/UsersSuggestionDropdown'
 import { EOS_CLOSE, EOS_SEARCH } from 'eos-icons-react'
 
@@ -14,19 +13,13 @@ function SearchInput(props) {
     setAuthorQuery
   } = props
 
-  const fieldToSearchDropdownContainer = useRef()
-
-  const [fieldToSearch, setFieldToSearch] = useState('Title')
-
-  const [usersSuggestionOpen, setUsersSuggestionOpen] = useState(false)
+  const [usersSuggestionOpen, setUsersSuggestionOpen] = useState(true)
+  const [searchUser, setSearchUser] = useState('')
 
   const handleSearchSubmit = () => {
-    if (fieldToSearch === 'Title' && searchTerm.length > 0) {
-      setSearchQuery(`Title_contains: "${searchTerm}"`)
-    } else if (userTerm.length > 0) {
-      setAuthorQuery(userTerm)
-      setUsersSuggestionOpen(false)
-    }
+    if (userTerm.length > 0) setAuthorQuery(searchTerm)
+    else setSearchQuery(`Title_contains: "${searchTerm}"`)
+    setUsersSuggestionOpen(false)
   }
 
   return (
@@ -35,7 +28,7 @@ function SearchInput(props) {
         {
           <UsersSuggestionDropdown
             isOpen={usersSuggestionOpen}
-            userTerm={userTerm}
+            userTerm={searchUser}
             setUserTerm={setUserTerm}
             setAuthorQuery={setAuthorQuery}
             setUsersSuggestionOpen={setUsersSuggestionOpen}
@@ -47,14 +40,11 @@ function SearchInput(props) {
           placeholder='Search'
           autoComplete='off'
           data-cy='search-input'
-          value={fieldToSearch === 'Title' ? searchTerm : userTerm}
+          value={userTerm.length > 0 ? userTerm : searchTerm}
           onChange={(event) => {
-            if (fieldToSearch === 'Title') {
-              setSearchTerm(event.target.value)
-            } else {
-              setUserTerm(event.target.value)
-              setUsersSuggestionOpen(true)
-            }
+            setSearchTerm(event.target.value)
+            setSearchUser(event.target.value)
+            setUsersSuggestionOpen(true)
           }}
           onKeyDown={(event) => {
             if (event.key === 'Enter') {
@@ -62,7 +52,7 @@ function SearchInput(props) {
             }
           }}
           onFocus={() => {
-            if (fieldToSearch === 'Author' && userTerm.length > 0) {
+            if (searchTerm.length > 0) {
               setUsersSuggestionOpen(true)
             }
           }}
@@ -72,27 +62,14 @@ function SearchInput(props) {
             className='close-btn'
             data-cy='btn-clear'
             onClick={() => {
-              if (fieldToSearch === 'Title' && searchTerm.length > 0) {
-                setSearchTerm('')
-              } else if (userTerm.length > 0) {
-                setUserTerm('')
-              }
+              setSearchTerm('')
+              setSearchUser('')
+              setUserTerm('')
             }}
           >
-            {((fieldToSearch === 'Title' && searchTerm.length > 0) ||
-              (fieldToSearch === 'Author' && userTerm.length > 0)) && (
-              <EOS_CLOSE className='eos-icons' />
-            )}
+            {searchTerm.length > 0 && <EOS_CLOSE className='eos-icons' />}
           </span>
         </div>
-        <Dropdown
-          title=''
-          reference={fieldToSearchDropdownContainer}
-          curr={fieldToSearch}
-          setCurr={setFieldToSearch}
-          itemList={['Title', 'Author']}
-          data-cy='toggle-title-dropdown'
-        />
       </div>
       <Button
         type='submit'

@@ -54,7 +54,8 @@
     "eslint-plugin-standard": "^4.1.0",
     "husky": "^7.0.4",
     "prettier": "^2.5.1",
-    "sass-lint": "^1.13.1"
+    "sass-lint": "^1.13.1",
+    "sass-lint-auto-fix": "^0.21.2"
   },
   "scripts": {
     "start": "react-scripts start",
