@@ -12,7 +12,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.25.0",
     "better-docs": "^2.7.1",
-    "eos-icons-react": "^2.2.0",
+    "eos-icons-react": "^2.4.0",
     "i18next": "^21.6.7",
     "lodash": "^4.17.21",
     "markdown-it": "^12.3.2",
