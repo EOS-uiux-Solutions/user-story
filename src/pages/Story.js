@@ -30,6 +30,7 @@ import Modal from '../components/Modal'
 import userStory from '../services/user_story'
 import SimilarStories from '../components/SimilarStories'
 import Dropdown from '../components/Dropdown'
+import ButtonWithLoader from '../components/ButtonWithLoader'
 
 const Story = (props) => {
   const { storyId } = props
@@ -129,11 +130,10 @@ const Story = (props) => {
     fetchStatuses()
   }, [])
 
-  const save = async (event) => {
+  const save = async () => {
     if (editDescription.length <= 0) {
       return
     }
-    event.preventDefault()
     const combinedDescription = story.Description + editDescription
     const filteredDescription = filterDescriptionText(combinedDescription)
     await userStory.updateUserStoryDescription(storyId, filteredDescription)
@@ -328,13 +328,13 @@ const Story = (props) => {
               </div>
               <div className='story-buttons-container-bottom'>
                 {editor ? (
-                  <Button
+                  <ButtonWithLoader
                     className='btn btn-default btn-bottom'
                     onClick={save}
                     data-cy='btn-save'
                   >
                     Save
-                  </Button>
+                  </ButtonWithLoader>
                 ) : (
                   ''
                 )}
@@ -421,12 +421,12 @@ const Story = (props) => {
                         reference={storyContainer}
                       />
                       <span>
-                        <Button
+                        <ButtonWithLoader
                           className='btn btn-default edit-status-action'
                           onClick={handleUpdateStatus}
                         >
                           <EOS_CHECK className='svg' />
-                        </Button>
+                        </ButtonWithLoader>
                         <Button
                           className='btn btn-default edit-status-action'
                           onClick={() => setUpdateStatus(false)}

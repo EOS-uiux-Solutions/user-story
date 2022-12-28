@@ -12,7 +12,8 @@ const ButtonWithLoader = ({ onClick, children, ...rest }) => {
     <button onClick={handleClick} disabled={isLoading} {...rest}>
       {isLoading ? (
         <div>
-          <EOS_LOADING_ANIMATED className='eos-icons' color='white' /> loading
+          <EOS_LOADING_ANIMATED className='eos-icons' color='white' />
+          {children}
         </div>
       ) : (
         children
