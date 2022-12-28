@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { EOS_ATTACHMENT } from 'eos-icons-react'
 
-import Button from './Button'
 import FormError from './FormError'
 import MediaPreview from './MediaPreview'
 import userStory from '../services/user_story'
 import { MentionsInput, Mention } from 'react-mentions'
+import ButtonWithLoader from './ButtonWithLoader'
 
 const CommentForm = (props) => {
   const {
@@ -96,7 +96,7 @@ const CommentForm = (props) => {
                 <EOS_ATTACHMENT className='eos-icons' size='l' />
               </label>
             </div>
-            <Button
+            <ButtonWithLoader
               className='btn btn-secondary btn-comment'
               data-cy={`btn-comment-${id}`}
               onClick={(e) =>
@@ -109,7 +109,7 @@ const CommentForm = (props) => {
               type='button'
             >
               {cta}
-            </Button>
+            </ButtonWithLoader>
           </div>
         </div>
       </div>
