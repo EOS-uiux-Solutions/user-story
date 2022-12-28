@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Button from './Button'
+import ButtonWithLoader from './ButtonWithLoader'
 
 const Modal = (props) => {
   const {
@@ -23,12 +23,15 @@ const Modal = (props) => {
             <div className='flex flex-row modal-content'>{children}</div>
             {showButtons && (
               <div className='flex flex-row flex-space-around'>
-                <Button className='btn btn-default' onClick={onCancel}>
+                <ButtonWithLoader
+                  className='btn btn-default'
+                  onClick={onCancel}
+                >
                   {cancelText || 'Cancel'}
-                </Button>
-                <Button className='btn btn-default' onClick={onOk}>
+                </ButtonWithLoader>
+                <ButtonWithLoader className='btn btn-default' onClick={onOk}>
                   {okText || 'Accept'}
-                </Button>
+                </ButtonWithLoader>
               </div>
             )}
           </div>
