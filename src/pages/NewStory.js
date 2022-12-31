@@ -130,8 +130,8 @@ const NewStory = () => {
       toast.success('New story created successfully')
       navigate('/')
     } catch (err) {
-      console.error(err.message)
-      toast.error(err.message)
+      console.error(err.data.message)
+      toast.error(err.data.message)
     }
   }
   return state.auth ? (
