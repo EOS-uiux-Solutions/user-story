@@ -65,7 +65,7 @@ const Navigation = (props) => {
       <nav className='navbar-content flex flex-row'>
         {state.auth && (
           <Link
-            className='btn btn-default btn-text-center'
+            className='btn btn-default'
             data-cy='btn-new-story'
             to='/newStory'
           >
