@@ -53,7 +53,6 @@ export const Register = () => {
       navigate('/', { replace: true })
     } catch (e) {
       console.error(e.message)
-      toast.error(e.message)
     }
   }
 
