@@ -71,7 +71,7 @@ const Comments = (props) => {
   )
 
   const addComment = async (e, data, _storyId = storyId) => {
-    e.preventDefault()
+    // e.preventDefault()
 
     const formData = new FormData()
     data.user = id
