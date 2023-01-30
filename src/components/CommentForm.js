@@ -84,7 +84,7 @@ const CommentForm = (props) => {
             />
           </MentionsInput>
           <div className='buttons flex flex-row-reverse'>
-            <div className='file-input'>
+            <span className='file-input'>
               <input
                 type='file'
                 id={`file-${id}`}
@@ -95,7 +95,7 @@ const CommentForm = (props) => {
               <label htmlFor={`file-${id}`} className='file-button-label'>
                 <EOS_ATTACHMENT className='eos-icons' size='l' />
               </label>
-            </div>
+            </span>
             <Button
               className='btn btn-secondary btn-comment'
               data-cy={`btn-comment-${id}`}
