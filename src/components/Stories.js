@@ -121,6 +121,9 @@ const Stories = ({ authorId, followerId, userId }) => {
     } else if (sort === 'Most Discussed') {
       setSortType('comments:desc')
     }
+    if (storyCount < (page - 1) * 5) {
+      getPage(1)
+    }
 
     const fetchStories = async () => {
       const response = await userStory.getStories(
@@ -142,6 +145,8 @@ const Stories = ({ authorId, followerId, userId }) => {
     categoryQuery,
     currentStateSelected,
     page,
+    storyCount,
+    getPage,
     productQuery,
     searchQuery,
     authorQuery,
@@ -335,6 +340,7 @@ const Stories = ({ authorId, followerId, userId }) => {
       )}
       {!isRoadmapView && (
         <Pagination
+          page={page}
           getPage={getPage}
           storyCount={storyCount}
           status={currentStateSelected}

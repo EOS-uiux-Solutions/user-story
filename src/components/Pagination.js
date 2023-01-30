@@ -5,19 +5,19 @@ import {
 } from 'eos-icons-react'
 
 const Pagination = (props) => {
-  const { getPage, storyCount, status, productQuery } = props
+  const { page, getPage, storyCount, status, productQuery } = props
 
-  const [currNumber, setCurrNumber] = useState(1)
+  const [currNumber, setCurrNumber] = useState(page)
 
   const [pages, setPages] = useState(null)
 
   useEffect(() => {
     const resetPage = () => {
-      setCurrNumber(1)
-      getPage(1)
+      setCurrNumber(page)
+      getPage(page)
     }
     resetPage()
-  }, [status, productQuery, getPage])
+  }, [page, status, productQuery, getPage])
 
   useEffect(() => {
     if (storyCount) {
