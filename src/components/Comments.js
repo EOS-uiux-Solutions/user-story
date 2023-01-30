@@ -47,6 +47,8 @@ const Comments = (props) => {
 
   const [editMode, setEditMode] = useState(false)
 
+  const [editCommentId, setEditCommentId] = useState('')
+
   const [commentEdit, setCommentEdit] = useState('')
 
   const [replyEditMode, setreplyEditMode] = useState(false)
@@ -189,6 +191,7 @@ const Comments = (props) => {
                             onClick={() => {
                               setEditMode(true)
                               setCommentEdit(data.Comments)
+                              setEditCommentId(data.id)
                             }}
                           >
                             <EOS_EDIT className='svg' />
@@ -214,20 +217,28 @@ const Comments = (props) => {
                       data-cy='comment-content'
                     />
                   )}
-                  {editMode && state.auth && (
-                    <CommentForm
-                      id={data.id}
-                      comment={commentEdit}
-                      attachments={attachments}
-                      setAttachments={setAttachments}
-                      setComment={setCommentEdit}
-                      addComment={editComment}
-                      cta={'save'}
-                      placeholder={data.Comments}
-                      className='editform'
-                      type='edit'
-                    />
-                  )}
+                  {editMode &&
+                    state.auth &&
+                    (editCommentId === data.id ? (
+                      <CommentForm
+                        id={data.id}
+                        comment={commentEdit}
+                        attachments={attachments}
+                        setAttachments={setAttachments}
+                        setComment={setCommentEdit}
+                        addComment={editComment}
+                        cta={'save'}
+                        placeholder={data.Comments}
+                        className='editform'
+                        type='edit'
+                      />
+                    ) : (
+                      <div
+                        dangerouslySetInnerHTML={{ __html: data.Comments }}
+                        className='text'
+                        data-cy='comment-content'
+                      />
+                    ))}
                   <div>
                     {!!data.attachment.length && (
                       <div className='gallery-container-comment media'>
@@ -290,6 +301,7 @@ const Comments = (props) => {
                                   onClick={() => {
                                     setreplyEditMode(true)
                                     setReplyEdit(reply.Comments)
+                                    setEditCommentId(reply.id)
                                   }}
                                 >
                                   <EOS_EDIT className='svg' />
@@ -314,20 +326,29 @@ const Comments = (props) => {
                             className='text'
                           />
                         )}
-                        {replyEditMode && state.auth && (
-                          <CommentForm
-                            id={reply.id}
-                            comment={replyEdit}
-                            attachments={replyAttachments}
-                            setAttachments={setReplyAttachments}
-                            setComment={setReplyEdit}
-                            addComment={editCommentReply}
-                            cta={'save'}
-                            placeholder={reply.Comments}
-                            className='editform'
-                            type='edit'
-                          />
-                        )}
+                        {replyEditMode &&
+                          state.auth &&
+                          (editCommentId === reply.id ? (
+                            <CommentForm
+                              id={reply.id}
+                              comment={replyEdit}
+                              attachments={replyAttachments}
+                              setAttachments={setReplyAttachments}
+                              setComment={setReplyEdit}
+                              addComment={editCommentReply}
+                              cta={'save'}
+                              placeholder={reply.Comments}
+                              className='editform'
+                              type='edit'
+                            />
+                          ) : (
+                            <div
+                              dangerouslySetInnerHTML={{
+                                __html: reply.Comments
+                              }}
+                              className='text'
+                            />
+                          ))}
                         {reply.attachment.length !== 0 ? (
                           <div className='gallery-container media'>
                             <Gallery imageArray={reply.attachment} />
