@@ -33,7 +33,7 @@ const Pagination = (props) => {
   return (
     storyCount > 5 && (
       <div className='pagination'>
-        <span
+        <button
           className={`btn btn-pagination ${
             currNumber <= 1 ? 'btn-pagination-disabled' : ''
           }`}
@@ -43,10 +43,11 @@ const Pagination = (props) => {
               getPage(currNumber - 1)
             }
           }}
+          disabled={currNumber <= 1}
         >
           <EOS_KEYBOARD_ARROW_LEFT className='eos-icons eos-18' />
           {`Prev`}
-        </span>
+        </button>
         <div className='btn btn-pagination'>
           {pages
             ? pages.map((ele, key) => {
@@ -65,7 +66,7 @@ const Pagination = (props) => {
               })
             : ''}
         </div>
-        <span
+        <button
           className={`btn btn-pagination ${
             currNumber >= pages?.length ? 'btn-pagination-disabled' : ''
           }`}
@@ -75,10 +76,11 @@ const Pagination = (props) => {
               getPage(currNumber + 1)
             }
           }}
+          disabled={currNumber >= pages?.length}
         >
           {`Next`}
           <EOS_KEYBOARD_ARROW_RIGHT className='eos-icons eos-18' />
-        </span>
+        </button>
       </div>
     )
   )

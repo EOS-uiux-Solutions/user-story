@@ -29,7 +29,7 @@
   }
 
   &-disabled {
-    color: $medium-gray;
+    opacity: 40%;
 
     &:hover {
       cursor: not-allowed;
