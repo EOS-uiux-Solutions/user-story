@@ -132,6 +132,11 @@ const NewStory = () => {
     } catch (err) {
       console.error(err.data.message)
       toast.error(err.data.message)
+      if (!description?.length) {
+        toast.error('Description cannot be empty')
+      } else {
+        toast.error('Try to login again')
+      }
     }
   }
   return state.auth ? (
