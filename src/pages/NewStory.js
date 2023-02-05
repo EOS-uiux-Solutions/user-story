@@ -117,21 +117,26 @@ const NewStory = () => {
   }
 
   const onSubmit = async (data) => {
-    try {
-      data.Description = filterDescriptionText(description)
-      const formData = new FormData()
-      formData.append('data', JSON.stringify(data))
-      if (attachments.length) {
-        attachments.forEach((file) => {
-          formData.append('files.Attachment', file)
-        })
+    if (description) {
+      try {
+        data.Description = filterDescriptionText(description)
+        const formData = new FormData()
+        formData.append('data', JSON.stringify(data))
+        if (attachments.length) {
+          attachments.forEach((file) => {
+            formData.append('files.Attachment', file)
+          })
+        }
+        await userStory.createStory(formData)
+        toast.success('New story created successfully')
+        navigate('/')
+      } catch (err) {
+        console.error(err.data.message)
+        toast.error(err.data.message)
+        toast.error('Try to login again')
       }
-      await userStory.createStory(formData)
-      toast.success('New story created successfully')
-      navigate('/')
-    } catch (err) {
-      console.error(err.message)
-      toast.error(err.message)
+    } else {
+      toast.error('Description cannot be empty')
     }
   }
   return state.auth ? (
