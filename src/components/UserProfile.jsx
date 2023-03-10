@@ -93,6 +93,10 @@ export const UserDetails = ({
   allowEditing,
   updateProfile
 }) => {
+  const checkNull = (value) => {
+    if (value === 'null') return true
+    else return false
+  }
   return (
     <div className='user-profile-details'>
       {!user ? (
@@ -111,7 +115,11 @@ export const UserDetails = ({
             data-cy='edit-Name'
           >
             <h2 className='user-profile-name' data-cy='user-Name'>
-              {user.Name ? user.Name : user.username}
+              {user.Name
+                ? checkNull(user.Name)
+                  ? user.username
+                  : user.Name
+                : user.username}
             </h2>
           </EditableLabel>
           {!!(
@@ -131,7 +139,7 @@ export const UserDetails = ({
             data-cy='edit-Bio'
           >
             <p data-cy='user-Bio'>
-              {user.Bio ||
+              {(user.Bio && !checkNull(user.Bio)) ||
                 (allowEditing ? 'Say something about yourself' : 'Hi There!')}
             </p>
           </EditableLabel>
@@ -157,7 +165,11 @@ export const UserDetails = ({
                   data-cy='edit-Profession'
                 >
                   <span data-cy='user-Profession'>
-                    {!user.Profession ? 'Your job title' : user.Profession}
+                    {!user.Profession
+                      ? 'Your job title'
+                      : checkNull(user.Profession)
+                      ? 'Your job title'
+                      : user.Profession}
                   </span>
                 </EditableLabel>
               </li>
@@ -176,7 +188,11 @@ export const UserDetails = ({
                   data-cy='edit-Company'
                 >
                   <span data-cy='user-Company'>
-                    {!user.Company ? 'Your company name' : user.Company}
+                    {!user.Company
+                      ? 'Your company name'
+                      : checkNull(user.Company)
+                      ? 'Your company name'
+                      : user.Company}
                   </span>
                 </EditableLabel>
               </li>
@@ -196,14 +212,18 @@ export const UserDetails = ({
                 >
                   <span data-cy='user-LinkedIn'>
                     {user.LinkedIn ? (
-                      <a
-                        className='link link-default'
-                        href={`https://www.linkedin.com/in/${user?.LinkedIn}`}
-                        target='_blank'
-                        rel='noopener noreferrer'
-                      >
-                        {user.LinkedIn}
-                      </a>
+                      checkNull(user.LinkedIn) ? (
+                        'Your LinkedIn username'
+                      ) : (
+                        <a
+                          className='link link-default'
+                          href={`https://www.linkedin.com/in/${user?.LinkedIn}`}
+                          target='_blank'
+                          rel='noopener noreferrer'
+                        >
+                          {user.LinkedIn}
+                        </a>
+                      )
                     ) : (
                       'Your LinkedIn username'
                     )}
@@ -226,14 +246,18 @@ export const UserDetails = ({
                 >
                   <span data-cy='user-Twitter'>
                     {user.Twitter ? (
-                      <a
-                        className='link link-default'
-                        href={`https://twitter.com/${user?.Twitter}`}
-                        target='_blank'
-                        rel='noopener noreferrer'
-                      >
-                        {user.Twitter ? `@${user.Twitter}` : ''}
-                      </a>
+                      checkNull(user.Twitter) ? (
+                        'Your Twitter handle'
+                      ) : (
+                        <a
+                          className='link link-default'
+                          href={`https://twitter.com/${user?.Twitter}`}
+                          target='_blank'
+                          rel='noopener noreferrer'
+                        >
+                          {user.Twitter ? `@${user.Twitter}` : ''}
+                        </a>
+                      )
                     ) : (
                       'Your Twitter handle'
                     )}
