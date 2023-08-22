@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useReducer } from 'react'
 import { Link } from '@reach/router'
 import { Helmet } from 'react-helmet'
 
@@ -10,6 +10,19 @@ import useAuth from '../hooks/useAuth'
 import Context from '../modules/Context'
 import userStory from '../services/user_story'
 
+const initialState = { modal: false }
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'openModal':
+      return { modal: true }
+    case 'closeModal':
+      return { modal: false }
+    default:
+      throw new Error()
+  }
+}
+
 const Home = () => {
   const { logout } = useAuth()
 
@@ -17,7 +30,7 @@ const Home = () => {
 
   const { dispatch } = useContext(Context)
 
-  const [modal, setModal] = useState(false)
+  const [state, dispatchState] = useReducer(reducer, initialState)
 
   const [policyUpdate, setPolicyUpdate] = useState()
 
@@ -32,7 +45,7 @@ const Home = () => {
           response.data.data.userStoryNotifications.length &&
           !seenBy.includes(userId)
         ) {
-          setModal(true)
+          dispatchState({ type: 'openModal' })
           setPolicyUpdate(response.data.data.userStoryNotifications[0])
         }
       }
@@ -46,7 +59,7 @@ const Home = () => {
     const seenBy = policyUpdate.seenBy.map((seen) => seen.id)
     seenBy.push(userId)
     await userStory.markNotificationAsRead(policyUpdate.id, seenBy)
-    setModal(false)
+    dispatchState({ type: 'closeModal' })
   }
 
   const handlePolicyUpdateReject = async () => {
@@ -56,7 +69,7 @@ const Home = () => {
         type: 'DEAUTHENTICATE'
       })
     }
-    setModal(false)
+    dispatchState({ type: 'closeModal' })
   }
 
   return (
@@ -89,12 +102,12 @@ const Home = () => {
           <Stories userId={userId} />
         </div>
       </div>
-      {modal && policyUpdate ? (
+      {state.modal && policyUpdate ? (
         <Modal
           showButtons={true}
           onCancel={handlePolicyUpdateReject}
-          isActive={modal}
-          show={() => setModal(false)}
+          isActive={state.modal}
+          show={() => dispatchState({ type: 'closeModal' })}
           onOk={acceptUpdatedPolicy}
         >
           {
