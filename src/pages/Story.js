@@ -193,6 +193,11 @@ const Story = (props) => {
     }
   }
 
+  const deleteStory = async () => {
+    await userStory.deleteStory(storyId)
+    navigate('/')
+  }
+
   const hashtagsArray = ['EOS', 'userstory']
   const title = 'EOS User Story - POST Stories. GET Features.'
 
@@ -271,6 +276,13 @@ const Story = (props) => {
                           onClick={() => setEditor(true)}
                         >
                           Edit
+                        </Button>
+                        <Button
+                          className='btn btn-default'
+                          data-cy='btn-delete'
+                          onClick={deleteStory}
+                        >
+                          Delete
                         </Button>
                       </>
                     ) : (
