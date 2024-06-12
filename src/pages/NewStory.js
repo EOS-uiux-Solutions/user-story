@@ -131,7 +131,7 @@ const NewStory = () => {
       navigate('/')
     } catch (err) {
       console.error(err.message)
-      toast.error(err.message)
+      toast.error('An error occurred')
     }
   }
   return state.auth ? (
