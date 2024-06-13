@@ -10,7 +10,7 @@ export const Input = ({ type, updateState }) => {
         type='password'
       >
         <div class='input-group-append'>
-          <EOS_VISIBILITY class='eos-icons eos-18 toggle-password js-toggle-password' />
+          <EOS_VISIBILITY className='eos-icons eos-18 toggle-password js-toggle-password' />
         </div>
       </input>
     </div>
