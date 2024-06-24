@@ -44,7 +44,10 @@ const Pagination = (props) => {
             }
           }}
         >
-          <EOS_KEYBOARD_ARROW_LEFT className='eos-icons eos-18' />
+          <EOS_KEYBOARD_ARROW_LEFT
+            color={`${currNumber <= 1 ? '#bbb' : ''}`}
+            className='eos-icons eos-18'
+          />
           {`Prev`}
         </span>
         <div className='btn btn-pagination'>
@@ -77,7 +80,10 @@ const Pagination = (props) => {
           }}
         >
           {`Next`}
-          <EOS_KEYBOARD_ARROW_RIGHT className='eos-icons eos-18' />
+          <EOS_KEYBOARD_ARROW_RIGHT
+            color={`${currNumber >= pages?.length ? '#bbb' : ''}`}
+            className='eos-icons eos-18'
+          />
         </span>
       </div>
     )
