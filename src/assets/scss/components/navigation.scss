@@ -11,7 +11,11 @@
     height: 25px;
   }
 }
-
+.btn-text-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 @media only screen and (max-width: 768px) {
   .nav-header {
     padding: 22px 10px 0;
